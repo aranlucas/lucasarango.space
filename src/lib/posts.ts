@@ -69,6 +69,14 @@ export async function getPosts(): Promise<PostMeta[]> {
   return (await readAll()).map((p) => p.meta);
 }
 
+/** One published post with its Markdown source, for the Ask agent's readPost tool. */
+export async function getPostSource(
+  slug: string,
+): Promise<(PostMeta & { body: string }) | undefined> {
+  const post = (await readAll()).find((p) => p.meta.slug === slug);
+  return post === undefined ? undefined : { ...post.meta, body: post.body };
+}
+
 export async function getPost(slug: string): Promise<Post | undefined> {
   const post = (await readAll()).find((p) => p.meta.slug === slug);
   if (!post) return undefined;

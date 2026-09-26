@@ -1,6 +1,6 @@
 # lucasarango.space
 
-Lucas Arango's personal site: an about page, a resume and a blog. Next.js 16 (App Router, fully static),
+Lucas Arango's personal site: an about page, a resume and a blog. Next.js 16 (App Router, static pages plus one chat function),
 Tailwind CSS v4 and shadcn/ui.
 
 ## Writing a post
@@ -53,3 +53,19 @@ Open Graph image; article routes generate their own share images.
 `src/lib/resume.ts` fetches it with a 30-day cache tagged `resume`; the resume
 repo's deploy calls `POST /api/revalidate` to refresh it right away. Set `RESUME_API_URL` to build
 against another copy (a base URL, e.g. a local `_site` server). Edit the resume there, not here.
+
+## Ask about my work
+
+A popup on every page (`src/components/ask/`) answers questions with an AI agent
+(`src/lib/ask-agent.ts`, `POST /api/chat`). Its instructions hold the résumé Markdown
+from the resume API and `src/lib/projects.ts`; it reads posts through the `listPosts` and
+`readPost` tools. The popup only links post URLs that a tool returned, so a made-up path
+renders as plain text.
+
+| Variable             | Required | Default           | Description                                                |
+| -------------------- | -------- | ----------------- | ---------------------------------------------------------- |
+| `OPENROUTER_API_KEY` | Yes      |                   | OpenRouter key; without it the popup says it's unavailable |
+| `OPENROUTER_MODEL`   | No       | `openrouter/free` | Any OpenRouter model id that supports tools                |
+
+Requests are capped at 24 messages and 1,000 characters per question
+(`src/lib/ask-config.ts`).

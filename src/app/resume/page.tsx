@@ -5,17 +5,11 @@ import { PageTransition } from "@/components/page-transition";
 import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import {
-  formatMonth,
-  getResume,
-  type Resume,
-  type ResumeProject,
-  type ResumeRole,
-} from "@/lib/resume";
+import { formatMonth, getResume, type Resume, type ResumeProject } from "@/lib/resume";
 import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
 
 import { PrintButton } from "./print-button";
+import { Bullets, Role } from "./role";
 
 export const metadata = {
   title: "Resume",
@@ -75,24 +69,6 @@ export default async function ResumePage() {
   );
 }
 
-function Role({ role }: { role: ResumeRole }) {
-  return (
-    <li>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <h3 className="font-semibold">{role.company}</h3>
-        <Badge variant="secondary" className="tabular-nums">
-          {role.dates}
-        </Badge>
-      </div>
-      <p className="mb-3 text-sm text-muted-foreground">
-        {role.title}, {role.location}
-      </p>
-      <Bullets items={role.bullets} />
-      <Separator className="mt-8 print:hidden" />
-    </li>
-  );
-}
-
 function Project({ project }: { project: ResumeProject }) {
   return (
     <div>
@@ -105,16 +81,6 @@ function Project({ project }: { project: ResumeProject }) {
       </h3>
       <Bullets items={project.bullets} />
     </div>
-  );
-}
-
-function Bullets({ items }: { items: readonly string[] }) {
-  return (
-    <ul className="flex list-disc flex-col gap-2 ps-5 text-base/relaxed marker:text-muted-foreground">
-      {items.map((item) => (
-        <li key={item}>{item}</li>
-      ))}
-    </ul>
   );
 }
 

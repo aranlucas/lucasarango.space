@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
 
+import { AskProvider } from "@/components/ask/ask-provider";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
@@ -60,13 +61,15 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         >
           Skip to content
         </a>
-        <div className="mx-auto flex min-h-dvh max-w-page flex-col px-5 text-body print:max-w-none print:px-0">
-          <SiteHeader />
-          <main id="main-content" tabIndex={-1} className="flex-1 pb-16 print:pb-0">
-            {children}
-          </main>
-          <SiteFooter />
-        </div>
+        <AskProvider>
+          <div className="mx-auto flex min-h-dvh max-w-page flex-col px-5 text-body print:max-w-none print:px-0">
+            <SiteHeader />
+            <main id="main-content" tabIndex={-1} className="flex-1 pb-16 print:pb-0">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
+        </AskProvider>
         <Analytics />
         <SpeedInsights />
       </body>
