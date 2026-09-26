@@ -4,8 +4,10 @@
 
 export const RESUME_CACHE_TAG = "resume";
 
-const RESUME_URL =
-  process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev/resume.json";
+const RESUME_API = (
+  process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
+).replace(/\/$/u, "");
+const RESUME_URL = `${RESUME_API}/resume.json`;
 
 /** The subset of JSON Resume this site reads. Dates are always "YYYY-MM". */
 type JsonResume = {

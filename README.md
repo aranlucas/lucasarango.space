@@ -53,4 +53,4 @@ Open Graph image; article routes generate their own share images.
 `src/lib/resume.ts` fetches it with a 30-day cache tagged `resume`; the resume
 repo's deploy calls `POST /api/revalidate` (with `Authorization: Bearer
 $REVALIDATE_SECRET`) to refresh it right away. Set `RESUME_API_URL` to build
-against another copy, e.g. a local `_site` server. Edit the resume there, not here.
+against another copy (a base URL, e.g. a local `_site` server). Edit the resume there, not here.
