@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
+@source "../../node_modules/streamdown/dist/*.js";
 
 /* Follow the OS theme; there is no manual toggle. */
 @custom-variant dark (@media (prefers-color-scheme: dark));
@@ -45,6 +46,7 @@
   --text-display: clamp(2.5rem, 7vw, 3.75rem);
   --text-display--line-height: 1.1;
   --container-page: 39rem;
+  --container-popup: 26rem;
 
   --animate-draw: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 
@@ -106,6 +108,25 @@
       animation-range: entry 0% entry 80%;
     }
   }
+}
+
+/* The Ask popup's loading state: contours draw, then erase, until the answer
+   arrives. Reduced motion holds the finished drawing and lets the label speak. */
+@utility contour-loop {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linejoin: round;
+  animation: redraw 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The Ask popup is as tall as its content needs, short of the viewport. */
+@utility h-popup {
+  height: min(40rem, calc(100dvh - 6.5rem));
 }
 
 @utility h-ridge {
@@ -283,6 +304,61 @@
   content: none;
 }
 
+/* Ask popup answers: the model replies in light Markdown. */
+.answer > * + * {
+  margin-top: 0.75em;
+}
+.answer :where(ul, ol) {
+  padding-inline-start: 1.25em;
+}
+.answer ul {
+  list-style: disc;
+}
+.answer ol {
+  list-style: decimal;
+}
+.answer li + li {
+  margin-top: 0.35em;
+}
+.answer li::marker {
+  color: var(--muted-foreground);
+}
+.answer strong {
+  font-weight: 600;
+}
+.answer a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.answer a:hover {
+  text-decoration-thickness: 2px;
+}
+.answer code {
+  font-size: 0.9em;
+  border-radius: var(--radius-sm);
+  background: var(--muted);
+  padding: 0.1em 0.3em;
+}
+
+/* Streaming caret at the end of an answer while it arrives. */
+.caret > :last-child:not(ul, ol)::after,
+.caret > :is(ul, ol):last-child > li:last-child::after {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 1em;
+  margin-inline-start: 2px;
+  vertical-align: -0.12em;
+  background: var(--primary);
+  animation: caret 1s steps(1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 /* rehype-pretty-code dual themes */
 .prose pre code span {
   color: var(--shiki-light);
@@ -355,6 +431,25 @@
   animation: none;
 }
 
+/* The Ask popup floats above page transitions, like the header. */
+/* The Ask surface is the open panel or, when closed, the launcher pill (see
+   components/ask/ask-popup.tsx). Above the page, it holds still while open
+   and morphs from panel to pill when a link in an answer closes it. */
+::view-transition-group(ask-surface) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 100;
+}
+::view-transition-old(ask-surface),
+::view-transition-new(ask-surface) {
+  height: 100%;
+  overflow: clip;
+}
+::view-transition-group(ask-launcher) {
+  animation: none;
+  z-index: 100;
+}
+
 /* The footer sits in the layout, so it would jump to the new page's length.
    Hide it with the old page and fade it back in with the new one. */
 ::view-transition-group(site-footer) {
@@ -379,6 +474,22 @@
   ::view-transition-new(.nav-forward),
   ::view-transition-new(.nav-back) {
     animation: 200ms ease-out 100ms both vt-fade;
+  }
+}
+
+@keyframes redraw {
+  45%,
+  60% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
   }
 }
 
