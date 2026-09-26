@@ -5,8 +5,11 @@ import { tool } from "ai";
 import { z } from "zod";
 
 import { getPostSource, getPosts } from "@/lib/posts";
+import { SITE } from "@/lib/site";
 
-const postUrl = (slug: string) => `/blog/${slug}`;
+// Absolute: models copy full URLs more faithfully than bare paths. The popup
+// turns links to this site back into client-side navigation.
+const postUrl = (slug: string) => `${SITE.url}/blog/${slug}`;
 
 /** A Markdown link the agent can copy as-is, so post links don't depend on its formatting. */
 const postLink = (title: string, slug: string) => `[${title}](${postUrl(slug)})`;
@@ -29,10 +32,10 @@ export const askTools = {
     description:
       "Read one blog post in full, as Markdown. Use a url from listPosts. Read a post before quoting it or answering details from it.",
     inputSchema: z.object({
-      url: z.string().describe("The post's url from listPosts, e.g. /blog/some-slug"),
+      url: z.string().describe(`The post's url from listPosts, e.g. ${SITE.url}/blog/some-slug`),
     }),
     execute: async ({ url }) => {
-      const post = await getPostSource(url.replace(/^\/blog\//u, ""));
+      const post = await getPostSource(/\/blog\/([^/?#]+)/u.exec(url)?.[1] ?? url);
       if (post === undefined) return { error: `No post at ${url}. Call listPosts for valid urls.` };
       return {
         title: post.title,

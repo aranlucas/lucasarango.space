@@ -432,15 +432,22 @@
 }
 
 /* The Ask popup floats above page transitions, like the header. */
-::view-transition-group(ask-popup) {
-  animation: none;
+/* The Ask surface is the open panel or, when closed, the launcher pill (see
+   components/ask/ask-popup.tsx). Above the page, it holds still while open
+   and morphs from panel to pill when a link in an answer closes it. */
+::view-transition-group(ask-surface) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
   z-index: 100;
 }
-::view-transition-old(ask-popup) {
-  display: none;
+::view-transition-old(ask-surface),
+::view-transition-new(ask-surface) {
+  height: 100%;
+  overflow: clip;
 }
-::view-transition-new(ask-popup) {
+::view-transition-group(ask-launcher) {
   animation: none;
+  z-index: 100;
 }
 
 /* The footer sits in the layout, so it would jump to the new page's length.

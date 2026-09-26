@@ -22,12 +22,16 @@ export function AskPopup() {
   const titleId = useId();
 
   return (
-    <div className="print:hidden" style={{ viewTransitionName: "ask-popup" }}>
+    // The panel and the launcher pill share one view-transition name, carried
+    // by whichever is showing: closing during a navigation morphs the panel
+    // into the pill, and an open panel holds still while the page changes.
+    <div className="print:hidden">
       <section
         id={panelId}
         role="dialog"
         aria-labelledby={titleId}
         hidden={!open}
+        style={open ? { viewTransitionName: "ask-surface" } : undefined}
         className="fixed inset-0 z-40 flex flex-col bg-card text-card-foreground sm:inset-auto sm:inset-e-5 sm:bottom-18 sm:h-popup sm:w-popup sm:rounded-xl sm:border sm:shadow-xl"
       >
         <PanelHeader titleId={titleId} />
@@ -160,6 +164,7 @@ function Launcher({ panelId }: { panelId: string }) {
       aria-controls={panelId}
       aria-label={open ? "Close" : undefined}
       onClick={open ? close : show}
+      style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
       className={cn(
         "fixed inset-e-5 bottom-5 z-40 h-11 rounded-full text-base font-normal shadow-lg",
         open ? "w-11 max-sm:hidden" : "gap-2.5 ps-4 pe-5",

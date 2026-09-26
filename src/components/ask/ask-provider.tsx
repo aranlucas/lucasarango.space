@@ -2,7 +2,7 @@
 
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { AskContext, type AskState } from "@/components/ask/ask-context";
 import { AskPopup } from "@/components/ask/ask-popup";
@@ -44,8 +44,12 @@ function useAskState(): AskState {
   const show = useCallback(() => {
     setOpen(true);
   }, []);
+  // In a transition, so it commits with the navigation that caused it and the
+  // panel morphs into the launcher as part of the page's view transition.
   const hide = useCallback(() => {
-    setOpen(false);
+    startTransition(() => {
+      setOpen(false);
+    });
   }, []);
   const close = useCallback(() => {
     setOpen(false);
