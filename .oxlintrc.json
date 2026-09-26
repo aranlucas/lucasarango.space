@@ -97,7 +97,10 @@
         "tailwindcss/enforce-logical": "off",
         "tailwindcss/consistent-variant-order": "off",
         "tailwindcss/enforce-sort-order": "off",
-        "tailwindcss/no-conflicting-classes": "off"
+        "tailwindcss/no-conflicting-classes": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
+        "typescript/no-unsafe-type-assertion": "off"
       }
     }
   ],

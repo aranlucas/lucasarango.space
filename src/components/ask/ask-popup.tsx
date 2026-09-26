@@ -5,15 +5,16 @@ import { SquarePen, X } from "lucide-react";
 import { useId } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAsk } from "@/components/ask/ask-context";
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
 } from "@/components/ask/conversation";
+import { Composer } from "@/components/ask/composer";
 import { RidgeGlyph } from "@/components/ask/ridge-glyph";
 import { Starters, Transcript } from "@/components/ask/transcript";
-import { ASK_LIMITS } from "@/lib/ask-config";
 
 /** A launcher in the corner and the chat panel it opens, over every page. */
 export function AskPopup() {
@@ -61,20 +62,26 @@ function PanelHeader({ titleId }: { titleId: string }) {
       </h2>
       <div className="flex items-center gap-1">
         {chat.messages.length > 0 && (
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="New conversation"
-            title="New conversation"
-            onClick={() => {
-              void chat.stop();
-              chat.setMessages([]);
-              inputRef.current?.focus();
-            }}
-            className="text-muted-foreground"
-          >
-            <SquarePen aria-hidden="true" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="New conversation"
+                  onClick={() => {
+                    void chat.stop();
+                    chat.setMessages([]);
+                    inputRef.current?.focus();
+                  }}
+                  className="text-muted-foreground"
+                />
+              }
+            >
+              <SquarePen aria-hidden="true" />
+            </TooltipTrigger>
+            <TooltipContent>New conversation</TooltipContent>
+          </Tooltip>
         )}
         {/* Phones only: the panel covers the launcher, which closes it elsewhere. */}
         <Button
@@ -91,93 +98,37 @@ function PanelHeader({ titleId }: { titleId: string }) {
   );
 }
 
-function Composer({ id }: { id: string }) {
-  const { input, setInput, inputRef, send } = useAsk();
-  return (
-    <form
-      className="border-t px-4 pt-3 pb-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        send(input);
-      }}
-    >
-      <div className="flex items-end gap-2 rounded-lg border bg-background p-1.5 focus-within:border-ring">
-        <label htmlFor={id} className="sr-only">
-          Your question
-        </label>
-        <textarea
-          ref={inputRef}
-          id={id}
-          rows={1}
-          maxLength={ASK_LIMITS.questionChars}
-          placeholder="Ask a question"
-          className="field-sizing-content max-h-32 min-h-9 flex-1 resize-none bg-transparent px-2 py-1.5 text-base outline-none placeholder:text-muted-foreground"
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-              e.preventDefault();
-              send(input);
-            }
-          }}
-          autoComplete="off"
-        />
-        <ComposerAction />
-      </div>
-      <p className="mt-2 px-1 text-xs text-muted-foreground">
-        A free AI model writes these answers, and it can be wrong.
-      </p>
-    </form>
-  );
-}
-
-function ComposerAction() {
-  const { chat, input, isLoading, isFull } = useAsk();
-  if (isLoading) {
-    return (
-      <Button
-        variant="outline"
-        size="lg"
-        onClick={() => {
-          void chat.stop();
-        }}
-      >
-        Stop
-      </Button>
-    );
-  }
-  return (
-    <Button type="submit" size="lg" disabled={input.trim() === "" || isFull} className="px-4">
-      Ask
-    </Button>
-  );
-}
-
 function Launcher({ panelId }: { panelId: string }) {
   const { open, isLoading, launcherRef, show, close } = useAsk();
   return (
-    <Button
-      ref={launcherRef}
-      aria-expanded={open}
-      aria-controls={panelId}
-      aria-label={open ? "Close" : undefined}
-      onClick={open ? close : show}
-      style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
-      className={cn(
-        "fixed inset-e-5 bottom-5 z-40 h-11 rounded-full text-base font-normal shadow-lg",
-        open ? "w-11 max-sm:hidden" : "gap-2.5 ps-4 pe-5",
-      )}
-    >
-      {open ? (
-        <X aria-hidden="true" className="size-5" />
-      ) : (
-        <>
-          <RidgeGlyph drawing={isLoading} className="h-3 w-6" />
-          Ask about my work
-        </>
-      )}
-    </Button>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            ref={launcherRef}
+            aria-expanded={open}
+            aria-controls={panelId}
+            aria-label={open ? "Close" : undefined}
+            onClick={open ? close : show}
+            style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
+            className={cn(
+              "fixed inset-e-5 bottom-5 z-40 h-11 rounded-full text-base font-normal shadow-lg",
+              open ? "w-11 max-sm:hidden" : "gap-2.5 ps-4 pe-5",
+            )}
+          />
+        }
+      >
+        {open ? (
+          <X aria-hidden="true" className="size-5" />
+        ) : (
+          <>
+            <RidgeGlyph drawing={isLoading} className="h-3 w-6" />
+            Ask about my work
+          </>
+        )}
+      </TooltipTrigger>
+      {/* The pill labels itself; only the round close button needs a tooltip. */}
+      {open && <TooltipContent side="left">Close</TooltipContent>}
+    </Tooltip>
   );
 }
