@@ -9,18 +9,28 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
+// Fonts sit on the LCP critical path, so only the upright weight axis is
+// preloaded (~39 KB; the opsz axis nearly triples it). Italic and mono load
+// on demand, only on pages that actually render them.
 const serif = Literata({
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz"],
-  style: ["normal", "italic"],
   variable: "--font-serif",
+});
+
+const serifItalic = Literata({
+  subsets: ["latin"],
+  display: "swap",
+  style: "italic",
+  preload: false,
+  variable: "--font-serif-italic",
 });
 
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500"],
+  preload: false,
   variable: "--font-plex-mono",
 });
 
@@ -41,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={cn(serif.variable, mono.variable)}>
+    <html lang="en" className={cn(serif.variable, serifItalic.variable, mono.variable)}>
       <body>
         <div className="mx-auto flex min-h-dvh max-w-page flex-col px-5 text-body print:max-w-none print:px-0">
           <SiteHeader />
