@@ -122,40 +122,48 @@ function WaitingText() {
   return <Thinking labels={[waitingStatus?.message ?? WAITING.message]} />;
 }
 
-/** A tool call that hasn't returned yet. */
-function isRunning(state: string) {
-  return state === "input-streaming" || state === "input-available";
-}
+const TOOL_LABELS = {
+  "tool-listPosts": "Looking through the posts",
+  "tool-readPost": "Reading a post",
+} as const;
 
-/** One part of an answer. Tool calls and reasoning aren't shown, only what's happening right now. */
+/**
+ * One part of an answer, by its own state: tool calls and reasoning show
+ * what's happening while they run, and text shows a caret while it streams.
+ */
 function AnswerPart({
   part,
-  isLoading,
-  isLast,
   onNavigate,
 }: {
   part: AskMessage["parts"][number];
-  isLoading: boolean;
-  isLast: boolean;
   onNavigate: () => void;
 }) {
   switch (part.type) {
     case "text":
       return (
-        <MessageResponse onNavigate={onNavigate} className={cn(isLoading && isLast && "caret")}>
+        <MessageResponse
+          onNavigate={onNavigate}
+          className={cn(part.state === "streaming" && "caret")}
+        >
           {part.text}
         </MessageResponse>
       );
     case "reasoning":
-      return isLoading && part.state === "streaming" ? (
-        <Thinking labels={REASONING_LABELS} />
-      ) : null;
+      return part.state === "streaming" ? <Thinking labels={REASONING_LABELS} /> : null;
     case "tool-listPosts":
-      return isLoading && isRunning(part.state) ? (
-        <Thinking labels={["Looking through the posts"]} />
-      ) : null;
     case "tool-readPost":
-      return isLoading && isRunning(part.state) ? <Thinking labels={["Reading a post"]} /> : null;
+      switch (part.state) {
+        case "input-streaming":
+        case "input-available":
+          return <Thinking labels={[TOOL_LABELS[part.type]]} />;
+        case "approval-requested":
+        case "approval-responded":
+        case "output-available":
+        case "output-denied":
+        case "output-error":
+          return null;
+      }
+      break;
     // Parts this agent doesn't produce, or that the popup doesn't show.
     case "custom":
     case "data-waiting-status":
@@ -185,8 +193,6 @@ function AnswerParts({ message, isLoading }: MessageProps) {
       // oxlint-disable-next-line react/no-array-index-key
       key={index}
       part={part}
-      isLoading={isLoading}
-      isLast={index === message.parts.length - 1}
       onNavigate={onNavigate}
     />
   ));
