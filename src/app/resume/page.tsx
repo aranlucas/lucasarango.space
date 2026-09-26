@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeading } from "@/components/section-heading";
@@ -7,7 +7,6 @@ import { TextLink } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  RESUME_ABOUT,
   RESUME_BASICS,
   RESUME_EDUCATION,
   RESUME_PROJECTS,
@@ -15,50 +14,56 @@ import {
   RESUME_SKILLS,
   type ResumeRole,
 } from "@/lib/resume";
+import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
 
 import { PrintButton } from "./print-button";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Resume",
   description:
-    "Resume for Lucas Arango, a senior software engineer who builds conversational AI and agentic products.",
+    "Lucas Arango’s experience at DoorDash, AWS, and Amazon: AI products, agent platforms, cloud services, and production reliability.",
+  alternates: { canonical: "/resume", types: FEED_ALTERNATE },
+  openGraph: { ...SITE_OPEN_GRAPH, url: "/resume" },
 };
 
 export default function ResumePage() {
   return (
     <PageTransition>
-      <ResumeHeader />
+      <article data-resume="" aria-label="Résumé">
+        <ResumeHeader />
 
-      <section aria-labelledby="summary">
-        <SectionHeading id="summary">Summary</SectionHeading>
-        <p className="mb-4 text-pretty">{RESUME_BASICS.summary}</p>
-        <p className="border-s-2 border-primary ps-4 text-sm/relaxed text-muted-foreground">
-          {RESUME_BASICS.lookingFor}
-        </p>
-      </section>
+        <section aria-labelledby="summary">
+          <SectionHeading id="summary">Summary</SectionHeading>
+          <p className="mb-4 text-pretty">{RESUME_BASICS.summary}</p>
+          <p className="border-s-2 border-primary ps-4 text-sm/relaxed text-muted-foreground">
+            {RESUME_BASICS.lookingFor}
+          </p>
+        </section>
 
-      <section aria-labelledby="experience">
-        <SectionHeading id="experience">Experience</SectionHeading>
-        <ol className="flex flex-col gap-8">
-          {RESUME_ROLES.map((role) => (
-            <Role key={`${role.company}-${role.dates}`} role={role} />
-          ))}
-        </ol>
-      </section>
+        <section aria-labelledby="experience">
+          <SectionHeading id="experience">Experience</SectionHeading>
+          <ol className="flex flex-col gap-8">
+            {RESUME_ROLES.map((role) => (
+              <Role key={`${role.company}-${role.dates}`} role={role} />
+            ))}
+          </ol>
+        </section>
 
-      <section aria-labelledby="projects">
-        <SectionHeading id="projects">{RESUME_PROJECTS.heading}</SectionHeading>
-        <p className="mb-3">{RESUME_PROJECTS.intro}</p>
-        <Bullets items={RESUME_PROJECTS.bullets} />
-      </section>
+        <section aria-labelledby="projects">
+          <SectionHeading id="projects">{RESUME_PROJECTS.heading}</SectionHeading>
+          <p className="mb-3">{RESUME_PROJECTS.intro}</p>
+          <Bullets items={RESUME_PROJECTS.bullets} />
+          <Link
+            href="/#projects"
+            className="mt-4 inline-block text-sm text-primary underline underline-offset-3 print:hidden"
+          >
+            Explore selected projects and source code
+          </Link>
+        </section>
 
-      <Skills />
-      <Education />
-
-      <section aria-labelledby="about">
-        <SectionHeading id="about">About</SectionHeading>
-        <Bullets items={RESUME_ABOUT} />
-      </section>
+        <Skills />
+        <Education />
+      </article>
     </PageTransition>
   );
 }
@@ -76,16 +81,6 @@ function Role({ role }: { role: ResumeRole }) {
         {role.title}, {role.location}
       </p>
       <Bullets items={role.bullets} />
-      {role.projects !== undefined && (
-        <dl className="mt-4 flex flex-col gap-2 text-sm/relaxed">
-          {role.projects.map((project) => (
-            <div key={project.name}>
-              <dt className="inline font-semibold">{project.name}: </dt>
-              <dd className="inline text-muted-foreground">{project.description}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
       {role.links !== undefined && (
         <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm print:hidden">
           {role.links.map((link) => (
@@ -118,11 +113,11 @@ function ResumeHeader() {
     <header>
       <h1 className="mb-2 text-display font-semibold tracking-tight">{RESUME_BASICS.name}</h1>
       <p className="mb-4 text-lede text-muted-foreground">{RESUME_BASICS.title}</p>
-      <p className="text-sm text-muted-foreground">
-        {RESUME_BASICS.location},{" "}
-        <TextLink href={RESUME_BASICS.linkedin}>linkedin.com/in/lucasarango</TextLink>,{" "}
+      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+        <span>{RESUME_BASICS.location}</span>
+        <TextLink href={RESUME_BASICS.linkedin}>linkedin.com/in/lucasarango</TextLink>
         <TextLink href={RESUME_BASICS.github}>github.com/aranlucas</TextLink>
-      </p>
+      </div>
       <div className="mt-6 print:hidden">
         <PrintButton />
       </div>
@@ -136,8 +131,16 @@ function Skills() {
       <SectionHeading id="skills">Skills</SectionHeading>
       <dl className="flex flex-col gap-3 text-sm/relaxed">
         <div>
-          <dt className="font-semibold">Technologies</dt>
-          <dd>{RESUME_SKILLS.technologies}</dd>
+          <dt className="font-semibold">AI & agents</dt>
+          <dd>{RESUME_SKILLS.agents}</dd>
+        </div>
+        <div>
+          <dt className="font-semibold">Platforms & infrastructure</dt>
+          <dd>{RESUME_SKILLS.platforms}</dd>
+        </div>
+        <div>
+          <dt className="font-semibold">Web & mobile</dt>
+          <dd>{RESUME_SKILLS.web}</dd>
         </div>
         <div>
           <dt className="font-semibold">Languages</dt>

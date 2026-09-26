@@ -2,16 +2,16 @@
 
 import { cn } from "cn";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { ViewTransition } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 
 // Tab order sets the slide direction: moving right slides content left.
 const TABS = [
-  { href: "/", label: "About" },
-  { href: "/blog", label: "Writing" },
-  { href: "/resume", label: "Resume" },
+  { href: "/", segment: null, label: "About" },
+  { href: "/blog", segment: "blog", label: "Writing" },
+  { href: "/resume", segment: "resume", label: "Resume" },
 ] as const;
 
 const navLink = cn(
@@ -19,15 +19,18 @@ const navLink = cn(
   "relative text-base font-normal text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground",
 );
 
-function tabIndex(pathname: string) {
-  return TABS.findLastIndex(({ href }) => href === "/" || pathname.startsWith(href));
+function useActiveTabIndex() {
+  // Route segments agree during server rendering and hydration, including a
+  // static 404 served for an unknown /blog/slug. The requested pathname may not.
+  const activeSegment = useSelectedLayoutSegment();
+  return TABS.findIndex(({ segment }) => segment === activeSegment);
 }
 
 /** Tags a tab navigation with its direction; same-tab moves stay untyped and crossfade. */
 function useTransitionTypes(href: string) {
-  const from = tabIndex(usePathname());
-  const to = tabIndex(href);
-  if (from === to) return [];
+  const from = useActiveTabIndex();
+  const to = TABS.findIndex((tab) => tab.href === href);
+  if (from === -1 || from === to) return [];
   return [to > from ? "nav-forward" : "nav-back"];
 }
 
@@ -46,7 +49,7 @@ export function HomeLink({
 }
 
 export function SiteNav() {
-  const active = tabIndex(usePathname());
+  const active = useActiveTabIndex();
   return (
     <nav aria-label="Main" className="-me-2.5 flex gap-1">
       {TABS.map((tab, i) => (

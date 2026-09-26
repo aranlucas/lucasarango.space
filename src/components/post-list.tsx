@@ -18,7 +18,10 @@ export function PostList({ posts, className }: { posts: PostMeta[]; className?: 
     <ItemGroup className={cn("-mx-3 mb-5 w-auto gap-1", className)}>
       {posts.map((post) => (
         <div key={post.slug} role="listitem" className="reveal">
-          <Item className="items-start" render={<Link href={`/blog/${post.slug}`} />}>
+          <Item
+            className="items-start max-sm:flex-col"
+            render={<Link href={`/blog/${post.slug}`} />}
+          >
             <ItemContent>
               <PostTitleTransition slug={post.slug}>
                 <ItemTitle className="line-clamp-none text-base font-semibold">
@@ -29,12 +32,10 @@ export function PostList({ posts, className }: { posts: PostMeta[]; className?: 
             </ItemContent>
             {/* On hover the date gives way to the reading time and an arrow. */}
             <ItemActions className="grid justify-items-end text-sm text-muted-foreground tabular-nums *:col-start-1 *:row-start-1">
-              <time
-                dateTime={post.date}
-                className="transition-opacity group-hover/item:opacity-0 group-focus-visible/item:opacity-0"
-              >
-                {formatDate(post.date, "short")}
-              </time>
+              <span className="transition-opacity group-hover/item:opacity-0 group-focus-visible/item:opacity-0">
+                <time dateTime={post.date}>{formatDate(post.date, "short")}</time>
+                <span className="sm:sr-only"> · {post.readingMinutes} min read</span>
+              </span>
               <span
                 aria-hidden="true"
                 className="flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover/item:opacity-100 group-focus-visible/item:opacity-100"

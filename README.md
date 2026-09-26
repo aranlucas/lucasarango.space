@@ -31,3 +31,16 @@ A pre-commit hook runs oxfmt and oxlint on staged files, and CI runs `pnpm check
 Styling uses theme tokens from `src/app/globals.css` (arbitrary Tailwind values are a lint
 error). shadcn components live in `src/components/ui` and are left as generated; add more with
 `pnpm dlx shadcn@latest add <component>`.
+
+## Updating the portfolio
+
+- `src/lib/site.ts`: site identity, work overview, and coauthored publications.
+- `src/lib/projects.ts`: selected public projects, source links, and related posts.
+- `src/lib/resume.ts`: résumé experience, skills, and education. Keep employment dates
+  aligned with the work overview in `site.ts`.
+- `content/posts/`: personal writing. Keep an existing filename when changing a title
+  so published links continue to work.
+
+The résumé page has a print layout for saving as PDF. Verify both screen and print
+layouts after changing its content. Page metadata shares RSS discovery and the site
+Open Graph image; article routes generate their own share images.

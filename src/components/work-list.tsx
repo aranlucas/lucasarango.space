@@ -13,7 +13,11 @@ export function WorkList({ roles }: { roles: Role[] }) {
   return (
     <ItemGroup className="-mx-3 w-auto gap-1">
       {roles.map((role) => (
-        <Item key={`${role.company}-${role.years}`} role="listitem" className="reveal items-start">
+        <Item
+          key={`${role.company}-${role.years}`}
+          role="listitem"
+          className="reveal items-start max-sm:flex-col"
+        >
           <ItemContent>
             <ItemTitle className="line-clamp-none text-base font-semibold">
               {role.company}
