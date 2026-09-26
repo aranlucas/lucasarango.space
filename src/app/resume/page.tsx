@@ -7,11 +7,9 @@ import { TextLink } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  RESUME_BASICS,
-  RESUME_EDUCATION,
-  RESUME_PROJECTS,
-  RESUME_ROLES,
-  RESUME_SKILLS,
+  formatMonth,
+  getResume,
+  type Resume,
   type ResumeProject,
   type ResumeRole,
 } from "@/lib/resume";
@@ -27,24 +25,28 @@ export const metadata = {
   openGraph: { ...SITE_OPEN_GRAPH, url: "/resume" },
 };
 
-export default function ResumePage() {
+const LOOKING_FOR =
+  "I’m interested in senior and staff engineering roles where I can help shape a product, build it, and make it dependable.";
+
+export default async function ResumePage() {
+  const resume = await getResume();
   return (
     <PageTransition>
       <article data-resume="" aria-label="Résumé">
-        <ResumeHeader />
+        <ResumeHeader resume={resume} />
 
         <section aria-labelledby="summary">
           <SectionHeading id="summary">Summary</SectionHeading>
-          <p className="mb-4 text-pretty">{RESUME_BASICS.summary}</p>
+          <p className="mb-4 text-pretty">{resume.summary}</p>
           <p className="border-s-2 border-primary ps-4 text-sm/relaxed text-muted-foreground">
-            {RESUME_BASICS.lookingFor}
+            {LOOKING_FOR}
           </p>
         </section>
 
         <section aria-labelledby="experience">
           <SectionHeading id="experience">Experience</SectionHeading>
           <ol className="flex flex-col gap-8">
-            {RESUME_ROLES.map((role) => (
+            {resume.roles.map((role) => (
               <Role key={`${role.company}-${role.dates}`} role={role} />
             ))}
           </ol>
@@ -53,7 +55,7 @@ export default function ResumePage() {
         <section aria-labelledby="projects">
           <SectionHeading id="projects">Personal projects</SectionHeading>
           <div className="flex flex-col gap-6">
-            {RESUME_PROJECTS.map((project) => (
+            {resume.projects.map((project) => (
               <Project key={project.name} project={project} />
             ))}
           </div>
@@ -65,8 +67,9 @@ export default function ResumePage() {
           </Link>
         </section>
 
-        <Skills />
-        <Education />
+        <Writing publications={resume.publications} />
+        <Skills skills={resume.skills} />
+        <Education education={resume.education} />
       </article>
     </PageTransition>
   );
@@ -85,18 +88,6 @@ function Role({ role }: { role: ResumeRole }) {
         {role.title}, {role.location}
       </p>
       <Bullets items={role.bullets} />
-      {role.links !== undefined && (
-        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm print:hidden">
-          {role.links.map((link) => (
-            <li key={link.href}>
-              <TextLink href={link.href} className="inline-flex items-center gap-1">
-                {link.label}
-                <ExternalLink aria-hidden="true" className="size-3.5" />
-              </TextLink>
-            </li>
-          ))}
-        </ul>
-      )}
       <Separator className="mt-8 print:hidden" />
     </li>
   );
@@ -127,18 +118,21 @@ function Bullets({ items }: { items: readonly string[] }) {
   );
 }
 
-function ResumeHeader() {
+function ResumeHeader({ resume }: { resume: Resume }) {
   return (
     <header>
       <h1 className="mb-2 text-display font-semibold tracking-tight">
         <span className="print:hidden">Résumé</span>
-        <span className="hidden print:inline">{RESUME_BASICS.name}</span>
+        <span className="hidden print:inline">{resume.name}</span>
       </h1>
-      <p className="mb-4 text-lede text-muted-foreground">{RESUME_BASICS.title}</p>
+      <p className="mb-4 text-lede text-muted-foreground">{resume.title}</p>
       <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
-        <span>{RESUME_BASICS.location}</span>
-        <TextLink href={RESUME_BASICS.linkedin}>linkedin.com/in/lucasarango</TextLink>
-        <TextLink href={RESUME_BASICS.github}>github.com/aranlucas</TextLink>
+        <span>{resume.location}</span>
+        {resume.profiles.map((profile) => (
+          <TextLink key={profile.href} href={profile.href}>
+            {profile.label}
+          </TextLink>
+        ))}
       </div>
       <div className="mt-6 print:hidden">
         <PrintButton />
@@ -147,12 +141,34 @@ function ResumeHeader() {
   );
 }
 
-function Skills() {
+function Writing({ publications }: { publications: Resume["publications"] }) {
+  return (
+    <section aria-labelledby="writing">
+      <SectionHeading id="writing">Writing</SectionHeading>
+      <ul className="flex flex-col gap-2 text-sm/relaxed">
+        {publications.map((post) => (
+          <li key={post.href}>
+            <TextLink href={post.href} className="inline-flex items-center gap-1">
+              {post.title}
+              <ExternalLink aria-hidden="true" className="size-3.5" />
+            </TextLink>
+            <span className="text-muted-foreground">
+              {" "}
+              · {post.publisher}, {formatMonth(post.date)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Skills({ skills }: { skills: Resume["skills"] }) {
   return (
     <section aria-labelledby="skills">
       <SectionHeading id="skills">Skills</SectionHeading>
       <dl className="flex flex-col gap-3 text-sm/relaxed">
-        {RESUME_SKILLS.map((skill) => (
+        {skills.map((skill) => (
           <div key={skill.category}>
             <dt className="font-semibold">{skill.category}</dt>
             <dd>{skill.items.join(", ")}</dd>
@@ -163,11 +179,11 @@ function Skills() {
   );
 }
 
-function Education() {
+function Education({ education }: { education: Resume["education"] }) {
   return (
     <section aria-labelledby="education">
       <SectionHeading id="education">Education</SectionHeading>
-      {RESUME_EDUCATION.map((school) => (
+      {education.map((school) => (
         <div key={school.school}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <h3 className="font-semibold">{school.school}</h3>
