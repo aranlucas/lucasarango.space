@@ -59,8 +59,7 @@ against another copy (a base URL, e.g. a local `_site` server). Edit the resume 
 A popup on every page (`src/components/ask/`) answers questions with an AI agent
 (`src/lib/ask-agent.ts`, `POST /api/chat`). Its instructions hold the résumé Markdown
 from the resume API and `src/lib/projects.ts`; it reads posts through the `listPosts` and
-`readPost` tools. The popup only links post URLs that a tool returned, so a made-up path
-renders as plain text.
+`readPost` tools, which give it each post's link to copy into answers.
 
 | Variable             | Required | Default           | Description                                                |
 | -------------------- | -------- | ----------------- | ---------------------------------------------------------- |

@@ -1,7 +1,5 @@
 // Tools the Ask agent uses to read this site's writing. Posts stay out of the
-// system prompt; the agent looks them up when a question needs them. Every
-// result carries each post's `url`, and the popup only turns URLs it has seen
-// in a tool result into links (see src/lib/ask-links.ts).
+// system prompt; the agent looks them up when a question needs them.
 
 import { tool } from "ai";
 import { z } from "zod";

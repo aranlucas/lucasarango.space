@@ -1,7 +1,7 @@
 "use client";
 
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import type { UIMessage } from "ai";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { AskContext, type AskState } from "@/components/ask/ask-context";
@@ -26,7 +26,8 @@ function useSend(chat: UseChatHelpers<UIMessage>, setInput: (input: string) => v
 }
 
 function useAskState(): AskState {
-  const chat = useChat({ transport: new DefaultChatTransport({ api: "/api/chat" }) });
+  // Posts to /api/chat, the default endpoint.
+  const chat = useChat();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
