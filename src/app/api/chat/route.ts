@@ -4,6 +4,7 @@ import {
   createUIMessageStreamResponse,
   safeValidateUIMessages,
   toUIMessageStream,
+  type UIMessageStreamWriter,
 } from "ai";
 
 import { askAgent, env } from "@/lib/ask-agent";
@@ -35,13 +36,39 @@ function watchActivity<T extends { type: string }>(onActivity: () => void) {
   });
 }
 
+/** Emits temporary waiting statuses and returns cleanup for every completion path. */
+function startWaiting(writer: UIMessageStreamWriter<AskMessage>, signal: AbortSignal) {
+  signal.throwIfAborted();
+  const writeWaitingStatus = (phase: WaitingStatus["phase"], message: string) => {
+    // Transient parts reach onData; the client replaces its waiting status in state.
+    writer.write({
+      type: "data-waiting-status",
+      id: "waiting-status",
+      data: { phase, message },
+      transient: true,
+    });
+  };
+  writeWaitingStatus("waiting", WAITING.message);
+  const timer = setTimeout(() => {
+    writeWaitingStatus("still-waiting", WAITING.stillWaitingMessage);
+  }, WAITING.stillWaitingAfterMs);
+  const stopWaiting = () => {
+    clearTimeout(timer);
+    signal.removeEventListener("abort", stopWaiting);
+  };
+  signal.addEventListener("abort", stopWaiting, { once: true });
+  return stopWaiting;
+}
+
 /**
  * Streams the agent's answer, preceded by a transient waiting status that
  * turns into "still waiting" if the model is silent for too long. After the AI
  * SDK chatbot template's app/(chat)/api/chat/route.ts.
  */
 function streamAnswer(req: Request, messages: AskMessage[]) {
+  let stopWaiting: (() => void) | undefined;
   const onError = (error: unknown) => {
+    stopWaiting?.();
     // Readers see a generic message; the cause goes to the function logs.
     console.error("Ask agent failed:", error, { vercelId: req.headers.get("x-vercel-id") });
     return UNAVAILABLE;
@@ -49,28 +76,17 @@ function streamAnswer(req: Request, messages: AskMessage[]) {
 
   return createUIMessageStream<AskMessage>({
     execute: async ({ writer }) => {
-      const writeWaitingStatus = (phase: WaitingStatus["phase"], message: string) => {
-        // Transient parts reach onData; the client replaces its waiting status in state.
-        writer.write({
-          type: "data-waiting-status",
-          id: "waiting-status",
-          data: { phase, message },
-          transient: true,
-        });
-      };
-      writeWaitingStatus("waiting", WAITING.message);
-      const timer = setTimeout(() => {
-        writeWaitingStatus("still-waiting", WAITING.stillWaitingMessage);
-      }, WAITING.stillWaitingAfterMs);
-      const stopWaiting = () => {
-        clearTimeout(timer);
-      };
-      req.signal.addEventListener("abort", stopWaiting);
+      stopWaiting = startWaiting(writer, req.signal);
 
       try {
         const result = await askAgent.stream({
-          messages: await convertToModelMessages(messages, { tools: askTools }),
+          messages: await convertToModelMessages(messages, {
+            tools: askTools,
+            // Stop can leave a tool call without its result in the UI history.
+            ignoreIncompleteToolCalls: true,
+          }),
           abortSignal: req.signal,
+          onEnd: stopWaiting,
         });
         writer.merge(
           toUIMessageStream<typeof askTools, AskMessage>({

@@ -7,6 +7,7 @@ import { askTools } from "@/lib/ask-tools";
 // Routes to whichever free OpenRouter model is available; override with OPENROUTER_MODEL.
 // See https://openrouter.ai/collections/free-models.
 const DEFAULT_MODEL = "openrouter/free";
+const MAX_STEPS = 5;
 
 /** A trimmed environment variable, or undefined when unset or blank. */
 export function env(name: string): string | undefined {
@@ -22,8 +23,10 @@ export function env(name: string): string | undefined {
 export const askAgent = new ToolLoopAgent({
   model: openrouter.chat(env("OPENROUTER_MODEL") ?? DEFAULT_MODEL),
   tools: askTools,
-  // Enough to list posts, read a couple, and answer.
-  stopWhen: isStepCount(5),
+  stopWhen: isStepCount(MAX_STEPS),
+  // Reserve the last model call for an answer rather than another tool call.
+  prepareStep: ({ stepNumber }) =>
+    stepNumber === MAX_STEPS - 1 ? { toolChoice: "none" } : undefined,
   // The résumé comes from the resume API (cached), so instructions are built per call.
   prepareCall: async (settings) => ({ ...settings, instructions: await getSystemPrompt() }),
 });
