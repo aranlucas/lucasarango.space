@@ -69,6 +69,45 @@
   }
 }
 
+/* Dark-mode stars over the ridge, twinkling once the contours finish drawing. */
+@utility star {
+  stroke-linecap: round;
+  opacity: 0.25;
+  animation: twinkle 3.2s ease-in-out infinite alternate both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* Post reading progress, tied to page scroll. The line is unclipped left to
+   right (dashes drift on a stretched non-scaling stroke). Hidden where scroll
+   timelines are unsupported rather than showing a stuck line. */
+@utility reading-progress {
+  display: none;
+
+  @supports (animation-timeline: scroll()) {
+    display: block;
+
+    & svg {
+      animation: unclip linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+/* Rows fade up as they scroll into view. Skipped for reduced motion and print. */
+@utility reveal {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+  }
+}
+
 @utility h-ridge {
   height: clamp(4.5rem, 16vw, 7.5rem);
 }
@@ -210,5 +249,141 @@
 @media (prefers-color-scheme: dark) {
   .prose pre code span {
     color: var(--shiki-dark);
+  }
+}
+
+/*
+ * View transitions (React <ViewTransition>, see components/page-transition.tsx).
+ * Tabs slide by their order, other navigations crossfade, post titles morph
+ * into the article heading, and the header holds still as the anchor.
+ */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page-fade) {
+  animation: 120ms ease-in both vt-fade reverse;
+}
+::view-transition-new(.page-fade) {
+  animation: 200ms ease-out 100ms both vt-fade;
+}
+
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation:
+    150ms ease-in both vt-fade reverse,
+    350ms ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-forward),
+::view-transition-new(.nav-back) {
+  animation:
+    210ms ease-out 150ms both vt-fade,
+    350ms ease-in-out both vt-slide;
+}
+::view-transition-old(.nav-forward),
+::view-transition-new(.nav-back) {
+  --vt-offset: -32px;
+}
+::view-transition-new(.nav-forward),
+::view-transition-old(.nav-back) {
+  --vt-offset: 32px;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 350ms;
+}
+::view-transition-image-pair(.morph) {
+  animation-name: vt-blur;
+}
+
+::view-transition-group(.nav-indicator) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 101;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* The footer sits in the layout, so it would jump to the new page's length.
+   Hide it with the old page and fade it back in with the new one. */
+::view-transition-group(site-footer) {
+  animation: none;
+}
+::view-transition-old(site-footer) {
+  display: none;
+}
+::view-transition-new(site-footer) {
+  animation: 200ms ease-out 150ms both vt-fade;
+}
+
+/* Reduced motion keeps the crossfades and drops anything that travels. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+  }
+  ::view-transition-old(.nav-forward),
+  ::view-transition-old(.nav-back) {
+    animation: 120ms ease-in both vt-fade reverse;
+  }
+  ::view-transition-new(.nav-forward),
+  ::view-transition-new(.nav-back) {
+    animation: 200ms ease-out 100ms both vt-fade;
+  }
+}
+
+@keyframes twinkle {
+  to {
+    opacity: 0.85;
+  }
+}
+
+@keyframes unclip {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+@keyframes vt-blur {
+  30% {
+    filter: blur(3px);
   }
 }

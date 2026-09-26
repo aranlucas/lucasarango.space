@@ -1,4 +1,5 @@
 import { Intro } from "@/components/intro";
+import { PageTransition } from "@/components/page-transition";
 import { PostList } from "@/components/post-list";
 import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
@@ -11,7 +12,7 @@ export default async function Home() {
   const posts = (await getPosts()).slice(0, 5);
 
   return (
-    <>
+    <PageTransition>
       <Intro />
 
       <section aria-labelledby="writing">
@@ -37,6 +38,6 @@ export default async function Home() {
         <SectionHeading id="work">Work</SectionHeading>
         <WorkList roles={WORK} />
       </section>
-    </>
+    </PageTransition>
   );
 }

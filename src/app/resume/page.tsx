@@ -1,6 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 
+import { PageTransition } from "@/components/page-transition";
 import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function ResumePage() {
   return (
-    <>
+    <PageTransition>
       <ResumeHeader />
 
       <section aria-labelledby="summary">
@@ -58,7 +59,7 @@ export default function ResumePage() {
         <SectionHeading id="about">About</SectionHeading>
         <Bullets items={RESUME_ABOUT} />
       </section>
-    </>
+    </PageTransition>
   );
 }
 

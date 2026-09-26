@@ -1,6 +1,8 @@
 import { cn } from "cn";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { PostTitleTransition } from "@/components/page-transition";
 import {
   Item,
   ItemActions,
@@ -15,18 +17,31 @@ export function PostList({ posts, className }: { posts: PostMeta[]; className?: 
   return (
     <ItemGroup className={cn("-mx-3 mb-5 w-auto gap-1", className)}>
       {posts.map((post) => (
-        <div key={post.slug} role="listitem">
+        <div key={post.slug} role="listitem" className="reveal">
           <Item className="items-start" render={<Link href={`/blog/${post.slug}`} />}>
             <ItemContent>
-              <ItemTitle className="line-clamp-none text-base font-semibold">
-                {post.title}
-              </ItemTitle>
+              <PostTitleTransition slug={post.slug}>
+                <ItemTitle className="line-clamp-none text-base font-semibold">
+                  {post.title}
+                </ItemTitle>
+              </PostTitleTransition>
               <ItemDescription className="line-clamp-none">{post.summary}</ItemDescription>
             </ItemContent>
-            <ItemActions>
-              <time dateTime={post.date} className="text-sm text-muted-foreground tabular-nums">
+            {/* On hover the date gives way to the reading time and an arrow. */}
+            <ItemActions className="grid justify-items-end text-sm text-muted-foreground tabular-nums *:col-start-1 *:row-start-1">
+              <time
+                dateTime={post.date}
+                className="transition-opacity group-hover/item:opacity-0 group-focus-visible/item:opacity-0"
+              >
                 {formatDate(post.date, "short")}
               </time>
+              <span
+                aria-hidden="true"
+                className="flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover/item:opacity-100 group-focus-visible/item:opacity-100"
+              >
+                {post.readingMinutes} min
+                <ArrowRight className="size-3.5 transition-transform motion-safe:-translate-x-1 motion-safe:group-hover/item:translate-x-0 motion-safe:group-focus-visible/item:translate-x-0" />
+              </span>
             </ItemActions>
           </Item>
         </div>
