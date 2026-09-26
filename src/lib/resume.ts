@@ -148,7 +148,7 @@ export const RESUME_EDUCATION = {
 } as const;
 
 export const RESUME_ABOUT: string[] = [
-  "From the Seattle area. Driven by learning, growth, and creative problem-solving.",
+  "Driven by learning, growth, and creative problem-solving.",
   "Likes hiking and camping.",
   "Technical leader and go-to expert — envisions products, leads teams to release, ships personalization and fulfillment improvements.",
   "Hobby grocery agent became the vision for Ask DoorDash — personal builds feed production work.",
