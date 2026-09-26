@@ -46,11 +46,11 @@ Open Graph image; article routes generate their own share images.
 
 ## Resume
 
-`/resume` renders `src/generated/resume.json`. The source of truth is the LaTeX
-in the private [aranlucas/resume](https://github.com/aranlucas/resume) repo,
-which publishes a private-info-free API at
-[resume-api.aranlucas.workers.dev](https://resume-api.aranlucas.workers.dev/)
-(`resume.md`, `resume.json`). `scripts/sync-resume.ts` pulls it before every
-build (`prebuild`), and `.github/workflows/sync-resume.yml` pulls it daily and
-commits any change, which redeploys the site. Edit the LaTeX, not
-`src/generated/`. Run `pnpm sync-resume` to pull it manually.
+`/resume` and the publications on `/blog` come from a
+[JSON Resume](https://jsonresume.org/schema) published by the private
+[aranlucas/resume](https://github.com/aranlucas/resume) repo at
+[resume-api.aranlucas.workers.dev](https://resume-api.aranlucas.workers.dev/resume.json).
+`src/lib/resume.ts` fetches it with a 30-day cache tagged `resume`; the resume
+repo's deploy calls `POST /api/revalidate` (with `Authorization: Bearer
+$REVALIDATE_SECRET`) to refresh it right away. Set `RESUME_API_URL` to build
+against another copy, e.g. a local `_site` server. Edit the resume there, not here.
