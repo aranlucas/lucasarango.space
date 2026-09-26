@@ -57,11 +57,11 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
-      "oxfmt",
+      "oxfmt --no-error-on-unmatched-pattern",
       "oxlint --deny-warnings --fix"
     ],
     "*.{json,css,md,yml}": [
-      "oxfmt"
+      "oxfmt --no-error-on-unmatched-pattern"
     ]
   },
   "packageManager": "pnpm@12.4.2"
