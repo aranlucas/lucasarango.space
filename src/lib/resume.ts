@@ -14,14 +14,14 @@ export type ResumeRole = {
 
 export const RESUME_BASICS = {
   name: "Lucas Arango",
-  title: "Senior Software Engineer — AI products & agents",
+  title: "Senior Software Engineer, AI products and agents",
   location: "Seattle, Washington",
   linkedin: "https://www.linkedin.com/in/lucasarango/",
   github: "https://github.com/aranlucas",
   summary:
     "Software engineer with 10+ years shipping products at DoorDash, Amazon, and AWS, operating at staff scope: originating products from prototype to launch, setting performance and reliability standards adopted org-wide, and leading through influence across engineering, ML, product, design, and operations. Most recently pitched, prototyped, and led Ask DoorDash, the company's conversational AI shopping experience.",
   lookingFor:
-    "Senior / staff software engineer roles — big tech, AI-native, or fast-shipping product teams. Idea to launch, AI + real user problems, raising the quality bar. Not management.",
+    "Senior / staff software engineer roles at big tech, AI-native, or fast-shipping product teams. Idea to launch, AI + real user problems, raising the quality bar. Not management.",
 } as const;
 
 export const RESUME_ROLES: ResumeRole[] = [
@@ -31,12 +31,12 @@ export const RESUME_ROLES: ResumeRole[] = [
     location: "Seattle, WA",
     dates: "Oct 2023 – 2026",
     bullets: [
-      "Originated Ask DoorDash (launched June 2026): pitched the vision for a conversational, agent-driven shopping experience, built the prototype that secured leadership buy-in, and served as lead engineer guiding delivery across engineering, ML, product, and design — natural-language search across ~800,000 items, personalized from order history and dietary preferences.",
+      "Originated Ask DoorDash (launched June 2026): pitched the vision for a conversational, agent-driven shopping experience, built the prototype that secured leadership buy-in, and served as lead engineer guiding delivery across engineering, ML, product, and design. It offers natural-language search across ~800,000 items, personalized from order history and dietary preferences.",
       "Drove DoorDash's external MCP integration for ChatGPT, extending catalog and commerce capabilities into assistant-driven discovery.",
       "Optimized DashMart warehouse and fulfillment workflows for first-party convenience and grocery.",
       "Built consumer-facing DashMart web personalization features for grocery and convenience discovery.",
       "Drove a cross-org reliability program for core ordering and test infrastructure, including multi-tenant production-like E2E testing environments.",
-      "Defined org-wide performance standards — golden-path SLOs and performance-regression gates in CI.",
+      "Defined org-wide performance standards: golden-path SLOs and performance-regression gates in CI.",
     ],
     links: [
       {
@@ -56,7 +56,7 @@ export const RESUME_ROLES: ResumeRole[] = [
       {
         name: "Ask DoorDash",
         description:
-          "Conversational AI search for restaurants, groceries, and reservations — describe what you want, share a recipe link or cookbook photo, get personalized results.",
+          "Conversational AI search for restaurants, groceries, and reservations. Describe what you want or share a recipe link or cookbook photo, and get personalized results.",
       },
       {
         name: "DashMart Fulfillment & Personalization",
@@ -87,7 +87,7 @@ export const RESUME_ROLES: ResumeRole[] = [
     dates: "Jul 2019 – Jul 2022",
     bullets: [
       "Implemented and launched the public AWS IoT SiteWise Monitor control plane at re:Invent (DynamoDB, Golang, API Gateway) through operational readiness review to GA.",
-      "Led the IoT Console migration from Angular to React via microfrontends with independent CDK pipelines — 5+ sub-teams shipping independently, release lead time from weeks to days.",
+      "Led the IoT Console migration from Angular to React via microfrontends with independent CDK pipelines, so 5+ sub-teams shipped independently and release lead time dropped from weeks to days.",
       "Designed and implemented SSO federation for SiteWise Monitor.",
       "Built automated canary testing with AWS Synthetics for the IoT Console.",
     ],
@@ -98,9 +98,9 @@ export const RESUME_ROLES: ResumeRole[] = [
     location: "Seattle, WA",
     dates: "Jul 2015 – Jul 2019",
     bullets: [
-      "Developed and launched a secure case management and investigation platform (Ruby on Rails, Java Spring) for internal investigations — money laundering, identity theft.",
+      "Developed and launched a secure case management and investigation platform (Ruby on Rails, Java Spring) for internal investigations into money laundering and identity theft.",
       "Hardened the platform with end-to-end encryption, granular auth, full audit logging, and secure artifact storage.",
-      "Led design and development of Suspicious Transaction Report (STR/SAR) submission to the Luxembourg FIU and UK NCA — a hard regulatory requirement for payments in those markets.",
+      "Led design and development of Suspicious Transaction Report (STR/SAR) submission to the Luxembourg FIU and UK NCA, a hard regulatory requirement for payments in those markets.",
     ],
   },
   {
@@ -122,14 +122,14 @@ export const RESUME_ROLES: ResumeRole[] = [
 ];
 
 export const RESUME_PROJECTS = {
-  heading: "Personal Projects — Agentic Experiences",
+  heading: "Personal Projects: Agentic Experiences",
   intro:
     "Building AI agents is my main hobby. I run a personal multi-agent platform in production, end to end:",
   bullets: [
-    "Multi-agent monorepo (Google ADK-Go + AG-UI) — 11 typed Go agents behind a single Go gateway on Railway, with D1 session state and R2 artifact storage.",
-    "Full-stack agent UX — Next.js + CopilotKit web console and Expo iOS/Android app speaking AG-UI, with token-level streaming and generative UI.",
-    "Real-world tools and data — live Kroger and travel integrations; fitness plans from Health Connect snapshots.",
-    "Cross-agent orchestration — the wellness agent delegates to grocery and fitness agents in-process over shared typed state. The grocery agent shaped the vision for Ask DoorDash.",
+    "Multi-agent monorepo (Google ADK-Go + AG-UI): 11 typed Go agents behind a single Go gateway on Railway, with D1 session state and R2 artifact storage.",
+    "Full-stack agent UX: Next.js + CopilotKit web console and Expo iOS/Android app speaking AG-UI, with token-level streaming and generative UI.",
+    "Real-world tools and data: live Kroger and travel integrations; fitness plans from Health Connect snapshots.",
+    "Cross-agent orchestration: the wellness agent delegates to grocery and fitness agents in-process over shared typed state. The grocery agent shaped the vision for Ask DoorDash.",
   ],
 } as const;
 
@@ -150,7 +150,7 @@ export const RESUME_EDUCATION = {
 export const RESUME_ABOUT: string[] = [
   "Driven by learning, growth, and creative problem-solving.",
   "Likes hiking and camping.",
-  "Technical leader and go-to expert — envisions products, leads teams to release, ships personalization and fulfillment improvements.",
-  "Hobby grocery agent became the vision for Ask DoorDash — personal builds feed production work.",
+  "Technical leader and go-to expert who envisions products, leads teams to release, and ships personalization and fulfillment improvements.",
+  "Hobby grocery agent became the vision for Ask DoorDash; personal builds feed production work.",
   "Values open feedback, willingness to apologize, and recognizing the better idea.",
 ];
