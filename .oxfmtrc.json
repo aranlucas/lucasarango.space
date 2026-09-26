@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "trailingComma": "all",
+  "sortTailwindcss": {
+    "functions": ["cn", "cva"],
+    "stylesheet": "./src/app/globals.css"
+  },
+  "ignorePatterns": ["pnpm-lock.yaml", "content/**", "src/components/ui/**"]
+}

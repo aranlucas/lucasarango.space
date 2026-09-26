@@ -1,0 +1,212 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+/* Follow the OS theme; there is no manual toggle. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+@theme inline {
+  --font-sans: var(--font-serif), Georgia, serif;
+  --font-heading: var(--font-serif), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-ridge: var(--ridge);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.65;
+  --text-lede: 1.375rem;
+  --text-lede--line-height: 1.5;
+  --text-title: clamp(2.1rem, 6vw, 3rem);
+  --text-title--line-height: 1.12;
+  --text-display: clamp(2.5rem, 7vw, 3.75rem);
+  --text-display--line-height: 1.1;
+  --container-page: 39rem;
+
+  --animate-draw: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
+/* One ridge contour line, drawn once on load (finished drawing for reduced motion). */
+@utility contour {
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linejoin: round;
+  animation: var(--animate-draw);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+@utility h-ridge {
+  height: clamp(4.5rem, 16vw, 7.5rem);
+}
+
+/* Cascades palette: glacial mist paper, slate ink, fir-green primary. */
+:root {
+  --background: #e8edee;
+  --foreground: #17242c;
+  --card: #eef2f3;
+  --card-foreground: #17242c;
+  --popover: #eef2f3;
+  --popover-foreground: #17242c;
+  --primary: #2c6654;
+  --primary-foreground: #f1f6f4;
+  --secondary: #dde4e6;
+  --secondary-foreground: #17242c;
+  --muted: #dde4e6;
+  --muted-foreground: #56666e;
+  --accent: #dde4e6;
+  --accent-foreground: #17242c;
+  --destructive: #b3412f;
+  --border: #c3cdd1;
+  --input: #c3cdd1;
+  --ring: #2c6654;
+  --ridge: #7f9aa3;
+  --radius: 0.375rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121b21;
+    --foreground: #dce5e7;
+    --card: #17232a;
+    --card-foreground: #dce5e7;
+    --popover: #17232a;
+    --popover-foreground: #dce5e7;
+    --primary: #86c3ae;
+    --primary-foreground: #0f2019;
+    --secondary: #1a262d;
+    --secondary-foreground: #dce5e7;
+    --muted: #1a262d;
+    --muted-foreground: #8d9da4;
+    --accent: #1f2e36;
+    --accent-foreground: #dce5e7;
+    --destructive: #e07a66;
+    --border: #2b3a42;
+    --input: #2b3a42;
+    --ring: #86c3ae;
+    --ridge: #4c646d;
+    color-scheme: dark;
+  }
+}
+
+/* Print on white paper with slate ink, whatever the screen theme. */
+@media print {
+  :root {
+    --background: #fff;
+    --foreground: #17242c;
+    --muted: #eef2f3;
+    --muted-foreground: #56666e;
+    --secondary: #eef2f3;
+    --secondary-foreground: #17242c;
+    --primary: #2c6654;
+    --border: #c3cdd1;
+    color-scheme: light;
+  }
+  html {
+    font-size: 13px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-optical-sizing: auto;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 28%, transparent);
+  }
+  :focus-visible {
+    @apply rounded-xs outline-2 outline-offset-3 outline-ring;
+  }
+}
+
+/* Typography plugin, retuned to the palette. */
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--muted-foreground);
+  --tw-prose-quote-borders: var(--primary);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+.prose :where(a) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  font-weight: inherit;
+}
+
+.prose :where(a):hover {
+  text-decoration-thickness: 2px;
+}
+
+.prose :where(:not(pre) > code) {
+  @apply rounded-sm bg-muted px-1.5 py-0.5 font-normal;
+}
+
+.prose :where(:not(pre) > code)::before,
+.prose :where(:not(pre) > code)::after {
+  content: none;
+}
+
+/* rehype-pretty-code dual themes */
+.prose pre code span {
+  color: var(--shiki-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose pre code span {
+    color: var(--shiki-dark);
+  }
+}
