@@ -47,6 +47,7 @@ export const metadata: Metadata = {
   description: SITE.description,
   alternates: { types: { "application/rss+xml": "/feed.xml" } },
   openGraph: { siteName: SITE.name, type: "website", url: "/" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
