@@ -2,6 +2,8 @@
 // github.com/aranlucas/resume. It is fetched at build time and cached for 30
 // days; the resume repo's deploy calls /api/revalidate to refresh it sooner.
 
+import { z } from "zod";
+
 export const RESUME_CACHE_TAG = "resume";
 
 const RESUME_API = (
@@ -9,41 +11,56 @@ const RESUME_API = (
 ).replace(/\/$/u, "");
 const RESUME_URL = `${RESUME_API}/resume.json`;
 
-/** The subset of JSON Resume this site reads. Dates are always "YYYY-MM". */
-type JsonResume = {
-  basics: {
-    name: string;
-    label: string;
-    summary: string;
-    location: { city: string; region: string };
-    profiles: { network: string; url: string }[];
-  };
-  work: {
-    name: string;
-    position: string;
-    location: string;
-    startDate: string;
-    endDate?: string;
-    highlights: string[];
-  }[];
-  projects: { name: string; url?: string; type: string; highlights: string[] }[];
-  publications: {
-    name: string;
-    publisher: string;
-    releaseDate: string;
-    url: string;
-    summary: string;
-  }[];
-  education: {
-    institution: string;
-    location: string;
-    studyType: string;
-    area: string;
-    score: string;
-    endDate: string;
-  }[];
-  skills: { name: string; keywords: string[] }[];
-};
+const YearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/u, "expected YYYY-MM");
+
+/** The subset of JSON Resume (https://jsonresume.org/schema) this site reads. */
+const JsonResume = z.object({
+  basics: z.object({
+    name: z.string(),
+    label: z.string(),
+    summary: z.string(),
+    location: z.object({ city: z.string(), region: z.string() }),
+    profiles: z.array(z.object({ network: z.string(), url: z.url() })),
+  }),
+  work: z.array(
+    z.object({
+      name: z.string(),
+      position: z.string(),
+      location: z.string(),
+      startDate: YearMonth,
+      endDate: YearMonth.optional(),
+      highlights: z.array(z.string()),
+    }),
+  ),
+  projects: z.array(
+    z.object({
+      name: z.string(),
+      url: z.url().optional(),
+      type: z.string(),
+      highlights: z.array(z.string()),
+    }),
+  ),
+  publications: z.array(
+    z.object({
+      name: z.string(),
+      publisher: z.string(),
+      releaseDate: YearMonth,
+      url: z.url(),
+      summary: z.string(),
+    }),
+  ),
+  education: z.array(
+    z.object({
+      institution: z.string(),
+      location: z.string(),
+      studyType: z.string(),
+      area: z.string(),
+      score: z.string(),
+      endDate: YearMonth,
+    }),
+  ),
+  skills: z.array(z.object({ name: z.string(), keywords: z.array(z.string()) })),
+});
 
 export type ResumeLink = { label: string; href: string };
 
@@ -80,18 +97,12 @@ const formatRange = (start: string, end?: string) =>
 
 const displayUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/u, "").replace(/\/$/u, "");
 
-function isJsonResume(value: unknown): value is JsonResume {
-  return typeof value === "object" && value !== null && "basics" in value && "work" in value;
-}
-
-async function fetchResume(): Promise<JsonResume> {
+async function fetchResume(): Promise<z.infer<typeof JsonResume>> {
   const res = await fetch(RESUME_URL, {
     next: { revalidate: 60 * 60 * 24 * 30, tags: [RESUME_CACHE_TAG] },
   });
   if (!res.ok) throw new Error(`GET ${RESUME_URL} → ${res.status}`);
-  const data: unknown = await res.json();
-  if (!isJsonResume(data)) throw new Error(`${RESUME_URL} is not a JSON Resume`);
-  return data;
+  return JsonResume.parse(await res.json());
 }
 
 export async function getResume() {
