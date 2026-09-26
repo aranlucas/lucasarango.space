@@ -17,7 +17,15 @@ const textPartSchema = z.object({
 
 const userMessageSchema = z.object({
   id: z.string(),
-  parts: z.array(textPartSchema),
+  parts: z
+    .array(textPartSchema)
+    .min(1, "Send a question.")
+    .refine((parts) => parts.some((part) => part.text.trim() !== ""), "Send a question.")
+    .refine(
+      (parts) =>
+        parts.reduce((total, part) => total + part.text.length, 0) <= ASK_LIMITS.questionChars,
+      `Keep questions under ${ASK_LIMITS.questionChars} characters.`,
+    ),
   role: z.enum(["user"]),
 });
 
