@@ -43,3 +43,14 @@ error). shadcn components live in `src/components/ui` and are left as generated;
 The résumé page has a print layout for saving as PDF. Verify both screen and print
 layouts after changing its content. Page metadata shares RSS discovery and the site
 Open Graph image; article routes generate their own share images.
+
+## Resume
+
+`/resume` renders `src/generated/resume.json`. The source of truth is the LaTeX
+in the private [aranlucas/resume](https://github.com/aranlucas/resume) repo,
+which publishes a private-info-free API at
+[resume-api.aranlucas.workers.dev](https://resume-api.aranlucas.workers.dev/)
+(`resume.md`, `resume.json`). `scripts/sync-resume.ts` pulls it before every
+build (`prebuild`), and `.github/workflows/sync-resume.yml` pulls it daily and
+commits any change, which redeploys the site. Edit the LaTeX, not
+`src/generated/`. Run `pnpm sync-resume` to pull it manually.

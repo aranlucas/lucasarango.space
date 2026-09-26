@@ -12,6 +12,7 @@ import {
   RESUME_PROJECTS,
   RESUME_ROLES,
   RESUME_SKILLS,
+  type ResumeProject,
   type ResumeRole,
 } from "@/lib/resume";
 import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
@@ -50,9 +51,12 @@ export default function ResumePage() {
         </section>
 
         <section aria-labelledby="projects">
-          <SectionHeading id="projects">{RESUME_PROJECTS.heading}</SectionHeading>
-          <p className="mb-3">{RESUME_PROJECTS.intro}</p>
-          <Bullets items={RESUME_PROJECTS.bullets} />
+          <SectionHeading id="projects">Personal projects</SectionHeading>
+          <div className="flex flex-col gap-6">
+            {RESUME_PROJECTS.map((project) => (
+              <Project key={project.name} project={project} />
+            ))}
+          </div>
           <Link
             href="/#projects"
             className="mt-4 inline-block text-sm text-primary underline underline-offset-3 print:hidden"
@@ -98,6 +102,21 @@ function Role({ role }: { role: ResumeRole }) {
   );
 }
 
+function Project({ project }: { project: ResumeProject }) {
+  return (
+    <div>
+      <h3 className="mb-3 font-semibold">
+        {project.url === undefined ? (
+          project.name
+        ) : (
+          <TextLink href={project.url}>{project.name}</TextLink>
+        )}
+      </h3>
+      <Bullets items={project.bullets} />
+    </div>
+  );
+}
+
 function Bullets({ items }: { items: readonly string[] }) {
   return (
     <ul className="flex list-disc flex-col gap-2 ps-5 text-base/relaxed marker:text-muted-foreground">
@@ -133,22 +152,12 @@ function Skills() {
     <section aria-labelledby="skills">
       <SectionHeading id="skills">Skills</SectionHeading>
       <dl className="flex flex-col gap-3 text-sm/relaxed">
-        <div>
-          <dt className="font-semibold">AI & agents</dt>
-          <dd>{RESUME_SKILLS.agents}</dd>
-        </div>
-        <div>
-          <dt className="font-semibold">Platforms & infrastructure</dt>
-          <dd>{RESUME_SKILLS.platforms}</dd>
-        </div>
-        <div>
-          <dt className="font-semibold">Web & mobile</dt>
-          <dd>{RESUME_SKILLS.web}</dd>
-        </div>
-        <div>
-          <dt className="font-semibold">Languages</dt>
-          <dd>{RESUME_SKILLS.languages}</dd>
-        </div>
+        {RESUME_SKILLS.map((skill) => (
+          <div key={skill.category}>
+            <dt className="font-semibold">{skill.category}</dt>
+            <dd>{skill.items.join(", ")}</dd>
+          </div>
+        ))}
       </dl>
     </section>
   );
@@ -158,15 +167,19 @@ function Education() {
   return (
     <section aria-labelledby="education">
       <SectionHeading id="education">Education</SectionHeading>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <h3 className="font-semibold">{RESUME_EDUCATION.school}</h3>
-        <Badge variant="secondary" className="tabular-nums">
-          {RESUME_EDUCATION.dates}
-        </Badge>
-      </div>
-      <p className="text-sm text-muted-foreground">
-        {RESUME_EDUCATION.degree}, {RESUME_EDUCATION.location}. {RESUME_EDUCATION.details}
-      </p>
+      {RESUME_EDUCATION.map((school) => (
+        <div key={school.school}>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h3 className="font-semibold">{school.school}</h3>
+            <Badge variant="secondary" className="tabular-nums">
+              {school.dates}
+            </Badge>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {school.degree}, {school.location}
+          </p>
+        </div>
+      ))}
     </section>
   );
 }
