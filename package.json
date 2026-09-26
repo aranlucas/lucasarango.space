@@ -14,9 +14,7 @@
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm test",
-    "prepare": "husky",
-    "sync-resume": "node scripts/sync-resume.ts",
-    "prebuild": "node scripts/sync-resume.ts"
+    "prepare": "husky"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

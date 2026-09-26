@@ -6,5 +6,5 @@
     "functions": ["cn", "cva"],
     "stylesheet": "./src/app/globals.css"
   },
-  "ignorePatterns": ["pnpm-lock.yaml", "src/components/ui/**", "src/generated/**"]
+  "ignorePatterns": ["pnpm-lock.yaml", "src/components/ui/**"]
 }

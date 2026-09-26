@@ -1,16 +1,16 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { TextLink } from "@/components/site-header";
-import { formatDate } from "@/lib/posts";
-import { PUBLICATIONS } from "@/lib/site";
+import { formatMonth, getResume } from "@/lib/resume";
 
-export function PublicationList() {
+export async function PublicationList() {
+  const { publications } = await getResume();
   return (
     <ul className="flex flex-col gap-6">
-      {PUBLICATIONS.map((post) => (
+      {publications.map((post) => (
         <li key={post.href}>
           <p className="mb-1 text-xs text-muted-foreground">
-            DoorDash Engineering · <time dateTime={post.date}>{formatDate(post.date)}</time>
+            {post.publisher} · <time dateTime={post.date}>{formatMonth(post.date, "long")}</time>
           </p>
           <h3 className="text-base font-semibold">
             <TextLink href={post.href} className="no-underline hover:underline">
