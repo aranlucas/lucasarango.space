@@ -112,27 +112,27 @@
   height: clamp(4.5rem, 16vw, 7.5rem);
 }
 
-/* Cascades palette: glacial mist paper, slate ink, fir-green primary. */
+/* Cascades palette: warm paper, slate ink, fir-green primary. */
 :root {
-  --background: #e8edee;
+  --background: #f4f1ea;
   --foreground: #17242c;
-  --card: #eef2f3;
+  --card: #faf7f0;
   --card-foreground: #17242c;
-  --popover: #eef2f3;
+  --popover: #faf7f0;
   --popover-foreground: #17242c;
   --primary: #2c6654;
   --primary-foreground: #f1f6f4;
-  --secondary: #dde4e6;
+  --secondary: #eae6de;
   --secondary-foreground: #17242c;
-  --muted: #dde4e6;
+  --muted: #eae6de;
   --muted-foreground: #56666e;
-  --accent: #dde4e6;
+  --accent: #eae6de;
   --accent-foreground: #17242c;
   --destructive: #b3412f;
-  --border: #c3cdd1;
-  --input: #c3cdd1;
+  --border: #d4d2c8;
+  --input: #d4d2c8;
   --ring: #2c6654;
-  --ridge: #7f9aa3;
+  --ridge: #859b91;
   --radius: 0.375rem;
   color-scheme: light;
 }

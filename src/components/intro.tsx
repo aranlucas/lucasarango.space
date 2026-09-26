@@ -7,20 +7,18 @@ export function Intro() {
       <Ridgeline className="mb-5" />
       <h1 className="mb-6 text-display font-semibold tracking-tight">Hi, I’m Lucas.</h1>
       <p className="text-lede">
-        I’m a software engineer in Seattle. I build AI products and the systems that make them
-        reliable, from the first prototype to the work of running them in production.
+        I’m a software engineer in Seattle. I like making useful things, especially AI tools that
+        help with everyday life.
       </p>
       <p>
-        I’ve spent more than ten years at Amazon, AWS, and DoorDash. Most recently, I prototyped and
-        led engineering for the grocery agent in{" "}
+        Over the past ten years, I’ve built products at Amazon, AWS, and DoorDash. Most recently, I
+        prototyped and led engineering for the grocery agent in{" "}
         <TextLink href="https://about.doordash.com/en-us/news/ask-doordash">Ask DoorDash</TextLink>,
-        launched in June 2026, and worked on the shared agent platform behind it.
+        launched in June 2026. It started with a grocery-shopping project I made for myself.
       </p>
       <p>
-        Building agents is also what I do for fun. My own grocery-shopping agent inspired that
-        pitch. These days my personal projects span groceries, fitness, travel, and a whiteboard
-        where an AI sketches system designs with me. Away from a keyboard, I like hiking and
-        camping.
+        I’m still building for fun: tools for groceries, workouts, travel, and thinking through
+        ideas. Away from a keyboard, I like hiking and camping.
       </p>
     </section>
   );

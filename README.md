@@ -34,10 +34,9 @@ error). shadcn components live in `src/components/ui` and are left as generated;
 
 ## Updating the portfolio
 
-- `src/lib/site.ts`: site identity, work overview, and coauthored publications.
+- `src/lib/site.ts`: site identity and coauthored publications.
 - `src/lib/projects.ts`: selected public projects, source links, and related posts.
-- `src/lib/resume.ts`: résumé experience, skills, and education. Keep employment dates
-  aligned with the work overview in `site.ts`.
+- `src/lib/resume.ts`: résumé experience, skills, education, and employment dates.
 - `content/posts/`: personal writing. Keep an existing filename when changing a title
   so published links continue to work.
 

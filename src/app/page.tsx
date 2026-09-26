@@ -6,9 +6,8 @@ import { PostList } from "@/components/post-list";
 import { ProjectList } from "@/components/project-list";
 import { SectionHeading } from "@/components/section-heading";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { WorkList } from "@/components/work-list";
 import { getPosts } from "@/lib/posts";
-import { FEED_ALTERNATE, WORK } from "@/lib/site";
+import { FEED_ALTERNATE } from "@/lib/site";
 
 export const metadata = { alternates: { canonical: "/", types: FEED_ALTERNATE } };
 
@@ -22,7 +21,7 @@ export default async function Home() {
       <section aria-labelledby="projects">
         <SectionHeading id="projects">Things I’m building</SectionHeading>
         <p className="mb-6 text-base/relaxed text-muted-foreground">
-          Personal tools I use, maintain, and learn from. The source and the decisions behind them.
+          A few things I’ve made for everyday use, and what I learned along the way.
         </p>
         <ProjectList />
       </section>
@@ -44,17 +43,6 @@ export default async function Home() {
             </EmptyHeader>
           </Empty>
         )}
-      </section>
-
-      <section aria-labelledby="work">
-        <SectionHeading id="work">Work</SectionHeading>
-        <WorkList roles={WORK} />
-        <Link
-          href="/resume"
-          className="mt-4 inline-block text-base text-primary underline underline-offset-3 hover:decoration-2"
-        >
-          Full experience and résumé
-        </Link>
       </section>
     </PageTransition>
   );

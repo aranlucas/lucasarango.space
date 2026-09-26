@@ -9,9 +9,9 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 // Light Cascades palette from globals.css; the image renderer has no CSS variables.
 const INK = "#17242c";
-const PAPER = "#e8edee";
+const PAPER = "#f4f1ea";
 const FIR = "#2c6654";
-const RIDGE = "#7f9aa3";
+const RIDGE = "#859b91";
 const MUTED = "#56666e";
 
 const font = (weight: 400 | 600) =>
