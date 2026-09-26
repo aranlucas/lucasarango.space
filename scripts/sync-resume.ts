@@ -21,8 +21,11 @@ async function get(file: string): Promise<string> {
 
 try {
   const [json, markdown] = await Promise.all([get("resume.json"), get("resume.md")]);
-  // Refuse to write a broken snapshot.
-  JSON.parse(json);
+  // Refuse to write a broken snapshot or one that isn't a JSON Resume.
+  const parsed: unknown = JSON.parse(json);
+  if (typeof parsed !== "object" || parsed === null || !("basics" in parsed)) {
+    throw new Error("resume.json is not a JSON Resume (no basics)");
+  }
   mkdirSync(outDir, { recursive: true });
   writeFileSync(resolve(outDir, "resume.json"), json);
   // A TS module (not a raw .md) so it bundles without runtime fs reads; the
