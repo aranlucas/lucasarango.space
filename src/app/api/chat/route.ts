@@ -50,7 +50,7 @@ function streamAnswer(req: Request, messages: AskMessage[]) {
   return createUIMessageStream<AskMessage>({
     execute: async ({ writer }) => {
       const writeWaitingStatus = (phase: WaitingStatus["phase"], message: string) => {
-        // One id, so each status replaces the last (the AI SDK's data part reconciliation).
+        // Transient parts reach onData; the client replaces its waiting status in state.
         writer.write({
           type: "data-waiting-status",
           id: "waiting-status",
