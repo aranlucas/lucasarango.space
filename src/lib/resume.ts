@@ -18,9 +18,9 @@ export const RESUME_BASICS = {
   linkedin: SITE.linkedin,
   github: SITE.github,
   summary:
-    "Software engineer with 10+ years at DoorDash, AWS, and Amazon, building AI products and cloud services. Led Ask DoorDash’s grocery agent from prototype to launch, built shared agent infrastructure, and set reliability standards across teams. I work across product, backend, and infrastructure, collaborating with engineering, ML, product, and design to turn an idea into a service people can depend on.",
+    "I’m a software engineer with 10+ years at DoorDash, AWS, and Amazon. I build AI products and cloud services, working across product, backend, and infrastructure. Most recently, I led Ask DoorDash’s grocery agent from prototype to launch, built shared agent infrastructure, and helped teams make their services more reliable.",
   lookingFor:
-    "Interested in senior and staff individual-contributor roles building AI products and platforms, with ownership from product direction through production reliability.",
+    "I’m interested in senior and staff engineering roles where I can help shape a product, build it, and make it dependable.",
 } as const;
 
 export const RESUME_ROLES: ResumeRole[] = [

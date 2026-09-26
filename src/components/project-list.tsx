@@ -6,9 +6,9 @@ import { PROJECTS } from "@/lib/projects";
 
 export function ProjectList() {
   return (
-    <ul className="flex flex-col gap-7">
+    <ul className="flex flex-col gap-8">
       {PROJECTS.map((project) => (
-        <li key={project.name} className="reveal border-s-2 border-border ps-5">
+        <li key={project.name} className="reveal">
           <h3 className="mb-2 text-lg font-semibold">
             <TextLink
               href={project.source}
@@ -19,8 +19,6 @@ export function ProjectList() {
             </TextLink>
           </h3>
           <p className="text-base/relaxed">{project.description}</p>
-          <p className="mt-2 text-sm/relaxed text-muted-foreground">{project.detail}</p>
-          <p className="mt-3 text-xs/relaxed text-muted-foreground">{project.stack}</p>
           <Link
             href={project.story}
             className="mt-3 inline-block text-sm text-primary underline underline-offset-3 hover:decoration-2"

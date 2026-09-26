@@ -111,7 +111,10 @@ function Bullets({ items }: { items: readonly string[] }) {
 function ResumeHeader() {
   return (
     <header>
-      <h1 className="mb-2 text-display font-semibold tracking-tight">{RESUME_BASICS.name}</h1>
+      <h1 className="mb-2 text-display font-semibold tracking-tight">
+        <span className="print:hidden">Résumé</span>
+        <span className="hidden print:inline">{RESUME_BASICS.name}</span>
+      </h1>
       <p className="mb-4 text-lede text-muted-foreground">{RESUME_BASICS.title}</p>
       <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
         <span>{RESUME_BASICS.location}</span>

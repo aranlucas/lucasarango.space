@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site";
 export function SiteHeader() {
   return (
     <header
-      className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-7 pb-14 print:hidden"
+      className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-7 pb-10 sm:pb-14 print:hidden"
       style={{ viewTransitionName: "site-header" }}
     >
       <HomeLink className="flex items-center gap-2.5 font-semibold text-foreground">
@@ -29,8 +29,9 @@ export function SiteFooter() {
       style={{ viewTransitionName: "site-footer" }}
     >
       <Separator className="mb-6" />
+      <p className="mb-3 text-base text-foreground">Thanks for stopping by.</p>
       <p className="mb-1.5">
-        Find me on <TextLink href={SITE.github}>GitHub</TextLink> and{" "}
+        Find my projects on <TextLink href={SITE.github}>GitHub</TextLink>, or say hello on{" "}
         <TextLink href={SITE.linkedin}>LinkedIn</TextLink>.
       </p>
       <p>
