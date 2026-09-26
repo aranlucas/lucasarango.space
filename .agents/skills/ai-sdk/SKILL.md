@@ -7,7 +7,7 @@ description: Answer Vercel AI SDK questions and implement or review SDK generati
 
 Verify APIs against the project's installed version before writing code. SDK releases change core APIs, UI hooks, provider interfaces, and defaults; examples from memory or another major version may be incompatible.
 
-## Establish the version and documentation
+## Use the Bundled, Version-Matched Docs
 
 1. Inspect the target package's manifest, lockfile, runtime, and existing AI integration. Locate dependencies in the relevant workspace; resolve package paths when pnpm or workspace layouts differ from the root.
 2. Read the installed `ai` package's `docs/` and `src/` when available. Confirm exact signatures, defaults, and deprecations in source or exported types when documentation is ambiguous.
