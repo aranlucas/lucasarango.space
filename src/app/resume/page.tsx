@@ -6,7 +6,13 @@ import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getResume, type Resume, type ResumeProject, type ResumeRole } from "@/lib/resume";
+import {
+  formatMonth,
+  getResume,
+  type Resume,
+  type ResumeProject,
+  type ResumeRole,
+} from "@/lib/resume";
 import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
 
 import { PrintButton } from "./print-button";
@@ -61,6 +67,7 @@ export default async function ResumePage() {
           </Link>
         </section>
 
+        <Writing publications={resume.publications} />
         <Skills skills={resume.skills} />
         <Education education={resume.education} />
       </article>
@@ -81,18 +88,6 @@ function Role({ role }: { role: ResumeRole }) {
         {role.title}, {role.location}
       </p>
       <Bullets items={role.bullets} />
-      {role.links !== undefined && (
-        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm print:hidden">
-          {role.links.map((link) => (
-            <li key={link.href}>
-              <TextLink href={link.href} className="inline-flex items-center gap-1">
-                {link.label}
-                <ExternalLink aria-hidden="true" className="size-3.5" />
-              </TextLink>
-            </li>
-          ))}
-        </ul>
-      )}
       <Separator className="mt-8 print:hidden" />
     </li>
   );
@@ -143,6 +138,28 @@ function ResumeHeader({ resume }: { resume: Resume }) {
         <PrintButton />
       </div>
     </header>
+  );
+}
+
+function Writing({ publications }: { publications: Resume["publications"] }) {
+  return (
+    <section aria-labelledby="writing">
+      <SectionHeading id="writing">Writing</SectionHeading>
+      <ul className="flex flex-col gap-2 text-sm/relaxed">
+        {publications.map((post) => (
+          <li key={post.href}>
+            <TextLink href={post.href} className="inline-flex items-center gap-1">
+              {post.title}
+              <ExternalLink aria-hidden="true" className="size-3.5" />
+            </TextLink>
+            <span className="text-muted-foreground">
+              {" "}
+              · {post.publisher}, {formatMonth(post.date)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

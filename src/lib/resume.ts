@@ -62,15 +62,12 @@ const JsonResume = z.object({
   skills: z.array(z.object({ name: z.string(), keywords: z.array(z.string()) })),
 });
 
-export type ResumeLink = { label: string; href: string };
-
 export type ResumeRole = {
   company: string;
   title: string;
   location: string;
   dates: string;
   bullets: string[];
-  links?: ResumeLink[];
 };
 
 export type ResumeProject = { name: string; url?: string; kind: string; bullets: string[] };
@@ -128,11 +125,6 @@ export async function getResume() {
       location: role.location,
       dates: formatRange(role.startDate, role.endDate),
       bullets: role.highlights,
-      // The DoorDash engineering-blog posts belong with the DoorDash role.
-      links:
-        role.name === "DoorDash"
-          ? posts.map((post) => ({ label: post.title, href: post.href }))
-          : undefined,
     })),
     projects: projects.map((project): ResumeProject => ({
       name: project.name,
