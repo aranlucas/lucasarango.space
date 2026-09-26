@@ -1,11 +1,14 @@
 "use client";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
-import type { UIMessage } from "ai";
 import { createContext, use } from "react";
 
+import type { AskMessage, WaitingStatus } from "@/lib/ask-types";
+
 export type AskState = {
-  chat: UseChatHelpers<UIMessage>;
+  chat: UseChatHelpers<AskMessage>;
+  /** The route's latest waiting status for the current question. */
+  waitingStatus: WaitingStatus | undefined;
   open: boolean;
   isLoading: boolean;
   isFull: boolean;

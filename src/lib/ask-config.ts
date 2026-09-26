@@ -10,3 +10,10 @@ export const STARTERS = [
 
 /** Limits for a public endpoint on a free model. */
 export const ASK_LIMITS = { messages: 24, questionChars: 1000 } as const;
+
+/** The route's waiting status, and how long it waits before saying it's still waiting. */
+export const WAITING = {
+  message: "Reading the résumé",
+  stillWaitingMessage: "Still waiting. Free models can be slow.",
+  stillWaitingAfterMs: 9000,
+} as const;

@@ -1,14 +1,18 @@
 "use client";
 
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
-import type { UIMessage } from "ai";
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { AskContext, type AskState } from "@/components/ask/ask-context";
 import { AskPopup } from "@/components/ask/ask-popup";
 import { ASK_LIMITS } from "@/lib/ask-config";
+import type { AskMessage, WaitingStatus } from "@/lib/ask-types";
 
-function useSend(chat: UseChatHelpers<UIMessage>, setInput: (input: string) => void) {
+function useSend(
+  chat: UseChatHelpers<AskMessage>,
+  setInput: (input: string) => void,
+  setWaitingStatus: (status: WaitingStatus | undefined) => void,
+) {
   const isLoading = chat.status === "submitted" || chat.status === "streaming";
   const isFull = chat.messages.length >= ASK_LIMITS.messages;
   const { sendMessage } = chat;
@@ -16,23 +20,36 @@ function useSend(chat: UseChatHelpers<UIMessage>, setInput: (input: string) => v
     (text: string) => {
       const question = text.trim();
       if (question === "" || isLoading || isFull) return false;
+      // The last question's status must not linger until the route sends a new one.
+      setWaitingStatus(undefined);
       void sendMessage({ text: question });
       setInput("");
       return true;
     },
-    [isLoading, isFull, sendMessage, setInput],
+    [isLoading, isFull, sendMessage, setInput, setWaitingStatus],
   );
   return { isLoading, isFull, send };
 }
 
-function useAskState(): AskState {
+/** The conversation, plus the route's latest waiting status from its transient data parts. */
+function useAskChat() {
+  const [waitingStatus, setWaitingStatus] = useState<WaitingStatus>();
   // Posts to /api/chat, the default endpoint.
-  const chat = useChat();
+  const chat = useChat<AskMessage>({
+    onData: (part) => {
+      if (part.type === "data-waiting-status") setWaitingStatus(part.data);
+    },
+  });
+  return { chat, waitingStatus, setWaitingStatus };
+}
+
+function useAskState(): AskState {
+  const { chat, waitingStatus, setWaitingStatus } = useAskChat();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
-  const { isLoading, isFull, send } = useSend(chat, setInput);
+  const { isLoading, isFull, send } = useSend(chat, setInput, setWaitingStatus);
 
   const ask = useCallback(
     (question: string) => {
@@ -59,6 +76,7 @@ function useAskState(): AskState {
   return useMemo(
     () => ({
       chat,
+      waitingStatus,
       open,
       isLoading,
       isFull,
@@ -72,7 +90,7 @@ function useAskState(): AskState {
       close,
       hide,
     }),
-    [chat, open, isLoading, isFull, input, send, ask, show, close, hide],
+    [chat, waitingStatus, open, isLoading, isFull, input, send, ask, show, close, hide],
   );
 }
 
