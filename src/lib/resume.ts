@@ -76,7 +76,7 @@ export const RESUME_ROLES: ResumeRole[] = [
     location: "Seattle, WA",
     dates: "Jul 2022 – Oct 2023",
     bullets: [
-      "Recharged, traveled, and spent time outdoors — camping and climbing in the Cascade Range.",
+      "Recharged, traveled, and spent time outdoors hiking and camping.",
       "Stayed sharp through personal projects and self-directed learning before returning at DoorDash.",
     ],
   },
@@ -148,8 +148,8 @@ export const RESUME_EDUCATION = {
 } as const;
 
 export const RESUME_ABOUT: string[] = [
-  "Lives in Seattle. Driven by learning, growth, and creative problem-solving.",
-  "Outdoors: camping and climbing in the Cascades; runs and lifts regularly.",
+  "Driven by learning, growth, and creative problem-solving.",
+  "Likes hiking and camping.",
   "Technical leader and go-to expert — envisions products, leads teams to release, ships personalization and fulfillment improvements.",
   "Hobby grocery agent became the vision for Ask DoorDash — personal builds feed production work.",
   "Values open feedback, willingness to apologize, and recognizing the better idea.",

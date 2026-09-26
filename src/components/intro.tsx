@@ -16,10 +16,7 @@ export function Intro() {
         an AI sketches system designs with me. The grocery agent is where the idea for Ask DoorDash
         started.
       </p>
-      <p>
-        When I’m away from a keyboard I’m usually in the Cascades, camping or climbing, or out on a
-        run. This site is where I write about what I’m building and what I learn from it.
-      </p>
+      <p>When I’m away from a keyboard, I like to go hiking and camping.</p>
     </section>
   );
 }
