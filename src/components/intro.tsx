@@ -1,4 +1,5 @@
 import { Ridgeline } from "@/components/ridgeline";
+import { TextLink } from "@/components/site-header";
 
 export function Intro() {
   return (
@@ -6,17 +7,21 @@ export function Intro() {
       <Ridgeline className="mb-5" />
       <h1 className="mb-6 text-display font-semibold tracking-tight">Hi, I’m Lucas.</h1>
       <p className="text-lede">
-        I’m a software engineer in Seattle. I’ve spent more than ten years building products at
-        Amazon, AWS and DoorDash, where I pitched and led Ask DoorDash, the conversational shopping
-        assistant we launched in June 2026.
+        I’m a software engineer in Seattle. I build AI products and the systems that make them
+        reliable, from the first prototype to the work of running them in production.
       </p>
       <p>
-        Building agents is also what I do for fun. I run a small fleet of personal ones: a grocery
-        agent that shops my local Kroger, a fitness coach, and tools like a shared whiteboard where
-        an AI sketches system designs with me. The grocery agent is where the idea for Ask DoorDash
-        started.
+        I’ve spent more than ten years at Amazon, AWS, and DoorDash. Most recently, I prototyped and
+        led engineering for the grocery agent in{" "}
+        <TextLink href="https://about.doordash.com/en-us/news/ask-doordash">Ask DoorDash</TextLink>,
+        launched in June 2026, and worked on the shared agent platform behind it.
       </p>
-      <p>When I’m away from a keyboard, I like to go hiking and camping.</p>
+      <p>
+        Building agents is also what I do for fun. My own grocery-shopping agent inspired that
+        pitch. These days my personal projects span groceries, fitness, travel, and a whiteboard
+        where an AI sketches system designs with me. Away from a keyboard, I like hiking and
+        camping.
+      </p>
     </section>
   );
 }

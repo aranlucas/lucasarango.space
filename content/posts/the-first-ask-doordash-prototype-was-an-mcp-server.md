@@ -1,12 +1,14 @@
 ---
-title: The first Ask DoorDash prototype was an MCP server
+title: The grocery MCP server behind my Ask DoorDash pitch
 date: 2026-09-25
-summary: Before Ask DoorDash had an interface, it was a Kroger MCP server I wrote for my own groceries. I'd still start an agent product the same way.
+summary: A Kroger MCP server for my own groceries became the prototype behind my Ask DoorDash pitch. Here’s why I’d start with tools again.
 ---
 
 In May 2025 I wanted Claude to do my grocery shopping. Kroger has a public API, so I wrote a small MCP server on a Cloudflare Worker that let a model search products at my local QFC and put them in my cart. The first README says the goal was to let AI models "help manage QFC/Kroger shopping lists."
 
-That server, [ai-shopping-mcp](https://github.com/aranlucas/ai-shopping-mcp), was the first prototype of what became Ask DoorDash. Shopping for my own groceries by describing what I wanted, and letting an agent find the products, is the experience I later pitched at DoorDash.
+That personal server, [ai-shopping-mcp](https://github.com/aranlucas/ai-shopping-mcp), gave me a working prototype for the experience I later pitched at DoorDash: describe the groceries I want and let an agent find the products. I went on to prototype and lead engineering for Ask DoorDash’s grocery agent, which launched in June 2026 as part of the broader Assistant.
+
+My work there also included New Verticals platform and reliability, and shared MCP tools used across agents and external integrations. The team’s [engineering overview](https://careersatdoordash.com/blog/building-doordash-assistant-an-engineering-overview/) and the [platform deep dive I coauthored](https://careersatdoordash.com/blog/building-ask-doordash-part-four-a-platform-for-building_and_evolving_agents/) cover that production system. This post is about the personal experiment that helped me get to the pitch.
 
 ## What it does now
 
@@ -30,4 +32,4 @@ The same idea showed up at DoorDash. Besides Ask DoorDash, I drove our external 
 
 ## Running your own
 
-The [source is on GitHub](https://github.com/aranlucas/ai-shopping-mcp). It deploys to Cloudflare with `wrangler deploy`, and you'll need your own Kroger developer app for the OAuth client ID and secret. Once it's deployed, add the Worker's `/mcp` URL to any MCP client and ask it to find a store near you.
+The [source and setup instructions are on GitHub](https://github.com/aranlucas/ai-shopping-mcp). You’ll need a Cloudflare deployment and your own Kroger developer app for the OAuth client ID and secret. Follow the README to configure storage, apply migrations, build, and deploy. Then connect the Worker’s `/mcp` endpoint to an MCP client with remote OAuth support and ask it to find a store near you. The agent can build the cart; you review it and complete checkout in Kroger.

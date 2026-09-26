@@ -1,15 +1,15 @@
-import { cn } from "cn";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { PageTransition, PostTitleTransition } from "@/components/page-transition";
+import { PostNavLink } from "@/components/post-nav-link";
 import { ReadingProgress } from "@/components/reading-progress";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 import { formatDate, getPost, getPosts, type PostMeta } from "@/lib/posts";
+import { FEED_ALTERNATE, SITE } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,12 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.summary,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: { canonical: `/blog/${post.slug}`, types: FEED_ALTERNATE },
     openGraph: {
       type: "article",
+      siteName: SITE.name,
       title: post.title,
       description: post.summary,
       publishedTime: post.date,
+      authors: [SITE.name],
       url: `/blog/${post.slug}`,
     },
   };
@@ -56,13 +58,14 @@ export default async function PostPage({ params }: Props) {
               {post.title}
             </h1>
           </PostTitleTransition>
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+            <span>{SITE.name}</span>
             <time dateTime={post.date}>{formatDate(post.date)}</time>
             <Badge variant="secondary">{post.readingMinutes} min read</Badge>
           </div>
         </header>
         <div
-          className="prose prose-lg max-w-none prose-headings:font-semibold prose-h2:mt-11 prose-pre:rounded-md prose-pre:text-sm prose-pre:leading-relaxed"
+          className="prose prose-lg max-w-none wrap-break-word prose-headings:font-semibold prose-h2:mt-11 prose-pre:rounded-md prose-pre:text-sm prose-pre:leading-relaxed"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
         <Separator className="mt-12 mb-6" />
@@ -77,32 +80,5 @@ export default async function PostPage({ params }: Props) {
         </nav>
       </article>
     </PageTransition>
-  );
-}
-
-function PostNavLink({ post, direction }: { post: PostMeta; direction: "older" | "newer" }) {
-  const newer = direction === "newer";
-  const Arrow = newer ? ArrowRight : ArrowLeft;
-  return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className={cn(
-        "group flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
-        newer && "items-end text-end sm:col-start-2",
-      )}
-    >
-      <span className="flex items-center gap-1 text-sm text-muted-foreground">
-        {!newer && (
-          <Arrow className="size-3.5 transition-transform motion-safe:group-hover:-translate-x-0.5" />
-        )}
-        {newer ? "Newer" : "Older"}
-        {newer && (
-          <Arrow className="size-3.5 transition-transform motion-safe:group-hover:translate-x-0.5" />
-        )}
-      </span>
-      <PostTitleTransition slug={post.slug}>
-        <span className="font-semibold text-balance">{post.title}</span>
-      </PostTitleTransition>
-    </Link>
   );
 }
