@@ -151,7 +151,9 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-optical-sizing: auto;
+  }
+  :where(em, i, cite) {
+    font-family: var(--font-serif-italic), var(--font-sans);
   }
   ::selection {
     background: color-mix(in srgb, var(--primary) 28%, transparent);

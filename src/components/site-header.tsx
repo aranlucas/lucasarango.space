@@ -1,7 +1,6 @@
 import { cn } from "cn";
 import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SITE } from "@/lib/site";
@@ -15,10 +14,15 @@ export function SiteHeader() {
   return (
     <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-7 pb-14 print:hidden">
       <Link href="/" className="flex items-center gap-2.5 font-semibold text-foreground">
-        <Avatar>
-          <AvatarImage src={`${SITE.github}.png`} alt="" />
-          <AvatarFallback>LA</AvatarFallback>
-        </Avatar>
+        {/* A pre-sized 96px WebP; next/image would add client JS for no gain. */}
+        {/* oxlint-disable-next-line nextjs/no-img-element */}
+        <img
+          src="/avatar.webp"
+          alt=""
+          width={32}
+          height={32}
+          className="size-8 rounded-full ring-1 ring-border"
+        />
         {SITE.name}
       </Link>
       <nav aria-label="Main" className="-me-2.5 flex gap-1">
