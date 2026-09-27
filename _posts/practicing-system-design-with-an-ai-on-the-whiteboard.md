@@ -1,9 +1,10 @@
 ---
 title: Practicing system design with an AI on the whiteboard
 date: 2026-09-25
-summary: I built System Design Companion, a shared Excalidraw canvas where Claude Code draws alongside me, and used it to get my system design reps in.
+summary: I built System Design Companion, a shared Excalidraw canvas where
+  Claude Code draws alongside me, and used it to get my system design reps in.
+draft: false
 ---
-
 System design interviews are hard to practice alone. You can read about consistent hashing and fan-out on write all day, but the interview itself happens at a whiteboard: you draw, someone pokes at the drawing, and you defend it or change it. A chat window can't stand in for that, because the diagram you're arguing about lives somewhere the model can't see.
 
 I wanted to practice on a diagram the agent could see and respond to while I worked, so I built [System Design Companion](https://system-design-companion.aranlucas.workers.dev/) ([source](https://github.com/aranlucas/system-design-companion)), a shared whiteboard where my AI agent draws alongside me.
