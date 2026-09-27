@@ -1,10 +1,10 @@
 ---
 title: A website for every adventure
 date: 2026-09-01
-summary: Travel planning has become one of my most useful agentic workflows. I build a website for each adventure and keep using it during the trip.
-draft: true
+summary: Travel planning has become one of my most useful agentic workflows. I
+  build a website for each adventure and keep using it during the trip.
+draft: false
 ---
-
 I now make a website for every adventure and keep it open during the trip. Of everything I've built with agents, travel is the part that has most clearly become routine.
 
 A trip produces a lot of loose information: places to compare, routes, the order of each day, and details I'll need again on the way out the door. Before the trip I'm asking which hike to pick. During it I'm asking where that hike starts and what else is on for the day.
