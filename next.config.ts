@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   // The Ask agent's tools read posts at request time, which tracing can't see.
   outputFileTracingIncludes: {
-    "/api/chat": ["./content/posts/**/*.md"],
+    "/api/chat": ["./_posts/**/*.md"],
   },
 };
 

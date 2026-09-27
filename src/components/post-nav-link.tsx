@@ -3,9 +3,10 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { PostTitleTransition } from "@/components/page-transition";
-import type { PostMeta } from "@/lib/posts";
+import { Separator } from "@/components/ui/separator";
+import type { Post } from "@/interfaces/post";
 
-export function PostNavLink({ post, direction }: { post: PostMeta; direction: "older" | "newer" }) {
+export function PostNavLink({ post, direction }: { post: Post; direction: "older" | "newer" }) {
   const newer = direction === "newer";
   const Arrow = newer ? ArrowRight : ArrowLeft;
   return (
@@ -29,5 +30,26 @@ export function PostNavLink({ post, direction }: { post: PostMeta; direction: "o
         <span className="font-semibold text-balance">{post.title}</span>
       </PostTitleTransition>
     </Link>
+  );
+}
+
+/** Older/newer links under a post; `posts` is newest first. */
+export function PostNav({ post, posts }: { post: Post; posts: Post[] }) {
+  const index = posts.findIndex((p) => p.slug === post.slug);
+  const newer: Post | undefined = posts[index - 1];
+  const older: Post | undefined = posts[index + 1];
+  return (
+    <>
+      <Separator className="mt-12 mb-6" />
+      <nav aria-label="More writing" className="grid gap-3 sm:grid-cols-2">
+        {older !== undefined && <PostNavLink post={older} direction="older" />}
+        {newer !== undefined && <PostNavLink post={newer} direction="newer" />}
+        {older === undefined && newer === undefined && (
+          <Link href="/blog" className="text-primary underline underline-offset-4">
+            All writing
+          </Link>
+        )}
+      </nav>
+    </>
   );
 }

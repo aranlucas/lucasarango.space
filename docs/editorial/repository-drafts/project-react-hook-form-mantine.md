@@ -1,12 +1,16 @@
 ---
 title: "The small details in a form component adapter"
-date: 2026-09-25
+date: 2026-09-22
 summary: "React Hook Form Mantine centralizes field wiring while preserving the different value and event contracts of Mantine inputs."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/react-hook-form-mantine
 ---
 
 Connecting a component library to a form library starts with a few repeated lines: read the field value, attach an onChange handler, forward a ref, and show the validation error. Repeat that across a form and the wiring soon becomes harder to review than the labels and layout.
+
+The goal is to centralize form-state wiring while preserving the different value and event contracts of individual Mantine inputs.
 
 React Hook Form Mantine packages that wiring as components. A caller supplies a field name and the usual Mantine presentation props, while the wrapper connects the input to React Hook Form. The project is small in concept, but its interesting work is at the boundary between two APIs that do not have exactly the same responsibilities.
 

@@ -1,12 +1,16 @@
 ---
 title: "Who gets to decide the race is over?"
-date: 2026-09-25
+date: 2026-07-31
 summary: "Delivery Dash keeps arcade driving in the browser while the room owns objectives, scoring, and race deadlines."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/delivery-dash
 ---
 
 Delivery Dash is a browser racing game with a surprisingly useful distributed-systems question inside it: which decisions belong to the driver, and which belong to the room?
+
+The goal is to build a multiplayer arcade game with responsive driving and a clear authority for objectives, scores, and round transitions.
 
 The game renders a coastal city with React Three Fiber. Players drive, drift, boost, and jump while a Cloudflare Durable Object coordinates their room. There are delivery races, timed delivery rounds, ordered checkpoint sprints, and free driving. Those modes share a world, but they cannot all share the same definition of progress.
 

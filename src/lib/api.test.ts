@@ -1,18 +1,21 @@
 import { describe, expect, it } from "vitest";
 
-import { formatDate, parsePost, renderMarkdown } from "./posts";
+import { getPostBySlug, parsePost } from "./api";
+import markdownToHtml from "./markdown-to-html";
+import { formatDate } from "./utils";
 
 const post = (frontmatter: string, body = "Hello world.") => `---\n${frontmatter}\n---\n${body}`;
 
 describe("parsePost", () => {
   it("reads frontmatter and normalizes YAML dates", () => {
-    const { meta, draft } = parsePost(
+    const parsed = parsePost(
       "hello",
       post("title: Hello\ndate: 2026-09-25\nsummary: A first post."),
     );
-    expect(meta).toMatchObject({ slug: "hello", title: "Hello", date: "2026-09-25" });
-    expect(meta.readingMinutes).toBe(1);
-    expect(draft).toBe(false);
+    expect(parsed).toMatchObject({ slug: "hello", title: "Hello", date: "2026-09-25" });
+    expect(parsed.readingMinutes).toBe(1);
+    expect(parsed.draft).toBe(false);
+    expect(parsed.content).toBe("Hello world.");
   });
 
   it("flags drafts", () => {
@@ -25,9 +28,16 @@ describe("parsePost", () => {
   });
 });
 
-describe("renderMarkdown", () => {
+describe("getPostBySlug", () => {
+  it("returns undefined for missing posts and path traversal", () => {
+    expect(getPostBySlug("no-such-post")).toBeUndefined();
+    expect(getPostBySlug("../README")).toBeUndefined();
+  });
+});
+
+describe("markdownToHtml", () => {
   it("adds heading ids and highlights code", async () => {
-    const html = await renderMarkdown("## Why\n\n```ts\nconst a = 1;\n```");
+    const html = await markdownToHtml("## Why\n\n```ts\nconst a = 1;\n```");
     expect(html).toContain('<h2 id="why">');
     expect(html).toContain("data-rehype-pretty-code-figure");
   });

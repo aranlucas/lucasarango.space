@@ -1,4 +1,4 @@
-import { getPosts } from "@/lib/posts";
+import { getAllPosts } from "@/lib/api";
 import { SITE } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -10,8 +10,8 @@ const escape = (s: string) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-export async function GET() {
-  const posts = await getPosts();
+export function GET() {
+  const posts = getAllPosts();
   const items = posts
     .map((post) => {
       const url = `${SITE.url}/blog/${post.slug}`;

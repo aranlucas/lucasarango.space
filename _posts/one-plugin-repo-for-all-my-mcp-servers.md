@@ -6,6 +6,8 @@ summary: lucas-plugins packages every MCP server I run, so Claude Code, Cursor a
 
 I run a handful of MCP servers now. One does my grocery shopping at Kroger, one plans and logs workouts, one reviews GitHub repos for maintenance work, one searches flights and hotels, and one is the System Design Companion whiteboard. Connecting each of them to each AI client by hand got old fast. Every client has its own config format, and when a server moved to a new URL I had to go fix it everywhere.
 
+The goal is to package each server connection and its usage instructions so the same tools can be installed and maintained across compatible clients.
+
 [lucas-plugins](https://github.com/aranlucas/lucas-plugins) is how I handle that now. It's a small marketplace of [Agent Plugins](https://agent-plugins.org), an open packaging format for skills and MCP servers, with one plugin per server.
 
 ## What's in a plugin

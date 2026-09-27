@@ -1,12 +1,16 @@
 ---
 title: "A shared coding agent needs more than shared chat"
-date: 2026-09-25
+date: 2026-08-26
 summary: "Relay gives a room an ordered history, a repository workspace, and a way to move participants into the preview they just changed."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/multiplayer-chat
 ---
 
 When several people share a coding agent, the conversation is only one part of the shared state. There is also the agent's current work, prompts waiting behind it, tool activity, a repository checkout, and the version of the app everyone is looking at.
+
+The goal is to keep participants, queued prompts, agent activity, and application revisions connected inside a shared coding room.
 
 Relay, the project in my multiplayer-chat repository, brings those pieces into one room. A Cloudflare Durable Object holds the room state, OpenCode supplies the coding-agent session, and a Railway Sandbox provides the repository workspace. The useful engineering story is how the room keeps its history and its running preview connected.
 

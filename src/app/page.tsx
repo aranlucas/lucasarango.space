@@ -6,13 +6,13 @@ import { PostList } from "@/components/post-list";
 import { ProjectList } from "@/components/project-list";
 import { SectionHeading } from "@/components/section-heading";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { getPosts } from "@/lib/posts";
+import { getAllPosts } from "@/lib/api";
 import { FEED_ALTERNATE } from "@/lib/site";
 
 export const metadata = { alternates: { canonical: "/", types: FEED_ALTERNATE } };
 
-export default async function Home() {
-  const posts = (await getPosts()).slice(0, 5);
+export default function Home() {
+  const posts = getAllPosts().slice(0, 5);
 
   return (
     <PageTransition>

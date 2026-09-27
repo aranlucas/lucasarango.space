@@ -11,9 +11,10 @@ import {
   ItemGroup,
   ItemTitle,
 } from "@/components/ui/item";
-import { formatDate, type PostMeta } from "@/lib/posts";
+import type { Post } from "@/interfaces/post";
+import { formatDate } from "@/lib/utils";
 
-export function PostList({ posts, className }: { posts: PostMeta[]; className?: string }) {
+export function PostList({ posts, className }: { posts: Post[]; className?: string }) {
   return (
     <ItemGroup className={cn("-mx-3 mb-5 w-auto gap-1", className)}>
       {posts.map((post) => (

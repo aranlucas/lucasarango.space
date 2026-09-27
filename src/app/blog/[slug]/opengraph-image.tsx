@@ -1,19 +1,20 @@
 import { notFound } from "next/navigation";
 
 import { ogImage, OG_SIZE } from "@/lib/og";
-import { formatDate, getPost, getPosts } from "@/lib/posts";
+import { getAllPosts, getPostBySlug } from "@/lib/api";
+import { formatDate } from "@/lib/utils";
 import { SITE } from "@/lib/site";
 
 export const alt = `A post by ${SITE.name}`;
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
-export async function generateStaticParams() {
-  return (await getPosts()).map(({ slug }) => ({ slug }));
+export function generateStaticParams() {
+  return getAllPosts().map(({ slug }) => ({ slug }));
 }
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
-  const post = await getPost((await params).slug);
+  const post = getPostBySlug((await params).slug);
   if (!post) notFound();
   return ogImage({
     eyebrow: `${SITE.name} · Writing`,

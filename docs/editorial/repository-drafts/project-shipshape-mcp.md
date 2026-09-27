@@ -1,12 +1,16 @@
 ---
 title: "Repository health needs an unknown state"
-date: 2026-09-25
+date: 2026-08-30
 summary: "Shipshape turns GitHub evidence into a deterministic maintenance queue while keeping missing information separate from confirmed failures."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/shipshape-mcp
 ---
 
 A repository health tool can make a convincing report from very little information. A missing response becomes a red warning. A successful request becomes a green badge. Put enough badges together and the result looks more certain than the evidence behind it.
+
+The goal is to turn observable GitHub signals into a repeatable maintenance plan, preserving uncertainty when evidence is missing.
 
 Shipshape MCP is a read-only repository maintenance server. It collects GitHub signals and turns them into readiness checks and a ranked action plan. The design choice I find most useful is that its domain model has room for uncertainty.
 

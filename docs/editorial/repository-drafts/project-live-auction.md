@@ -1,12 +1,16 @@
 ---
 title: "A live auction needs one official order"
-date: 2026-09-25
+date: 2026-08-23
 summary: "Gavel Live uses one auction authority, saved retry results, and explicit deadline checks to keep bids and closing in the same order."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/live-auction
 ---
 
 A live auction looks like a realtime interface: a changing price, a countdown, and a stream of bids. The harder part is deciding what happened when two bidders act at nearly the same time, or when a bid reaches the server just as the countdown ends.
+
+The goal is to give each auction one official ordering for bids and closing, including requests retried or received near a deadline.
 
 Gavel Live is my auction demo built around one authority for each auction. A Cloudflare Durable Object owns the bids, current leader, event history, and deadline. The browser can display those decisions, but it does not decide which bidder won. Different auctions have independent authorities, so they do not need a single global ordering point.
 

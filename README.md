@@ -5,7 +5,7 @@ Tailwind CSS v4 and shadcn/ui.
 
 ## Writing a post
 
-Add a Markdown file to `content/posts/`. The filename is the URL slug.
+Add a Markdown file to `_posts/`. The filename is the URL slug.
 
 ```md
 ---
@@ -37,7 +37,7 @@ error). shadcn components live in `src/components/ui` and are left as generated;
 - `src/lib/site.ts`: site identity and coauthored publications.
 - `src/lib/projects.ts`: selected public projects, source links, and related posts.
 - `src/lib/resume.ts`: résumé experience, skills, education, and employment dates.
-- `content/posts/`: personal writing. Keep an existing filename when changing a title
+- `_posts/`: personal writing. Keep an existing filename when changing a title
   so published links continue to work.
 
 The résumé page has a print layout for saving as PDF. Verify both screen and print

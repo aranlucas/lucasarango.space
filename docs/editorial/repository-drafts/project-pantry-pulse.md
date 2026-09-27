@@ -1,12 +1,16 @@
 ---
 title: "An RFID pantry needs an outbox, not just a scanner"
-date: 2026-09-25
+date: 2026-08-30
 summary: "Pantry Pulse connects an ESP32 RFID station to inventory and shopping tools, with persistent scan events and idempotent updates."
 draft: true
+reviewed: 2026-09-27
+date_basis: approximate-project-timeline
 repository: https://github.com/aranlucas/pantry-pulse
 ---
 
 A pantry scanner has a deceptively small job: scan a tag, add or subtract one item. The awkward part comes after the scan. Wi-Fi can disappear. A request can reach the server while its response gets lost. The device can restart with a few changes still waiting to be sent.
+
+The goal is to connect physical scans to household inventory while preserving the identity of a change through retries and device restarts.
 
 Pantry Pulse connects an ESP32 RFID station to a Cloudflare Worker, a D1 inventory database, a household dashboard, and MCP tools. The most interesting part of the project is the agreement between the firmware and the database about what one scan means.
 

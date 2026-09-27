@@ -4,7 +4,7 @@ import { PageTransition } from "@/components/page-transition";
 import { PostList } from "@/components/post-list";
 import { PublicationList } from "@/components/publication-list";
 import { SectionHeading } from "@/components/section-heading";
-import { getPosts } from "@/lib/posts";
+import { getAllPosts } from "@/lib/api";
 import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   openGraph: { ...SITE_OPEN_GRAPH, url: "/blog" },
 };
 
-export default async function BlogIndex() {
-  const posts = await getPosts();
+export default function BlogIndex() {
+  const posts = getAllPosts();
   const years = Map.groupBy(posts, (post) => post.date.slice(0, 4));
 
   return (
