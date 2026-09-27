@@ -6,6 +6,7 @@ summary: My interview projects range from solution archives to shared
   practice itself.
 draft: false
 ---
+
 My interview repositories each cover a different part of learning. Some keep solutions, some help me spot a pattern, and others give me somewhere to explain a design, answer a follow-up, or build a feature under constraints.
 
 An explanation can feel clear and still leave the next problem just as hard to start. That makes help tricky during practice. It can get me to the next step, or it can skip the step I needed to learn.
