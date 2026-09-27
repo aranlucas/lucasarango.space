@@ -1,10 +1,11 @@
 ---
 title: From meal ideas to a grocery cart
 date: 2026-09-08
-summary: Recipes, product matching, shared lists, and pantry inventory are different parts of the same grocery problem. My projects explore what connects them.
-draft: true
+summary: Recipes, product matching, shared lists, and pantry inventory are
+  different parts of the same grocery problem. My projects explore what connects
+  them.
+draft: false
 ---
-
 Groceries are one of the places where I actually use the software I build. The request sounds simple: help me decide what to cook and get what I need. Doing it means dealing with recipes, quantities, real store products, a shopping list, and whatever is already at home.
 
 My first grocery MCP server connected Claude to Kroger so it could search my local QFC and add products to a cart. I wrote about that experiment and how it relates to my job in [the grocery MCP server behind my Ask DoorDash pitch](/blog/the-first-ask-doordash-prototype-was-an-mcp-server). This post covers what happens before and after picking a product.
