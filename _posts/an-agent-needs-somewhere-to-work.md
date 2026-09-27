@@ -1,10 +1,10 @@
 ---
 title: An agent needs somewhere to work
 date: 2026-09-16
-summary: Tools, persistent state, clients, shared workspaces, and status displays give an agent's work a life beyond a single chat connection.
-draft: true
+summary: Tools, persistent state, clients, shared workspaces, and status
+  displays give an agent's work a life beyond a single chat connection.
+draft: false
 ---
-
 A chat window makes it easy to start working with an agent. As the work grows, other questions come up. Where does its state live? Which tools can it reach? What happens when I open a different client? How does someone else join in, and how do I tell what's still running?
 
 Several of my repositories deal with those questions. Together they show what it takes to give an agent a working environment, even though the tasks themselves (groceries, travel, research, coding) look unrelated.
