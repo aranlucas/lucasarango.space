@@ -1,10 +1,10 @@
 ---
 title: One source for the ways I present my work
 date: 2026-09-24
-summary: A résumé, a CV, a website, and a chat interface need different presentations. Shared structured content keeps their maintenance connected.
-draft: true
+summary: A résumé, a CV, a website, and a chat interface need different
+  presentations. Shared structured content keeps their maintenance connected.
+draft: false
 ---
-
 My work shows up in several forms: a résumé document, a page on this site, project descriptions, and answers to questions about my experience. Each has a different job, but the facts behind them should agree.
 
 Keeping résumés up to date for other people has a similar kind of repetition. Their content has to stay separate, but the same formatting and generation problems keep coming back. A fix to the renderer can be shared even when no personal information should move between documents.
