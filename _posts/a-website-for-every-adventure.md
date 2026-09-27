@@ -5,34 +5,34 @@ summary: Travel planning has become one of my most useful agentic workflows. I b
 draft: true
 ---
 
-I now make a website for every adventure and reference it during the trip. Of everything I have been building with agents, travel is one of the areas that has most clearly become part of my routine.
+I now make a website for every adventure and keep it open during the trip. Of everything I've built with agents, travel is the part that has most clearly become routine.
 
-A trip produces information in several shapes. There are places to compare, routes to understand, days to arrange, and details to find again when it is time to leave. Before the trip, the question might be which hike to choose. During it, the question is more likely to be where that hike starts and what else is planned for the day.
+A trip produces a lot of loose information: places to compare, routes, the order of each day, and details I'll need again on the way out the door. Before the trip I'm asking which hike to pick. During it I'm asking where that hike starts and what else is on for the day.
 
-A website gives that information a shape I can return to. Since I began working with coding agents in December 2025, making a dedicated interface for one adventure has become something I do repeatedly.
+A website gives all of that one place I can come back to. Since I started working with coding agents in December 2025, I've built one of these for nearly every trip.
 
-The [Austria itinerary](https://github.com/aranlucas/vienna-travel) is one example. It brings maps, GPX hikes, weather, packing, and a timeline into the same application. The trip is the organizing unit: a place belongs to a day, a hike belongs to a route, and the surrounding details are useful because they help follow the plan.
+The [Austria itinerary](https://github.com/aranlucas/vienna-travel) is one example. It puts maps, GPX hikes, weather, packing, and a timeline in the same app. Everything hangs off the trip itself: a place belongs to a day, a hike belongs to a route, and the rest is there to help me follow the plan.
 
-That specificity is part of the appeal. An itinerary for one adventure can give its attention to the information that matters there. A hiking trip benefits from route information. A trip built around an appointment needs the schedule and its supporting material close at hand.
+Because each site covers one trip, it can focus on whatever that trip needs. A hiking trip needs route information. A trip built around an appointment needs the schedule and its supporting material close at hand.
 
 ## Research and the reference I carry
 
-There are two different jobs around an itinerary: finding the information and making the selected information easy to use.
+An itinerary involves two jobs: finding information, then making the parts I picked easy to use.
 
-My private `trvl` project explores the first through a travel-search CLI and MCP server. It exposes searches for flights, hotels, ground transport, destinations, and trip plans. An assistant can use those capabilities without the search integration being tied to one particular itinerary page. The [travel plugin](https://github.com/aranlucas/lucas-plugins/tree/main/plugins/travel) packages access for compatible clients.
+My private `trvl` project handles the first with a travel-search CLI and MCP server. It can search flights, hotels, ground transport, destinations, and trip plans, and an assistant can use those searches without them being tied to any one itinerary page. The [travel plugin](https://github.com/aranlucas/lucas-plugins/tree/main/plugins/travel) packages access for compatible clients.
 
-`traverse`, another private project, focuses on trails and conditions. Its web application, API, and asynchronous worker separate browsing from the slower work of collecting reports. That is a useful division for research: selecting a hike and waiting for source material to be processed are different interactions.
+`traverse`, another private project, covers trails and conditions. It has a web app, an API, and an asynchronous worker, which keeps browsing separate from the slower work of collecting trail reports. Picking a hike and waiting for reports to be processed are different kinds of interaction, so splitting them made sense.
 
-These projects address adjacent parts of planning. They are not evidence of an automatic pipeline that takes a search result all the way to a finished trip website. The useful connection is the activity they support: research possibilities, decide what belongs in the plan, then make that plan easy to consult.
+These projects cover neighboring parts of planning, and nothing yet turns a search result into a finished trip website automatically. What links them is how I plan: research the options, decide what goes in the plan, then make the plan easy to look up.
 
-The public Austria repository also keeps a boundary between shareable itinerary information and private trip administration. A route or packing list can be useful to share without publishing traveler details or booking references. A trip website does not need every piece of information I hold about the trip.
+The public Austria repository also separates itinerary information I'm happy to share from private trip admin. I can share a route or a packing list without publishing traveler details or booking references, and the site doesn't need everything I know about the trip.
 
 ## A trip with something to prepare for
 
-[Boards & beyond](https://github.com/aranlucas/raleigh-travel) applies the same idea to an upcoming Raleigh trip for pediatric dental oral boards. Its navigation separates Trip and Study, then connects them where the day requires it. An itinerary entry links to a study session; that session links back to the day and onward to the next one.
+[Boards & beyond](https://github.com/aranlucas/raleigh-travel) applies the same idea to an upcoming trip to Raleigh for pediatric dental oral boards. Its navigation has separate Trip and Study sections that link to each other where a day needs both. An itinerary entry links to a study session, and that session links back to the day and on to the next session.
 
-That changes what a timeline can do. It can point to the material needed for an activity as well as tell me when the activity happens. A study plan and a travel plan share the same hours, so making the relationship navigable is more useful than maintaining two disconnected schedules.
+That lets the timeline point to the material I need for an activity as well as tell me when the activity happens. The study plan and the travel plan share the same hours, and linking them works better than keeping two separate schedules.
 
-The Raleigh trip is still ahead as I write this in late September. It is an example of preparation, while the broader habit—building sites and referring to them during adventures—is already part of how I travel.
+The Raleigh trip is still ahead as I write this in late September, so it's an example of preparation. Building a site and using it throughout the trip is already how I travel.
 
-The result I care about is that continued use. The website remains useful after the planning conversation ends. It becomes something I open because I am on the trip and need the plan, which is a concrete place for agent-assisted software to earn its keep.
+What I care about is that I keep using the site after the planning conversation ends. I open it because I'm on the trip and need the plan, and that's where software built with an agent has been most useful to me.

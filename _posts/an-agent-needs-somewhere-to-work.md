@@ -5,42 +5,42 @@ summary: Tools, persistent state, clients, shared workspaces, and status display
 draft: true
 ---
 
-A chat window makes it easy to start working with an agent. As the work grows, other questions appear. Where does its state live? Which tools can it reach? What happens when I open a different client? How does another person join the work, and how do I tell what is still running?
+A chat window makes it easy to start working with an agent. As the work grows, other questions come up. Where does its state live? Which tools can it reach? What happens when I open a different client? How does someone else join in, and how do I tell what's still running?
 
-Several of my repositories address those surrounding questions. They form a useful account of what it takes to give an agent a working environment, even when the individual tasks—groceries, travel, research, or coding—look unrelated.
+Several of my repositories deal with those questions. Together they show what it takes to give an agent a working environment, even though the tasks themselves (groceries, travel, research, coding) look unrelated.
 
-The common pieces are less glamorous than the first successful response. They include configuration, credentials, stored records, and ways to observe progress. They also determine whether the work can be picked up again.
+The shared pieces are the boring ones: configuration, credentials, stored records, and some way to watch progress. They also decide whether I can pick the work up again later.
 
 ## Separate the task from its surroundings
 
-[Agents](https://github.com/aranlucas/agents) gives specialist agents a common Go service. Each specialist has its own instructions, state, and handlers, while a gateway supplies the client-facing runtime. Several specialists also have evaluation datasets.
+[Agents](https://github.com/aranlucas/agents) runs specialist agents on a common Go service. Each specialist has its own instructions, state, and handlers, and a gateway provides the runtime that clients talk to. Several specialists also have evaluation datasets.
 
-A grocery agent and a research agent can share the machinery around a run without sharing the same task instructions. That gives a change to storage or configuration one place to happen, while the specialist behavior remains separately inspectable.
+That way a grocery agent and a research agent share the machinery around a run but keep their own task instructions. A change to storage or configuration happens in one place, and I can still inspect each specialist's behavior on its own.
 
-The current service uses SQLite for application data, sessions, and artifacts. Its [deployment documentation](https://github.com/aranlucas/agents#deployment) describes one Railway replica with a mounted volume. This is the current version of the architecture, not a claim that the project has always worked that way or that every in-flight operation survives a process failure.
+The service currently uses SQLite for application data, sessions, and artifacts. Its [deployment documentation](https://github.com/aranlucas/agents#deployment) describes one Railway replica with a mounted volume. That's where the architecture is today. It hasn't always worked this way, and an operation that's in flight won't necessarily survive a process crash.
 
-Tools are another boundary. The [grocery integration](https://github.com/aranlucas/agents/blob/main/internal/agents/grocery/kroger.go) connects to Kroger capabilities through MCP using the shopper's token. Retail integration remains a separate capability the runtime can call.
+Tools are another boundary. The [grocery integration](https://github.com/aranlucas/agents/blob/main/internal/agents/grocery/kroger.go) reaches Kroger through MCP using the shopper's token, so the retail integration stays a separate capability the runtime calls.
 
-[Lucas Plugins](https://github.com/aranlucas/lucas-plugins) packages access to those kinds of tools together with instructions for using them. I wrote about [keeping the plugin definitions in one place](/blog/one-plugin-repo-for-all-my-mcp-servers) because configuring the same servers across clients had become repetitive. A tool should not need to be redesigned each time I want to reach it through a different interface.
+[Lucas Plugins](https://github.com/aranlucas/lucas-plugins) packages access to tools like that along with instructions for using them. I wrote about [keeping the plugin definitions in one place](/blog/one-plugin-repo-for-all-my-mcp-servers) because setting up the same servers in every client had gotten repetitive. I want to reach a tool from a new interface without redesigning it.
 
-[Agents Mobile](https://github.com/aranlucas/agents-mobile) explores that client side with native screens for travel, groceries, fitness, and wellness. It gives those activities a phone interface while relying on a gateway for execution. The client and backend documentation have some storage details that still need reconciliation, so I would keep their deployment compatibility separate from the architectural idea.
+[Agents Mobile](https://github.com/aranlucas/agents-mobile) is the client side: native phone screens for travel, groceries, fitness, and wellness, with a gateway doing the actual work. The client and backend docs still disagree on some storage details, so I treat whether they deploy together as a separate question from the design.
 
 ## Give collaboration a room
 
-A shared coding agent adds another layer. Participants need a common view of the conversation, the queued requests, the repository, and the application being changed.
+A shared coding agent adds another layer. Everyone involved needs the same view of the conversation, the queued requests, the repository, and the app being changed.
 
-[Relay](https://github.com/aranlucas/multiplayer-chat) puts those pieces in a room. A Cloudflare Durable Object holds room state, OpenCode supplies the coding-agent session, and a Railway Sandbox supplies the workspace. The room's event history and prompt queue give activity a representation outside one participant's browser.
+[Relay](https://github.com/aranlucas/multiplayer-chat) puts those in a room. A Cloudflare Durable Object holds the room's state, OpenCode runs the coding-agent session, and a Railway Sandbox provides the workspace. Because the room keeps an event history and a prompt queue, the activity lives somewhere other than one person's browser.
 
-The preview matters as well. When the agent changes an application, participants need to know which revision they are looking at. Relay's revision and handoff machinery explores how the room can retain continuity while the application serving its interface changes.
+The preview matters too. When the agent changes an app, everyone needs to know which revision they're looking at. Relay's revision and handoff code is my attempt to keep the room continuous while the app serving its interface changes underneath it.
 
-That is a different problem from adding another person to a chat. The conversation refers to code and a running result; those objects need identities too.
+So it's more than adding a second person to a chat. The conversation refers to code and to a running app, and both need identities of their own.
 
 ## Make ongoing work visible
 
-[Keyboard Studio](https://github.com/aranlucas/keyboard-studio) explores observation through a physical interface. Alongside its native macOS configuration tools for a SayoDevice keyboard, it reads local Codex summaries and session events to assemble activity information.
+[Keyboard Studio](https://github.com/aranlucas/keyboard-studio) tries a physical interface for watching agents. Besides its native macOS configuration tools for a SayoDevice keyboard, it reads local Codex summaries and session events to show what's going on.
 
-It is a small but revealing extension of the same theme. Once an agent can work for a while, finding out what it is doing becomes an interaction worth designing. A status display can have a purpose even when it contributes nothing to generating the next response.
+It's a small project, but it follows from the rest. Once an agent can work for a while, finding out what it's doing is worth designing for, even if the status display has nothing to do with producing the next response.
 
-These projects give different responsibilities concrete places: a runtime executes, tools expose capabilities, plugins package access, clients present the work, rooms coordinate it, and status interfaces make it visible. They are experiments at different stages, rather than proof of one finished platform.
+Each of these projects gives one job a concrete home. The runtime executes, tools expose capabilities, plugins package access, clients present the work, rooms coordinate it, and status displays show it. They're experiments at different stages, and they don't add up to one finished platform.
 
-The useful result is that the surrounding work can be inspected and changed. When something is awkward, there is a more precise question to ask than whether the agent is good: which part of the environment needs to behave differently?
+What I get from splitting things up this way is that I can inspect and change each part. When something feels awkward, I can ask which part of the environment needs to behave differently, which is a more useful question than whether the agent is good.
