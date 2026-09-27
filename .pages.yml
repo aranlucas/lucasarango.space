@@ -14,8 +14,8 @@ content:
     view:
       primary: title
       fields: [title, date, draft]
-      sort: date
-      order: desc
+      sort: [date, title]
+      default: { sort: date, order: desc }
     fields:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, required: true, options: { format: "yyyy-MM-dd" } }
@@ -31,8 +31,8 @@ content:
     view:
       primary: title
       fields: [title, date]
-      sort: date
-      order: desc
+      sort: [date, title]
+      default: { sort: date, order: desc }
     fields:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, options: { format: "yyyy-MM-dd" } }
