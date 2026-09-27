@@ -5,6 +5,7 @@ summary: A Kroger MCP server for my own groceries became the prototype behind my
   Ask DoorDash pitch. Here's why I'd start with tools again.
 draft: false
 ---
+
 In May 2025 I wanted Claude to do my grocery shopping. Kroger has a public API, so I wrote a small MCP server on a Cloudflare Worker that let a model search products at my local QFC and put them in my cart. The first README says the goal was to let AI models "help manage QFC/Kroger shopping lists."
 
 That personal server, [ai-shopping-mcp](https://github.com/aranlucas/ai-shopping-mcp), gave me a working prototype for the experience I later pitched at DoorDash: describe the groceries I want and let an agent find the products. I went on to prototype and lead engineering for Ask DoorDash's grocery agent, which launched in June 2026 as part of the broader Assistant.

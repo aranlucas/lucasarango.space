@@ -31,6 +31,12 @@
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --color-ridge: var(--ridge);
+  /* The 404 game is always at night, whatever the OS theme. */
+  --color-night: #0b1418;
+  --color-night-foreground: #dce5e7;
+  --color-night-muted: #8d9da4;
+  --color-lamp: #f3d9a4;
+  --color-lamp-foreground: #1d1408;
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -127,6 +133,16 @@
 /* The Ask popup is as tall as its content needs, short of the viewport. */
 @utility h-popup {
   height: min(40rem, calc(100dvh - 6.5rem));
+}
+
+/* The 404 game breaks out of the text column: up to 72rem wide, centred, with a gutter. */
+@utility breakout {
+  width: min(72rem, calc(100vw - 2rem));
+  margin-inline: calc(50% - min(36rem, 50vw - 1rem));
+}
+
+@utility max-h-game {
+  max-height: 80dvh;
 }
 
 @utility h-ridge {

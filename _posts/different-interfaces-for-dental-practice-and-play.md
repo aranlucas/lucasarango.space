@@ -6,6 +6,7 @@ summary: My girlfriend is preparing for pediatric dental oral boards. I've been
   the exam, plus a dental game along the way.
 draft: false
 ---
+
 My girlfriend is preparing for her pediatric dental oral boards, and I've been building her custom apps to help. That's what ties together the study reference, the little interview device, and the website for her exam trip. The dental game belongs to the same collection, just for fun.
 
 Coding agents have given me a way to turn that support into software. I have one person to build for and one event to prepare for, so the question is what would actually help her: somewhere to find material, a way to practice answering questions, or a plan that keeps the trip and studying together.

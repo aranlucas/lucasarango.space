@@ -6,6 +6,7 @@ summary: Revisiting old repositories with agents has become part of my workflow.
   checks useful again.
 draft: false
 ---
+
 Some of my repositories are very old. I've been going back to modernize them, and that's become as much a part of working with agents as starting new projects.
 
 The first job is usually figuring out what's already there. A recent dependency file doesn't explain an old design. A passing workflow doesn't help if it never runs on the branch where changes land. A repository can look active while important parts of its original setup are still missing.
