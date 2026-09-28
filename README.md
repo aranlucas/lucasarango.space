@@ -69,17 +69,17 @@ Keep a filename when changing a published title so links remain stable. The Page
 
 ## Source map
 
-| Path | Responsibility |
-| --- | --- |
-| `src/app/page.tsx`, `src/components/` | Portfolio home, navigation, project list, posts, résumé UI, Ask popup, and shared components. |
-| `src/app/blog/` | Blog listing, article routes, and per-article Open Graph images. |
-| `src/app/resume/` | Résumé display and print layout. |
-| `src/app/api/chat/` | Validated streaming Ask endpoint and generic public error handling. |
-| `src/lib/ask-agent.ts`, `src/lib/ask-tools.ts` | OpenRouter agent, résumé/project instructions, and post-reading tools. |
-| `src/lib/resume.ts` | Cached, schema-validated fetch of the public JSON Resume. |
-| `src/lib/projects.ts`, `src/lib/site.ts` | Curated project links and site metadata. |
-| `_posts/` | Published and draft Markdown posts. |
-| `src/components/lost/` | 404 exploration game, including scene, controls, and local best score. |
+| Path                                           | Responsibility                                                                                |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `src/app/page.tsx`, `src/components/`          | Portfolio home, navigation, project list, posts, résumé UI, Ask popup, and shared components. |
+| `src/app/blog/`                                | Blog listing, article routes, and per-article Open Graph images.                              |
+| `src/app/resume/`                              | Résumé display and print layout.                                                              |
+| `src/app/api/chat/`                            | Validated streaming Ask endpoint and generic public error handling.                           |
+| `src/lib/ask-agent.ts`, `src/lib/ask-tools.ts` | OpenRouter agent, résumé/project instructions, and post-reading tools.                        |
+| `src/lib/resume.ts`                            | Cached, schema-validated fetch of the public JSON Resume.                                     |
+| `src/lib/projects.ts`, `src/lib/site.ts`       | Curated project links and site metadata.                                                      |
+| `_posts/`                                      | Published and draft Markdown posts.                                                           |
+| `src/components/lost/`                         | 404 exploration game, including scene, controls, and local best score.                        |
 
 ## Status and deployment notes
 
