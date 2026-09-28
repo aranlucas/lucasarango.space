@@ -7,8 +7,8 @@
   <g font-family="system-ui,sans-serif">
     <rect x="64" y="160" width="248" height="150" rx="18" fill="#17383c" stroke="#9dd7c7" stroke-width="2"/>
     <text x="88" y="201" fill="#9dd7c7" font-size="14" font-weight="700">SOURCE MATERIAL</text>
-    <text x="88" y="238" fill="#f4fbf8" font-size="20">Projects · posts · résumé</text>
-    <text x="88" y="270" fill="#c7dfd8" font-size="15">_posts · project links · resume API</text>
+    <text x="88" y="238" fill="#f4fbf8" font-size="18">Projects · posts · résumé</text>
+    <text x="88" y="270" fill="#c7dfd8" font-size="15">_posts · projects · resume API</text>
     <path d="M324 235h74" stroke="#9dd7c7" stroke-width="3"/><path d="m390 225 14 10-14 10" fill="none" stroke="#9dd7c7" stroke-width="3"/>
     <rect x="414" y="160" width="248" height="150" rx="18" fill="#17383c" stroke="#f8c17a" stroke-width="2"/>
     <text x="438" y="201" fill="#f8c17a" font-size="14" font-weight="700">SITE EXPERIENCE</text>
@@ -17,8 +17,8 @@
     <path d="M674 235h74" stroke="#f8c17a" stroke-width="3"/><path d="m740 225 14 10-14 10" fill="none" stroke="#f8c17a" stroke-width="3"/>
     <rect x="764" y="160" width="248" height="150" rx="18" fill="#17383c" stroke="#fda4af" stroke-width="2"/>
     <text x="788" y="201" fill="#fda4af" font-size="14" font-weight="700">ASK + 404</text>
-    <text x="788" y="238" fill="#f4fbf8" font-size="20">OpenRouter · fog game</text>
-    <text x="788" y="270" fill="#c7dfd8" font-size="15">/api/chat · lost in the fog</text>
+    <text x="788" y="238" fill="#f4fbf8" font-size="18">OpenRouter + fog game</text>
+    <text x="788" y="270" fill="#c7dfd8" font-size="15">/api/chat · fog game</text>
   </g>
   <text x="64" y="366" fill="#9fc4bb" font-family="system-ui,sans-serif" font-size="15">The Ask endpoint reads résumé, project, and post context through server-side tools.</text>
 </svg>
