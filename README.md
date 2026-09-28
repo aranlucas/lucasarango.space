@@ -6,6 +6,10 @@
 
 [lucasarango.space](https://lucasarango.space) is Lucas Arango’s personal site: a small portfolio, résumé, and blog built with Next.js App Router. Read a project note, skim the résumé, or open **Ask about my work** when you want the site to connect the dots. If you miss a route, the custom 404 turns the detour into a playful WebGL-style fog game.
 
+![lucasarango.space site map](docs/readme-flow.svg)
+
+_A source-level map of the site’s content, visitor routes, and Ask/404 experiences._
+
 ## What visitors can do
 
 - Browse selected projects and recent writing on the home page.
