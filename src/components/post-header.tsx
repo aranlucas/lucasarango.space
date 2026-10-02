@@ -8,7 +8,7 @@ export function PostHeader({ post }: { post: Post }) {
   return (
     <header className="mb-10">
       <PostTitleTransition slug={post.slug}>
-        <h1 className="mb-3 text-title font-semibold tracking-tight text-balance">{post.title}</h1>
+        <h1 className="article-title">{post.title}</h1>
       </PostTitleTransition>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
         <span>{SITE.name}</span>

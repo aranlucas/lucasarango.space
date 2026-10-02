@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cn } from "cn";
-import { IBM_Plex_Mono, Literata } from "next/font/google";
+import { Barlow_Condensed, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
@@ -10,35 +10,19 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
-// Fonts sit on the LCP critical path, so only the upright weight axis is
-// preloaded (~39 KB; the opsz axis nearly triples it). Italic and mono load
-// on demand, only on pages that actually render them.
-const serif = Literata({
+// Self-hosted by next/font; only the two families used in the opening are preloaded.
+const bodyFont = Manrope({ subsets: ["latin"], display: "swap", variable: "--font-body" });
+const displayFont = Barlow_Condensed({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-serif",
-});
-
-const serifItalic = Literata({
-  subsets: ["latin"],
-  display: "swap",
-  style: "italic",
-  preload: false,
-  variable: "--font-serif-italic",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-  preload: false,
-  variable: "--font-plex-mono",
+  weight: ["600", "700"],
+  variable: "--font-display",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f1ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#121b21" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f8f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#171d29" },
   ],
 };
 
@@ -53,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={cn(serif.variable, serifItalic.variable, mono.variable)}>
+    <html lang="en" className={cn(bodyFont.variable, displayFont.variable)}>
       <body>
         <a
           href="#main-content"
@@ -62,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           Skip to content
         </a>
         <AskProvider>
-          <div className="mx-auto flex min-h-dvh max-w-page flex-col px-5 text-body print:max-w-none print:px-0">
+          <div className="site-shell print:max-w-none print:px-0">
             <SiteHeader />
             <main id="main-content" tabIndex={-1} className="flex-1 pb-16 print:pb-0">
               {children}

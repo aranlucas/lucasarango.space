@@ -7,3 +7,6 @@ next-env.d.ts
 .vercel
 .DS_Store
 .claude/worktrees/
+
+# Private local browser evidence; shared through Library, never the public repository.
+.impeccable/review/

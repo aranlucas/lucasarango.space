@@ -43,7 +43,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <PageTransition>
       <ReadingProgress />
-      <article>
+      <article className="reading-article">
         <PostHeader post={post} />
         <PostBody markdown={post.content} />
         <PostNav post={post} posts={getAllPosts()} />

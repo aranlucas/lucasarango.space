@@ -20,26 +20,28 @@ export default function BlogIndex() {
 
   return (
     <PageTransition>
-      <h1 className="mb-4 text-display font-semibold tracking-tight">Writing</h1>
-      <p className="text-lede text-pretty">
-        Notes on building agents, AI products, and the tools I make along the way. Mostly things
-        I’ve built, decisions I’ve made, and what I learned from using them.
-      </p>
-      {[...years].map(([year, yearPosts]) => (
-        <section key={year} aria-labelledby={`y${year}`}>
-          <SectionHeading id={`y${year}`} className="tabular-nums">
-            {year}
-          </SectionHeading>
-          <PostList posts={yearPosts} />
-        </section>
-      ))}
-      <section aria-labelledby="elsewhere">
-        <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
-        <p className="mb-6 text-base text-muted-foreground">
-          Articles I coauthored with the DoorDash engineering team.
+      <div className="reading-index">
+        <h1 className="page-title">Writing.</h1>
+        <p className="text-lede text-pretty">
+          Notes on building agents, AI products, and the tools I make along the way. Mostly things
+          I’ve built, decisions I’ve made, and what I learned from using them.
         </p>
-        <PublicationList />
-      </section>
+        {[...years].map(([year, yearPosts]) => (
+          <section key={year} aria-labelledby={`y${year}`}>
+            <SectionHeading id={`y${year}`} className="tabular-nums">
+              {year}
+            </SectionHeading>
+            <PostList posts={yearPosts} />
+          </section>
+        ))}
+        <section aria-labelledby="elsewhere">
+          <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
+          <p className="mb-6 text-base text-muted-foreground">
+            Articles I coauthored with the DoorDash engineering team.
+          </p>
+          <PublicationList />
+        </section>
+      </div>
     </PageTransition>
   );
 }

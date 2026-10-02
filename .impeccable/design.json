@@ -1,0 +1,704 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T07:21:01Z",
+  "title": "Design System: Lucas Arango’s portfolio",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#f7f8f2",
+        "tonalRamp": [
+          "oklch(15% 0.0080 114.22)",
+          "oklch(25% 0.0080 114.22)",
+          "oklch(35% 0.0080 114.22)",
+          "oklch(45% 0.0080 114.22)",
+          "oklch(55% 0.0080 114.22)",
+          "oklch(65% 0.0080 114.22)",
+          "oklch(80% 0.0080 114.22)",
+          "oklch(95% 0.0080 114.22)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#172125",
+        "tonalRamp": [
+          "oklch(15% 0.0162 224.39)",
+          "oklch(25% 0.0162 224.39)",
+          "oklch(35% 0.0162 224.39)",
+          "oklch(45% 0.0162 224.39)",
+          "oklch(55% 0.0162 224.39)",
+          "oklch(65% 0.0162 224.39)",
+          "oklch(80% 0.0162 224.39)",
+          "oklch(95% 0.0162 224.39)"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.0000 0.00)",
+          "oklch(25% 0.0000 0.00)",
+          "oklch(35% 0.0000 0.00)",
+          "oklch(45% 0.0000 0.00)",
+          "oklch(55% 0.0000 0.00)",
+          "oklch(65% 0.0000 0.00)",
+          "oklch(80% 0.0000 0.00)",
+          "oklch(95% 0.0000 0.00)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Action Cobalt",
+        "canonical": "#273bc4",
+        "tonalRamp": [
+          "oklch(15% 0.2111 268.56)",
+          "oklch(25% 0.2111 268.56)",
+          "oklch(35% 0.2111 268.56)",
+          "oklch(45% 0.2111 268.56)",
+          "oklch(55% 0.2111 268.56)",
+          "oklch(65% 0.2111 268.56)",
+          "oklch(80% 0.2111 268.56)",
+          "oklch(95% 0.2111 268.56)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "neutral",
+        "displayName": "Primary White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.0000 0.00)",
+          "oklch(25% 0.0000 0.00)",
+          "oklch(35% 0.0000 0.00)",
+          "oklch(45% 0.0000 0.00)",
+          "oklch(55% 0.0000 0.00)",
+          "oklch(65% 0.0000 0.00)",
+          "oklch(80% 0.0000 0.00)",
+          "oklch(95% 0.0000 0.00)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Soft Paper",
+        "canonical": "#e9ecdf",
+        "tonalRamp": [
+          "oklch(15% 0.0176 117.30)",
+          "oklch(25% 0.0176 117.30)",
+          "oklch(35% 0.0176 117.30)",
+          "oklch(45% 0.0176 117.30)",
+          "oklch(55% 0.0176 117.30)",
+          "oklch(65% 0.0176 117.30)",
+          "oklch(80% 0.0176 117.30)",
+          "oklch(95% 0.0176 117.30)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Slate Text",
+        "canonical": "#535d5e",
+        "tonalRamp": [
+          "oklch(15% 0.0126 204.01)",
+          "oklch(25% 0.0126 204.01)",
+          "oklch(35% 0.0126 204.01)",
+          "oklch(45% 0.0126 204.01)",
+          "oklch(55% 0.0126 204.01)",
+          "oklch(65% 0.0126 204.01)",
+          "oklch(80% 0.0126 204.01)",
+          "oklch(95% 0.0126 204.01)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Acid Lime",
+        "canonical": "#e6f28b",
+        "tonalRamp": [
+          "oklch(15% 0.1278 114.36)",
+          "oklch(25% 0.1278 114.36)",
+          "oklch(35% 0.1278 114.36)",
+          "oklch(45% 0.1278 114.36)",
+          "oklch(55% 0.1278 114.36)",
+          "oklch(65% 0.1278 114.36)",
+          "oklch(80% 0.1278 114.36)",
+          "oklch(95% 0.1278 114.36)"
+        ]
+      },
+      "accent-foreground": {
+        "role": "neutral",
+        "displayName": "Accent Ink",
+        "canonical": "#172125",
+        "tonalRamp": [
+          "oklch(15% 0.0162 224.39)",
+          "oklch(25% 0.0162 224.39)",
+          "oklch(35% 0.0162 224.39)",
+          "oklch(45% 0.0162 224.39)",
+          "oklch(55% 0.0162 224.39)",
+          "oklch(65% 0.0162 224.39)",
+          "oklch(80% 0.0162 224.39)",
+          "oklch(95% 0.0162 224.39)"
+        ]
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Error Red",
+        "canonical": "#ae302d",
+        "tonalRamp": [
+          "oklch(15% 0.1632 26.37)",
+          "oklch(25% 0.1632 26.37)",
+          "oklch(35% 0.1632 26.37)",
+          "oklch(45% 0.1632 26.37)",
+          "oklch(55% 0.1632 26.37)",
+          "oklch(65% 0.1632 26.37)",
+          "oklch(80% 0.1632 26.37)",
+          "oklch(95% 0.1632 26.37)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Paper Rule",
+        "canonical": "#cbd1c2",
+        "tonalRamp": [
+          "oklch(15% 0.0214 124.71)",
+          "oklch(25% 0.0214 124.71)",
+          "oklch(35% 0.0214 124.71)",
+          "oklch(45% 0.0214 124.71)",
+          "oklch(55% 0.0214 124.71)",
+          "oklch(65% 0.0214 124.71)",
+          "oklch(80% 0.0214 124.71)",
+          "oklch(95% 0.0214 124.71)"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Atlas Cobalt",
+        "canonical": "#273bc4",
+        "tonalRamp": [
+          "oklch(15% 0.2111 268.56)",
+          "oklch(25% 0.2111 268.56)",
+          "oklch(35% 0.2111 268.56)",
+          "oklch(45% 0.2111 268.56)",
+          "oklch(55% 0.2111 268.56)",
+          "oklch(65% 0.2111 268.56)",
+          "oklch(80% 0.2111 268.56)",
+          "oklch(95% 0.2111 268.56)"
+        ]
+      },
+      "lime": {
+        "role": "secondary",
+        "displayName": "Acid Lime",
+        "canonical": "#e6f28b",
+        "tonalRamp": [
+          "oklch(15% 0.1278 114.36)",
+          "oklch(25% 0.1278 114.36)",
+          "oklch(35% 0.1278 114.36)",
+          "oklch(45% 0.1278 114.36)",
+          "oklch(55% 0.1278 114.36)",
+          "oklch(65% 0.1278 114.36)",
+          "oklch(80% 0.1278 114.36)",
+          "oklch(95% 0.1278 114.36)"
+        ]
+      },
+      "route-soft": {
+        "role": "primary",
+        "displayName": "Route Mist",
+        "canonical": "#d2d9ff",
+        "tonalRamp": [
+          "oklch(15% 0.0528 277.05)",
+          "oklch(25% 0.0528 277.05)",
+          "oklch(35% 0.0528 277.05)",
+          "oklch(45% 0.0528 277.05)",
+          "oklch(55% 0.0528 277.05)",
+          "oklch(65% 0.0528 277.05)",
+          "oklch(80% 0.0528 277.05)",
+          "oklch(95% 0.0528 277.05)"
+        ]
+      },
+      "route-line": {
+        "role": "primary",
+        "displayName": "Route Line",
+        "canonical": "#6979e7",
+        "tonalRamp": [
+          "oklch(15% 0.1653 274.30)",
+          "oklch(25% 0.1653 274.30)",
+          "oklch(35% 0.1653 274.30)",
+          "oklch(45% 0.1653 274.30)",
+          "oklch(55% 0.1653 274.30)",
+          "oklch(65% 0.1653 274.30)",
+          "oklch(80% 0.1653 274.30)",
+          "oklch(95% 0.1653 274.30)"
+        ]
+      },
+      "ridge": {
+        "role": "secondary",
+        "displayName": "Ridge Olive",
+        "canonical": "#83936e",
+        "tonalRamp": [
+          "oklch(15% 0.0563 126.93)",
+          "oklch(25% 0.0563 126.93)",
+          "oklch(35% 0.0563 126.93)",
+          "oklch(45% 0.0563 126.93)",
+          "oklch(55% 0.0563 126.93)",
+          "oklch(65% 0.0563 126.93)",
+          "oklch(80% 0.0563 126.93)",
+          "oklch(95% 0.0563 126.93)"
+        ]
+      },
+      "background-dark": {
+        "role": "neutral",
+        "displayName": "Night Slate",
+        "canonical": "#171d29",
+        "tonalRamp": [
+          "oklch(15% 0.0250 263.89)",
+          "oklch(25% 0.0250 263.89)",
+          "oklch(35% 0.0250 263.89)",
+          "oklch(45% 0.0250 263.89)",
+          "oklch(55% 0.0250 263.89)",
+          "oklch(65% 0.0250 263.89)",
+          "oklch(80% 0.0250 263.89)",
+          "oklch(95% 0.0250 263.89)"
+        ]
+      },
+      "foreground-dark": {
+        "role": "neutral",
+        "displayName": "Pale Ink",
+        "canonical": "#f1f4e9",
+        "tonalRamp": [
+          "oklch(15% 0.0149 119.10)",
+          "oklch(25% 0.0149 119.10)",
+          "oklch(35% 0.0149 119.10)",
+          "oklch(45% 0.0149 119.10)",
+          "oklch(55% 0.0149 119.10)",
+          "oklch(65% 0.0149 119.10)",
+          "oklch(80% 0.0149 119.10)",
+          "oklch(95% 0.0149 119.10)"
+        ]
+      },
+      "card-dark": {
+        "role": "neutral",
+        "displayName": "Raised Slate",
+        "canonical": "#202838",
+        "tonalRamp": [
+          "oklch(15% 0.0319 263.84)",
+          "oklch(25% 0.0319 263.84)",
+          "oklch(35% 0.0319 263.84)",
+          "oklch(45% 0.0319 263.84)",
+          "oklch(55% 0.0319 263.84)",
+          "oklch(65% 0.0319 263.84)",
+          "oklch(80% 0.0319 263.84)",
+          "oklch(95% 0.0319 263.84)"
+        ]
+      },
+      "primary-dark": {
+        "role": "primary",
+        "displayName": "Periwinkle Action",
+        "canonical": "#b7c2ff",
+        "tonalRamp": [
+          "oklch(15% 0.0867 276.41)",
+          "oklch(25% 0.0867 276.41)",
+          "oklch(35% 0.0867 276.41)",
+          "oklch(45% 0.0867 276.41)",
+          "oklch(55% 0.0867 276.41)",
+          "oklch(65% 0.0867 276.41)",
+          "oklch(80% 0.0867 276.41)",
+          "oklch(95% 0.0867 276.41)"
+        ]
+      },
+      "secondary-dark": {
+        "role": "neutral",
+        "displayName": "Soft Slate",
+        "canonical": "#293344",
+        "tonalRamp": [
+          "oklch(15% 0.0335 260.89)",
+          "oklch(25% 0.0335 260.89)",
+          "oklch(35% 0.0335 260.89)",
+          "oklch(45% 0.0335 260.89)",
+          "oklch(55% 0.0335 260.89)",
+          "oklch(65% 0.0335 260.89)",
+          "oklch(80% 0.0335 260.89)",
+          "oklch(95% 0.0335 260.89)"
+        ]
+      },
+      "muted-foreground-dark": {
+        "role": "neutral",
+        "displayName": "Cool Text",
+        "canonical": "#b0bac3",
+        "tonalRamp": [
+          "oklch(15% 0.0170 245.14)",
+          "oklch(25% 0.0170 245.14)",
+          "oklch(35% 0.0170 245.14)",
+          "oklch(45% 0.0170 245.14)",
+          "oklch(55% 0.0170 245.14)",
+          "oklch(65% 0.0170 245.14)",
+          "oklch(80% 0.0170 245.14)",
+          "oklch(95% 0.0170 245.14)"
+        ]
+      },
+      "destructive-dark": {
+        "role": "error",
+        "displayName": "Error Coral",
+        "canonical": "#ffaaa0",
+        "tonalRamp": [
+          "oklch(15% 0.1020 26.88)",
+          "oklch(25% 0.1020 26.88)",
+          "oklch(35% 0.1020 26.88)",
+          "oklch(45% 0.1020 26.88)",
+          "oklch(55% 0.1020 26.88)",
+          "oklch(65% 0.1020 26.88)",
+          "oklch(80% 0.1020 26.88)",
+          "oklch(95% 0.1020 26.88)"
+        ]
+      },
+      "border-dark": {
+        "role": "neutral",
+        "displayName": "Slate Rule",
+        "canonical": "#434e60",
+        "tonalRamp": [
+          "oklch(15% 0.0333 260.21)",
+          "oklch(25% 0.0333 260.21)",
+          "oklch(35% 0.0333 260.21)",
+          "oklch(45% 0.0333 260.21)",
+          "oklch(55% 0.0333 260.21)",
+          "oklch(65% 0.0333 260.21)",
+          "oklch(80% 0.0333 260.21)",
+          "oklch(95% 0.0333 260.21)"
+        ]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Forest Night",
+        "canonical": "#0b1418",
+        "tonalRamp": [
+          "oklch(15% 0.0157 227.35)",
+          "oklch(25% 0.0157 227.35)",
+          "oklch(35% 0.0157 227.35)",
+          "oklch(45% 0.0157 227.35)",
+          "oklch(55% 0.0157 227.35)",
+          "oklch(65% 0.0157 227.35)",
+          "oklch(80% 0.0157 227.35)",
+          "oklch(95% 0.0157 227.35)"
+        ]
+      },
+      "night-foreground": {
+        "role": "neutral",
+        "displayName": "Forest Pale Ink",
+        "canonical": "#dce5e7",
+        "tonalRamp": [
+          "oklch(15% 0.0101 212.52)",
+          "oklch(25% 0.0101 212.52)",
+          "oklch(35% 0.0101 212.52)",
+          "oklch(45% 0.0101 212.52)",
+          "oklch(55% 0.0101 212.52)",
+          "oklch(65% 0.0101 212.52)",
+          "oklch(80% 0.0101 212.52)",
+          "oklch(95% 0.0101 212.52)"
+        ]
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Forest Mist",
+        "canonical": "#8d9da4",
+        "tonalRamp": [
+          "oklch(15% 0.0209 225.86)",
+          "oklch(25% 0.0209 225.86)",
+          "oklch(35% 0.0209 225.86)",
+          "oklch(45% 0.0209 225.86)",
+          "oklch(55% 0.0209 225.86)",
+          "oklch(65% 0.0209 225.86)",
+          "oklch(80% 0.0209 225.86)",
+          "oklch(95% 0.0209 225.86)"
+        ]
+      },
+      "lamp": {
+        "role": "secondary",
+        "displayName": "Lamplight",
+        "canonical": "#f3d9a4",
+        "tonalRamp": [
+          "oklch(15% 0.0742 84.77)",
+          "oklch(25% 0.0742 84.77)",
+          "oklch(35% 0.0742 84.77)",
+          "oklch(45% 0.0742 84.77)",
+          "oklch(55% 0.0742 84.77)",
+          "oklch(65% 0.0742 84.77)",
+          "oklch(80% 0.0742 84.77)",
+          "oklch(95% 0.0742 84.77)"
+        ]
+      },
+      "lamp-foreground": {
+        "role": "neutral",
+        "displayName": "Lamp Ink",
+        "canonical": "#1d1408",
+        "tonalRamp": [
+          "oklch(15% 0.0262 73.63)",
+          "oklch(25% 0.0262 73.63)",
+          "oklch(35% 0.0262 73.63)",
+          "oklch(45% 0.0262 73.63)",
+          "oklch(55% 0.0262 73.63)",
+          "oklch(65% 0.0262 73.63)",
+          "oklch(80% 0.0262 73.63)",
+          "oklch(95% 0.0262 73.63)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Opening name",
+        "purpose": "Bold uppercase opening; mobile clamp uses 18vw."
+      },
+      "headline": {
+        "displayName": "Section headline",
+        "purpose": "Condensed uppercase major section titles."
+      },
+      "title": {
+        "displayName": "Project title",
+        "purpose": "Condensed uppercase exhibit headings."
+      },
+      "page-title": {
+        "displayName": "Page title",
+        "purpose": "Writing and résumé headings."
+      },
+      "article-title": {
+        "displayName": "Article title",
+        "purpose": "Published article headings."
+      },
+      "route-title": {
+        "displayName": "Route title",
+        "purpose": "A short uppercase project scenario, limited to 15ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Manrope page rhythm and biography."
+      },
+      "reading-body": {
+        "displayName": "Reading body",
+        "purpose": "Published long-form text; mobile uses 1rem and 1.8 line-height."
+      },
+      "writing-title": {
+        "displayName": "Writing list title",
+        "purpose": "Bold archive titles; mobile uses 1rem."
+      },
+      "label": {
+        "displayName": "Navigation label",
+        "purpose": "Compact links with 44px minimum targets; mobile uses 0.8rem."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Ordinary button text."
+      },
+      "route-control": {
+        "displayName": "Route control",
+        "purpose": "Square lime path action."
+      },
+      "ask-control": {
+        "displayName": "Ask control",
+        "purpose": "Regular-weight header launcher."
+      },
+      "input": {
+        "displayName": "Input",
+        "purpose": "Composer textarea at 1rem with 1.5rem line-height."
+      },
+      "badge": {
+        "displayName": "Badge",
+        "purpose": "Small tabular résumé date metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "conversation-panel",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+        "purpose": "Tailwind shadow-xl on the open desktop Ask panel."
+      },
+      {
+        "name": "conversation-scroll-control",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Tailwind shadow-sm on the transcript’s scroll control."
+      },
+      {
+        "name": "skip-link",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "purpose": "Tailwind shadow-md on the keyboard skip link."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Library button and field state changes."
+      },
+      {
+        "name": "route-trace",
+        "value": "650ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Trace the chosen stop; disabled for reduced motion."
+      },
+      {
+        "name": "contour-draw",
+        "value": "1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards",
+        "purpose": "Retained contour drawing; reduced motion shows the completed line."
+      },
+      {
+        "name": "ask-contour-loop",
+        "value": "1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite",
+        "purpose": "Ask loading glyph; reduced motion holds the finished drawing."
+      },
+      {
+        "name": "page-enter",
+        "value": "200ms ease-out 100ms both vt-fade",
+        "purpose": "Short page crossfade."
+      },
+      {
+        "name": "page-exit",
+        "value": "120ms ease-in both vt-fade reverse",
+        "purpose": "Short page exit crossfade."
+      },
+      {
+        "name": "tab-travel",
+        "value": "350ms ease-in-out both vt-slide",
+        "purpose": "Directional navigation movement; reduced motion removes travel."
+      },
+      {
+        "name": "nav-indicator",
+        "value": "300ms cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Move the current-page underline between tabs."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "max-1000",
+        "value": "1000px"
+      },
+      {
+        "name": "max-740",
+        "value": "740px"
+      },
+      {
+        "name": "sm",
+        "value": "40rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Header Ask action",
+      "kind": "button",
+      "refersTo": "button-ask",
+      "description": "The ordinary primary variant as a 44px header pill; it opens Ask on demand.",
+      "html": "<button class=\"ds-ask-action\" type=\"button\" aria-expanded=\"false\"><svg aria-hidden=\"true\" width=\"24\" height=\"12\" viewBox=\"0 30 600 110\" preserveAspectRatio=\"none\" fill=\"none\"><path d=\"M0 118 L60 104 L96 110 L148 78 L176 88 L214 52 L238 60 L262 34 L284 46 L318 70 L352 64 L392 92 L436 82 L486 104 L540 96 L600 112\" vector-effect=\"non-scaling-stroke\" stroke=\"currentColor\" stroke-width=\"1.75\"/><path d=\"M0 132 L54 122 L104 126 L150 100 L182 106 L220 80 L250 86 L270 66 L296 76 L330 94 L362 90 L400 110 L444 102 L494 120 L548 114 L600 126\" vector-effect=\"non-scaling-stroke\" stroke=\"var(--ridge, #83936e)\" stroke-width=\"1.25\"/></svg><span class=\"ds-ask-label\">Ask about my work</span><span class=\"ds-ask-short\">Ask</span></button>",
+      "css": ".ds-ask-action { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid transparent; border-radius: var(--radius-lg, 0.25rem); font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.25rem; white-space: nowrap; cursor: pointer; outline: none; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-ask-action:active { transform: translateY(1px); } .ds-ask-action:disabled { pointer-events: none; opacity: 0.5; } .ds-ask-action { height: 2.75rem; gap: 0.625rem; padding: 0 1.25rem 0 1rem; border-radius: calc(infinity * 1px); font-weight: 400; background: var(--primary, #273bc4); color: var(--primary-foreground, #ffffff); } .ds-ask-action:hover { background: color-mix(in oklab, var(--primary, #273bc4) 80%, transparent); } .ds-ask-action:focus-visible { border-color: var(--ring, #273bc4); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); } .ds-ask-short { display: none; } @media (max-width: 740px) { .ds-ask-label { display: none; } .ds-ask-short { display: inline; } }"
+    },
+    {
+      "name": "Outline print action",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The résumé’s subdued print button with inline printer SVG.",
+      "html": "<button class=\"ds-print-action\" type=\"button\"><svg aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\"/></svg>Print or save as PDF</button>",
+      "css": ".ds-print-action { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid transparent; border-radius: var(--radius-lg, 0.25rem); font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.25rem; white-space: nowrap; cursor: pointer; outline: none; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-print-action:active { transform: translateY(1px); } .ds-print-action:disabled { pointer-events: none; opacity: 0.5; } .ds-print-action { height: 2.25rem; gap: 0.375rem; padding: 0 0.625rem 0 0.5rem; background: var(--background, #f7f8f2); color: var(--foreground, #172125); border-color: var(--border, #cbd1c2); } .ds-print-action:hover { background: var(--muted, #e9ecdf); color: var(--foreground, #172125); } .ds-print-action:focus-visible { border-color: var(--ring, #273bc4); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); } @media (prefers-color-scheme: dark) { .ds-print-action { border-color: var(--input, #434e60); background: color-mix(in oklab, var(--input, #434e60) 30%, transparent); } .ds-print-action:hover { background: color-mix(in oklab, var(--input, #434e60) 50%, transparent); } }"
+    },
+    {
+      "name": "Conversation close action",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "A ghost close control stays visible inside the panel at every breakpoint; Close and Escape restore focus to the header launcher after closing.",
+      "html": "<button class=\"ds-close-action\" type=\"button\" aria-label=\"Close\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></button>",
+      "css": ".ds-close-action { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid transparent; border-radius: var(--radius-lg, 0.25rem); font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.25rem; white-space: nowrap; cursor: pointer; outline: none; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-close-action:active { transform: translateY(1px); } .ds-close-action:disabled { pointer-events: none; opacity: 0.5; } .ds-close-action { width: 2rem; height: 2rem; background: transparent; color: var(--muted-foreground, #535d5e); } .ds-close-action:hover { background: var(--muted, #e9ecdf); color: var(--foreground, #172125); } .ds-close-action:focus-visible { border-color: var(--ring, #273bc4); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); } @media (prefers-color-scheme: dark) { .ds-close-action:hover { background: color-mix(in oklab, var(--muted, #293344) 50%, transparent); } }"
+    },
+    {
+      "name": "Follow the path action",
+      "kind": "button",
+      "refersTo": "button-route",
+      "description": "The square lime action on a fixed cobalt field.",
+      "html": "<div class=\"ds-route-action-field\"><button class=\"ds-route-action\" type=\"button\">Follow the path <svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button></div>",
+      "css": ".ds-route-action-field { padding: 1rem; background: var(--cobalt, #273bc4); } .ds-route-action { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.5rem 0.85rem; border: 0; border-radius: 0; font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.8rem; font-weight: 700; line-height: 1.7; background: var(--lime, #e6f28b); color: #172125; cursor: pointer; } .ds-route-action:hover { background: #ffffff; } .ds-route-action:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; border-radius: 0.125rem; }"
+    },
+    {
+      "name": "Ask composer",
+      "kind": "input",
+      "refersTo": "input-question",
+      "description": "One bordered textarea and action group; disabling only the empty-question submit preserves field contrast.",
+      "html": "<form class=\"ds-composer\"><div class=\"ds-question-group\"><textarea class=\"ds-question\" aria-label=\"Your question\" placeholder=\"Ask a question\" rows=\"1\"></textarea><div class=\"ds-question-addon\"><button class=\"ds-question-submit\" type=\"submit\" disabled>Ask</button></div></div><p class=\"ds-question-note\">A free AI model writes these answers, and it can be wrong.</p></form>",
+      "css": ".ds-composer { padding: 0.75rem 1rem 1rem; border-top: 1px solid var(--border, #cbd1c2); color: var(--foreground, #172125); font-family: var(--font-body, \"Manrope\"), sans-serif; } .ds-question-group { display: flex; align-items: center; min-width: 0; border: 1px solid var(--input, #cbd1c2); border-radius: var(--radius-lg, 0.25rem); background: var(--background, #f7f8f2); opacity: 1; transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-question { flex: 1; min-width: 0; min-height: 2.75rem; max-height: 8rem; field-sizing: content; resize: none; border: 0; border-radius: 0; outline: none; background: transparent; color: var(--foreground, #172125); padding: 0.5rem 0.75rem; font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 1rem; line-height: 1.5rem; } .ds-question::placeholder { color: var(--muted-foreground, #535d5e); } .ds-question-group:has(.ds-question:focus-visible) { border-color: var(--ring, #273bc4); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); } .ds-question-addon { align-self: end; padding: 0.375rem 0.5rem; } .ds-question-submit { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid transparent; border-radius: var(--radius-lg, 0.25rem); font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.25rem; white-space: nowrap; cursor: pointer; outline: none; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-question-submit:active { transform: translateY(1px); } .ds-question-submit:disabled { pointer-events: none; opacity: 0.5; } .ds-question-submit { height: 2rem; padding: 0 0.625rem; background: var(--primary, #273bc4); color: var(--primary-foreground, #ffffff); } .ds-question-submit:hover { background: color-mix(in oklab, var(--primary, #273bc4) 80%, transparent); } .ds-question-submit:focus-visible { border-color: var(--ring, #273bc4); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); } .ds-question-group:has(.ds-question-submit:disabled) { opacity: 1; background: var(--background, #f7f8f2); } .ds-question-group:has(.ds-question[aria-invalid=\"true\"]) { border-color: var(--destructive, #ae302d); box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive, #ae302d) 20%, transparent); } .ds-question-note { margin: 0.5rem 0.25rem 0; font-size: 0.75rem; line-height: 1rem; color: var(--muted-foreground, #535d5e); } @media (prefers-color-scheme: dark) { .ds-question-group { background: color-mix(in oklab, var(--input, #434e60) 30%, transparent); } .ds-question-group:has(.ds-question-submit:disabled) { background: var(--background, #171d29); opacity: 1; } .ds-question-group:has(.ds-question[aria-invalid=\"true\"]) { box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive, #ffaaa0) 40%, transparent); } }"
+    },
+    {
+      "name": "Main navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Normal-flow navigation with a current-page rule and 44px link targets.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a class=\"ds-nav-link\" href=\"/\" aria-current=\"page\">About<span class=\"ds-nav-current\" aria-hidden=\"true\"></span></a><a class=\"ds-nav-link\" href=\"/blog\">Writing</a><a class=\"ds-nav-link\" href=\"/resume\">Resume</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 1.4rem; } .ds-nav-link { position: relative; display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--muted-foreground, #535d5e); text-decoration: none; } .ds-nav-link:hover, .ds-nav-link[aria-current=\"page\"] { color: var(--primary, #273bc4); } .ds-nav-current { position: absolute; inset-inline: 0; bottom: 0; height: 3px; background: var(--primary, #273bc4); } .ds-nav-link:focus-visible { outline: 2px solid var(--ring, #273bc4); outline-offset: 3px; border-radius: 0.125rem; } @media (max-width: 740px) { .ds-nav { gap: 1rem; } .ds-nav-link { font-size: 0.8rem; } }"
+    },
+    {
+      "name": "Résumé date badge",
+      "kind": "chip",
+      "refersTo": "badge-secondary",
+      "description": "Compact, secondary metadata with tabular numerals.",
+      "html": "<span class=\"ds-date-badge\">YYYY–YYYY</span>",
+      "css": ".ds-date-badge { display: inline-flex; align-items: center; justify-content: center; width: fit-content; height: 1.25rem; padding: 0.125rem 0.5rem; border: 1px solid transparent; border-radius: 2rem; background: var(--secondary, #e9ecdf); color: var(--secondary-foreground, #172125); font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.75rem; line-height: 1rem; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); } a.ds-date-badge:hover { background: color-mix(in oklab, var(--secondary, #e9ecdf) 80%, transparent); } .ds-date-badge:focus-visible { border-color: var(--ring, #273bc4); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring, #273bc4) 50%, transparent); }"
+    },
+    {
+      "name": "Lime project exhibit",
+      "kind": "card",
+      "refersTo": "project-exhibit-lime",
+      "description": "An open project field with real story/source links and the pantry-to-cart relationship.",
+      "html": "<article class=\"ds-project-exhibit\"><div class=\"ds-project-copy\"><h3><a class=\"ds-project-title\" href=\"https://github.com/aranlucas/ai-shopping-mcp\">Grocery shopping MCP <svg aria-hidden=\"true\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a></h3><p class=\"ds-project-question\">What if the weekly shop started with a conversation?</p><p class=\"ds-project-description\">An agent for my weekly grocery run. It finds Kroger/QFC products, plans around the pantry, and builds a cart I can review. This is the project that inspired my Ask DoorDash pitch.</p><div class=\"ds-project-links\"><a href=\"/blog/the-first-ask-doordash-prototype-was-an-mcp-server\">Read the story <svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a><a href=\"https://github.com/aranlucas/ai-shopping-mcp\">View source <svg aria-hidden=\"true\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a></div></div><figure class=\"ds-project-diagram\"><ul><li><span class=\"ds-diagram-node\"></span>Your pantry</li><li><span class=\"ds-diagram-node\"></span>Find products</li><li><span class=\"ds-diagram-node\"></span>A cart you review</li></ul><figcaption>The agent builds the cart. You make the call.</figcaption></figure></article>",
+      "css": ".ds-project-exhibit { display: grid; grid-template-columns: 1.3fr 0.8fr; column-gap: 6rem; padding: 3rem; border-radius: 0; background: var(--lime, #e6f28b); color: #172125; font-family: var(--font-body, \"Manrope\"), sans-serif; line-height: 1.7; } .ds-project-copy h3 { margin: 0 0 1rem; font-family: var(--font-display, \"Barlow Condensed\"), sans-serif; font-size: clamp(2.2rem, 3.8vw, 3.4rem); line-height: 1.05; font-weight: 600; text-transform: uppercase; text-wrap: balance; } .ds-project-title { color: inherit; text-decoration: none; } .ds-project-title:hover { text-decoration: underline; text-decoration-thickness: 2px; } .ds-project-title svg { display: inline; vertical-align: top; margin: 0.4rem 0 0 0.6rem; } .ds-project-question { max-width: 39ch; margin: 0 0 1rem; font-size: 1.15rem; font-weight: 650; line-height: 1.45; } .ds-project-description { max-width: 59ch; margin: 0; font-size: 0.925rem; } .ds-project-links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem; } .ds-project-links a { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; font-size: 0.875rem; font-weight: 700; color: #172125; text-decoration: underline; text-underline-offset: 0.3em; } .ds-project-links a:hover { text-decoration-thickness: 2px; } .ds-project-links a:last-child svg { width: 16px; height: 16px; } .ds-project-diagram { align-self: center; margin: 0; padding-left: 1.5rem; } .ds-project-diagram ul { list-style: none; padding: 0; } .ds-project-diagram li { position: relative; display: flex; align-items: center; gap: 1.25rem; padding-bottom: 1.3rem; font-family: var(--font-display, \"Barlow Condensed\"), sans-serif; font-size: 1.9rem; line-height: 1.2; font-weight: 600; text-transform: uppercase; } .ds-diagram-node { flex-shrink: 0; width: 13px; height: 13px; border: 2px solid currentColor; border-radius: 50%; background: currentColor; } .ds-project-diagram li:not(:last-child)::after { content: \"\"; position: absolute; left: 6px; top: 1.1rem; bottom: -0.55rem; width: 2px; background: currentColor; } .ds-project-diagram figcaption { max-width: 30ch; margin-top: 0.5rem; font-size: 0.75rem; } .ds-project-title:focus-visible { outline: 2px solid var(--ring, #273bc4); outline-offset: 3px; border-radius: 0.125rem; } .ds-project-links a:focus-visible { outline: 2px solid var(--ring, #273bc4); outline-offset: 3px; border-radius: 0.125rem; } @media (max-width: 1000px) { .ds-project-exhibit { column-gap: 3rem; padding-inline: 2rem; } } @media (max-width: 740px) { .ds-project-exhibit { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; } .ds-project-copy h3 { font-size: 2.65rem; } .ds-project-question { font-size: 1.0625rem; } .ds-project-diagram { padding-left: 0.25rem; } .ds-project-diagram li { font-size: 1.65rem; padding-bottom: 1.15rem; } .ds-project-diagram figcaption { max-width: 36ch; } }"
+    },
+    {
+      "name": "Writing archive row",
+      "kind": "custom",
+      "refersTo": "writing-row",
+      "description": "A ruled archive entry with responsive metadata placement and an adaptive action color.",
+      "html": "<div class=\"ds-writing-list\"><a class=\"ds-writing-row\" href=\"/blog/the-first-ask-doordash-prototype-was-an-mcp-server\"><span class=\"ds-writing-date\"><span>Published writing</span><span>Project story</span></span><span class=\"ds-writing-copy\"><span class=\"ds-writing-title\">The first Ask DoorDash prototype was an MCP server</span><span class=\"ds-writing-summary\">An agent for my weekly grocery run.</span></span><svg aria-hidden=\"true\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a></div>",
+      "css": ".ds-writing-list { border-top: 1px solid var(--border, #cbd1c2); } .ds-writing-row { display: grid; grid-template-columns: 7rem 1fr 1.5rem; gap: 2rem; padding-block: 1.5rem; border-bottom: 1px solid var(--border, #cbd1c2); color: var(--foreground, #172125); text-decoration: none; font-family: var(--font-body, \"Manrope\"), sans-serif; line-height: 1.7; } .ds-writing-date { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; color: var(--muted-foreground, #535d5e); font-variant-numeric: tabular-nums; } .ds-writing-date > :first-child { color: var(--foreground, #172125); } .ds-writing-copy { display: block; max-width: 70ch; } .ds-writing-title { display: block; font-weight: 700; font-size: 1.1rem; line-height: 1.4; } .ds-writing-summary { display: block; margin-top: 0.55rem; font-size: 0.875rem; line-height: 1.65; color: var(--muted-foreground, #535d5e); } .ds-writing-row > svg { color: var(--primary, #273bc4); } .ds-writing-row:hover .ds-writing-title { color: var(--primary, #273bc4); text-decoration: underline; text-underline-offset: 0.18em; } .ds-writing-row:focus-visible { outline: 2px solid var(--ring, #273bc4); outline-offset: 3px; border-radius: 0.125rem; } @media (max-width: 1000px) { .ds-writing-row { gap: 1.25rem; } } @media (max-width: 740px) { .ds-writing-row { grid-template-columns: 1fr 1.5rem; gap: 0.5rem 1rem; padding-block: 1.3rem; } .ds-writing-date { grid-column: 1 / -1; flex-direction: row; gap: 0.8rem; } .ds-writing-copy { grid-column: 1; } .ds-writing-row > svg { grid-column: 2; } .ds-writing-title { font-size: 1rem; } }"
+    },
+    {
+      "name": "Follow an idea route",
+      "kind": "custom",
+      "refersTo": "route-panel",
+      "description": "The fixed cobalt route, pressed-state project buttons, three waypoints, and factual note.",
+      "html": "<section class=\"ds-route-panel\" aria-label=\"Follow an idea\"><div class=\"ds-route-top\"><h2>Follow an idea</h2><span>Problem → tool</span></div><div class=\"ds-route-switcher\" role=\"group\" aria-label=\"Choose a project route\"><button type=\"button\" aria-pressed=\"true\">Groceries</button><button type=\"button\" aria-pressed=\"false\">Whiteboard</button><button type=\"button\" aria-pressed=\"false\">Plugins</button></div><p class=\"ds-route-title\">The weekly grocery run.</p><div class=\"ds-route-map\"><svg aria-hidden=\"true\" viewBox=\"0 0 440 160\" preserveAspectRatio=\"none\"><path class=\"ds-route-track\" d=\"M24 28 H190 Q218 28 218 56 V100 Q218 132 250 132 H416\"/><path class=\"ds-route-trace\" pathLength=\"1\" d=\"M24 28 H190 Q218 28 218 56 V100 Q218 132 250 132 H416\"/></svg><ol class=\"ds-route-stops\"><li><button class=\"ds-route-stop ds-reached\" type=\"button\" aria-pressed=\"false\"><span class=\"ds-route-dot\" aria-hidden=\"true\"></span><span>A real need</span></button></li><li><button class=\"ds-route-stop ds-reached\" type=\"button\" aria-pressed=\"true\"><span class=\"ds-route-dot\" aria-hidden=\"true\"></span><span>A small tool</span></button></li><li><button class=\"ds-route-stop\" type=\"button\" aria-pressed=\"false\"><span class=\"ds-route-dot\" aria-hidden=\"true\"></span><span>Something useful</span></button></li></ol></div><p class=\"ds-route-note\" aria-live=\"polite\">I built MCP tools for finding products and putting them in a cart.</p></section>",
+      "css": ".ds-route-panel { position: relative; padding: 1.75rem 2rem 1.4rem; background: var(--cobalt, #273bc4); color: #ffffff; border-radius: 0; font-family: var(--font-body, \"Manrope\"), sans-serif; line-height: 1.7; } .ds-route-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; } .ds-route-top h2 { margin: 0; font-size: 1rem; font-weight: 700; } .ds-route-top > span { font-size: 0.75rem; color: #d2d9ff; } .ds-route-switcher { display: flex; gap: 0.2rem; margin-block: 1.25rem 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid #6979e7; } .ds-route-switcher button { min-height: 44px; border: 0; border-radius: 0; padding: 0.4rem 0.7rem; font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.8rem; line-height: 1.7; color: #d2d9ff; background: transparent; cursor: pointer; } .ds-route-switcher button[aria-pressed=\"true\"] { background: var(--lime, #e6f28b); color: #172125; font-weight: 700; } .ds-route-switcher button:hover { color: #172125; background: #ffffff; } .ds-route-title { max-width: 15ch; margin: 0; font-family: var(--font-display, \"Barlow Condensed\"), sans-serif; font-size: clamp(2.5rem, 3.5vw, 3.5rem); font-weight: 600; line-height: 1.02; text-transform: uppercase; text-wrap: balance; } .ds-route-map { position: relative; height: 155px; margin-block: 1.5rem 0.8rem; } .ds-route-map > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke-width: 4; } .ds-route-track { stroke: #6979e7; } .ds-route-trace { stroke: var(--lime, #e6f28b); stroke-dasharray: 1; stroke-dashoffset: 0.5; transition: stroke-dashoffset 650ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-route-stops { margin: 0; padding: 0; list-style: none; } .ds-route-stops li { position: absolute; } .ds-route-stops li:first-child { left: calc(5.45% - 13px); top: 14px; } .ds-route-stops li:nth-child(2) { left: calc(49.55% - 13px); top: 64px; } .ds-route-stops li:last-child { right: calc(5.45% - 13px); bottom: -5px; } .ds-route-stop { display: flex; flex-direction: column; gap: 0.55rem; padding: 0.25rem; min-height: 44px; border: 0; background: transparent; color: #d2d9ff; font-family: var(--font-body, \"Manrope\"), sans-serif; font-size: 0.72rem; font-weight: 600; line-height: 1.7; text-align: left; cursor: pointer; } .ds-route-stops li:last-child .ds-route-stop { align-items: end; text-align: right; } .ds-route-dot { width: 18px; height: 18px; border: 3px solid #d2d9ff; border-radius: 50%; background: var(--cobalt, #273bc4); } .ds-route-stop.ds-reached { color: var(--lime, #e6f28b); } .ds-route-stop.ds-reached .ds-route-dot { background: var(--lime, #e6f28b); border-color: var(--lime, #e6f28b); } .ds-route-stop[aria-pressed=\"true\"] .ds-route-dot { outline: 1px solid var(--lime, #e6f28b); outline-offset: 5px; } .ds-route-stop:hover { color: #ffffff; } .ds-route-note { min-height: 5.8rem; max-width: 46ch; margin: 0; font-size: 0.875rem; line-height: 1.6; color: #ffffff; } .ds-route-switcher button:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; border-radius: 0.125rem; } .ds-route-stop:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; border-radius: 0.125rem; } @media (max-width: 740px) { .ds-route-panel { padding: 1.35rem; } .ds-route-title { font-size: 2.8rem; } .ds-route-note { min-height: 6rem; } } @media (prefers-reduced-motion: reduce) { .ds-route-trace { transition: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Systems Atlas",
+    "overview": "Useful tools have visible relationships to the problems that inspired them. The visual system borrows the clarity of route maps: saturated fields, continuous lines, selectable stops, and strong alignment. Industrial condensed headings give the work a confident public identity; spacious Manrope text makes the reasoning comfortable to read.\n\nThe system is direct, practical, and playful. Its expressive surfaces are square cobalt and lime exhibits; writing and résumé pages use quieter, narrow reading columns. Diagrams describe actual workflows, and interaction remains reversible. The site follows the operating system’s color preference while keeping its signature route palette stable.",
+    "keyCharacteristics": [
+      "Condensed uppercase display type paired with legible sans-serif reading text.",
+      "Fixed cobalt and lime exhibits within an adaptive neutral reading palette.",
+      "Open layouts, ruled lists, and semantic relationship diagrams.",
+      "Native controls, visible focus, and reduced-motion alternatives."
+    ],
+    "rules": [
+      {
+        "name": "The Fixed Route Rule",
+        "body": "Use fixed cobalt and lime for expressive route surfaces; use the adaptive primary and neutral tokens for reading, navigation, and general controls.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Reserve Barlow Condensed for headings and diagram terms; keep prose, navigation, and form text in Manrope.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Exhibit Rule",
+        "body": "Establish hierarchy with field color, type, and spacing; reserve soft shadow for actual overlays and auxiliary controls.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use fixed cobalt and lime for route exhibits and adaptive semantic colors for reading and navigation.",
+      "**Do** keep condensed uppercase headings and diagram terms distinct from Manrope prose and controls.",
+      "**Do** preserve open exhibit layouts, thin archive rules, and the observed reading widths.",
+      "**Do** use native controls, visible focus, minimum 44px route and navigation targets, and reduced-motion alternatives.",
+      "**Do** base diagrams and interactions on actual project relationships and keep exploration reversible.",
+      "**Do** place Ask in the header and preserve its lazy transcript and existing reading position."
+    ],
+    "donts": [
+      "**Don't** replace the atlas with a generic dark gradient card grid.",
+      "**Don't** apply display typography to paragraphs or long reading text.",
+      "**Don't** round every exhibit or add decorative shadows to project and writing surfaces.",
+      "**Don't** obscure reading with an always-floating Ask launcher.",
+      "**Don't** imply live product telemetry through the conceptual project route.",
+      "**Don't** carry the 404 game’s night palette into ordinary portfolio or reading surfaces."
+    ]
+  }
+}

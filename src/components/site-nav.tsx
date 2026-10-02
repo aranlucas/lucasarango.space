@@ -1,11 +1,8 @@
 "use client";
 
-import { cn } from "cn";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { ViewTransition } from "react";
-
-import { buttonVariants } from "@/components/ui/button";
 
 // Tab order sets the slide direction: moving right slides content left.
 const TABS = [
@@ -14,10 +11,7 @@ const TABS = [
   { href: "/resume", segment: "resume", label: "Resume" },
 ] as const;
 
-const navLink = cn(
-  buttonVariants({ variant: "ghost", size: "sm" }),
-  "relative text-base font-normal text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground",
-);
+const navLink = "site-nav-link";
 
 function useActiveTabIndex() {
   // Route segments agree during server rendering and hydration, including a
@@ -51,7 +45,7 @@ export function HomeLink({
 export function SiteNav() {
   const active = useActiveTabIndex();
   return (
-    <nav aria-label="Main" className="-me-2.5 flex gap-1">
+    <nav aria-label="Main" className="site-nav">
       {TABS.map((tab, i) => (
         <TabLink key={tab.href} href={tab.href} current={i === active}>
           {tab.label}
@@ -81,10 +75,7 @@ function TabLink({
       {current && (
         // Only one indicator exists at a time, so the shared name glides it between tabs.
         <ViewTransition name="nav-indicator" share="nav-indicator" default="none">
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-2.5 -bottom-1.5 h-0.5 rounded-full bg-primary"
-          />
+          <span aria-hidden="true" className="nav-current" />
         </ViewTransition>
       )}
     </Link>

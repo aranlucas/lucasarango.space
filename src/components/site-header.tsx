@@ -1,42 +1,45 @@
 import { cn } from "cn";
-import { MountainSnow } from "lucide-react";
+import { ArrowUpRight, MoveUpRight } from "lucide-react";
 
+import { AskPopup } from "@/components/ask/ask-popup";
 import { HomeLink, SiteNav } from "@/components/site-nav";
-import { Separator } from "@/components/ui/separator";
 import { SITE } from "@/lib/site";
 
 export function SiteHeader() {
   return (
-    <header
-      className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-7 pb-10 sm:pb-14 print:hidden"
-      style={{ viewTransitionName: "site-header" }}
-    >
-      <HomeLink className="flex items-center gap-2.5 font-semibold text-foreground">
-        <span className="flex size-8 items-center justify-center rounded-full bg-muted text-primary ring-1 ring-border">
-          <MountainSnow aria-hidden="true" className="size-4.5" />
+    <header className="site-header print:hidden" style={{ viewTransitionName: "site-header" }}>
+      <HomeLink className="site-wordmark">
+        <span className="site-mark" aria-hidden="true">
+          <MoveUpRight size={24} strokeWidth={2.5} />
         </span>
         {SITE.name}
       </HomeLink>
-      <SiteNav />
+      <div className="site-header-actions">
+        <SiteNav />
+        <AskPopup />
+      </div>
     </header>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer
-      className="pb-12 text-sm text-muted-foreground print:hidden"
-      style={{ viewTransitionName: "site-footer" }}
-    >
-      <Separator className="mb-6" />
-      <p className="mb-3 text-base text-foreground">Thanks for stopping by.</p>
-      <p className="mb-1.5">
-        Find my projects on <TextLink href={SITE.github}>GitHub</TextLink>, or say hello on{" "}
-        <TextLink href={SITE.linkedin}>LinkedIn</TextLink>.
-      </p>
-      <p>
-        <TextLink href="/feed.xml">Subscribe with RSS</TextLink>
-      </p>
+    <footer className="site-footer print:hidden" style={{ viewTransitionName: "site-footer" }}>
+      <div>
+        <p className="footer-title">Keep in touch.</p>
+        <p>Thanks for stopping by.</p>
+      </div>
+      <div className="footer-links">
+        <TextLink href={SITE.github}>
+          GitHub <ArrowUpRight aria-hidden="true" size={17} />
+        </TextLink>
+        <TextLink href={SITE.linkedin}>
+          LinkedIn <ArrowUpRight aria-hidden="true" size={17} />
+        </TextLink>
+        <TextLink href="/feed.xml">
+          Subscribe with RSS <ArrowUpRight aria-hidden="true" size={17} />
+        </TextLink>
+      </div>
     </footer>
   );
 }
