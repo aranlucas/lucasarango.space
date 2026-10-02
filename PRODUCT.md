@@ -20,7 +20,7 @@ Next.js portfolio with home, blog index, published articles, résumé, RSS, a la
 
 ## Brand Commitments
 
-User requested a substantial, distinctive Impeccable redesign and delegated selection after exploring two or three directions. Bold typography, unusual usable composition, project storytelling, thoughtful motion, and a memorable interaction are encouraged. A generic dark gradient card grid is explicitly excluded.
+The approved character restoration returns the Cascades mountain, ridge/night stars, warm paper/fir palette, Literata voice and conversational greeting. Keep factual project stories, native reversible route exploration and a discoverable owl detour into the original forest. Personal character and readable résumé/writing take priority over oversized studio branding.
 
 ## Evidence on Hand
 

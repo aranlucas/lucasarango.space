@@ -51,8 +51,7 @@ export function IdeaRoute() {
   return (
     <section className="idea-route" aria-labelledby={`${id}-title`}>
       <div className="route-topline">
-        <h2 id={`${id}-title`}>Follow an idea</h2>
-        <span>Problem → tool</span>
+        <h2 id={`${id}-title`}>On my workbench</h2>
       </div>
       <RouteSwitcher
         selected={selected}
@@ -85,7 +84,7 @@ export function IdeaRoute() {
           Read the story <ArrowRight aria-hidden="true" size={16} />
         </Link>
       </div>
-      <p className="route-caption">A map of the idea. The full story is below.</p>
+      <p className="route-caption">Small tools, from things I wanted to use myself.</p>
     </section>
   );
 }
