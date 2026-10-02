@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import { join } from "node:path";
 
-import matter from "gray-matter";
+import { VFile } from "vfile";
+import { matter } from "vfile-matter";
+import { z } from "zod";
 
 import type { Post } from "@/interfaces/post";
 
@@ -32,26 +34,38 @@ export function getAllPosts(): Post[] {
   return posts;
 }
 
-type Frontmatter = { title?: unknown; date?: unknown; summary?: unknown; draft?: unknown };
+const PostMetadata = z.object({
+  title: z.string().trim().min(1, "must not be blank"),
+  date: z.iso.date({ error: "must be a valid calendar date in YYYY-MM-DD format" }),
+  summary: z.string().trim().min(1, "must not be blank"),
+  draft: z.boolean().default(false),
+});
+
+function readPostFile(slug: string, fileContents: string) {
+  try {
+    const file = new VFile(fileContents.replace(/^\uFEFF/u, ""));
+    // Core YAML keeps dates as strings, preserving them for calendar validation.
+    matter(file, { strip: true, yaml: { schema: "core" } });
+    return { data: file.data.matter, content: String(file) };
+  } catch (error) {
+    throw new Error(`${slug}: ${error instanceof Error ? error.message : "invalid frontmatter"}`, {
+      cause: error,
+    });
+  }
+}
 
 /** Validates frontmatter so a bad post fails the build instead of rendering broken. */
 export function parsePost(slug: string, fileContents: string): Post {
-  const { data, content } = matter(fileContents);
-  const fm = data as Frontmatter;
-  if (typeof fm.title !== "string" || !fm.title) throw new Error(`${slug}: missing title`);
-  if (typeof fm.summary !== "string" || !fm.summary) throw new Error(`${slug}: missing summary`);
-  // YAML turns bare dates into Date objects; keep them as YYYY-MM-DD strings.
-  const date = fm.date instanceof Date ? fm.date.toISOString().slice(0, 10) : fm.date;
-  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/u.test(date)) {
-    throw new Error(`${slug}: date must be YYYY-MM-DD`);
+  const { data, content } = readPostFile(slug, fileContents);
+  const metadata = PostMetadata.safeParse(data);
+  if (!metadata.success) {
+    const issue = metadata.error.issues[0];
+    throw new Error(`${slug}: ${issue?.path.join(".") || "frontmatter"} ${issue?.message}`);
   }
   const words = content.split(/\s+/u).filter(Boolean).length;
   return {
     slug,
-    title: fm.title,
-    date,
-    summary: fm.summary,
-    draft: fm.draft === true,
+    ...metadata.data,
     readingMinutes: Math.max(1, Math.round(words / 230)),
     content,
   };
