@@ -1,6 +1,4 @@
 import { AskAbout } from "@/components/ask/ask-about";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import type { ResumeRole } from "@/lib/resume";
 
 export function Role({ role }: { role: ResumeRole }) {
@@ -8,9 +6,7 @@ export function Role({ role }: { role: ResumeRole }) {
     <li>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 className="font-semibold">{role.company}</h3>
-        <Badge variant="secondary" className="tabular-nums">
-          {role.dates}
-        </Badge>
+        <span className="tally">{role.dates}</span>
       </div>
       <p className="mb-3 text-sm text-muted-foreground">
         {role.title}, {role.location}
@@ -21,7 +17,7 @@ export function Role({ role }: { role: ResumeRole }) {
           question={`What did Lucas work on at ${role.company}, and what was the impact?`}
         />
       </div>
-      <Separator className="mt-8 print:hidden" />
+      <hr className="mt-8 mb-0 print:hidden" />
     </li>
   );
 }

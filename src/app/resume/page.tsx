@@ -4,7 +4,6 @@ import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
-import { Badge } from "@/components/ui/badge";
 import { formatMonth, getResume, type Resume, type ResumeProject } from "@/lib/resume";
 import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
 
@@ -32,7 +31,7 @@ export default async function ResumePage() {
         <section aria-labelledby="summary">
           <SectionHeading id="summary">Summary</SectionHeading>
           <p className="mb-4 text-pretty">{resume.summary}</p>
-          <p className="border-s border-primary ps-4 text-sm/relaxed text-muted-foreground">
+          <p className="border-y border-dashed border-foreground py-3 text-sm/relaxed text-muted-foreground">
             {LOOKING_FOR}
           </p>
         </section>
@@ -91,8 +90,8 @@ function ResumeHeader({ resume }: { resume: Resume }) {
         <span className="print:hidden">Résumé</span>
         <span className="hidden print:inline">{resume.name}</span>
       </h1>
-      <p className="mb-4 text-lede text-muted-foreground">{resume.title}</p>
-      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+      <p className="mb-4 text-center text-muted-foreground">{resume.title}</p>
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
         <span>{resume.location}</span>
         {resume.profiles.map((profile) => (
           <TextLink key={profile.href} href={profile.href}>
@@ -100,7 +99,7 @@ function ResumeHeader({ resume }: { resume: Resume }) {
           </TextLink>
         ))}
       </div>
-      <div className="mt-6 print:hidden">
+      <div className="mt-6 flex justify-center print:hidden">
         <PrintButton />
       </div>
     </header>
@@ -153,9 +152,7 @@ function Education({ education }: { education: Resume["education"] }) {
         <div key={school.school}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <h3 className="font-semibold">{school.school}</h3>
-            <Badge variant="secondary" className="tabular-nums">
-              {school.dates}
-            </Badge>
+            <span className="tally">{school.dates}</span>
           </div>
           <p className="text-sm text-muted-foreground">
             {school.degree}, {school.location}

@@ -1,31 +1,30 @@
 ---
 name: "Lucas Arango’s portfolio"
-description: "A personal engineering notebook in the Cascades."
+description: "A one-bit thermal receipt from a Seattle engineer."
 colors:
-  background: "#f4f1ea"
-  foreground: "#17242c"
-  card: "#faf7f0"
-  primary: "#2c6654"
-  primary-foreground: "#f1f6f4"
-  secondary: "#eae6de"
-  muted-foreground: "#56666e"
-  accent: "#eae6de"
-  accent-foreground: "#17242c"
-  destructive: "#b3412f"
-  border: "#d4d2c8"
-  ridge: "#859b91"
-  background-dark: "#121b21"
-  foreground-dark: "#dce5e7"
-  card-dark: "#17232a"
-  primary-dark: "#86c3ae"
-  primary-foreground-dark: "#0f2019"
-  secondary-dark: "#1a262d"
-  muted-foreground-dark: "#8d9da4"
-  accent-dark: "#1f2e36"
-  accent-foreground-dark: "#dce5e7"
-  destructive-dark: "#e07a66"
-  border-dark: "#2b3a42"
-  ridge-dark: "#4c646d"
+  background: "#f7f7f3"
+  foreground: "#111111"
+  card: "#fbfbf8"
+  primary: "#111111"
+  primary-foreground: "#f7f7f3"
+  secondary: "#ebebe5"
+  muted-foreground: "#5a5a56"
+  accent: "#e4e4dd"
+  accent-foreground: "#111111"
+  destructive: "#b3261e"
+  border: "#c8c8c1"
+  leader: "#8e8e88"
+  background-dark: "#121211"
+  foreground-dark: "#ecece6"
+  card-dark: "#181817"
+  primary-dark: "#ecece6"
+  primary-foreground-dark: "#121211"
+  secondary-dark: "#222220"
+  muted-foreground-dark: "#a3a39c"
+  accent-dark: "#2a2a28"
+  destructive-dark: "#f2867a"
+  border-dark: "#3b3b38"
+  leader-dark: "#6a6a65"
   night: "#0b1418"
   night-foreground: "#dce5e7"
   night-muted: "#8d9da4"
@@ -33,81 +32,56 @@ colors:
   lamp-foreground: "#1d1408"
 typography:
   display:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "clamp(2.25rem, 4vw, 3.25rem)"
-    fontWeight: 600
-    lineHeight: 1.15
-    letterSpacing: "-0.04em"
+    fontFamily: "Pixelify Sans, Martian Mono, monospace"
+    fontSize: "clamp(2.5rem, 12vw, 3.5rem)"
+    fontWeight: 700
+    lineHeight: 1
+  article-title:
+    fontFamily: "Pixelify Sans, Martian Mono, monospace"
+    fontSize: "clamp(2rem, 8vw, 2.75rem)"
+    fontWeight: 700
+    lineHeight: 1.05
   headline:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "1.875rem"
+    fontFamily: "Pixelify Sans, Martian Mono, monospace"
+    fontSize: "1.3125rem"
     fontWeight: 600
     lineHeight: 1.3
-  title:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "1.3rem"
-    fontWeight: 600
-    lineHeight: 1.4
-  page-title:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "clamp(2.5rem, 5vw, 3.25rem)"
-    fontWeight: 600
-    lineHeight: 1.2
-    letterSpacing: "-0.025em"
-  article-title:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "clamp(2rem, 4vw, 2.75rem)"
-    fontWeight: 600
-    lineHeight: 1.2
-    letterSpacing: "-0.02em"
-  body:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.7
-  lede:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "1.1875rem"
-    fontWeight: 400
-    lineHeight: 1.6
-  writing-title:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "0.9375rem"
-    fontWeight: 600
-    lineHeight: 1.5
-  label:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "0.9375rem"
-    fontWeight: 400
-    lineHeight: 1.7
-  mono:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
-    fontSize: "0.6875rem"
-    fontWeight: 400
-    lineHeight: 1.7
-  control:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "0.875rem"
-    fontWeight: 500
-    lineHeight: "1.25rem"
-  input:
-    fontFamily: "Literata, Georgia, serif"
+  nav:
+    fontFamily: "Pixelify Sans, Martian Mono, monospace"
     fontSize: "1rem"
     fontWeight: 400
-    lineHeight: "1.5rem"
-  ask-control:
-    fontFamily: "Literata, Georgia, serif"
+    lineHeight: 1
+  body:
+    fontFamily: "Martian Mono, ui-monospace, monospace"
     fontSize: "0.875rem"
     fontWeight: 400
-    lineHeight: "1.25rem"
+    lineHeight: 1.75
+  article-body:
+    fontFamily: "Martian Mono, ui-monospace, monospace"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.8
+  note:
+    fontFamily: "Martian Mono, ui-monospace, monospace"
+    fontSize: "0.8125rem"
+    fontWeight: 400
+    lineHeight: 1.7
+  meta:
+    fontFamily: "Martian Mono, ui-monospace, monospace"
+    fontSize: "0.6875rem"
+    fontWeight: 400
+    lineHeight: 1.75
+    letterSpacing: "0.1em"
+  footer-link:
+    fontFamily: "Martian Mono, ui-monospace, monospace"
+    fontSize: "0.75rem"
+    fontWeight: 400
+    lineHeight: 1.75
+    letterSpacing: "0.08em"
 rounded:
-  sm: "0.225rem"
-  md: "0.3rem"
-  lg: "0.375rem"
-  xl: "0.525rem"
-  panel: "0.5rem"
-  4xl: "2rem"
-  full: "calc(infinity * 1px)"
+  none: "0"
+  line: "0.25rem"
+  tab: "0.375rem"
 spacing:
   "1": "0.25rem"
   "2": "0.5rem"
@@ -117,161 +91,151 @@ spacing:
   "8": "2rem"
   "10": "2.5rem"
   "12": "3rem"
-  "14": "3.5rem"
-  "16": "4rem"
 components:
-  wordmark:
-    backgroundColor: "{colors.secondary}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.full}"
-  navigation:
+  nav-tab:
     backgroundColor: "transparent"
     textColor: "{colors.foreground}"
-    typography: "{typography.label}"
+    typography: "{typography.nav}"
     height: "44px"
-  button-ask:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.primary-foreground}"
-    typography: "{typography.ask-control}"
-    rounded: "{rounded.full}"
-    height: "44px"
-  greeting:
-    textColor: "{colors.foreground}"
-    typography: "{typography.display}"
-  forest-link:
-    textColor: "{colors.primary}"
-    height: "44px"
-  project-story:
+  nav-tab-current:
+    backgroundColor: "{colors.foreground}"
+    textColor: "{colors.background}"
+    typography: "{typography.nav}"
+    rounded: "{rounded.tab}"
+  line-item:
     backgroundColor: "transparent"
     textColor: "{colors.foreground}"
-    padding: "2rem 0"
-  writing-row:
-    backgroundColor: "transparent"
-    textColor: "{colors.foreground}"
-    padding: "1.35rem 0"
-  input-question:
-    backgroundColor: "{colors.background}"
-    textColor: "{colors.foreground}"
-    typography: "{typography.input}"
-    rounded: "{rounded.lg}"
+    typography: "{typography.body}"
+    rounded: "{rounded.line}"
     height: "44px"
-  button-close:
-    backgroundColor: "transparent"
+  line-item-active:
+    backgroundColor: "{colors.foreground}"
+    textColor: "{colors.background}"
+    rounded: "{rounded.line}"
+  line-note:
     textColor: "{colors.muted-foreground}"
-    rounded: "{rounded.lg}"
-    size: "2rem"
-  badge-secondary:
-    backgroundColor: "{colors.secondary}"
+    typography: "{typography.note}"
+  text-link:
     textColor: "{colors.foreground}"
-    rounded: "{rounded.4xl}"
-    height: "1.25rem"
+    typography: "{typography.body}"
+  ask-panel:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    width: "26rem"
+  forest-link:
+    textColor: "{colors.foreground}"
+    typography: "{typography.nav}"
+    height: "44px"
 ---
 
 # Design System: Lucas Arango’s portfolio
 
 ## Overview
 
-**Creative North Star: "Cascades Notebook"**
+**Creative North Star: "One-bit receipt"**
 
-A personal engineering notebook in the Cascades: warm paper, fir links, a mountain mark and the original conversational greeting. Literata carries the biography and reading voice. Modest mono labels identify tools, dates and diagrams. The mountain logo keeps the outdoor reference compact. The owl uses the existing critter silhouette as a small footer detour, after the work, rather than a detached hero ornament.
+The site is one long thermal till receipt from a Seattle engineer: a single narrow column of the things he has built and written, itemized. The greeting is printed under a dithered Cascades peak, the way a till prints its logo, and the receipt closes with "Thank you for stopping by." It refuses the two-column hero, project cards and diagrams, and the cream-and-serif notebook the earlier iterations wore.
 
-Clear project/source links and the dated writing archive remain. Factual project stories sit in open ruled layouts. The interface follows the operating system’s theme, with native controls, reduced motion and the lazy Ask transcript retained.
-
-This documentation includes a draft composition refinement responding to feedback on diagram alignment and detached outdoor decoration. The user approved removing the workbench panel so the actual projects follow the introduction directly. The final composition is held for review before another production deployment. The prior Cascades Notebook restoration was approved. The cloud implementation was reconstructed from the approved desktop, phone and dark previews and this design specification, because the earlier local-only commit was unavailable. Source history supplies the original fonts, palette, ridge geometry and factual content.
+The world fuses two sources. The receipt supplies the structure: one column, dashed and double rules, dotted leaders between an item and its quantity, uppercase meta. HyperCard supplies the one-bit discipline: dithered artwork, bitmap headings, and a pressed state that inverts to solid ink. The interface follows the operating system's theme. Dark mode exchanges paper and ink rather than introducing a new palette.
 
 **Key Characteristics:**
 
-- The original mountain mark, kept at logo scale.
-- Warm paper/fir palette and a conversational serif voice.
-- Open project stories and a clear, dated writing archive.
-- A playful detour into the preserved critter game.
+- One column, about 34rem, centred; nothing sits beside anything else.
+- Ink and paper only: no hue anywhere on the reading surfaces.
+- Bitmap headings over a condensed monospace that sets every other word.
+- Line items with dotted leaders; whatever is active reverse-prints.
+- A dithered peak at the top and a barcode and owl at the bottom.
 
 ## Colors
 
-Use the adaptive paper, ink and fir tokens throughout the portfolio. The frontmatter records runtime values; the sidecar records matching palette metadata.
+Restrained to one bit: cool thermal paper and carbon ink, with greys only where text must recede.
 
 ### Primary
 
-Fir (`primary`) carries links and native actions. The dark theme uses the original pale fir, paired with deep green foreground ink. A thin fir underline marks current navigation.
-
-### Secondary
-
-Ridge (`ridge`) carries the quieter contour lines and workflow connections. The secondary/muted surface supports the circular mountain mark and metadata. Input aliases border; popover aliases card. Focus rings use primary.
+Ink (`foreground`, `#111111`) carries text, rules, links and every active state. `primary` aliases ink so library controls print in the same black.
 
 ### Neutral
 
-Warm paper, slate ink and raised paper preserve the earlier site’s reading character. The corresponding dark values use the original night slate palette. Supporting text uses muted foreground in both themes. Destructive tokens retain their form-state role.
+Paper (`background`, `#f7f7f3`) is cool, not cream. `card` is a slightly brighter sheet for the Ask panel. `muted-foreground` (`#5a5a56`, 6.4:1 on paper) carries notes, dates and meta. `leader` greys the dotted leaders so they read as connective, not as content. `border` is reserved for library form controls; receipt rules use ink.
 
-The 404 forest retains its separate night/lamp palette regardless of the OS theme. Do not recolor the gameplay surface to match the reading canvas. Print uses white paper and slate ink.
+Dark mode is night printing: `#121211` paper and `#ecece6` ink, the same roles exchanged. The 404 forest keeps its separate night and lamp palette regardless of theme. Print uses white paper and black ink. `destructive` exists only for form errors.
+
+**The One-Bit Rule.** No hue on any reading surface. Emphasis comes from inversion, weight, case and rules, never from color.
 
 ## Typography
 
-Literata is the display and reading voice, with Georgia/serif fallback. Its upright face is preloaded; italic loads only where used. IBM Plex Mono carries compact tool labels, dates and diagrams, and loads on use. Next.js self-hosts the font files, so browsers make no Google font requests.
+**Display font:** Pixelify Sans, a bitmap face (self-hosted by next/font).
+**Body font:** Martian Mono at `wdth` 87, a condensed monospace (self-hosted by next/font).
 
-The greeting uses a responsive, sentence-case 600 weight. Section headings are 1.875rem; project titles are 1.3rem. Full page and article headings use their own clamps. Prose stays in the same reading voice, with a more generous introductory lede.
+Pixelify Sans sets the greeting, page and article titles, section headings, the nav tabs, the footer sign-off and the owl link. Martian Mono sets everything else, at a condensed width so the column stays narrow without cramping. The mono is the receipt's printing, not a "technical" costume; it is what the paper is.
 
-At 740px and below, the greeting uses `clamp(2rem, 9vw, 2.5rem)`, biography text becomes 1rem, and the lede becomes 1.125rem. The archive retains visible titles, summaries, dates and reading times. Avoid uppercase transformations in the ordinary portfolio.
+### Hierarchy
 
-**The Personal Voice Rule.** Keep the greeting, reading typography, mountain identity and outdoor details ahead of a polished studio identity.
+- **Display** (700, `clamp(2.5rem, 12vw, 3.5rem)`, line-height 1): the home greeting and page titles, centred.
+- **Article title** (700, `clamp(2rem, 8vw, 2.75rem)`): post headings, centred.
+- **Headline** (600, 1.3125rem): section headings such as "Things I’m building".
+- **Body** (0.875rem, 1.75): biography and line items. Articles step up to 0.9375rem at 1.8 for long reading.
+- **Note** (0.8125rem, muted): the description under a line item.
+- **Meta** (0.6875rem, 0.1em tracking, uppercase, tabular numerals): sub-lines, tallies, dates and quantities.
+
+**The Printed Meta Rule.** Uppercase belongs to receipt metadata only: tallies, dates, quantities, the sub-line. Headings and prose stay in sentence case.
 
 ## Layout
 
-The shell is centered at `min(100% - 4rem, 64rem)`; phone gutters are 1.25rem per side. The introduction begins directly below the header. The large hero ridge is removed so the landscape does not compete with the biography and technical diagrams. The forest invitation appears only in the footer.
+The shell is centred at `min(100% - 2rem, 34rem)` on every route. The header is a centred row of tabs. The home page reads top to bottom: printed peak (max 26rem), greeting, sub-line, dashed rule, biography, double rule, projects, dashed rule, recent writing, then the footer behind a double rule.
 
-The introduction is a single reading column, bounded at 45rem, with no empty grid track. It flows directly into the actual projects, without an interactive preview panel. Projects use open ruled rows with copy and a compact diagram (1.5fr/1fr), separated by 4rem. At 1000px project gaps tighten; at 740px the project rows stack. Header navigation and Ask share a full-width row on phone.
+Dashed rules separate items within a story; double rules separate the receipt's major parts (after the message, before the footer, before an article's older/newer lines). Section headings carry a flush-right tally or link on the same baseline.
 
-Writing uses a 56rem index, with article and résumé reading bounded at 45rem. Archive rows use date/copy/arrow columns (5.5rem/1fr/1rem), moving dates above the copy on phone. Keep source order and all published information intact.
-
-The header and footer stay in document flow. Print hides navigation, footer and interaction surfaces, releases résumé width constraints and uses a 13px base.
-
-**The Quiet Work Rule.** Present factual work, source and reasoning in open readable layouts. Avoid marketing questions and oversized color exhibits.
+**The Single Column Rule.** Nothing sits beside anything else. Leaders and flush-right quantities are the only horizontal structure.
 
 ## Elevation & Depth
 
-The reading canvas and project stories are flat. Thin rules and spacing separate content. Shadow is reserved for the open Ask overlay, its scroll control and the keyboard skip link. The sidecar retains the actual library shadow values.
+Flat. Paper has no shadow and no layers except the Ask panel, which is a sheet with a 2px ink border on desktop and the full screen on phones. Depth is expressed by inversion, not elevation.
 
 ## Shapes
 
-The original mountain mark is circular. Form controls use restrained corners. Diagram nodes express relationships; they are not decorative card motifs. The original owl silhouette is rendered as compact SVG geometry adapted directly from the game’s canvas texture.
+Square by default. The current tab and an active line take a small radius (0.375rem and 0.25rem) so the reverse-print reads as a stamped block rather than a selection bug. Artwork is one-bit: ordered dither patterns at 12, 25, 50 and 75 percent, crisp edges, no anti-aliased greys.
 
 ## Components
 
-### Mountain identity
+### Navigation tabs
 
-Use the original mountain mark at logo scale. Do not add a separate landscape banner above the biography. Existing share images retain their warm palette, Literata and ridge geometry.
+About, Writing, Resume and Ask, in Pixelify, centred, each with a 44px target. The current tab is an inverted ink block that glides between tabs with a view transition. Hover inverts too. On phones the Ask panel carries its own close, so the header close hides there.
 
-### Forest detour
+### Line items
 
-The owl link visibly invites a wrong turn and explicitly labels its 404 forest destination for assistive technology. The detour appears only in the footer, with a smaller 24px owl. Its finite 800ms hover/focus blink stops under reduced motion. The intentionally missing route serves the existing forest game; no new gameplay route or engine is invented. Link prefetch is disabled, keeping the Three.js bundle off the home page until navigation.
+The receipt's core pattern: a name, a dotted leader that fills the gap, and a quantity flush right (`STORY →`, `3 MIN`). Writing lines lead with a muted date. The whole line is one link with a 44px target; hover and keyboard focus reverse-print the line, leader and date included. A muted note may follow, indented two characters; project notes end with a `Source` link.
 
-**The Real Detour Rule.** Playful details should lead to actual behavior. The owl opens the retained 404 forest; it never prefetches the game on the home page.
+### Text links
 
-### Project stories
+Underlined ink (1px, 0.2em offset). Hover reverse-prints the word.
 
-Titles, descriptions, source and story links remain factual. The existing first-person descriptions tell the personal origin and everyday purpose beside each project, without requiring clicks through a separate workbench. The rows are open and ruled, with small workflow diagrams in mono type. The grocery flow, shared canvas and plugin branches retain their real relationships without marketing-style questions. All diagrams are compact and left-aligned; text, nodes and connecting lines share SVG coordinates so they cannot drift independently. The plugin diagram uses a clear parent/children tree.
+### Printed artwork
 
-### Writing archive
+`ReceiptArt`: a dithered peak with firs over a 2px ground rule, printed in from the top in 15 steps on load (skipped for reduced motion). The share card renders the same artwork, the bitmap title and a receipt meta line.
 
-Dates, reading times, titles and full summaries remain visible. Hover underlines the title; keyboard focus outlines the whole row. Mobile moves metadata above the copy rather than compressing the desktop grid.
+### Footer
+
+A double rule, "Thank you for stopping by." in Pixelify, GitHub / LinkedIn / RSS as uppercase meta links, a decorative barcode, and the owl's return policy: "Returns: take a wrong turn" with a pixel owl sprite whose eyes blink once on hover. The owl link opens the retained 404 forest and never prefetches it.
 
 ### Ask
 
-The header action is a 44px pill. The transcript remains dynamically imported on opening; conversation state survives navigation. The desktop panel is 26rem wide; below Tailwind’s 40rem threshold it fills the phone viewport. Close is available inside the panel at every breakpoint, and close/Escape restore focus after the closed state commits.
+The launcher is a tab with a 9×6 pixel peak glyph that prints row by row while an answer is loading. The panel is a 26rem sheet with a 2px ink border and a dashed header rule on desktop, and the full viewport on phones. The transcript stays dynamically imported.
 
-The question group supplies its border, radius and visible focus ring. An empty-question state disables only the submit button; the editable field retains full opacity and contrast. No chat or provider behavior is changed by this design correction.
+## Do's and Don'ts
 
-### Navigation and metadata
+### Do:
 
-Sentence-case serif navigation uses a thin current-page underline and 44px link targets. Date badges retain the adaptive secondary palette. The footer returns to “Thanks for stopping by” and provides the existing GitHub, LinkedIn and RSS links alongside the real forest detour.
+- **Do** keep every route in the one centred column.
+- **Do** express state by reverse-printing: ink block, paper text.
+- **Do** keep artwork one-bit and dithered, with crisp edges.
+- **Do** keep the forest and Ask transcript lazy, and honor reduced motion and visible focus.
+- **Do** keep factual biography, published writing, project links and game behavior intact.
 
-## Do’s and Don’ts
+### Don't:
 
-- Preserve factual biography, published writing, project links and game correctness.
-- Keep useful paths and native controls clear at narrow widths.
-- Keep the heavy forest and Ask transcript lazy.
-- Honor reduced motion and visible focus.
-- Keep personal character ahead of studio-style branding.
-- Add playful detail only when it has actual behavior or a meaningful destination.
-- Never invent accomplishments, metrics, endorsements or product capabilities.
-
-The sidecar records palette, type, motion and breakpoint metadata. Production-build browser checks are recorded separately in docs/portfolio-restoration-qa.md.
+- **Don't** add a second column, cards, or diagrams beside copy.
+- **Don't** introduce hue, gradients or soft shadows on reading surfaces.
+- **Don't** use pill badges or rounded chips; dates and counts are uppercase meta text.
+- **Don't** print Lucas's name twice on one page.
+- **Don't** invent accomplishments, metrics, endorsements or product capabilities.

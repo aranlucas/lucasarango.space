@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Visitors exploring Lucas’s software engineering work, public projects, and published writing. Their exact mix is inferred from the portfolio; the redesign brief identifies a senior engineer building distributed systems, AI products, and playful experiments.
+Visitors exploring Lucas’s software engineering work, public projects, and published writing. Their exact mix is inferred from the portfolio; the brief identifies a senior engineer building distributed systems, AI products, and playful experiments.
 
 ## Product Purpose
 
@@ -20,7 +20,7 @@ Next.js portfolio with home, blog index, published articles, résumé, RSS, a la
 
 ## Brand Commitments
 
-The approved character restoration keeps the Cascades mountain mark, warm paper/fir palette, Literata voice and conversational greeting. The composition refinement removes the separate ridge banner and redundant workbench, bringing the factual project stories directly after the introduction. Keep a discoverable owl detour into the original forest in the footer. Personal character and readable résumé/writing take priority over oversized studio branding.
+The owner released the earlier identities (systems atlas, Cascades Notebook) after finding them busy and over-designed. Current commitments: minimalist, single column only (no two-column layouts), lead with who Lucas is, and print his name once per page. The chosen world is a one-bit thermal receipt (see DESIGN.md). Keep a discoverable owl detour into the original forest in the footer. Personal character and readable résumé/writing take priority over studio branding.
 
 ## Evidence on Hand
 

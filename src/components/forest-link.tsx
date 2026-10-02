@@ -1,6 +1,7 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-/** A small version of the owl painted in lost/scene/textures.ts, without loading the game. */
+/** The game's owl as a one-bit sprite: the receipt's return policy is a wrong turn. */
 export function ForestLink() {
   return (
     <Link
@@ -9,21 +10,15 @@ export function ForestLink() {
       className="forest-link"
       aria-label="Take a wrong turn. Explore the 404 forest and its critters."
     >
-      <svg viewBox="0 0 256 256" aria-hidden="true" focusable="false">
-        <g fill="currentColor">
-          <path d="M0 226h256v14H0z" />
-          <ellipse cx="128" cy="150" rx="62" ry="84" />
-          <path d="M72 110 82 44 112 84M184 110 174 44 144 84" />
-        </g>
+      <svg viewBox="0 0 9 10" aria-hidden="true" focusable="false" shapeRendering="crispEdges">
+        <path d="M1 0h1v1h1v1h3V1h1V0h1v8H1zM0 9h9v1H0z" fill="currentColor" />
         <g className="owl-eyes" fill="var(--background)">
-          <circle cx="105" cy="108" r="9" />
-          <circle cx="151" cy="108" r="9" />
+          <rect x="2" y="3" width="1" height="1" />
+          <rect x="6" y="3" width="1" height="1" />
         </g>
       </svg>
-      <span>
-        Take a wrong turn.
-        <small>There are critters in the woods.</small>
-      </span>
+      <span>Returns: take a wrong turn</span>
+      <ArrowRight aria-hidden="true" size={14} />
     </Link>
   );
 }

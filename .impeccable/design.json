@@ -1,258 +1,602 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-02T14:14:00Z",
+  "generatedAt": "2026-10-02T17:31:54Z",
   "title": "Design System: Lucas Arango’s portfolio",
   "extensions": {
     "colorMeta": {
       "background": {
         "role": "neutral",
         "displayName": "Background",
-        "canonical": "#f4f1ea"
+        "canonical": "#f7f7f3",
+        "tonalRamp": [
+          "#262626",
+          "#40403f",
+          "#5a5a58",
+          "#737372",
+          "#9a9a97",
+          "#c0c0bd",
+          "#e2e2de",
+          "#f4f4f0"
+        ]
       },
       "foreground": {
         "role": "neutral",
         "displayName": "Foreground",
-        "canonical": "#17242c"
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#bfbfbf",
+          "#e0e0e0",
+          "#f2f2f2"
+        ]
       },
       "card": {
         "role": "neutral",
         "displayName": "Card",
-        "canonical": "#faf7f0"
+        "canonical": "#fbfbf8",
+        "tonalRamp": [
+          "#262626",
+          "#40403f",
+          "#5a5a59",
+          "#737372",
+          "#9a9a98",
+          "#c0c0be",
+          "#e1e1df",
+          "#f3f3f0"
+        ]
       },
       "primary": {
         "role": "primary",
         "displayName": "Primary",
-        "canonical": "#2c6654"
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#bfbfbf",
+          "#e0e0e0",
+          "#f2f2f2"
+        ]
       },
       "primary-foreground": {
         "role": "primary",
         "displayName": "Primary Foreground",
-        "canonical": "#f1f6f4"
+        "canonical": "#f7f7f3",
+        "tonalRamp": [
+          "#262626",
+          "#40403f",
+          "#5a5a58",
+          "#737372",
+          "#9a9a97",
+          "#c0c0bd",
+          "#e2e2de",
+          "#f4f4f0"
+        ]
       },
       "secondary": {
         "role": "neutral",
         "displayName": "Secondary",
-        "canonical": "#eae6de"
+        "canonical": "#ebebe5",
+        "tonalRamp": [
+          "#272726",
+          "#40403f",
+          "#5a5a58",
+          "#747471",
+          "#9a9a96",
+          "#c1c1bc",
+          "#e2e2dd",
+          "#f4f4ee"
+        ]
       },
       "muted-foreground": {
         "role": "neutral",
         "displayName": "Muted Foreground",
-        "canonical": "#56666e"
+        "canonical": "#5a5a56",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b57",
+          "#74746f",
+          "#9b9b94",
+          "#c2c2b9",
+          "#e4e4da",
+          "#f6f6eb"
+        ]
       },
       "accent": {
         "role": "neutral",
         "displayName": "Accent",
-        "canonical": "#eae6de"
+        "canonical": "#e4e4dd",
+        "tonalRamp": [
+          "#272725",
+          "#40403e",
+          "#5a5a57",
+          "#747470",
+          "#9b9b96",
+          "#c1c1bb",
+          "#e3e3dc",
+          "#f5f5ed"
+        ]
       },
       "accent-foreground": {
         "role": "neutral",
         "displayName": "Accent Foreground",
-        "canonical": "#17242c"
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#bfbfbf",
+          "#e0e0e0",
+          "#f2f2f2"
+        ]
       },
       "destructive": {
         "role": "error",
         "displayName": "Destructive",
-        "canonical": "#b3412f"
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "#53120e",
+          "#8b1d17",
+          "#c22921",
+          "#f9352a",
+          "#ff4738",
+          "#ff5846",
+          "#ff6852",
+          "#ff7058"
+        ]
       },
       "border": {
         "role": "neutral",
         "displayName": "Border",
-        "canonical": "#d4d2c8"
+        "canonical": "#c8c8c1",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5a5a57",
+          "#747470",
+          "#9b9b95",
+          "#c2c2bb",
+          "#e3e3db",
+          "#f5f5ed"
+        ]
       },
-      "ridge": {
+      "leader": {
         "role": "neutral",
-        "displayName": "Ridge",
-        "canonical": "#859b91"
+        "displayName": "Leader",
+        "canonical": "#8e8e88",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b57",
+          "#74746f",
+          "#9b9b95",
+          "#c2c2ba",
+          "#e4e4da",
+          "#f6f6eb"
+        ]
       },
       "background-dark": {
         "role": "neutral",
         "displayName": "Background Dark",
-        "canonical": "#121b21"
+        "canonical": "#121211",
+        "tonalRamp": [
+          "#272725",
+          "#41413d",
+          "#5b5b56",
+          "#75756e",
+          "#9c9c93",
+          "#c3c3b8",
+          "#e5e5d8",
+          "#f7f7e9"
+        ]
       },
       "foreground-dark": {
         "role": "neutral",
         "displayName": "Foreground Dark",
-        "canonical": "#dce5e7"
+        "canonical": "#ecece6",
+        "tonalRamp": [
+          "#272726",
+          "#40403f",
+          "#5a5a58",
+          "#747471",
+          "#9a9a96",
+          "#c1c1bc",
+          "#e2e2dd",
+          "#f4f4ee"
+        ]
       },
       "card-dark": {
         "role": "neutral",
         "displayName": "Card Dark",
-        "canonical": "#17232a"
+        "canonical": "#181817",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b57",
+          "#747470",
+          "#9b9b95",
+          "#c2c2ba",
+          "#e4e4da",
+          "#f6f6eb"
+        ]
       },
       "primary-dark": {
         "role": "primary",
         "displayName": "Primary Dark",
-        "canonical": "#86c3ae"
+        "canonical": "#ecece6",
+        "tonalRamp": [
+          "#272726",
+          "#40403f",
+          "#5a5a58",
+          "#747471",
+          "#9a9a96",
+          "#c1c1bc",
+          "#e2e2dd",
+          "#f4f4ee"
+        ]
       },
       "primary-foreground-dark": {
         "role": "primary",
         "displayName": "Primary Foreground Dark",
-        "canonical": "#0f2019"
+        "canonical": "#121211",
+        "tonalRamp": [
+          "#272725",
+          "#41413d",
+          "#5b5b56",
+          "#75756e",
+          "#9c9c93",
+          "#c3c3b8",
+          "#e5e5d8",
+          "#f7f7e9"
+        ]
       },
       "secondary-dark": {
         "role": "neutral",
         "displayName": "Secondary Dark",
-        "canonical": "#1a262d"
+        "canonical": "#222220",
+        "tonalRamp": [
+          "#272725",
+          "#41413d",
+          "#5b5b56",
+          "#75756e",
+          "#9c9c93",
+          "#c3c3b8",
+          "#e5e5d7",
+          "#f7f7e9"
+        ]
       },
       "muted-foreground-dark": {
         "role": "neutral",
         "displayName": "Muted Foreground Dark",
-        "canonical": "#8d9da4"
+        "canonical": "#a3a39c",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b57",
+          "#74746f",
+          "#9b9b95",
+          "#c2c2ba",
+          "#e4e4da",
+          "#f6f6eb"
+        ]
       },
       "accent-dark": {
         "role": "neutral",
         "displayName": "Accent Dark",
-        "canonical": "#1f2e36"
-      },
-      "accent-foreground-dark": {
-        "role": "neutral",
-        "displayName": "Accent Foreground Dark",
-        "canonical": "#dce5e7"
+        "canonical": "#2a2a28",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b56",
+          "#75756f",
+          "#9b9b94",
+          "#c2c2b9",
+          "#e4e4d9",
+          "#f6f6ea"
+        ]
       },
       "destructive-dark": {
         "role": "error",
         "displayName": "Destructive Dark",
-        "canonical": "#e07a66"
+        "canonical": "#f2867a",
+        "tonalRamp": [
+          "#381f1c",
+          "#5d332f",
+          "#824842",
+          "#a75d54",
+          "#df7c70",
+          "#ff9a8d",
+          "#ffb5a5",
+          "#ffc4b2"
+        ]
       },
       "border-dark": {
         "role": "neutral",
         "displayName": "Border Dark",
-        "canonical": "#2b3a42"
+        "canonical": "#3b3b38",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b56",
+          "#75756f",
+          "#9c9c94",
+          "#c3c3b9",
+          "#e4e4d9",
+          "#f6f6ea"
+        ]
       },
-      "ridge-dark": {
+      "leader-dark": {
         "role": "neutral",
-        "displayName": "Ridge Dark",
-        "canonical": "#4c646d"
+        "displayName": "Leader Dark",
+        "canonical": "#6a6a65",
+        "tonalRamp": [
+          "#272725",
+          "#41413e",
+          "#5b5b56",
+          "#75756f",
+          "#9b9b94",
+          "#c2c2b9",
+          "#e4e4d9",
+          "#f6f6eb"
+        ]
       },
       "night": {
         "role": "neutral",
         "displayName": "Night",
-        "canonical": "#0b1418"
+        "canonical": "#0b1418",
+        "tonalRamp": [
+          "#172a32",
+          "#264653",
+          "#366175",
+          "#457d96",
+          "#5ca7c8",
+          "#73d1fa",
+          "#87f5ff",
+          "#91ffff"
+        ]
       },
       "night-foreground": {
         "role": "neutral",
         "displayName": "Night Foreground",
-        "canonical": "#dce5e7"
+        "canonical": "#dce5e7",
+        "tonalRamp": [
+          "#252727",
+          "#3e4041",
+          "#575a5b",
+          "#6f7475",
+          "#949b9c",
+          "#bac1c3",
+          "#dae3e5",
+          "#ebf5f7"
+        ]
       },
       "night-muted": {
         "role": "neutral",
         "displayName": "Night Muted",
-        "canonical": "#8d9da4"
+        "canonical": "#8d9da4",
+        "tonalRamp": [
+          "#232729",
+          "#3a4144",
+          "#525b5f",
+          "#69757a",
+          "#8c9ca3",
+          "#afc3cc",
+          "#cde5ef",
+          "#def7ff"
+        ]
       },
       "lamp": {
-        "role": "neutral",
+        "role": "tertiary",
         "displayName": "Lamp",
-        "canonical": "#f3d9a4"
+        "canonical": "#f3d9a4",
+        "tonalRamp": [
+          "#2d281e",
+          "#4a4332",
+          "#685d46",
+          "#86785a",
+          "#b3a079",
+          "#dfc897",
+          "#ffeab1",
+          "#fffdbf"
+        ]
       },
       "lamp-foreground": {
-        "role": "neutral",
+        "role": "tertiary",
         "displayName": "Lamp Foreground",
-        "canonical": "#1d1408"
+        "canonical": "#1d1408",
+        "tonalRamp": [
+          "#3a2810",
+          "#61431b",
+          "#885e26",
+          "#af7930",
+          "#eaa140",
+          "#ffc951",
+          "#ffec5e",
+          "#ffff66"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Conversational serif greeting."
+        "purpose": "The greeting and page titles, printed like a till logo."
+      },
+      "article-title": {
+        "displayName": "Article Title",
+        "purpose": "Post headings."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Sentence-case serif sections."
+        "purpose": "Section headings with a flush-right tally."
       },
-      "title": {
-        "displayName": "Title",
-        "purpose": "Factual project title."
+      "nav": {
+        "displayName": "Nav",
+        "purpose": "Tabs, the footer sign-off and the owl link."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Literata reading voice and biography."
+        "purpose": "Biography and line items in the condensed receipt mono."
       },
-      "mono": {
-        "displayName": "Mono",
-        "purpose": "Compact tool, date and diagram labels."
+      "article-body": {
+        "displayName": "Article Body",
+        "purpose": "Long-form reading."
       },
-      "input": {
-        "displayName": "Input",
-        "purpose": "Legible 1rem editable question."
+      "note": {
+        "displayName": "Note",
+        "purpose": "Muted description under a line item."
       },
-      "ask-control": {
-        "displayName": "Ask Control",
-        "purpose": "Header pill with a 44px target."
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Uppercase tallies, dates, quantities and sub-lines."
+      },
+      "footer-link": {
+        "displayName": "Footer Link",
+        "purpose": "GitHub, LinkedIn and RSS."
       }
     },
     "shadows": [
       {
-        "name": "conversation-panel",
-        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-        "purpose": "Tailwind shadow-xl on the open desktop Ask panel."
-      },
-      {
-        "name": "conversation-scroll-control",
-        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-        "purpose": "Tailwind shadow-sm on the transcript’s scroll control."
-      },
-      {
         "name": "skip-link",
         "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-        "purpose": "Tailwind shadow-md on the keyboard skip link."
+        "purpose": "Tailwind shadow-md on the keyboard skip link; the only shadow outside the 404 game."
       }
     ],
     "motion": [
       {
-        "name": "control-transition",
-        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
-        "purpose": "Library button and field state changes."
+        "name": "print-feed",
+        "value": "900ms steps(15, jump-none)",
+        "purpose": "The header artwork prints in from the top on load; skipped for reduced motion."
       },
       {
-        "name": "contour-draw",
-        "value": "1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards",
-        "purpose": "Retained contour drawing; reduced motion shows the completed line."
+        "name": "glyph-printing",
+        "value": "1.2s steps(6, jump-none) infinite",
+        "purpose": "The Ask peak glyph prints row by row while an answer loads."
       },
       {
-        "name": "ask-contour-loop",
-        "value": "1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite",
-        "purpose": "Ask loading glyph; reduced motion holds the finished drawing."
-      },
-      {
-        "name": "page-enter",
-        "value": "200ms ease-out 100ms both vt-fade",
-        "purpose": "Short page crossfade."
-      },
-      {
-        "name": "page-exit",
-        "value": "120ms ease-in both vt-fade reverse",
-        "purpose": "Short page exit crossfade."
-      },
-      {
-        "name": "tab-travel",
-        "value": "350ms ease-in-out both vt-slide",
-        "purpose": "Directional navigation movement; reduced motion removes travel."
+        "name": "owl-blink",
+        "value": "800ms steps(2, jump-none)",
+        "purpose": "The footer owl blinks once on hover or focus."
       },
       {
         "name": "nav-indicator",
         "value": "300ms cubic-bezier(0.65, 0, 0.35, 1)",
-        "purpose": "Move the current-page underline between tabs."
+        "purpose": "The inverted tab block glides between tabs (view transition)."
       }
     ],
     "breakpoints": [
-      {
-        "name": "max-1000",
-        "value": "1000px"
-      },
-      {
-        "name": "max-740",
-        "value": "740px"
-      },
       {
         "name": "sm",
         "value": "40rem"
       }
     ]
   },
-  "components": [],
+  "components": [
+    {
+      "name": "Navigation tabs",
+      "kind": "nav",
+      "refersTo": "nav-tab",
+      "description": "Centred bitmap tabs; the current tab is an inverted ink block.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab\" aria-current=\"page\" href=\"#\">About</a><a class=\"ds-tab\" href=\"#\">Writing</a><a class=\"ds-tab\" href=\"#\">Resume</a><a class=\"ds-tab\" href=\"#\">Ask</a></nav>",
+      "css": ".ds-tabs{display:flex;justify-content:center;font-family:'Pixelify Sans',monospace}.ds-tab{position:relative;isolation:isolate;display:inline-flex;align-items:center;height:44px;padding:0 .7rem;color:var(--foreground,#111);text-decoration:none;font-size:1rem}.ds-tab[aria-current=page],.ds-tab:hover{color:var(--background,#f7f7f3)}.ds-tab[aria-current=page]::before,.ds-tab:hover::before{content:'';position:absolute;inset:.45rem 0;z-index:-1;border-radius:.375rem;background:var(--foreground,#111)}.ds-tab:focus-visible{outline:2px solid var(--foreground,#111);outline-offset:3px}"
+    },
+    {
+      "name": "Writing line item",
+      "kind": "custom",
+      "refersTo": "line-item",
+      "description": "Date, title, dotted leader, read time; reverse-prints on hover and focus.",
+      "html": "<a class=\"ds-line\" href=\"#\"><span class=\"ds-line-date\">Sep 25</span><span>One plugin repo for all my MCP servers</span><span class=\"ds-line-leader\"></span><span class=\"ds-line-qty\">2 min</span></a>",
+      "css": ".ds-line{display:flex;align-items:baseline;gap:.6rem;min-height:44px;padding:.55rem .45rem;border-radius:.25rem;color:var(--foreground,#111);text-decoration:none;font-family:'Martian Mono',monospace;font-size:.875rem}.ds-line-date{color:var(--muted-foreground,#5a5a56);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase}.ds-line-leader{flex:1;min-width:1.5rem;border-bottom:2px dotted var(--leader,#8e8e88);translate:0 -.3em}.ds-line-qty{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.ds-line:hover,.ds-line:focus-visible{background:var(--foreground,#111);color:var(--background,#f7f7f3)}.ds-line:hover .ds-line-date,.ds-line:focus-visible .ds-line-date{color:inherit}.ds-line:hover .ds-line-leader,.ds-line:focus-visible .ds-line-leader{border-color:currentColor}"
+    },
+    {
+      "name": "Project line item",
+      "kind": "custom",
+      "refersTo": "line-item",
+      "description": "Uppercase project name, leader, STORY quantity, then a muted note.",
+      "html": "<div><a class=\"ds-line\" href=\"#\"><span style=\"text-transform:uppercase\">Grocery shopping MCP</span><span class=\"ds-line-leader\"></span><span class=\"ds-line-qty\">Story &rarr;</span></a><p class=\"ds-note\">An agent for my weekly grocery run. <a class=\"ds-link\" href=\"#\">Source</a></p></div>",
+      "css": ".ds-line{display:flex;align-items:baseline;gap:.6rem;min-height:44px;padding:.55rem .45rem;border-radius:.25rem;color:var(--foreground,#111);text-decoration:none;font-family:'Martian Mono',monospace;font-size:.875rem}.ds-line-date{color:var(--muted-foreground,#5a5a56);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase}.ds-line-leader{flex:1;min-width:1.5rem;border-bottom:2px dotted var(--leader,#8e8e88);translate:0 -.3em}.ds-line-qty{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.ds-line:hover,.ds-line:focus-visible{background:var(--foreground,#111);color:var(--background,#f7f7f3)}.ds-line:hover .ds-line-date,.ds-line:focus-visible .ds-line-date{color:inherit}.ds-line:hover .ds-line-leader,.ds-line:focus-visible .ds-line-leader{border-color:currentColor}.ds-note{margin:0 0 .9rem;padding-left:2ch;font-family:'Martian Mono',monospace;font-size:.8125rem;line-height:1.7;color:var(--muted-foreground,#5a5a56)}.ds-link{color:var(--foreground,#111);text-decoration:underline;text-underline-offset:.2em}.ds-link:hover{background:var(--foreground,#111);color:var(--background,#f7f7f3);text-decoration:none}"
+    },
+    {
+      "name": "Text link",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Underlined ink; hover reverse-prints the word.",
+      "html": "<p style=\"font-family:'Martian Mono',monospace;font-size:.875rem\">The grocery agent in <a class=\"ds-link\" href=\"#\">Ask DoorDash</a>.</p>",
+      "css": ".ds-link{color:var(--foreground,#111);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}.ds-link:hover{background:var(--foreground,#111);color:var(--background,#f7f7f3);text-decoration:none}.ds-link:focus-visible{outline:2px solid var(--foreground,#111);outline-offset:3px}"
+    },
+    {
+      "name": "Section heading",
+      "kind": "custom",
+      "refersTo": "line-item",
+      "description": "Bitmap heading with a flush-right uppercase tally.",
+      "html": "<div class=\"ds-sh\"><h2>Things I&rsquo;m building</h2><span>Qty 3</span></div>",
+      "css": ".ds-sh{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}.ds-sh h2{margin:0;font-family:'Pixelify Sans',monospace;font-size:1.3125rem;font-weight:600}.ds-sh span{font-family:'Martian Mono',monospace;font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground,#5a5a56)}"
+    },
+    {
+      "name": "Receipt rules",
+      "kind": "custom",
+      "refersTo": "line-item",
+      "description": "Dashed rule inside a story, double rule between major parts.",
+      "html": "<div><hr class=\"ds-dash\"><hr class=\"ds-double\"></div>",
+      "css": ".ds-dash{border:0;border-top:1.5px dashed var(--foreground,#111);margin:1.75rem 0}.ds-double{border:0;border-top:4px double var(--foreground,#111);margin:2rem 0}"
+    },
+    {
+      "name": "Question field",
+      "kind": "input",
+      "refersTo": "ask-panel",
+      "description": "The Ask composer inside the bordered panel.",
+      "html": "<label class=\"ds-q\"><input placeholder=\"Ask a question\"><button>Ask</button></label>",
+      "css": ".ds-q{display:flex;gap:.5rem;align-items:center;padding:.4rem .4rem .4rem .75rem;border:1px solid var(--border,#c8c8c1);border-radius:.375rem;background:var(--background,#f7f7f3);font-family:'Martian Mono',monospace}.ds-q:focus-within{outline:2px solid var(--foreground,#111);outline-offset:2px}.ds-q input{flex:1;border:0;background:transparent;font:inherit;font-size:1rem;color:var(--foreground,#111);outline:none}.ds-q button{border:0;border-radius:.25rem;padding:.3rem .6rem;background:var(--foreground,#111);color:var(--background,#f7f7f3);font:inherit;font-size:.875rem}"
+    }
+  ],
   "narrative": {
-    "northStar": "Cascades Notebook",
-    "overview": "Warm paper, fir links and Literata keep a personal reading voice. The mountain identity stays at logo scale; the owl is a small footer detour. A single-column introduction leads directly to the real project stories and their compact, explicitly aligned diagrams.",
-    "implementation": "Reconstructed in cloud from approved reference screenshots and design specification; not the unavailable original local-only commit."
+    "northStar": "One-bit receipt",
+    "overview": "The site is one long thermal till receipt from a Seattle engineer: a single narrow column of the things he has built and written, itemized. The greeting is printed under a dithered Cascades peak, the way a till prints its logo, and the receipt closes with \"Thank you for stopping by.\" It refuses the two-column hero, project cards and diagrams, and the cream-and-serif notebook the earlier iterations wore.\n\nThe world fuses two sources. The receipt supplies the structure: one column, dashed and double rules, dotted leaders between an item and its quantity, uppercase meta. HyperCard supplies the one-bit discipline: dithered artwork, bitmap headings, and a pressed state that inverts to solid ink. The interface follows the operating system's theme. Dark mode exchanges paper and ink rather than introducing a new palette.",
+    "keyCharacteristics": [
+      "One column, about 34rem, centred; nothing sits beside anything else.",
+      "Ink and paper only: no hue anywhere on the reading surfaces.",
+      "Bitmap headings over a condensed monospace that sets every other word.",
+      "Line items with dotted leaders; whatever is active reverse-prints.",
+      "A dithered peak at the top and a barcode and owl at the bottom."
+    ],
+    "rules": [
+      {
+        "name": "The One-Bit Rule",
+        "body": "No hue on any reading surface. Emphasis comes from inversion, weight, case and rules, never from color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Printed Meta Rule",
+        "body": "Uppercase belongs to receipt metadata only: tallies, dates, quantities, the sub-line. Headings and prose stay in sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Single Column Rule",
+        "body": "Nothing sits beside anything else. Leaders and flush-right quantities are the only horizontal structure.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "**Do** keep every route in the one centred column.",
+      "**Do** express state by reverse-printing: ink block, paper text.",
+      "**Do** keep artwork one-bit and dithered, with crisp edges.",
+      "**Do** keep the forest and Ask transcript lazy, and honor reduced motion and visible focus.",
+      "**Do** keep factual biography, published writing, project links and game behavior intact."
+    ],
+    "donts": [
+      "**Don't** add a second column, cards, or diagrams beside copy.",
+      "**Don't** introduce hue, gradients or soft shadows on reading surfaces.",
+      "**Don't** use pill badges or rounded chips; dates and counts are uppercase meta text.",
+      "**Don't** print Lucas's name twice on one page.",
+      "**Don't** invent accomplishments, metrics, endorsements or product capabilities."
+    ]
   }
 }

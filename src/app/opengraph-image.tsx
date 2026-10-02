@@ -9,6 +9,6 @@ export default function Image() {
   return ogImage({
     eyebrow: "lucasarango.space",
     title: SITE.name,
-    footer: "Software engineer in Seattle, building conversational AI and agents.",
+    footer: "Software engineer · Seattle, WA",
   });
 }

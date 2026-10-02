@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Intro } from "@/components/intro";
 import { PageTransition } from "@/components/page-transition";
 import { PostList } from "@/components/post-list";
-import { ProjectList } from "@/components/project-list";
+import { ProjectsSection } from "@/components/project-list";
 import { SectionHeading } from "@/components/section-heading";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { getAllPosts } from "@/lib/api";
@@ -19,25 +19,28 @@ export default function Home() {
     <PageTransition>
       <Intro />
 
-      <section aria-labelledby="projects">
-        <div className="section-intro">
-          <SectionHeading id="projects">Things I’m building</SectionHeading>
-          <p className="mb-6 text-base/relaxed text-muted-foreground">
-            A few things I’ve made for everyday use, and what I learned along the way.
-          </p>
-        </div>
-        <ProjectList />
-      </section>
+      <hr className="rule-double" />
 
-      <section className="home-writing" aria-labelledby="writing">
-        <SectionHeading id="writing">Recent writing</SectionHeading>
+      <ProjectsSection />
+
+      <hr />
+
+      <section aria-labelledby="writing">
+        <SectionHeading
+          id="writing"
+          aside={
+            posts.length > 0 && (
+              <Link href="/blog" className="tally text-link">
+                All writing
+                <ArrowRight aria-hidden="true" className="inline" size={13} />
+              </Link>
+            )
+          }
+        >
+          Recent writing
+        </SectionHeading>
         {posts.length > 0 ? (
-          <>
-            <PostList posts={posts} />
-            <Link href="/blog" className="all-writing">
-              All writing <ArrowRight aria-hidden="true" size={18} />
-            </Link>
-          </>
+          <PostList posts={posts} />
         ) : (
           <Empty className="border border-dashed">
             <EmptyHeader>

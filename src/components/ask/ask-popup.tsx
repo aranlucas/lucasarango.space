@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAsk } from "@/components/ask/ask-context";
 import { Composer } from "@/components/ask/composer";
-import { RidgeGlyph } from "@/components/ask/ridge-glyph";
+import { PeakGlyph } from "@/components/ask/peak-glyph";
 
 // The transcript brings in the streaming Markdown renderer and scroll helpers.
 // Readers only download them once they open Ask; the composer is ready immediately.
@@ -42,7 +42,7 @@ export function AskPopup() {
         aria-labelledby={titleId}
         hidden={!open}
         style={open ? { viewTransitionName: "ask-surface" } : undefined}
-        className="fixed inset-0 z-40 flex flex-col bg-card text-card-foreground sm:inset-auto sm:inset-e-5 sm:bottom-18 sm:h-popup sm:w-popup sm:rounded-xl sm:border sm:shadow-xl"
+        className="fixed inset-0 z-40 flex flex-col bg-card text-card-foreground sm:inset-auto sm:inset-e-5 sm:bottom-5 sm:h-popup sm:w-popup sm:border-2 sm:border-foreground"
       >
         <PanelHeader titleId={titleId} />
         {/* Keep an existing transcript mounted when closed, preserving its scroll position. */}
@@ -57,8 +57,8 @@ export function AskPopup() {
 function PanelHeader({ titleId }: { titleId: string }) {
   const { chat, close, inputRef } = useAsk();
   return (
-    <div className="flex items-center justify-between gap-3 border-b py-2 ps-5 pe-3">
-      <h2 id={titleId} className="font-semibold">
+    <div className="flex items-center justify-between gap-3 border-b border-dashed border-foreground py-2 ps-5 pe-3">
+      <h2 id={titleId} className="font-heading text-lg">
         Ask about my work
       </h2>
       <div className="flex items-center gap-1">
@@ -112,10 +112,8 @@ function Launcher({ panelId }: { panelId: string }) {
             aria-label={open ? "Close" : "Ask about my work"}
             onClick={open ? close : show}
             style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
-            className={cn(
-              "ask-launcher relative z-40 h-11 rounded-full text-sm font-normal",
-              open ? "w-11 max-sm:hidden" : "gap-2.5 ps-4 pe-5",
-            )}
+            variant="ghost"
+            className={cn("ask-launcher relative z-40", open && "max-sm:hidden")}
           />
         }
       >
@@ -123,13 +121,12 @@ function Launcher({ panelId }: { panelId: string }) {
           <X aria-hidden="true" className="size-5" />
         ) : (
           <>
-            <RidgeGlyph drawing={isLoading} className="h-3 w-6" />
-            <span className="ask-launcher-label">Ask about my work</span>
-            <span className="ask-launcher-short">Ask</span>
+            <PeakGlyph printing={isLoading} className="h-2.5 w-3.75" />
+            Ask
           </>
         )}
       </TooltipTrigger>
-      {/* The pill labels itself; only the round close button needs a tooltip. */}
+      {/* The tab labels itself; only the close button needs a tooltip. */}
       {open && <TooltipContent side="left">Close</TooltipContent>}
     </Tooltip>
   );

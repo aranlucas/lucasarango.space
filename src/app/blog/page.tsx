@@ -21,22 +21,27 @@ export default function BlogIndex() {
   return (
     <PageTransition>
       <div className="reading-index">
-        <h1 className="page-title">Writing.</h1>
-        <p className="text-lede text-pretty">
+        <h1 className="page-title">Writing</h1>
+        <p className="page-lede">
           Notes on building agents, AI products, and the tools I make along the way. Mostly things
           I’ve built, decisions I’ve made, and what I learned from using them.
         </p>
+        <hr className="rule-double" />
         {[...years].map(([year, yearPosts]) => (
           <section key={year} aria-labelledby={`y${year}`}>
-            <SectionHeading id={`y${year}`} className="tabular-nums">
+            <SectionHeading
+              id={`y${year}`}
+              className="tabular-nums"
+              aside={<span className="tally">Qty {yearPosts.length}</span>}
+            >
               {year}
             </SectionHeading>
-            <PostList posts={yearPosts} />
+            <PostList posts={yearPosts} summaries />
           </section>
         ))}
         <section aria-labelledby="elsewhere">
           <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
-          <p className="mb-6 text-base text-muted-foreground">
+          <p className="mb-3 text-muted-foreground">
             Articles I coauthored with the DoorDash engineering team.
           </p>
           <PublicationList />
