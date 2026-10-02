@@ -5,6 +5,7 @@ import {
   type Critter,
   createGame,
   ROUND_SECONDS,
+  REVEAL_SECONDS,
   SPOT_SECONDS,
   SPAWN_DISTANCE,
   SPAWN_SPREAD,
@@ -117,6 +118,46 @@ describe("owls", () => {
     run(game, first.diesAt - game.elapsed + FRAME, never);
     expect(game.critters.map((c) => c.id)).not.toContain(first.id);
     expect(game.score).toBe(0);
+  });
+});
+
+describe("spot expiration", () => {
+  it("does not revive an expired critter when the hold completes on its final frame", () => {
+    const game = createGame(3, createWorld([]));
+    startRound(game);
+    tick(game, 0.6, never);
+    const target = game.critters[0];
+    const lit = (c: Critter) => c.id === target.id;
+
+    // Start too late to finish the hold before the critter's lifetime ends.
+    tick(game, target.diesAt - game.elapsed - 0.25, never);
+    expect(tick(game, 0.1, lit)).toHaveLength(0);
+    expect(tick(game, 0.1, lit)).toHaveLength(0);
+    expect(tick(game, 0.1, lit)).toHaveLength(0);
+    expect(game.score).toBe(0);
+    expect(game.spotted).toBe(0);
+    expect(game.critters.map((c) => c.id)).not.toContain(target.id);
+  });
+
+  it("keeps a timely spot visible for its reveal even after the original lifetime ends", () => {
+    const game = createGame(3, createWorld([]));
+    startRound(game);
+    tick(game, 0.6, never);
+    const target = game.critters[0];
+    const lit = (c: Critter) => c.id === target.id;
+
+    tick(game, target.diesAt - game.elapsed - 0.35, never);
+    tick(game, 0.1, lit);
+    tick(game, 0.1, lit);
+    expect(tick(game, 0.1, lit).map((event) => event.critter.id)).toEqual([target.id]);
+    expect(tick(game, 0.1, lit)).toHaveLength(0);
+    expect(game.elapsed).toBeGreaterThan(target.diesAt);
+    expect(game.critters.map((c) => c.id)).toContain(target.id);
+    expect(game.score).toBe(CRITTERS[target.kind].points);
+    expect(game.spotted).toBe(1);
+
+    tick(game, REVEAL_SECONDS, never);
+    expect(game.critters.map((c) => c.id)).not.toContain(target.id);
   });
 });
 
