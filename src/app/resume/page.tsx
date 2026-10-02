@@ -26,13 +26,13 @@ export default async function ResumePage() {
   const resume = await getResume();
   return (
     <PageTransition>
-      <article data-resume="" aria-label="Résumé">
+      <article className="resume-article" data-resume="" aria-label="Résumé">
         <ResumeHeader resume={resume} />
 
         <section aria-labelledby="summary">
           <SectionHeading id="summary">Summary</SectionHeading>
           <p className="mb-4 text-pretty">{resume.summary}</p>
-          <p className="border-s-2 border-primary ps-4 text-sm/relaxed text-muted-foreground">
+          <p className="border-s border-primary ps-4 text-sm/relaxed text-muted-foreground">
             {LOOKING_FOR}
           </p>
         </section>
@@ -87,7 +87,7 @@ function Project({ project }: { project: ResumeProject }) {
 function ResumeHeader({ resume }: { resume: Resume }) {
   return (
     <header>
-      <h1 className="mb-2 text-display font-semibold tracking-tight">
+      <h1 className="page-title mb-2">
         <span className="print:hidden">Résumé</span>
         <span className="hidden print:inline">{resume.name}</span>
       </h1>

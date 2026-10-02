@@ -109,7 +109,7 @@ function Launcher({ panelId }: { panelId: string }) {
             ref={launcherRef}
             aria-expanded={open}
             aria-controls={panelId}
-            aria-label={open ? "Close" : undefined}
+            aria-label={open ? "Close" : "Ask about my work"}
             onClick={open ? close : show}
             style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
             className={cn(
@@ -124,7 +124,8 @@ function Launcher({ panelId }: { panelId: string }) {
         ) : (
           <>
             <RidgeGlyph drawing={isLoading} className="h-3 w-6" />
-            Ask about my work
+            <span className="ask-launcher-label">Ask about my work</span>
+            <span className="ask-launcher-short">Ask</span>
           </>
         )}
       </TooltipTrigger>

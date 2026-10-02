@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { Intro } from "@/components/intro";
 import { PageTransition } from "@/components/page-transition";
@@ -19,20 +20,22 @@ export default function Home() {
       <Intro />
 
       <section aria-labelledby="projects">
-        <SectionHeading id="projects">Things I’m building</SectionHeading>
-        <p className="mb-6 text-base/relaxed text-muted-foreground">
-          A few things I’ve made for everyday use, and what I learned along the way.
-        </p>
+        <div className="section-intro">
+          <SectionHeading id="projects">Things I’m building</SectionHeading>
+          <p className="mb-6 text-base/relaxed text-muted-foreground">
+            A few things I’ve made for everyday use, and what I learned along the way.
+          </p>
+        </div>
         <ProjectList />
       </section>
 
-      <section aria-labelledby="writing">
+      <section className="home-writing" aria-labelledby="writing">
         <SectionHeading id="writing">Recent writing</SectionHeading>
         {posts.length > 0 ? (
           <>
             <PostList posts={posts} />
-            <Link href="/blog" className="text-primary underline-offset-3 hover:underline">
-              All writing
+            <Link href="/blog" className="all-writing">
+              All writing <ArrowRight aria-hidden="true" size={18} />
             </Link>
           </>
         ) : (
