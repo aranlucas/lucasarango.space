@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import { join } from "node:path";
 
-import matter from "gray-matter";
-import { parse as parseYaml } from "yaml";
+import { VFile } from "vfile";
+import { matter } from "vfile-matter";
 import { z } from "zod";
 
 import type { Post } from "@/interfaces/post";
@@ -41,19 +41,12 @@ const PostMetadata = z.object({
   draft: z.boolean().default(false),
 });
 
-function parseFrontmatter(source: string): object {
-  // Core YAML keeps bare dates as strings, so invalid days cannot roll over
-  // into another date before validation and timestamps cannot lose their time.
-  const data: unknown = parseYaml(source, { schema: "core" });
-  if (data === null || typeof data !== "object" || Array.isArray(data)) {
-    throw new Error("frontmatter must be a mapping");
-  }
-  return data;
-}
-
 function readPostFile(slug: string, fileContents: string) {
   try {
-    return matter(fileContents, { engines: { yaml: parseFrontmatter } });
+    const file = new VFile(fileContents.replace(/^\uFEFF/u, ""));
+    // Core YAML keeps dates as strings, preserving them for calendar validation.
+    matter(file, { strip: true, yaml: { schema: "core" } });
+    return { data: file.data.matter, content: String(file) };
   } catch (error) {
     throw new Error(`${slug}: ${error instanceof Error ? error.message : "invalid frontmatter"}`, {
       cause: error,

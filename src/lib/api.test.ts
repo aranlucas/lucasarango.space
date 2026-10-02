@@ -60,6 +60,28 @@ describe("post titles and summaries", () => {
   });
 });
 
+describe("post frontmatter extraction", () => {
+  it("accepts a UTF-8 byte order mark", () => {
+    const parsed = parsePost("bom", `\uFEFF${post("title: Hello\ndate: 2026-09-25\nsummary: s")}`);
+    expect(parsed).toMatchObject({ title: "Hello", date: "2026-09-25", content: "Hello world." });
+  });
+
+  it("preserves Windows line endings in the Markdown body", () => {
+    const body = "First paragraph.\n\nSecond paragraph.";
+    const parsed = parsePost(
+      "windows",
+      post("title: Hello\ndate: 2026-09-25\nsummary: s", body).replaceAll("\n", "\r\n"),
+    );
+    expect(parsed.content).toBe(body.replaceAll("\n", "\r\n"));
+  });
+
+  it("preserves thematic breaks and fenced YAML in the Markdown body", () => {
+    const body = "First paragraph.\n\n---\n\n```yaml\n---\ntitle: Example\n---\n```";
+    const parsed = parsePost("body", post("title: Hello\ndate: 2026-09-25\nsummary: s", body));
+    expect(parsed.content).toBe(body);
+  });
+});
+
 describe("post dates", () => {
   it.each(["2024-02-29", "2000-02-29", "2026-09-25"])(
     "accepts the exact calendar date %s, quoted or unquoted",
