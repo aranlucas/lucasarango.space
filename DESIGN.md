@@ -70,11 +70,6 @@ typography:
     fontSize: "1.1875rem"
     fontWeight: 400
     lineHeight: 1.6
-  route-title:
-    fontFamily: "Literata, Georgia, serif"
-    fontSize: "1.75rem"
-    fontWeight: 600
-    lineHeight: 1.25
   writing-title:
     fontFamily: "Literata, Georgia, serif"
     fontSize: "0.9375rem"
@@ -146,11 +141,6 @@ components:
   forest-link:
     textColor: "{colors.primary}"
     height: "44px"
-  route-panel:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.panel}"
-    padding: "1.35rem"
   project-story:
     backgroundColor: "transparent"
     textColor: "{colors.foreground}"
@@ -185,9 +175,9 @@ components:
 
 A personal engineering notebook in the Cascades: warm paper, fir links, a mountain mark and the original conversational greeting. Literata carries the biography and reading voice. Modest mono labels identify tools, dates and diagrams. The mountain logo keeps the outdoor reference compact. The owl uses the existing critter silhouette as a small footer detour, after the work, rather than a detached hero ornament.
 
-Clear project/source links, the dated writing archive and reversible route controls remain. Factual project stories sit in open ruled layouts. The interface follows the operating system’s theme, with native controls, reduced motion and the lazy Ask transcript retained.
+Clear project/source links and the dated writing archive remain. Factual project stories sit in open ruled layouts. The interface follows the operating system’s theme, with native controls, reduced motion and the lazy Ask transcript retained.
 
-This documentation includes a draft composition refinement responding to feedback on diagram alignment and detached outdoor decoration. The new draft is held for visual review before another production deployment. The prior Cascades Notebook restoration was approved. The cloud implementation was reconstructed from the approved desktop, phone and dark previews and this design specification, because the earlier local-only commit was unavailable. Source history supplies the original fonts, palette, ridge geometry and factual content.
+This documentation includes a draft composition refinement responding to feedback on diagram alignment and detached outdoor decoration. The user approved removing the workbench panel so the actual projects follow the introduction directly. The final composition is held for review before another production deployment. The prior Cascades Notebook restoration was approved. The cloud implementation was reconstructed from the approved desktop, phone and dark previews and this design specification, because the earlier local-only commit was unavailable. Source history supplies the original fonts, palette, ridge geometry and factual content.
 
 **Key Characteristics:**
 
@@ -202,7 +192,7 @@ Use the adaptive paper, ink and fir tokens throughout the portfolio. The frontma
 
 ### Primary
 
-Fir (`primary`) carries links, the selected project tab, route trace and native actions. The dark theme uses the original pale fir, paired with deep green foreground ink. A thin fir underline marks current navigation.
+Fir (`primary`) carries links and native actions. The dark theme uses the original pale fir, paired with deep green foreground ink. A thin fir underline marks current navigation.
 
 ### Secondary
 
@@ -218,7 +208,7 @@ The 404 forest retains its separate night/lamp palette regardless of the OS them
 
 Literata is the display and reading voice, with Georgia/serif fallback. Its upright face is preloaded; italic loads only where used. IBM Plex Mono carries compact tool labels, dates and diagrams, and loads on use. Next.js self-hosts the font files, so browsers make no Google font requests.
 
-The greeting uses a responsive, sentence-case 600 weight. Section headings are 1.875rem; project titles are 1.3rem. Full page and article headings use their own clamps. Prose stays in the same reading voice, with a more generous introductory lede. Route titles are restrained at 1.75rem, rather than poster-size branding.
+The greeting uses a responsive, sentence-case 600 weight. Section headings are 1.875rem; project titles are 1.3rem. Full page and article headings use their own clamps. Prose stays in the same reading voice, with a more generous introductory lede.
 
 At 740px and below, the greeting uses `clamp(2rem, 9vw, 2.5rem)`, biography text becomes 1rem, and the lede becomes 1.125rem. The archive retains visible titles, summaries, dates and reading times. Avoid uppercase transformations in the ordinary portfolio.
 
@@ -228,7 +218,7 @@ At 740px and below, the greeting uses `clamp(2rem, 9vw, 2.5rem)`, biography text
 
 The shell is centered at `min(100% - 4rem, 64rem)`; phone gutters are 1.25rem per side. The introduction begins directly below the header. The large hero ridge is removed so the landscape does not compete with the biography and technical diagrams. The forest invitation appears only in the footer.
 
-The introduction pairs the full factual biography (1.4fr) with a quiet project workbench (1fr), separated by 3.5rem. Projects use open ruled rows with copy and a compact diagram (1.5fr/1fr), separated by 4rem. At 1000px gaps tighten; at 740px these compositions stack. Header navigation and Ask share a full-width row on phone.
+The introduction is a single reading column, bounded at 45rem, with no empty grid track. It flows directly into the actual projects, without an interactive preview panel. Projects use open ruled rows with copy and a compact diagram (1.5fr/1fr), separated by 4rem. At 1000px project gaps tighten; at 740px the project rows stack. Header navigation and Ask share a full-width row on phone.
 
 Writing uses a 56rem index, with article and résumé reading bounded at 45rem. Archive rows use date/copy/arrow columns (5.5rem/1fr/1rem), moving dates above the copy on phone. Keep source order and all published information intact.
 
@@ -238,11 +228,11 @@ The header and footer stay in document flow. Print hides navigation, footer and 
 
 ## Elevation & Depth
 
-The reading canvas and project stories are flat. Thin rules and spacing separate content. The workbench uses a thin border and 0.5rem corners without a shadow. Shadow is reserved for the open Ask overlay, its scroll control and the keyboard skip link. The sidecar retains the actual library shadow values.
+The reading canvas and project stories are flat. Thin rules and spacing separate content. Shadow is reserved for the open Ask overlay, its scroll control and the keyboard skip link. The sidecar retains the actual library shadow values.
 
 ## Shapes
 
-The original mountain mark is circular. The workbench and form controls use restrained corners. Route stops and diagram nodes express selection and relationships; they are not decorative card motifs. The original owl silhouette is rendered as compact SVG geometry adapted directly from the game’s canvas texture.
+The original mountain mark is circular. Form controls use restrained corners. Diagram nodes express relationships; they are not decorative card motifs. The original owl silhouette is rendered as compact SVG geometry adapted directly from the game’s canvas texture.
 
 ## Components
 
@@ -256,13 +246,9 @@ The owl link visibly invites a wrong turn and explicitly labels its 404 forest d
 
 **The Real Detour Rule.** Playful details should lead to actual behavior. The owl opens the retained 404 forest; it never prefetches the game on the home page.
 
-### On my workbench
-
-The retained route explorer describes three public projects using native selector and stage buttons. Direct stage changes, repeated exploration and reset remain reversible. Notes come from the public project stories, and a live region announces the selected note. The three stage buttons sit in equal grid columns on one straight rail. SVG endpoints and button dot centers share the same horizontal fractions (1/6, 1/2, 5/6) and 12px vertical center. The 650ms trace transition updates immediately for reduced motion. Stage buttons are at least 64px high; other controls retain 44px targets. This is a conceptual map, without live telemetry claims.
-
 ### Project stories
 
-Titles, descriptions, source and story links remain factual. The rows are open and ruled, with small workflow diagrams in mono type. The grocery flow, shared canvas and plugin branches retain their real relationships without marketing-style questions. All diagrams are compact and left-aligned; text, nodes and connecting lines share SVG coordinates so they cannot drift independently. The plugin diagram uses a clear parent/children tree.
+Titles, descriptions, source and story links remain factual. The existing first-person descriptions tell the personal origin and everyday purpose beside each project, without requiring clicks through a separate workbench. The rows are open and ruled, with small workflow diagrams in mono type. The grocery flow, shared canvas and plugin branches retain their real relationships without marketing-style questions. All diagrams are compact and left-aligned; text, nodes and connecting lines share SVG coordinates so they cannot drift independently. The plugin diagram uses a clear parent/children tree.
 
 ### Writing archive
 

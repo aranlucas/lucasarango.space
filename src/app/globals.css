@@ -684,11 +684,10 @@ button {
   }
 }
 .portfolio-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 3.5rem;
-  align-items: start;
-  padding-block: 2rem 4rem;
+  padding-block: 2rem 3rem;
+}
+.intro-copy {
+  max-width: 45rem;
 }
 .intro-copy h1 {
   font-size: clamp(2.25rem, 4vw, 3.25rem);
@@ -721,156 +720,6 @@ button {
   font-size: 0.875rem;
   text-decoration: underline;
   text-underline-offset: 0.3em;
-}
-.idea-route {
-  min-width: 0;
-  padding: 1.35rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--card);
-  position: relative;
-}
-.route-topline h2 {
-  font-size: 1rem;
-  font-weight: 600;
-}
-.route-switcher {
-  display: flex;
-  gap: 0.2rem;
-  margin-block: 1rem 1.35rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--border);
-}
-.route-switcher button {
-  min-height: 44px;
-  padding: 0.4rem 0.375rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  border-radius: 0.2rem;
-  color: var(--muted-foreground);
-  background: transparent;
-}
-.route-switcher button[aria-pressed="true"] {
-  background: var(--primary);
-  color: var(--primary-foreground);
-}
-.route-switcher button:hover {
-  outline: 1px solid var(--primary);
-}
-.route-title {
-  max-width: 15ch;
-  font-size: 1.75rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-/* The SVG and the three equal grid columns share the same stop centers. */
-.route-map {
-  position: relative;
-  margin-block: 1.5rem 1rem;
-  min-height: 64px;
-}
-.route-map svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 24px;
-  fill: none;
-  stroke-width: 1.5;
-  pointer-events: none;
-}
-.route-track {
-  stroke: var(--border);
-}
-.route-trace {
-  stroke: var(--primary);
-  transition: stroke-dashoffset 650ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.route-stops {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.route-stops li {
-  min-width: 0;
-}
-.route-stop {
-  position: relative;
-  display: flex;
-  width: 100%;
-  min-height: 64px;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 5px 0.25rem 0.25rem;
-  color: var(--muted-foreground);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  line-height: 1.5;
-  text-align: center;
-}
-.route-dot {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--ridge);
-  border-radius: 50%;
-  background: var(--card);
-}
-.route-stop.reached {
-  color: var(--primary);
-}
-.route-stop.reached .route-dot {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-.route-stop[aria-pressed="true"] .route-dot {
-  outline: 1px solid var(--primary);
-  outline-offset: 4px;
-}
-.route-stop:hover {
-  color: var(--primary);
-}
-.route-note {
-  min-height: 5.5rem;
-  max-width: 46ch;
-  font-size: 0.8125rem;
-  line-height: 1.7;
-}
-.route-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.8rem 1rem;
-  margin-top: 0.7rem;
-}
-.route-actions a,
-.route-next {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  font-size: 0.75rem;
-}
-.route-actions a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
-}
-.route-next {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.2rem;
-}
-.route-next:hover {
-  filter: brightness(0.92);
-}
-.route-caption {
-  font-size: 0.625rem;
-  color: var(--muted-foreground);
-  margin-top: 1rem;
 }
 .section-intro {
   display: flex;
@@ -1112,14 +961,8 @@ button {
   display: none;
 }
 @media (max-width: 1000px) {
-  .portfolio-intro {
-    gap: 2rem;
-  }
   .project-exhibit {
     column-gap: 2.5rem;
-  }
-  .route-actions {
-    gap: 0.7rem;
   }
   .writing-row {
     gap: 1.25rem;
@@ -1150,8 +993,6 @@ button {
     font-size: 0.875rem;
   }
   .portfolio-intro {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
     padding-block: 1rem 2.5rem;
   }
   .intro-copy h1 {
@@ -1168,15 +1009,6 @@ button {
   .intro-links {
     gap: 1.3rem;
     margin-top: 1.5rem;
-  }
-  .idea-route {
-    padding: 1.35rem;
-  }
-  .route-note {
-    min-height: 6rem;
-  }
-  .route-actions {
-    gap: 1rem;
   }
   .section-intro {
     display: block;
@@ -1237,9 +1069,6 @@ button {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .route-trace {
-    transition: none;
-  }
   .forest-link:hover .owl-eyes,
   .forest-link:focus-visible .owl-eyes {
     animation: none;
@@ -1253,7 +1082,6 @@ button {
   }
   .site-header,
   .site-footer,
-  .idea-route,
   .intro-links {
     display: none;
   }

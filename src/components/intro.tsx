@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-import { IdeaRoute } from "@/components/idea-route";
 import { TextLink } from "@/components/site-header";
 
 export function Intro() {
@@ -34,7 +33,6 @@ export function Intro() {
           </Link>
         </div>
       </div>
-      <IdeaRoute />
     </section>
   );
 }
