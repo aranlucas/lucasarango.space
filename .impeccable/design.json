@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-02T13:00:00Z",
-  "title": "Design System: Lucas Arango\u2019s portfolio",
+  "generatedAt": "2026-10-02T14:14:00Z",
+  "title": "Design System: Lucas Arango’s portfolio",
   "extensions": {
     "colorMeta": {
       "background": {
@@ -171,10 +171,6 @@
         "displayName": "Mono",
         "purpose": "Compact tool, date and diagram labels."
       },
-      "route-title": {
-        "displayName": "Route Title",
-        "purpose": "Quiet project scenario."
-      },
       "input": {
         "displayName": "Input",
         "purpose": "Legible 1rem editable question."
@@ -193,7 +189,7 @@
       {
         "name": "conversation-scroll-control",
         "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-        "purpose": "Tailwind shadow-sm on the transcript\u2019s scroll control."
+        "purpose": "Tailwind shadow-sm on the transcript’s scroll control."
       },
       {
         "name": "skip-link",
@@ -206,11 +202,6 @@
         "name": "control-transition",
         "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
         "purpose": "Library button and field state changes."
-      },
-      {
-        "name": "route-trace",
-        "value": "650ms cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Trace the chosen stop; disabled for reduced motion."
       },
       {
         "name": "contour-draw",
@@ -261,7 +252,7 @@
   "components": [],
   "narrative": {
     "northStar": "Cascades Notebook",
-    "overview": "A personal engineering notebook in the Cascades: warm paper, fir links, a mountain mark and the original conversational greeting. Retain clear factual project stories, reversible route controls, dated writing, lazy Ask and the forest game.",
+    "overview": "Warm paper, fir links and Literata keep a personal reading voice. The mountain identity stays at logo scale; the owl is a small footer detour. A single-column introduction leads directly to the real project stories and their compact, explicitly aligned diagrams.",
     "implementation": "Reconstructed in cloud from approved reference screenshots and design specification; not the unavailable original local-only commit."
   }
 }

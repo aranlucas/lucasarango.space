@@ -645,18 +645,6 @@ button {
   height: 2px;
   background: var(--primary);
 }
-.intro-scenery {
-  position: relative;
-  margin-bottom: 2.5rem;
-}
-.intro-scenery > svg {
-  clip-path: inset(0 37.5% 0 0);
-}
-.intro-scenery > .forest-link {
-  position: absolute;
-  top: -0.75rem;
-  right: 0;
-}
 .forest-link {
   display: inline-flex;
   align-items: center;
@@ -667,8 +655,8 @@ button {
   text-decoration: none;
 }
 .forest-link svg {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   flex-shrink: 0;
 }
 .forest-link small {
@@ -696,11 +684,10 @@ button {
   }
 }
 .portfolio-intro {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 3.5rem;
-  align-items: start;
-  padding-bottom: 4.5rem;
+  padding-block: 2rem 3rem;
+}
+.intro-copy {
+  max-width: 45rem;
 }
 .intro-copy h1 {
   font-size: clamp(2.25rem, 4vw, 3.25rem);
@@ -733,163 +720,6 @@ button {
   font-size: 0.875rem;
   text-decoration: underline;
   text-underline-offset: 0.3em;
-}
-.idea-route {
-  padding: 1.35rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--card);
-  position: relative;
-}
-.route-topline h2 {
-  font-size: 1rem;
-  font-weight: 600;
-}
-.route-switcher {
-  display: flex;
-  gap: 0.2rem;
-  margin-block: 1rem 1.35rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--border);
-}
-.route-switcher button {
-  min-height: 44px;
-  padding: 0.4rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  border-radius: 0.2rem;
-  color: var(--muted-foreground);
-  background: transparent;
-}
-.route-switcher button[aria-pressed="true"] {
-  background: var(--primary);
-  color: var(--primary-foreground);
-}
-.route-switcher button:hover {
-  outline: 1px solid var(--primary);
-}
-.route-title {
-  max-width: 15ch;
-  font-size: 1.75rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-.route-map {
-  position: relative;
-  margin-block: 0.65rem 1.5rem;
-  height: 132px;
-}
-.route-map svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: none;
-  stroke-width: 2;
-}
-.route-track {
-  stroke: var(--border);
-}
-.route-trace {
-  stroke: var(--primary);
-  transition: stroke-dashoffset 650ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.route-stops {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.route-stops li {
-  position: absolute;
-}
-.route-stops li:first-child {
-  left: -0.25rem;
-  top: -4px;
-}
-.route-stops li:nth-child(2) {
-  left: calc(42% - 9px);
-  top: 42px;
-}
-.route-stops li:last-child {
-  right: -0.25rem;
-  bottom: -5px;
-}
-.route-stop {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  color: var(--muted-foreground);
-  text-align: left;
-  padding: 0.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  min-height: 44px;
-}
-.route-stops li:last-child .route-stop {
-  align-items: end;
-  text-align: right;
-}
-.route-dot {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--ridge);
-  border-radius: 50%;
-  background: var(--card);
-}
-.route-stop.reached {
-  color: var(--primary);
-}
-.route-stop.reached .route-dot {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-.route-stop[aria-pressed="true"] .route-dot {
-  outline: 1px solid var(--primary);
-  outline-offset: 4px;
-}
-.route-stop:hover {
-  color: var(--primary);
-}
-.route-note {
-  min-height: 6.5rem;
-  max-width: 46ch;
-  font-size: 0.8125rem;
-  line-height: 1.7;
-}
-.route-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.8rem 1rem;
-  margin-top: 0.7rem;
-}
-.route-actions a,
-.route-next {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  font-size: 0.75rem;
-}
-.route-actions a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
-}
-.route-next {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.2rem;
-}
-.route-next:hover {
-  filter: brightness(0.92);
-}
-.route-caption {
-  font-size: 0.625rem;
-  color: var(--muted-foreground);
-  margin-top: 1rem;
 }
 .section-intro {
   display: flex;
@@ -957,103 +787,45 @@ button {
 .project-links a {
   font-size: 0.8125rem;
 }
+/* One compact, left-aligned diagram grammar; labels and connectors use shared SVG coordinates. */
 .project-diagram {
-  align-self: center;
+  align-self: start;
+  width: 100%;
+  max-width: 18rem;
   margin: 0;
-  padding-left: 1.5rem;
+  padding-top: 0.1rem;
   color: var(--muted-foreground);
 }
-.project-diagram > svg {
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-.project-diagram ul {
-  padding-left: 0;
-  list-style: none;
-  position: relative;
-}
-.project-diagram li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  padding-bottom: 1rem;
+.project-flow {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  line-height: 1.7;
+  font-size: 12px;
 }
-.diagram-node {
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--ridge);
-  background: var(--primary);
-  border-radius: 50%;
-  flex-shrink: 0;
+.project-flow text {
+  fill: currentColor;
 }
-.project-diagram li:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  background: var(--ridge);
-  left: 3px;
-  top: 0.8rem;
-  bottom: -0.1rem;
+.project-flow-line {
+  fill: none;
+  stroke: var(--ridge);
+  stroke-width: 1;
+}
+.project-flow-node {
+  fill: var(--primary);
+}
+.project-flow-joint {
+  fill: var(--background);
+  stroke: var(--primary);
+  stroke-width: 1;
 }
 .project-diagram figcaption {
-  font-size: 0.6875rem;
   max-width: 30ch;
   margin-top: 0.5rem;
-  line-height: 1.5;
-}
-.diagram-shared li:nth-child(2) .diagram-node {
-  border-radius: 0;
-  background: transparent;
-}
-.diagram-fork ul {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.3rem 0.8rem;
-}
-.diagram-fork li {
-  flex-direction: column;
-  text-align: center;
-  gap: 0.65rem;
-  padding-bottom: 0;
-}
-.diagram-fork li:first-child {
-  grid-column: 1/-1;
-  padding-bottom: 1rem;
-}
-.diagram-fork li:not(:last-child)::after {
-  display: none;
-}
-.diagram-fork li:first-child::after {
-  display: block;
-  left: 50%;
-  top: auto;
-  bottom: -0.8rem;
-  height: 1.8rem;
-}
-.diagram-fork li:nth-child(2)::before,
-.diagram-fork li:last-child::before {
-  content: "";
-  position: absolute;
-  height: 0.9rem;
-  width: calc(50% + 0.4rem);
-  border-top: 1px solid var(--ridge);
-  top: -0.7rem;
-}
-.diagram-fork li:nth-child(2)::before {
-  left: 50%;
-  border-left: 1px solid var(--ridge);
-}
-.diagram-fork li:last-child::before {
-  right: 50%;
-  border-right: 1px solid var(--ridge);
-}
-.diagram-fork figcaption {
-  text-align: center;
-  margin: 1rem auto 0;
+  padding-left: calc(12 / 280 * 100%);
+  font-size: 0.75rem;
+  line-height: 1.6;
 }
 .home-writing {
   padding-block: 3rem 2rem;
@@ -1189,14 +961,8 @@ button {
   display: none;
 }
 @media (max-width: 1000px) {
-  .portfolio-intro {
-    gap: 2rem;
-  }
   .project-exhibit {
     column-gap: 2.5rem;
-  }
-  .route-actions {
-    gap: 0.7rem;
   }
   .writing-row {
     gap: 1.25rem;
@@ -1226,25 +992,8 @@ button {
   .site-wordmark {
     font-size: 0.875rem;
   }
-  .intro-scenery {
-    margin-bottom: 1.75rem;
-  }
-  .intro-scenery > svg {
-    clip-path: none;
-  }
-  .intro-scenery > .forest-link {
-    top: -0.5rem;
-    background: var(--background);
-    padding-left: 0.5rem;
-    font-size: 0.625rem;
-  }
-  .intro-scenery > .forest-link small {
-    display: none;
-  }
   .portfolio-intro {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding-bottom: 2.5rem;
+    padding-block: 1rem 2.5rem;
   }
   .intro-copy h1 {
     font-size: clamp(2rem, 9vw, 2.5rem);
@@ -1260,15 +1009,6 @@ button {
   .intro-links {
     gap: 1.3rem;
     margin-top: 1.5rem;
-  }
-  .idea-route {
-    padding: 1.35rem;
-  }
-  .route-note {
-    min-height: 6rem;
-  }
-  .route-actions {
-    gap: 1rem;
   }
   .section-intro {
     display: block;
@@ -1286,7 +1026,7 @@ button {
     padding-block: 2rem;
   }
   .project-diagram {
-    padding-left: 0.25rem;
+    max-width: 18rem;
   }
   .project-diagram figcaption {
     max-width: 36ch;
@@ -1329,9 +1069,6 @@ button {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .route-trace {
-    transition: none;
-  }
   .forest-link:hover .owl-eyes,
   .forest-link:focus-visible .owl-eyes {
     animation: none;
@@ -1345,8 +1082,6 @@ button {
   }
   .site-header,
   .site-footer,
-  .intro-scenery,
-  .idea-route,
   .intro-links {
     display: none;
   }

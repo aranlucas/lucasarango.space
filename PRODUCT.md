@@ -20,7 +20,7 @@ Next.js portfolio with home, blog index, published articles, résumé, RSS, a la
 
 ## Brand Commitments
 
-The approved character restoration returns the Cascades mountain, ridge/night stars, warm paper/fir palette, Literata voice and conversational greeting. Keep factual project stories, native reversible route exploration and a discoverable owl detour into the original forest. Personal character and readable résumé/writing take priority over oversized studio branding.
+The approved character restoration keeps the Cascades mountain mark, warm paper/fir palette, Literata voice and conversational greeting. The composition refinement removes the separate ridge banner and redundant workbench, bringing the factual project stories directly after the introduction. Keep a discoverable owl detour into the original forest in the footer. Personal character and readable résumé/writing take priority over oversized studio branding.
 
 ## Evidence on Hand
 

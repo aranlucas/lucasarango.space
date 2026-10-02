@@ -1,5 +1,7 @@
 # Cascades Notebook restoration QA
 
+> Historical verification of the PR18 restoration. PR19 subsequently removes the hero landscape and workbench, refines project diagrams, and places the owl only in the footer. Route-explorer checks below describe the earlier version, not the current candidate.
+
 Cloud reconstruction from the approved desktop, phone and dark previews, the approved design specification and public source history. This is not a transfer of the unavailable local-only commit 3af2ac19.
 
 ## Source and automated verification
