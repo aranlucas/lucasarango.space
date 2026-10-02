@@ -136,7 +136,8 @@ export function tick(
 
   const events: SpotEvent[] = [];
   for (const critter of game.critters) {
-    if (critter.spottedAt !== null) continue;
+    // Expiration wins over a hold completed on the same frame.
+    if (critter.spottedAt !== null || now >= critter.diesAt) continue;
     critter.held = isLit(critter) ? critter.held + dt : 0;
     if (critter.held >= SPOT_SECONDS) {
       critter.spottedAt = now;
