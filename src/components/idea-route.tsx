@@ -127,12 +127,12 @@ function RouteMap({
 }) {
   return (
     <div className="route-map">
-      <svg aria-hidden="true" viewBox="0 0 440 160" preserveAspectRatio="none">
-        <path className="route-track" d="M24 28 H190 Q218 28 218 56 V100 Q218 132 250 132 H416" />
+      <svg aria-hidden="true" viewBox="0 0 300 24" preserveAspectRatio="none">
+        <path className="route-track" d="M50 12 H250" />
         <path
           className="route-trace"
           pathLength="1"
-          d="M24 28 H190 Q218 28 218 56 V100 Q218 132 250 132 H416"
+          d="M50 12 H250"
           style={{ strokeDasharray: 1, strokeDashoffset: stop === 0 ? 1 : stop === 1 ? 0.5 : 0 }}
         />
       </svg>

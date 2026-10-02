@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, GitBranch, ShoppingBasket, Workflow } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { TextLink } from "@/components/site-header";
@@ -8,19 +8,16 @@ const NOTES = [
   {
     className: "project-exhibit project-grocery",
     terms: ["Your pantry", "Find products", "A cart you review"],
-    icon: ShoppingBasket,
     diagramClass: "project-diagram diagram-chain",
   },
   {
     className: "project-exhibit project-whiteboard",
     terms: ["You", "Shared canvas", "AI agent"],
-    icon: Workflow,
     diagramClass: "project-diagram diagram-shared",
   },
   {
     className: "project-exhibit project-plugins",
     terms: ["One collection", "Claude Code", "Cursor"],
-    icon: GitBranch,
     diagramClass: "project-diagram diagram-fork",
   },
 ] as const;
@@ -61,18 +58,41 @@ export function ProjectList() {
 
 function ProjectDiagram({ index }: { index: number }) {
   const note = NOTES[index];
-  const Icon = note.icon;
   return (
     <figure className={note.diagramClass}>
-      <Icon aria-hidden="true" size={22} strokeWidth={1.5} />
-      <ul>
-        {note.terms.map((term) => (
-          <li key={term}>
-            <span className="diagram-node" aria-hidden="true" />
-            {term}
-          </li>
-        ))}
-      </ul>
+      <svg
+        className="project-flow"
+        viewBox="0 0 280 104"
+        role="img"
+        aria-label={
+          index === 2
+            ? "One collection connects to Claude Code and Cursor."
+            : index === 1
+              ? "You and an AI agent share one canvas."
+              : "Your pantry, finding products, and a cart you review."
+        }
+      >
+        <path
+          className="project-flow-line"
+          d={index === 2 ? "M12 16 V80 H40 M12 48 H40" : "M12 16 V80"}
+        />
+        {note.terms.map((term, termIndex) => {
+          const x = index === 2 && termIndex > 0 ? 40 : 12;
+          const y = 16 + termIndex * 32;
+          return (
+            <g key={term}>
+              {index === 1 && termIndex === 1 ? (
+                <rect className="project-flow-joint" x={x - 4} y={y - 4} width={8} height={8} />
+              ) : (
+                <circle className="project-flow-node" cx={x} cy={y} r={4} />
+              )}
+              <text x={x + 20} y={y} dominantBaseline="middle">
+                {term}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
       <figcaption>
         {index === 1
           ? "A shared whiteboard, with version history."

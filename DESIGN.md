@@ -183,15 +183,15 @@ components:
 
 **Creative North Star: "Cascades Notebook"**
 
-A personal engineering notebook in the Cascades: warm paper, fir links, a mountain mark and the original conversational greeting. Literata carries the biography and reading voice. Modest mono labels identify tools, dates and diagrams. The drawn ridge and night stars return; the owl uses the same silhouette as the existing critter game and leads into that forest.
+A personal engineering notebook in the Cascades: warm paper, fir links, a mountain mark and the original conversational greeting. Literata carries the biography and reading voice. Modest mono labels identify tools, dates and diagrams. The mountain logo keeps the outdoor reference compact. The owl uses the existing critter silhouette as a small footer detour, after the work, rather than a detached hero ornament.
 
 Clear project/source links, the dated writing archive and reversible route controls remain. Factual project stories sit in open ruled layouts. The interface follows the operating system’s theme, with native controls, reduced motion and the lazy Ask transcript retained.
 
-This documentation describes the approved Cascades Notebook restoration. The cloud implementation was reconstructed from the approved desktop, phone and dark previews and this design specification, because the earlier local-only commit was unavailable. Source history supplies the original fonts, palette, ridge geometry and factual content.
+This documentation includes a draft composition refinement responding to feedback on diagram alignment and detached outdoor decoration. The new draft is held for visual review before another production deployment. The prior Cascades Notebook restoration was approved. The cloud implementation was reconstructed from the approved desktop, phone and dark previews and this design specification, because the earlier local-only commit was unavailable. Source history supplies the original fonts, palette, ridge geometry and factual content.
 
 **Key Characteristics:**
 
-- The original mountain, drawn ridge and night stars.
+- The original mountain mark, kept at logo scale.
 - Warm paper/fir palette and a conversational serif voice.
 - Open project stories and a clear, dated writing archive.
 - A playful detour into the preserved critter game.
@@ -226,7 +226,7 @@ At 740px and below, the greeting uses `clamp(2rem, 9vw, 2.5rem)`, biography text
 
 ## Layout
 
-The shell is centered at `min(100% - 4rem, 64rem)`; phone gutters are 1.25rem per side. The original ridge draws above the introduction, with a small forest invitation at its edge.
+The shell is centered at `min(100% - 4rem, 64rem)`; phone gutters are 1.25rem per side. The introduction begins directly below the header. The large hero ridge is removed so the landscape does not compete with the biography and technical diagrams. The forest invitation appears only in the footer.
 
 The introduction pairs the full factual biography (1.4fr) with a quiet project workbench (1fr), separated by 3.5rem. Projects use open ruled rows with copy and a compact diagram (1.5fr/1fr), separated by 4rem. At 1000px gaps tighten; at 740px these compositions stack. Header navigation and Ask share a full-width row on phone.
 
@@ -246,23 +246,23 @@ The original mountain mark is circular. The workbench and form controls use rest
 
 ## Components
 
-### Mountain and ridge
+### Mountain identity
 
-Use the original mountain mark, contour geometry and dark-only stars. The contours draw once over 1.6s, with short staggered delays. Reduced motion shows complete contours and steady stars. Share images use the original warm palette, Literata and ridge geometry.
+Use the original mountain mark at logo scale. Do not add a separate landscape banner above the biography. Existing share images retain their warm palette, Literata and ridge geometry.
 
 ### Forest detour
 
-The owl link visibly invites a wrong turn and explicitly labels its 404 forest destination for assistive technology. The same detour appears in the footer. Its finite 800ms hover/focus blink stops under reduced motion. The intentionally missing route serves the existing forest game; no new gameplay route or engine is invented. Link prefetch is disabled, keeping the Three.js bundle off the home page until navigation.
+The owl link visibly invites a wrong turn and explicitly labels its 404 forest destination for assistive technology. The detour appears only in the footer, with a smaller 24px owl. Its finite 800ms hover/focus blink stops under reduced motion. The intentionally missing route serves the existing forest game; no new gameplay route or engine is invented. Link prefetch is disabled, keeping the Three.js bundle off the home page until navigation.
 
 **The Real Detour Rule.** Playful details should lead to actual behavior. The owl opens the retained 404 forest; it never prefetches the game on the home page.
 
 ### On my workbench
 
-The retained route explorer describes three public projects using native selector and stage buttons. Direct stage changes, repeated exploration and reset remain reversible. Notes come from the public project stories, and a live region announces the selected note. The 650ms trace transition updates immediately for reduced motion. Controls retain 44px targets. This is a conceptual map, without live telemetry claims.
+The retained route explorer describes three public projects using native selector and stage buttons. Direct stage changes, repeated exploration and reset remain reversible. Notes come from the public project stories, and a live region announces the selected note. The three stage buttons sit in equal grid columns on one straight rail. SVG endpoints and button dot centers share the same horizontal fractions (1/6, 1/2, 5/6) and 12px vertical center. The 650ms trace transition updates immediately for reduced motion. Stage buttons are at least 64px high; other controls retain 44px targets. This is a conceptual map, without live telemetry claims.
 
 ### Project stories
 
-Titles, descriptions, source and story links remain factual. The rows are open and ruled, with small workflow diagrams in mono type. The grocery flow, shared canvas and plugin branches retain their real relationships without marketing-style questions.
+Titles, descriptions, source and story links remain factual. The rows are open and ruled, with small workflow diagrams in mono type. The grocery flow, shared canvas and plugin branches retain their real relationships without marketing-style questions. All diagrams are compact and left-aligned; text, nodes and connecting lines share SVG coordinates so they cannot drift independently. The plugin diagram uses a clear parent/children tree.
 
 ### Writing archive
 
