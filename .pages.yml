@@ -1,5 +1,5 @@
 # Pages CMS (https://pagescms.org), modeled on github.com/pagescms/nextjs-blog-template.
-# Posts fields mirror src/lib/posts.ts; dates stay YYYY-MM-DD because parsePost requires it.
+# Post fields mirror src/lib/api.ts; dates stay YYYY-MM-DD because parsePost requires it.
 media:
   input: public/assets
   output: /assets

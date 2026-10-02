@@ -67,6 +67,8 @@ draft: true
 
 Keep a filename when changing a published title so links remain stable. The Pages CMS configuration in `.pages.yml` describes the post and archived repository-draft collections.
 
+Post metadata is validated during the build. Titles and summaries must contain text; surrounding whitespace is trimmed. Dates must be real calendar dates in `YYYY-MM-DD` format, quoted or unquoted. When present, `draft` must be the boolean `true` or `false`; quoted strings such as `"true"` are rejected so a typo cannot publish a draft. Validation errors identify the post and field to fix.
+
 ## Source map
 
 | Path                                           | Responsibility                                                                                |
