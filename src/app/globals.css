@@ -8,9 +8,9 @@
 @custom-variant dark (@media (prefers-color-scheme: dark));
 
 @theme inline {
-  --font-sans: var(--font-body), sans-serif;
-  --font-heading: var(--font-display), sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-sans: var(--font-serif), Georgia, serif;
+  --font-heading: var(--font-serif), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -43,15 +43,15 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
 
-  --text-body: 1.125rem;
-  --text-body--line-height: 1.65;
-  --text-lede: 1.375rem;
-  --text-lede--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+  --text-lede: 1.1875rem;
+  --text-lede--line-height: 1.6;
   --text-title: clamp(2.1rem, 6vw, 3rem);
   --text-title--line-height: 1.12;
   --text-display: clamp(2.5rem, 7vw, 3.75rem);
   --text-display--line-height: 1.1;
-  --container-page: 76rem;
+  --container-page: 64rem;
   --container-popup: 26rem;
 
   --animate-draw: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
@@ -149,54 +149,52 @@
   height: clamp(4.5rem, 16vw, 7.5rem);
 }
 
-/* Systems atlas: cobalt routes, lime waypoints, warm white reading surfaces. */
+/* Cascades palette: warm paper, slate ink, fir-green primary. */
 :root {
-  --background: #f7f8f2;
-  --foreground: #172125;
-  --card: #ffffff;
-  --card-foreground: #172125;
-  --popover: #ffffff;
-  --popover-foreground: #172125;
-  --primary: #273bc4;
-  --primary-foreground: #ffffff;
-  --secondary: #e9ecdf;
-  --secondary-foreground: #172125;
-  --muted: #e9ecdf;
-  --muted-foreground: #535d5e;
-  --accent: #e6f28b;
-  --accent-foreground: #172125;
-  --destructive: #ae302d;
-  --border: #cbd1c2;
-  --input: #cbd1c2;
-  --ring: #273bc4;
-  --ridge: #83936e;
-  --radius: 0.25rem;
-  --cobalt: #273bc4;
-  --lime: #e6f28b;
+  --background: #f4f1ea;
+  --foreground: #17242c;
+  --card: #faf7f0;
+  --card-foreground: #17242c;
+  --popover: #faf7f0;
+  --popover-foreground: #17242c;
+  --primary: #2c6654;
+  --primary-foreground: #f1f6f4;
+  --secondary: #eae6de;
+  --secondary-foreground: #17242c;
+  --muted: #eae6de;
+  --muted-foreground: #56666e;
+  --accent: #eae6de;
+  --accent-foreground: #17242c;
+  --destructive: #b3412f;
+  --border: #d4d2c8;
+  --input: #d4d2c8;
+  --ring: #2c6654;
+  --ridge: #859b91;
+  --radius: 0.375rem;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #171d29;
-    --foreground: #f1f4e9;
-    --card: #202838;
-    --card-foreground: #f1f4e9;
-    --popover: #202838;
-    --popover-foreground: #f1f4e9;
-    --primary: #b7c2ff;
-    --primary-foreground: #171d29;
-    --secondary: #293344;
-    --secondary-foreground: #f1f4e9;
-    --muted: #293344;
-    --muted-foreground: #b0bac3;
-    --accent: #e6f28b;
-    --accent-foreground: #172125;
-    --destructive: #ffaaa0;
-    --border: #434e60;
-    --input: #434e60;
-    --ring: #e6f28b;
-    --ridge: #83936e;
+    --background: #121b21;
+    --foreground: #dce5e7;
+    --card: #17232a;
+    --card-foreground: #dce5e7;
+    --popover: #17232a;
+    --popover-foreground: #dce5e7;
+    --primary: #86c3ae;
+    --primary-foreground: #0f2019;
+    --secondary: #1a262d;
+    --secondary-foreground: #dce5e7;
+    --muted: #1a262d;
+    --muted-foreground: #8d9da4;
+    --accent: #1f2e36;
+    --accent-foreground: #dce5e7;
+    --destructive: #e07a66;
+    --border: #2b3a42;
+    --input: #2b3a42;
+    --ring: #86c3ae;
+    --ridge: #4c646d;
     color-scheme: dark;
   }
 }
@@ -559,7 +557,7 @@
   }
 }
 
-/* The atlas has one expressive route; the surrounding reading stays still. */
+/* A personal engineering notebook: the work stays open and the forest is a real detour. */
 html {
   scroll-padding-top: 2rem;
   scrollbar-color: var(--primary) var(--background);
@@ -580,12 +578,12 @@ button {
   cursor: pointer;
 }
 .site-shell {
-  width: min(100% - 5rem, 76rem);
+  width: min(100% - 4rem, 64rem);
   margin-inline: auto;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.7;
 }
 .site-header {
@@ -593,16 +591,15 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-block: 1.7rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 3rem;
+  padding-block: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 .site-wordmark {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  font-weight: 750;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 1rem;
   text-decoration: none;
 }
 .site-mark {
@@ -610,8 +607,15 @@ button {
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  background: var(--cobalt);
-  color: var(--lime);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--secondary);
+  color: var(--primary);
+}
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 .site-nav {
   display: flex;
@@ -623,7 +627,7 @@ button {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   text-decoration: none;
   color: var(--muted-foreground);
 }
@@ -635,39 +639,79 @@ button {
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  height: 3px;
+  height: 2px;
   background: var(--primary);
+}
+.intro-scenery {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+.intro-scenery > svg {
+  clip-path: inset(0 37.5% 0 0);
+}
+.intro-scenery > .forest-link {
+  position: absolute;
+  top: -0.75rem;
+  right: 0;
+}
+.forest-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  color: var(--primary);
+  font-size: 0.8125rem;
+  text-decoration: none;
+}
+.forest-link svg {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+}
+.forest-link small {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+}
+.forest-link:hover > span,
+.forest-link:focus-visible > span {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.owl-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.forest-link:hover .owl-eyes,
+.forest-link:focus-visible .owl-eyes {
+  animation: owl-blink 800ms ease-in-out;
+}
+@keyframes owl-blink {
+  35%,
+  65% {
+    transform: scaleY(0.1);
+  }
 }
 .portfolio-intro {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 5rem;
-  align-items: center;
-  padding-block: 0.7rem 4.5rem;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+  padding-bottom: 4.5rem;
 }
 .intro-copy h1 {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(4.5rem, 7.5vw, 6rem);
-  line-height: 0.89;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: var(--primary);
-  margin-bottom: 1.8rem;
-  text-transform: uppercase;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
 }
-.intro-copy h1 span {
-  color: var(--foreground);
-}
-.intro-identity {
-  font-size: 1.15rem;
-  font-weight: 650;
-  line-height: 1.45;
+.intro-copy p {
   margin-bottom: 1rem;
 }
-.intro-lede {
-  max-width: 32ch;
-  color: var(--muted-foreground);
-  font-size: 1rem;
+.intro-copy .intro-lede {
+  font-size: 1.1875rem;
+  line-height: 1.6;
 }
 .intro-links {
   display: flex;
@@ -684,68 +728,53 @@ button {
   min-height: 44px;
   color: var(--primary);
   font-size: 0.875rem;
-  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
-.intro-links a:first-child {
-  color: var(--foreground);
-}
 .idea-route {
-  padding: 1.75rem 2rem 1.4rem;
-  background: var(--cobalt);
-  color: #fff;
+  padding: 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card);
   position: relative;
-}
-.route-topline {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: baseline;
 }
 .route-topline h2 {
   font-size: 1rem;
-  font-weight: 700;
-}
-.route-topline > span {
-  font-size: 0.75rem;
-  color: #d2d9ff;
+  font-weight: 600;
 }
 .route-switcher {
   display: flex;
   gap: 0.2rem;
-  margin-block: 1.25rem 1.5rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid #6979e7;
+  margin-block: 1rem 1.35rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border);
 }
 .route-switcher button {
   min-height: 44px;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.8rem;
-  color: #d2d9ff;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  border-radius: 0.2rem;
+  color: var(--muted-foreground);
   background: transparent;
 }
 .route-switcher button[aria-pressed="true"] {
-  background: var(--lime);
-  color: #172125;
-  font-weight: 700;
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 .route-switcher button:hover {
-  color: #172125;
-  background: #fff;
+  outline: 1px solid var(--primary);
 }
 .route-title {
   max-width: 15ch;
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.5rem, 3.5vw, 3.5rem);
+  font-size: 1.75rem;
   font-weight: 600;
-  line-height: 1.02;
-  text-transform: uppercase;
+  line-height: 1.25;
 }
 .route-map {
   position: relative;
-  margin-block: 1.5rem 0.8rem;
-  height: 155px;
+  margin-block: 0.65rem 1.5rem;
+  height: 132px;
 }
 .route-map svg {
   position: absolute;
@@ -754,13 +783,13 @@ button {
   height: 100%;
   overflow: visible;
   fill: none;
-  stroke-width: 4;
+  stroke-width: 2;
 }
 .route-track {
-  stroke: #6979e7;
+  stroke: var(--border);
 }
 .route-trace {
-  stroke: var(--lime);
+  stroke: var(--primary);
   transition: stroke-dashoffset 650ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .route-stops {
@@ -772,26 +801,26 @@ button {
   position: absolute;
 }
 .route-stops li:first-child {
-  left: calc(5.45% - 13px);
-  top: 14px;
+  left: -0.25rem;
+  top: -4px;
 }
 .route-stops li:nth-child(2) {
-  left: calc(49.55% - 13px);
-  top: 64px;
+  left: calc(42% - 9px);
+  top: 42px;
 }
 .route-stops li:last-child {
-  right: calc(5.45% - 13px);
+  right: -0.25rem;
   bottom: -5px;
 }
 .route-stop {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  color: #d2d9ff;
+  gap: 0.35rem;
+  color: var(--muted-foreground);
   text-align: left;
   padding: 0.25rem;
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
   min-height: 44px;
 }
 .route-stops li:last-child .route-stop {
@@ -799,38 +828,37 @@ button {
   text-align: right;
 }
 .route-dot {
-  width: 18px;
-  height: 18px;
-  border: 3px solid #d2d9ff;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ridge);
   border-radius: 50%;
-  background: var(--cobalt);
+  background: var(--card);
 }
 .route-stop.reached {
-  color: var(--lime);
+  color: var(--primary);
 }
 .route-stop.reached .route-dot {
-  background: var(--lime);
-  border-color: var(--lime);
+  background: var(--primary);
+  border-color: var(--primary);
 }
 .route-stop[aria-pressed="true"] .route-dot {
-  outline: 1px solid var(--lime);
-  outline-offset: 5px;
+  outline: 1px solid var(--primary);
+  outline-offset: 4px;
 }
 .route-stop:hover {
-  color: #fff;
+  color: var(--primary);
 }
 .route-note {
-  min-height: 5.8rem;
+  min-height: 6.5rem;
   max-width: 46ch;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: #fff;
+  font-size: 0.8125rem;
+  line-height: 1.7;
 }
 .route-actions {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.8rem 1.4rem;
+  gap: 0.8rem 1rem;
   margin-top: 0.7rem;
 }
 .route-actions a,
@@ -839,75 +867,45 @@ button {
   align-items: center;
   gap: 0.5rem;
   min-height: 44px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.75rem;
 }
 .route-actions a {
-  color: #fff;
+  color: var(--primary);
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
 .route-next {
-  background: var(--lime);
-  color: #172125;
-  padding: 0.5rem 0.85rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.2rem;
 }
 .route-next:hover {
-  background: #fff;
+  filter: brightness(0.92);
 }
 .route-caption {
-  font-size: 0.68rem;
-  color: #d2d9ff;
-  margin-top: 1rem;
-}
-.idea-route :focus-visible {
-  outline-color: #fff;
-}
-.about-lucas {
-  display: grid;
-  grid-template-columns: 0.85fr 1.1fr;
-  gap: 7rem;
-  border-block: 1px solid var(--border);
-  padding-block: 3.5rem;
-}
-.about-lucas h2 {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.25rem, 3.5vw, 3.25rem);
-  line-height: 1.08;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.about-lucas h2 span {
-  color: var(--primary);
-}
-.about-lucas p {
-  max-width: 65ch;
-  font-size: 1rem;
-}
-.about-lucas p + p {
-  margin-top: 1rem;
+  font-size: 0.625rem;
   color: var(--muted-foreground);
+  margin-top: 1rem;
 }
 .section-intro {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 2rem;
-  padding-block: 4.5rem 2rem;
+  padding-bottom: 1.5rem;
 }
 .section-intro h2,
 .home-writing > h2 {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  line-height: 1;
+  font-size: 1.875rem;
+  line-height: 1.3;
   font-weight: 600;
-  text-transform: uppercase;
   margin: 0;
 }
 .section-intro p {
   max-width: 38ch;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 .project-exhibits {
   display: flex;
@@ -915,77 +913,56 @@ button {
 }
 .project-exhibit {
   display: grid;
-  grid-template-columns: 1.3fr 0.8fr;
-  column-gap: 6rem;
-  padding: 3rem;
+  grid-template-columns: 1.5fr 1fr;
+  column-gap: 4rem;
+  padding-block: 2rem;
+  border-top: 1px solid var(--border);
 }
-.project-grocery {
-  background: var(--lime);
-  color: #172125;
-}
-.project-whiteboard {
-  padding-block: 4.5rem;
+.project-exhibit:last-child {
   border-bottom: 1px solid var(--border);
 }
-.project-plugins {
-  grid-template-columns: 1fr 1fr;
-  padding-block: 4rem;
-  background: var(--cobalt);
-  color: #fff;
-}
 .project-copy h3 {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-size: 1.3rem;
   font-weight: 600;
-  line-height: 1.05;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
 }
 .project-copy h3 a {
-  color: inherit;
+  color: var(--primary);
   display: inline;
   text-decoration: none;
 }
 .project-copy h3 a:hover {
   text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1px;
 }
 .project-copy h3 svg {
   display: inline;
-  vertical-align: top;
-  margin-left: 0.6rem;
-  margin-top: 0.4rem;
-}
-.project-question {
-  font-size: 1.15rem;
-  font-weight: 650;
-  line-height: 1.45;
-  margin-bottom: 1rem;
-  max-width: 39ch;
+  vertical-align: middle;
+  margin-left: 0.35rem;
 }
 .project-description {
-  font-size: 0.925rem;
+  font-size: 1rem;
   max-width: 59ch;
 }
 .project-links {
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin-top: 0.65rem;
 }
-.project-grocery .project-links a {
-  color: #172125;
-}
-.project-plugins .project-links a {
-  color: var(--lime);
+.project-links a {
+  font-size: 0.8125rem;
 }
 .project-diagram {
   align-self: center;
   margin: 0;
   padding-left: 1.5rem;
+  color: var(--muted-foreground);
 }
 .project-diagram > svg {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
 }
 .project-diagram ul {
   padding-left: 0;
@@ -995,61 +972,103 @@ button {
 .project-diagram li {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   position: relative;
-  padding-bottom: 1.3rem;
-  font-family: var(--font-display), sans-serif;
-  font-size: 1.9rem;
-  line-height: 1.2;
-  font-weight: 600;
-  text-transform: uppercase;
+  padding-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.7;
 }
 .diagram-node {
-  width: 13px;
-  height: 13px;
-  border: 2px solid currentColor;
-  background: currentColor;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ridge);
+  background: var(--primary);
   border-radius: 50%;
   flex-shrink: 0;
 }
 .project-diagram li:not(:last-child)::after {
   content: "";
   position: absolute;
-  width: 2px;
-  background: currentColor;
-  left: 6px;
-  top: 1.1rem;
-  bottom: -0.55rem;
+  width: 1px;
+  background: var(--ridge);
+  left: 3px;
+  top: 0.8rem;
+  bottom: -0.1rem;
 }
 .project-diagram figcaption {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   max-width: 30ch;
   margin-top: 0.5rem;
+  line-height: 1.5;
 }
-.project-whiteboard .project-diagram {
-  color: var(--primary);
+.diagram-shared li:nth-child(2) .diagram-node {
+  border-radius: 0;
+  background: transparent;
 }
-.project-plugins .project-diagram {
-  color: var(--lime);
+.diagram-fork ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3rem 0.8rem;
+}
+.diagram-fork li {
+  flex-direction: column;
+  text-align: center;
+  gap: 0.65rem;
+  padding-bottom: 0;
+}
+.diagram-fork li:first-child {
+  grid-column: 1/-1;
+  padding-bottom: 1rem;
+}
+.diagram-fork li:not(:last-child)::after {
+  display: none;
+}
+.diagram-fork li:first-child::after {
+  display: block;
+  left: 50%;
+  top: auto;
+  bottom: -0.8rem;
+  height: 1.8rem;
+}
+.diagram-fork li:nth-child(2)::before,
+.diagram-fork li:last-child::before {
+  content: "";
+  position: absolute;
+  height: 0.9rem;
+  width: calc(50% + 0.4rem);
+  border-top: 1px solid var(--ridge);
+  top: -0.7rem;
+}
+.diagram-fork li:nth-child(2)::before {
+  left: 50%;
+  border-left: 1px solid var(--ridge);
+}
+.diagram-fork li:last-child::before {
+  right: 50%;
+  border-right: 1px solid var(--ridge);
+}
+.diagram-fork figcaption {
+  text-align: center;
+  margin: 1rem auto 0;
 }
 .home-writing {
-  padding-block: 4.5rem 2rem;
+  padding-block: 3rem 2rem;
 }
 .home-writing > h2 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 .writing-list {
   list-style: none;
-  margin: 0 0 1.5rem;
+  margin: 0 0 1rem;
   padding: 0;
-  border-top: 1px solid var(--border);
 }
 .writing-row {
   display: grid;
-  grid-template-columns: 7rem 1fr 1.5rem;
-  gap: 2rem;
+  grid-template-columns: 5.5rem 1fr 1rem;
+  gap: 1.5rem;
   color: var(--foreground);
-  padding-block: 1.5rem;
+  padding-block: 1.35rem;
   border-bottom: 1px solid var(--border);
   text-decoration: none;
 }
@@ -1057,28 +1076,26 @@ button {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
   font-variant-numeric: tabular-nums;
   color: var(--muted-foreground);
-}
-.writing-date time {
-  color: var(--foreground);
 }
 .writing-copy {
   display: block;
   max-width: 70ch;
 }
 .writing-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  line-height: 1.4;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.5;
   display: block;
 }
 .writing-summary {
   display: block;
   font-size: 0.875rem;
   color: var(--muted-foreground);
-  margin-top: 0.55rem;
+  margin-top: 0.35rem;
   line-height: 1.65;
 }
 .writing-arrow {
@@ -1090,15 +1107,14 @@ button {
   text-underline-offset: 0.18em;
 }
 .page-title {
-  font-family: var(--font-display), sans-serif;
-  text-transform: uppercase;
-  font-size: clamp(3.5rem, 8vw, 6rem);
-  line-height: 1;
+  font-size: clamp(2.5rem, 5vw, 3.25rem);
+  line-height: 1.2;
   font-weight: 600;
+  letter-spacing: -0.025em;
   margin-bottom: 1.2rem;
 }
 .reading-index {
-  max-width: 65rem;
+  max-width: 56rem;
   margin-inline: auto;
   padding-block: 0.5rem 3rem;
 }
@@ -1108,22 +1124,19 @@ button {
 }
 .reading-index h2,
 .resume-article h2 {
-  font-family: var(--font-display), sans-serif;
-  font-size: 2rem;
-  text-transform: uppercase;
+  font-size: 1.875rem;
   margin-top: 3rem;
 }
 .reading-article {
-  max-width: 48rem;
+  max-width: 45rem;
   margin-inline: auto;
   padding-block: 0.5rem 3rem;
 }
 .article-title {
-  font-family: var(--font-display), sans-serif;
-  text-transform: uppercase;
-  font-size: clamp(2.75rem, 5vw, 4rem);
-  line-height: 1.08;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.2;
   font-weight: 600;
+  letter-spacing: -0.02em;
   margin-bottom: 1.5rem;
 }
 .reading-article .prose {
@@ -1131,57 +1144,53 @@ button {
   line-height: 1.85;
 }
 .reading-article .prose h2 {
-  font-family: var(--font-display), sans-serif;
-  font-size: 2rem;
-  line-height: 1.15;
+  font-size: 1.875rem;
+  line-height: 1.3;
 }
 .resume-article {
-  max-width: 54rem;
+  max-width: 45rem;
   margin-inline: auto;
   padding-block: 0.5rem 3rem;
-}
-.resume-article h3 {
-  font-family: var(--font-body), sans-serif;
 }
 .site-footer {
   display: flex;
   gap: 2rem;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
   border-top: 1px solid var(--border);
-  padding-block: 2.5rem 6rem;
+  padding-block: 2rem 3rem;
   font-size: 0.875rem;
   color: var(--muted-foreground);
 }
 .footer-title {
-  font-family: var(--font-display), sans-serif;
   color: var(--foreground);
-  font-size: 2.5rem;
-  line-height: 1;
-  text-transform: uppercase;
-  margin-bottom: 0.7rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 .footer-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 .footer-links a {
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
   min-height: 44px;
+  font-size: 0.8125rem;
+}
+.ask-launcher {
+  flex-shrink: 0;
+}
+.ask-launcher-short {
+  display: none;
 }
 @media (max-width: 1000px) {
   .portfolio-intro {
-    gap: 2.5rem;
-  }
-  .about-lucas {
-    gap: 3rem;
+    gap: 2rem;
   }
   .project-exhibit {
-    column-gap: 3rem;
-    padding-inline: 2rem;
+    column-gap: 2.5rem;
   }
   .route-actions {
     gap: 0.7rem;
@@ -1195,23 +1204,39 @@ button {
     width: calc(100% - 2.5rem);
   }
   .site-header {
-    margin-bottom: 2rem;
-    padding-block: 1.2rem;
-    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-block: 1rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
+  }
+  .site-header-actions {
+    width: 100%;
+    gap: 1rem;
+    justify-content: space-between;
   }
   .site-nav {
     gap: 1rem;
   }
   .site-nav-link {
-    font-size: 0.8rem;
+    font-size: 0.8125rem;
   }
   .site-wordmark {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
   }
-  .site-mark {
-    width: 1.9rem;
-    height: 1.9rem;
+  .intro-scenery {
+    margin-bottom: 1.75rem;
+  }
+  .intro-scenery > svg {
+    clip-path: none;
+  }
+  .intro-scenery > .forest-link {
+    top: -0.5rem;
+    background: var(--background);
+    padding-left: 0.5rem;
+    font-size: 0.625rem;
+  }
+  .intro-scenery > .forest-link small {
+    display: none;
   }
   .portfolio-intro {
     grid-template-columns: 1fr;
@@ -1219,24 +1244,22 @@ button {
     padding-bottom: 2.5rem;
   }
   .intro-copy h1 {
-    font-size: clamp(4.5rem, 18vw, 6rem);
-    margin-bottom: 1.4rem;
+    font-size: clamp(2rem, 9vw, 2.5rem);
+    margin-bottom: 1.5rem;
   }
-  .intro-identity {
+  .intro-copy p {
     font-size: 1rem;
+    margin-bottom: 1rem;
   }
-  .intro-lede {
-    max-width: 38ch;
+  .intro-copy .intro-lede {
+    font-size: 1.125rem;
   }
   .intro-links {
     gap: 1.3rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
   .idea-route {
     padding: 1.35rem;
-  }
-  .route-title {
-    font-size: 2.8rem;
   }
   .route-note {
     min-height: 6rem;
@@ -1244,20 +1267,11 @@ button {
   .route-actions {
     gap: 1rem;
   }
-  .about-lucas {
-    grid-template-columns: 1fr;
-    gap: 1.8rem;
-    padding-block: 2.5rem;
-  }
-  .about-lucas h2 {
-    font-size: 2.7rem;
-  }
   .section-intro {
     display: block;
-    padding-block: 3rem 1.6rem;
+    padding-bottom: 1.5rem;
   }
   .section-intro h2 {
-    font-size: 2.8rem;
     margin-bottom: 1rem;
   }
   .section-intro p {
@@ -1266,28 +1280,10 @@ button {
   .project-exhibit {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 2rem 1.5rem;
-  }
-  .project-whiteboard {
-    padding-block: 3rem;
-  }
-  .project-copy h3 {
-    font-size: 2.65rem;
-  }
-  .project-question {
-    font-size: 1.0625rem;
+    padding-block: 2rem;
   }
   .project-diagram {
     padding-left: 0.25rem;
-  }
-  .project-diagram li {
-    font-size: 1.65rem;
-    padding-bottom: 1.15rem;
-  }
-  .project-diagram > svg {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 1rem;
   }
   .project-diagram figcaption {
     max-width: 36ch;
@@ -1296,9 +1292,8 @@ button {
     padding-top: 3rem;
   }
   .writing-row {
-    grid-template-columns: 1fr 1.5rem;
+    grid-template-columns: 1fr 1rem;
     gap: 0.5rem 1rem;
-    padding-block: 1.3rem;
   }
   .writing-date {
     grid-column: 1/-1;
@@ -1310,9 +1305,6 @@ button {
   }
   .writing-arrow {
     grid-column: 2;
-  }
-  .writing-title {
-    font-size: 1rem;
   }
   .site-footer {
     align-items: start;
@@ -1326,10 +1318,20 @@ button {
     font-size: 1rem;
     line-height: 1.8;
   }
+  .ask-launcher-label {
+    display: none;
+  }
+  .ask-launcher-short {
+    display: inline;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .route-trace {
     transition: none;
+  }
+  .forest-link:hover .owl-eyes,
+  .forest-link:focus-visible .owl-eyes {
+    animation: none;
   }
 }
 @media print {
@@ -1339,7 +1341,10 @@ button {
     font-size: 13px;
   }
   .site-header,
-  .site-footer {
+  .site-footer,
+  .intro-scenery,
+  .idea-route,
+  .intro-links {
     display: none;
   }
   .resume-article {
@@ -1349,106 +1354,4 @@ button {
   .resume-article h2 {
     margin-top: 1.1rem;
   }
-}
-
-/* Shared editing is a two-way relationship; plugins branch into clients. */
-.diagram-shared ul {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.diagram-shared li:nth-child(2) {
-  font-size: 2.25rem;
-}
-.diagram-shared li:not(:last-child)::after {
-  width: 4px;
-  left: 5px;
-}
-.diagram-shared li:nth-child(2) .diagram-node {
-  width: 18px;
-  height: 18px;
-  margin-left: -2px;
-  border-radius: 0;
-  background: transparent;
-}
-.diagram-shared li:last-child .diagram-node {
-  background: transparent;
-}
-.diagram-fork ul {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.7rem 0.8rem;
-  padding-top: 0.3rem;
-}
-.diagram-fork li {
-  flex-direction: column;
-  text-align: center;
-  gap: 0.65rem;
-  padding-bottom: 0;
-  font-size: 1.8rem;
-}
-.diagram-fork li:first-child {
-  grid-column: 1 / -1;
-  padding-bottom: 1.4rem;
-}
-.diagram-fork li:not(:last-child)::after {
-  display: none;
-}
-.diagram-fork li:first-child::after {
-  display: block;
-  left: 50%;
-  top: auto;
-  bottom: -1.1rem;
-  height: 2.5rem;
-}
-.diagram-fork li:nth-child(2)::before,
-.diagram-fork li:last-child::before {
-  content: "";
-  position: absolute;
-  height: 1.2rem;
-  width: calc(50% + 0.4rem);
-  border-top: 2px solid currentColor;
-  top: -1rem;
-}
-.diagram-fork li:nth-child(2)::before {
-  left: 50%;
-  border-left: 2px solid currentColor;
-}
-.diagram-fork li:last-child::before {
-  right: 50%;
-  border-right: 2px solid currentColor;
-}
-.diagram-fork figcaption {
-  text-align: center;
-  margin: 1.3rem auto 0;
-}
-.ask-launcher-short {
-  display: none;
-}
-@media (max-width: 740px) {
-  .diagram-fork li {
-    font-size: 1.65rem;
-  }
-  .ask-launcher-label {
-    display: none;
-  }
-  .ask-launcher-short {
-    display: inline;
-  }
-}
-
-/* Ask lives in the header, so it never obscures the work or the writing. */
-.site-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-@media (max-width: 740px) {
-  .site-header-actions {
-    width: 100%;
-    gap: 1rem;
-    justify-content: space-between;
-  }
-}
-.ask-launcher {
-  flex-shrink: 0;
 }

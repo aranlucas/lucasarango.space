@@ -1,6 +1,7 @@
 import { cn } from "cn";
-import { ArrowUpRight, MoveUpRight } from "lucide-react";
+import { ArrowUpRight, MountainSnow } from "lucide-react";
 
+import { ForestLink } from "@/components/forest-link";
 import { AskPopup } from "@/components/ask/ask-popup";
 import { HomeLink, SiteNav } from "@/components/site-nav";
 import { SITE } from "@/lib/site";
@@ -10,7 +11,7 @@ export function SiteHeader() {
     <header className="site-header print:hidden" style={{ viewTransitionName: "site-header" }}>
       <HomeLink className="site-wordmark">
         <span className="site-mark" aria-hidden="true">
-          <MoveUpRight size={24} strokeWidth={2.5} />
+          <MountainSnow size={18} strokeWidth={1.5} />
         </span>
         {SITE.name}
       </HomeLink>
@@ -26,8 +27,8 @@ export function SiteFooter() {
   return (
     <footer className="site-footer print:hidden" style={{ viewTransitionName: "site-footer" }}>
       <div>
-        <p className="footer-title">Keep in touch.</p>
-        <p>Thanks for stopping by.</p>
+        <p className="footer-title">Thanks for stopping by.</p>
+        <ForestLink />
       </div>
       <div className="footer-links">
         <TextLink href={SITE.github}>

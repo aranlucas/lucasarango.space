@@ -7,21 +7,18 @@ import { PROJECTS } from "@/lib/projects";
 const NOTES = [
   {
     className: "project-exhibit project-grocery",
-    question: "What if the weekly shop started with a conversation?",
     terms: ["Your pantry", "Find products", "A cart you review"],
     icon: ShoppingBasket,
     diagramClass: "project-diagram diagram-chain",
   },
   {
     className: "project-exhibit project-whiteboard",
-    question: "What if your thinking partner could draw alongside you?",
     terms: ["You", "Shared canvas", "AI agent"],
     icon: Workflow,
     diagramClass: "project-diagram diagram-shared",
   },
   {
     className: "project-exhibit project-plugins",
-    question: "What if your tools followed you from one client to the next?",
     terms: ["One collection", "Claude Code", "Cursor"],
     icon: GitBranch,
     diagramClass: "project-diagram diagram-fork",
@@ -39,10 +36,9 @@ export function ProjectList() {
               <h3>
                 <TextLink href={project.source}>
                   {project.name}
-                  <ArrowUpRight aria-hidden="true" size={25} />
+                  <ArrowUpRight aria-hidden="true" size={15} />
                 </TextLink>
               </h3>
-              <p className="project-question">{note.question}</p>
               <p className="project-description">{project.description}</p>
               <div className="project-links">
                 <Link href={project.story}>
@@ -68,7 +64,7 @@ function ProjectDiagram({ index }: { index: number }) {
   const Icon = note.icon;
   return (
     <figure className={note.diagramClass}>
-      <Icon aria-hidden="true" size={36} strokeWidth={1.5} />
+      <Icon aria-hidden="true" size={22} strokeWidth={1.5} />
       <ul>
         {note.terms.map((term) => (
           <li key={term}>
