@@ -2,19 +2,28 @@
 
 import { cn } from "cn";
 import { SquarePen, X } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useId } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAsk } from "@/components/ask/ask-context";
-import {
-  Conversation,
-  ConversationContent,
-  ConversationScrollButton,
-} from "@/components/ask/conversation";
 import { Composer } from "@/components/ask/composer";
 import { RidgeGlyph } from "@/components/ask/ridge-glyph";
-import { Starters, Transcript } from "@/components/ask/transcript";
+
+// The transcript brings in the streaming Markdown renderer and scroll helpers.
+// Readers only download them once they open Ask; the composer is ready immediately.
+const AskContent = dynamic(
+  () => import("@/components/ask/ask-content").then((module) => module.AskContent),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-0 flex-1 items-end px-5 py-6 text-muted-foreground" role="status">
+        Opening conversation…
+      </div>
+    ),
+  },
+);
 
 /** A launcher in the corner and the chat panel it opens, over every page. */
 export function AskPopup() {
@@ -36,16 +45,8 @@ export function AskPopup() {
         className="fixed inset-0 z-40 flex flex-col bg-card text-card-foreground sm:inset-auto sm:inset-e-5 sm:bottom-18 sm:h-popup sm:w-popup sm:rounded-xl sm:border sm:shadow-xl"
       >
         <PanelHeader titleId={titleId} />
-        {chat.messages.length > 0 ? (
-          <Conversation>
-            <ConversationContent className="px-5">
-              <Transcript />
-            </ConversationContent>
-            <ConversationScrollButton />
-          </Conversation>
-        ) : (
-          <Starters />
-        )}
+        {/* Keep an existing transcript mounted when closed, preserving its scroll position. */}
+        {(open || chat.messages.length > 0) && <AskContent />}
         <Composer id={`${panelId}-question`} />
       </section>
       <Launcher panelId={panelId} />
