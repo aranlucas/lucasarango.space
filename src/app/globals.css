@@ -586,7 +586,10 @@ button {
   font-size: 1.0625rem;
   line-height: 1.7;
 }
+/* view-transition-name creates a stacking context; keep the Ask overlay above page content. */
 .site-header {
+  position: relative;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
