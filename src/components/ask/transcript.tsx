@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAsk } from "@/components/ask/ask-context";
 import { MessageResponse } from "@/components/ask/message-response";
-import { RidgeGlyph } from "@/components/ask/ridge-glyph";
+import { PeakGlyph } from "@/components/ask/peak-glyph";
 import { STARTERS, WAITING } from "@/lib/ask-config";
 import type { AskMessage } from "@/lib/ask-types";
 
@@ -223,7 +223,7 @@ function Thinking({ labels }: { labels: readonly string[] }) {
 
   return (
     <div className="flex items-center gap-3 text-muted-foreground" role="status">
-      <RidgeGlyph drawing className="h-4 w-10 text-primary" />
+      <PeakGlyph printing className="h-4 w-6" />
       <span key={label} className="animate-in fade-in">
         {label}
       </span>

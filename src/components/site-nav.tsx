@@ -28,20 +28,6 @@ function useTransitionTypes(href: string) {
   return [to > from ? "nav-forward" : "nav-back"];
 }
 
-export function HomeLink({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link href="/" transitionTypes={useTransitionTypes("/")} className={className}>
-      {children}
-    </Link>
-  );
-}
-
 export function SiteNav() {
   const active = useActiveTabIndex();
   return (

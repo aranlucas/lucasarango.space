@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { LostGame } from "@/components/lost/lost-game";
-import { buttonVariants } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -13,7 +12,10 @@ export default function NotFound() {
         <p className="text-night-muted">The page may have moved or never existed.</p>
       </div>
       <div className="flex flex-wrap justify-center gap-3">
-        <Link href="/" className={buttonVariants()}>
+        <Link
+          href="/"
+          className="inline-flex h-8 items-center rounded-lg bg-lamp px-2.5 text-sm font-medium text-lamp-foreground hover:bg-lamp/85"
+        >
           Go to the front page
         </Link>
         <Link

@@ -1,9 +1,18 @@
 import { cn } from "cn";
 
-export function SectionHeading({ className, children, ...props }: React.ComponentProps<"h2">) {
+/** A receipt section: a bitmap heading, with an optional tally or link printed flush right. */
+export function SectionHeading({
+  className,
+  aside,
+  children,
+  ...props
+}: React.ComponentProps<"h2"> & { aside?: React.ReactNode }) {
   return (
-    <h2 className={cn("mt-14 mb-4 text-lede font-semibold", className)} {...props}>
-      {children}
-    </h2>
+    <div className="section-heading">
+      <h2 className={cn(className)} {...props}>
+        {children}
+      </h2>
+      {aside}
+    </div>
   );
 }
