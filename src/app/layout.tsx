@@ -10,7 +10,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
-// Self-hosted by next/font; only the two faces used in the opening are preloaded.
+// Self-hosted by next/font; only the two families used in the opening are preloaded.
 const bodyFont = Manrope({ subsets: ["latin"], display: "swap", variable: "--font-body" });
 const displayFont = Barlow_Condensed({
   subsets: ["latin"],

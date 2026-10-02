@@ -26,8 +26,8 @@ export function Intro() {
             <Link href="#projects">
               Explore the work <ArrowDown aria-hidden="true" size={18} />
             </Link>
-            <Link href="/resume">
-              My experience <ArrowUpRight aria-hidden="true" size={18} />
+            <Link href="/blog">
+              Read the writing <ArrowUpRight aria-hidden="true" size={18} />
             </Link>
           </div>
         </div>

@@ -1435,3 +1435,20 @@ button {
     display: inline;
   }
 }
+
+/* Ask lives in the header, so it never obscures the work or the writing. */
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+@media (max-width: 740px) {
+  .site-header-actions {
+    width: 100%;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+}
+.ask-launcher {
+  flex-shrink: 0;
+}

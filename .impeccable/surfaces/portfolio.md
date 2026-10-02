@@ -25,3 +25,7 @@ FIRST VIEWPORT: oversized Lucas Arango at left with Seattle/software engineer id
 FORM: systems atlas, grounded candidate 6, seed 256abd80. Signature interaction: Follow an idea, a reversible route explorer over factual project workflows. Touch and keyboard operate native buttons; reduced motion changes state immediately.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Finish record
+
+Independent pixel critique followed by two bounded correction batches resolved the direct writing action, launcher overlap, and the open-panel close regression. The final verdict clears the scored fixes. Keyboard, touch, focus return, reduced motion, route interruption, narrow-width overflow, local destinations, application errors, and light/dark accessibility were checked on actual production-build pixels. The Impeccable detector reported no issues in its single run. DESIGN.md and the schemaVersion 2 sidecar record the implemented system. No new raster assets ship; project diagrams and share imagery are built from public content, SVG geometry, and the licensed Barlow Condensed font.

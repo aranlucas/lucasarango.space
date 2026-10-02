@@ -1,10 +1,17 @@
 "use client";
 
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 
 import { AskContext, type AskState } from "@/components/ask/ask-context";
-import { AskPopup } from "@/components/ask/ask-popup";
 import { ASK_LIMITS } from "@/lib/ask-config";
 import type { AskMessage, WaitingStatus } from "@/lib/ask-types";
 
@@ -43,12 +50,26 @@ function useAskChat() {
   return { chat, waitingStatus, setWaitingStatus };
 }
 
+function useFocusReturn(open: boolean, launcherRef: RefObject<HTMLButtonElement | null>) {
+  const requested = useRef(false);
+  useEffect(() => {
+    if (!open && requested.current) {
+      requested.current = false;
+      launcherRef.current?.focus();
+    }
+  }, [open, launcherRef]);
+  return useCallback(() => {
+    requested.current = true;
+  }, []);
+}
+
 function useAskState(): AskState {
   const { chat, waitingStatus, setWaitingStatus } = useAskChat();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const returnFocus = useFocusReturn(open, launcherRef);
   const { isLoading, isFull, send } = useSend(chat, setInput, setWaitingStatus);
 
   const ask = useCallback(
@@ -61,17 +82,16 @@ function useAskState(): AskState {
   const show = useCallback(() => {
     setOpen(true);
   }, []);
-  // In a transition, so it commits with the navigation that caused it and the
-  // panel morphs into the launcher as part of the page's view transition.
+  // Commit hiding with navigation so its transition morphs the panel into the launcher.
   const hide = useCallback(() => {
     startTransition(() => {
       setOpen(false);
     });
   }, []);
   const close = useCallback(() => {
+    returnFocus();
     setOpen(false);
-    launcherRef.current?.focus();
-  }, []);
+  }, [returnFocus]);
 
   return useMemo(
     () => ({
@@ -115,10 +135,5 @@ export function AskProvider({ children }: { children: React.ReactNode }) {
     };
   }, [open, close, inputRef]);
 
-  return (
-    <AskContext value={state}>
-      {children}
-      <AskPopup />
-    </AskContext>
-  );
+  return <AskContext value={state}>{children}</AskContext>;
 }

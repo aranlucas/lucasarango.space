@@ -1,6 +1,7 @@
 import { cn } from "cn";
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
 
+import { AskPopup } from "@/components/ask/ask-popup";
 import { HomeLink, SiteNav } from "@/components/site-nav";
 import { SITE } from "@/lib/site";
 
@@ -13,7 +14,10 @@ export function SiteHeader() {
         </span>
         {SITE.name}
       </HomeLink>
-      <SiteNav />
+      <div className="site-header-actions">
+        <SiteNav />
+        <AskPopup />
+      </div>
     </header>
   );
 }

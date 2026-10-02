@@ -23,7 +23,8 @@ export function Composer({ id }: { id: string }) {
       <label htmlFor={id} className="sr-only">
         Your question
       </label>
-      <InputGroup className="bg-background">
+      {/* An empty question disables only Ask; the editable field stays legible. */}
+      <InputGroup className="bg-background has-disabled:bg-background has-disabled:opacity-100 dark:has-disabled:bg-background">
         <InputGroupTextarea
           ref={inputRef}
           id={id}

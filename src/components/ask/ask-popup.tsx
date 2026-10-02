@@ -25,7 +25,7 @@ const AskContent = dynamic(
   },
 );
 
-/** A launcher in the corner and the chat panel it opens, over every page. */
+/** A header action and the chat panel it opens, available on every page. */
 export function AskPopup() {
   const { open, chat } = useAsk();
   const panelId = useId();
@@ -57,7 +57,7 @@ export function AskPopup() {
 function PanelHeader({ titleId }: { titleId: string }) {
   const { chat, close, inputRef } = useAsk();
   return (
-    <header className="flex items-center justify-between gap-3 border-b py-2 ps-5 pe-3">
+    <div className="flex items-center justify-between gap-3 border-b py-2 ps-5 pe-3">
       <h2 id={titleId} className="font-semibold">
         Ask about my work
       </h2>
@@ -84,18 +84,18 @@ function PanelHeader({ titleId }: { titleId: string }) {
             <TooltipContent>New conversation</TooltipContent>
           </Tooltip>
         )}
-        {/* Phones only: the panel covers the launcher, which closes it elsewhere. */}
+        {/* Keep a close control available when the header launcher scrolls away. */}
         <Button
           variant="ghost"
           size="icon"
           onClick={close}
           aria-label="Close"
-          className="text-muted-foreground sm:hidden"
+          className="text-muted-foreground"
         >
           <X aria-hidden="true" className="size-5" />
         </Button>
       </div>
-    </header>
+    </div>
   );
 }
 
@@ -113,7 +113,7 @@ function Launcher({ panelId }: { panelId: string }) {
             onClick={open ? close : show}
             style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
             className={cn(
-              "fixed inset-e-5 bottom-5 z-40 h-11 rounded-full text-base font-normal shadow-lg",
+              "ask-launcher relative z-40 h-11 rounded-full text-sm font-normal",
               open ? "w-11 max-sm:hidden" : "gap-2.5 ps-4 pe-5",
             )}
           />
