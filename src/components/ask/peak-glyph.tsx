@@ -3,6 +3,7 @@ import { cn } from "cn";
 // A 9×6 one-bit peak. While an answer is on its way it prints row by row, then
 // feeds again; reduced motion holds the finished sprite.
 const ROWS = ["....#....", "...###...", "..##.##..", ".##...##.", "##.....##", "#########"];
+
 const PIXELS = ROWS.flatMap((row, y) =>
   row.split("").flatMap((cell, x) => (cell === "#" ? [{ x, y, id: `${x}-${y}` }] : [])),
 );

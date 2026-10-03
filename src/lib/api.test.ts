@@ -19,6 +19,7 @@ describe("parsePost", () => {
       "hello",
       post("title: Hello\ndate: 2026-09-25\nsummary: A first post."),
     );
+
     expect(parsed).toMatchObject({ slug: "hello", title: "Hello", date: "2026-09-25" });
     expect(parsed.readingMinutes).toBe(1);
     expect(parsed.draft).toBe(false);
@@ -41,6 +42,7 @@ describe("post titles and summaries", () => {
       "hello",
       post('title: "  Hello  "\ndate: 2026-09-25\nsummary: "  A first post.  "'),
     );
+
     expect(parsed).toMatchObject({ title: "Hello", summary: "A first post." });
   });
 
@@ -51,9 +53,11 @@ describe("post titles and summaries", () => {
       date: "2026-09-25",
       [field]: '"   "',
     };
+
     const frontmatter = Object.entries(fields)
       .map(([key, value]) => `${key}: ${value}`)
       .join("\n");
+
     expect(() => parsePost("blank-post", post(frontmatter))).toThrow(
       new RegExp(`blank-post: ${field}`, "u"),
     );
@@ -68,10 +72,12 @@ describe("post frontmatter extraction", () => {
 
   it("preserves Windows line endings in the Markdown body", () => {
     const body = "First paragraph.\n\nSecond paragraph.";
+
     const parsed = parsePost(
       "windows",
       post("title: Hello\ndate: 2026-09-25\nsummary: s", body).replaceAll("\n", "\r\n"),
     );
+
     expect(parsed.content).toBe(body.replaceAll("\n", "\r\n"));
   });
 

@@ -36,7 +36,9 @@ export const askTools = {
     }),
     execute: ({ url }) => {
       const post = getPostBySlug(/\/blog\/([^/?#]+)/u.exec(url)?.[1] ?? url);
+
       if (post === undefined) return { error: `No post at ${url}. Call listPosts for valid urls.` };
+
       return {
         title: post.title,
         date: post.date,

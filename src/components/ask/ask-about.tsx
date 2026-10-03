@@ -6,6 +6,7 @@ import { useAsk } from "@/components/ask/ask-context";
 /** A quiet link on the résumé that opens the Ask popup with a question about one role. */
 export function AskAbout({ question }: { question: string }) {
   const { ask } = useAsk();
+
   return (
     <Button
       variant="link"

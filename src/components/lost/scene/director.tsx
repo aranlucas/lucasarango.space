@@ -21,6 +21,7 @@ export interface Controls {
 }
 
 const EYE_HEIGHT = 1.6;
+
 const scratch = new Vector3();
 
 /**
@@ -53,14 +54,17 @@ export function Director({
     beam.current.y += (aim.current.y - beam.current.y) * follow;
 
     const { keys, stick } = controls.current;
+
     const walk = {
       forward: clamp(keys.forward + stick.forward),
       turn: clamp(keys.turn + stick.turn),
     };
+
     tick(game, dt, (critter) => isLit(critter, state, beam.current), walk);
 
     const secondsLeft = Math.max(0, Math.ceil(ROUND_SECONDS - game.elapsed));
     const key = `${game.phase}:${game.score}:${secondsLeft}`;
+
     if (key === last.current) return;
     last.current = key;
     onHud({ phase: game.phase, score: game.score, secondsLeft });
@@ -79,6 +83,7 @@ function isLit(critter: Critter, { camera, size }: RootState, beam: Beam) {
   scratch.set(...critter.position).project(camera);
   const dx = (scratch.x - beam.x) * (size.width / size.height);
   const dy = scratch.y - beam.y;
+
   return scratch.z < 1 && dx * dx + dy * dy < SPOT_RADIUS * SPOT_RADIUS;
 }
 

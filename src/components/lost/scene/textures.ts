@@ -44,6 +44,7 @@ export const SILHOUETTES: Record<CritterKind, Silhouette> = {
       ellipse(ctx, 156, 66, 17, 7, -0.35);
       ctx.lineWidth = 5;
       ctx.lineCap = "round";
+
       for (const side of [-1, 1]) {
         ctx.beginPath();
         ctx.moveTo(128 + side * 8, 62);
@@ -138,9 +139,11 @@ function paint(width: number, height: number, draw: (ctx: CanvasRenderingContext
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext("2d");
+
   if (ctx) draw(ctx);
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
+
   return texture;
 }
 
@@ -159,14 +162,27 @@ export interface Textures {
   writing: Texture;
 }
 
+function paintGlow() {
+  return paint(128, 128, (ctx) => {
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, "rgba(255, 226, 176, 1)");
+    g.addColorStop(0.4, "rgba(255, 226, 176, 0.35)");
+    g.addColorStop(1, "rgba(255, 226, 176, 0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+  });
+}
+
+const silhouette = (kind: CritterKind) =>
+  paint(256, SILHOUETTES[kind].height, (ctx) => {
+    ctx.fillStyle = SILHOUETTE;
+    ctx.strokeStyle = SILHOUETTE;
+    SILHOUETTES[kind].draw(ctx);
+  });
+
 export function createTextures(): Textures {
   const font = serif();
-  const silhouette = (kind: CritterKind) =>
-    paint(256, SILHOUETTES[kind].height, (ctx) => {
-      ctx.fillStyle = SILHOUETTE;
-      ctx.strokeStyle = SILHOUETTE;
-      SILHOUETTES[kind].draw(ctx);
-    });
+
   const silhouettes = {
     deer: silhouette("deer"),
     owl: silhouette("owl"),
@@ -175,6 +191,7 @@ export function createTextures(): Textures {
   };
 
   const points = new Map<number, Texture>();
+
   for (const value of [1, 2, 5]) {
     points.set(
       value,
@@ -188,14 +205,7 @@ export function createTextures(): Textures {
     );
   }
 
-  const glow = paint(128, 128, (ctx) => {
-    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-    g.addColorStop(0, "rgba(255, 226, 176, 1)");
-    g.addColorStop(0.4, "rgba(255, 226, 176, 0.35)");
-    g.addColorStop(1, "rgba(255, 226, 176, 0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 128, 128);
-  });
+  const glow = paintGlow();
 
   const sign = (label: string) =>
     paint(512, 128, (ctx) => {
@@ -211,6 +221,7 @@ export function createTextures(): Textures {
 
 export function disposeTextures(textures: Textures) {
   for (const t of Object.values(textures.silhouettes)) t.dispose();
+
   for (const t of textures.points.values()) t.dispose();
   textures.glow.dispose();
   textures.home.dispose();

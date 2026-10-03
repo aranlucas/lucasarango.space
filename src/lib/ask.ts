@@ -11,10 +11,13 @@ const RESUME_API = (
 
 async function getResumeMarkdown(): Promise<string> {
   const url = `${RESUME_API}/resume.md`;
+
   const res = await fetch(url, {
     next: { revalidate: 60 * 60 * 24 * 30, tags: [RESUME_CACHE_TAG] },
   });
+
   if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
+
   return res.text();
 }
 

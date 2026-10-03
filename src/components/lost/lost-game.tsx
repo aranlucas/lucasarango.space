@@ -84,6 +84,7 @@ function useRound() {
 
   const onHud = useCallback((next: Hud) => {
     setHud(next);
+
     if (next.phase === "over") setBest(recordBest(next.score));
   }, []);
 
@@ -108,19 +109,23 @@ function useControls() {
     keys: { forward: 0, turn: 0 },
     stick: { forward: 0, turn: 0 },
   });
+
   const onStick = (walk: Walk) => {
     controls.current.stick = walk;
   };
+
   return { controls, onStick };
 }
 
 /** Where the player points the headlamp: the pointer's spot on the panel, in NDC. */
 function useAim() {
   const aim = useRef<Beam>({ x: 0, y: -0.1 });
+
   const aimAt = (event: React.PointerEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
     aim.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     aim.current.y = 1 - ((event.clientY - rect.top) / rect.height) * 2;
   };
+
   return { aim, aimAt };
 }

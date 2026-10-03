@@ -23,30 +23,36 @@ function useSend(
   const isLoading = chat.status === "submitted" || chat.status === "streaming";
   const isFull = chat.messages.length >= ASK_LIMITS.messages;
   const { sendMessage } = chat;
+
   const send = useCallback(
     (text: string) => {
       const question = text.trim();
+
       if (question === "" || isLoading || isFull) return false;
       // The last question's status must not linger until the route sends a new one.
       setWaitingStatus(undefined);
       void sendMessage({ text: question });
       setInput("");
+
       return true;
     },
     [isLoading, isFull, sendMessage, setInput, setWaitingStatus],
   );
+
   return { isLoading, isFull, send };
 }
 
 /** The conversation, plus the route's latest waiting status from its transient data parts. */
 function useAskChat() {
   const [waitingStatus, setWaitingStatus] = useState<WaitingStatus>();
+
   // Posts to /api/chat, the default endpoint.
   const chat = useChat<AskMessage>({
     onData: (part) => {
       if (part.type === "data-waiting-status") setWaitingStatus(part.data);
     },
   });
+
   return { chat, waitingStatus, setWaitingStatus };
 }
 
@@ -58,9 +64,30 @@ function useFocusReturn(open: boolean, launcherRef: RefObject<HTMLButtonElement 
       launcherRef.current?.focus();
     }
   }, [open, launcherRef]);
+
   return useCallback(() => {
     requested.current = true;
   }, []);
+}
+
+function useVisibilityActions(setOpen: (open: boolean) => void, returnFocus: () => void) {
+  const show = useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
+
+  // Commit hiding with navigation so its transition morphs the panel into the launcher.
+  const hide = useCallback(() => {
+    startTransition(() => {
+      setOpen(false);
+    });
+  }, [setOpen]);
+
+  const close = useCallback(() => {
+    returnFocus();
+    setOpen(false);
+  }, [setOpen, returnFocus]);
+
+  return { show, hide, close };
 }
 
 function useAskState(): AskState {
@@ -75,23 +102,13 @@ function useAskState(): AskState {
   const ask = useCallback(
     (question: string) => {
       setOpen(true);
+
       if (!send(question)) setInput(question);
     },
     [send],
   );
-  const show = useCallback(() => {
-    setOpen(true);
-  }, []);
-  // Commit hiding with navigation so its transition morphs the panel into the launcher.
-  const hide = useCallback(() => {
-    startTransition(() => {
-      setOpen(false);
-    });
-  }, []);
-  const close = useCallback(() => {
-    returnFocus();
-    setOpen(false);
-  }, [returnFocus]);
+
+  const { show, hide, close } = useVisibilityActions(setOpen, returnFocus);
 
   return useMemo(
     () => ({
@@ -126,10 +143,12 @@ export function AskProvider({ children }: { children: React.ReactNode }) {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
     };
+
     if (open) {
       inputRef.current?.focus();
       document.addEventListener("keydown", onKeyDown);
     }
+
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };

@@ -6,5 +6,20 @@
     "functions": ["cn", "cva"],
     "stylesheet": "./src/app/globals.css"
   },
-  "ignorePatterns": ["pnpm-lock.yaml", "src/components/ui/**"]
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "src/components/ui/**",
+    ".agent/**",
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
+    ".continue/**",
+    ".cursor/**",
+    ".gemini/**",
+    ".opencode/**",
+    ".pi/**",
+    ".roo/**",
+    ".windsurf/**",
+    "tools/oxlint/anti-slop/**"
+  ]
 }

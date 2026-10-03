@@ -5,6 +5,7 @@ import { formatMonth, getResume } from "@/lib/resume";
 
 export async function PublicationList() {
   const { publications } = await getResume();
+
   return (
     <ul className="flex flex-col gap-6">
       {publications.map((post) => (

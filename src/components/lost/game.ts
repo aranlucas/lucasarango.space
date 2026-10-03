@@ -25,20 +25,29 @@ export const CRITTERS: Record<CritterKind, CritterSpec> = {
 };
 
 export const ROUND_SECONDS = 45;
+
 /** Metres per second. */
 export const WALK_SPEED = 3.2;
+
 /** Radians per second. */
 export const TURN_SPEED = 1.9;
+
 /** Critters appear this far ahead of the player, [min, max] metres... */
 export const SPAWN_DISTANCE: [number, number] = [6, 14];
+
 /** ...and between these many radians either side of where they face: never dead ahead, where the beam rests. */
 export const SPAWN_SPREAD = 0.6;
+
 const SPAWN_MIN_ANGLE = 0.12;
+
 /** How long the beam must rest on a pair of eyes to spot it. */
 export const SPOT_SECONDS = 0.3;
+
 /** How long a spotted critter's silhouette lingers. */
 export const REVEAL_SECONDS = 0.8;
+
 const MAX_CRITTERS = 5;
+
 /** Seconds between spawns, easing from the first value to the second over a round. */
 const SPAWN_INTERVAL: [number, number] = [1.1, 0.45];
 
@@ -128,17 +137,21 @@ export function tick(
 
   game.elapsed += dt;
   const now = game.elapsed;
+
   if (now >= ROUND_SECONDS) {
     game.phase = "over";
     game.critters = [];
+
     return [];
   }
 
   const events: SpotEvent[] = [];
+
   for (const critter of game.critters) {
     // Expiration wins over a hold completed on the same frame.
     if (critter.spottedAt !== null || now >= critter.diesAt) continue;
     critter.held = isLit(critter) ? critter.held + dt : 0;
+
     if (critter.held >= SPOT_SECONDS) {
       critter.spottedAt = now;
       const { points } = CRITTERS[critter.kind];
@@ -180,6 +193,7 @@ function spawn(game: Game): Critter {
   const spec = CRITTERS[kind];
   const position: Critter["position"] = perch ?? onGround(game, between(game, spec.height));
   const lifetime = between(game, spec.lifetime);
+
   return {
     id: game.nextId++,
     kind,
@@ -193,6 +207,7 @@ function spawn(game: Game): Critter {
 
 function onGround(game: Game, height: number): Critter["position"] {
   const [x, z] = spawnPoint(game);
+
   return [x, height, z];
 }
 
@@ -202,14 +217,17 @@ function onGround(game: Game, height: number): Critter["position"] {
  */
 function perchInView(game: Game): Critter["position"] | null {
   const { player } = game;
+
   const trees = game.world.trees.filter((tree) => {
     const dx = tree.x - player.x;
     const dz = tree.z - player.z;
     const distance = Math.hypot(dx, dz);
+
     const off = Math.atan2(
       Math.sin(Math.atan2(-dx, -dz) - player.heading),
       Math.cos(Math.atan2(-dx, -dz) - player.heading),
     );
+
     return (
       distance >= SPAWN_DISTANCE[0] &&
       distance <= SPAWN_DISTANCE[1] &&
@@ -217,10 +235,13 @@ function perchInView(game: Game): Critter["position"] | null {
       Math.abs(off) <= SPAWN_SPREAD
     );
   });
+
   const tree = trees.at(Math.floor(random(game) * trees.length));
+
   if (tree === undefined) return null;
   const toward = Math.hypot(player.x - tree.x, player.z - tree.z);
   const reach = MIDDLE_TIER.radius * tree.scale * 0.9;
+
   return [
     tree.x + ((player.x - tree.x) / toward) * reach,
     MIDDLE_TIER.base * tree.scale + 0.28,
@@ -232,25 +253,32 @@ function perchInView(game: Game): Critter["position"] | null {
 function spawnPoint(game: Game): [number, number] {
   const { player } = game;
   let point: [number, number] = [player.x, player.z];
+
   for (let attempt = 0; attempt < 6; attempt++) {
     const side = random(game) < 0.5 ? -1 : 1;
     const bearing = player.heading + side * between(game, [SPAWN_MIN_ANGLE, SPAWN_SPREAD]);
     const distance = between(game, SPAWN_DISTANCE);
     point = [player.x - Math.sin(bearing) * distance, player.z - Math.cos(bearing) * distance];
+
     if (isClear(game.world, point[0], point[1], 0.6)) break;
   }
+
   return point;
 }
 
 const KINDS = ["deer", "owl", "marmot", "sasquatch"] as const satisfies readonly CritterKind[];
+
 const TOTAL_WEIGHT = KINDS.reduce((sum, kind) => sum + CRITTERS[kind].weight, 0);
 
 function pickKind(roll: number): CritterKind {
   let remaining = roll * TOTAL_WEIGHT;
+
   for (const kind of KINDS) {
     remaining -= CRITTERS[kind].weight;
+
     if (remaining < 0) return kind;
   }
+
   return "deer";
 }
 
@@ -264,5 +292,6 @@ function random(game: Game) {
   let t = game.seed;
   t = Math.imul(t ^ (t >>> 15), t | 1);
   t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+
   return ((t ^ (t >>> 14)) >>> 0) / 4_294_967_296;
 }

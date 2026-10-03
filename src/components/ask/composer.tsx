@@ -12,6 +12,7 @@ import { ASK_LIMITS } from "@/lib/ask-config";
 /** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. */
 export function Composer({ id }: { id: string }) {
   const { input, setInput, inputRef, send } = useAsk();
+
   return (
     <form
       className="border-t px-4 pt-3 pb-4"
@@ -57,6 +58,7 @@ export function Composer({ id }: { id: string }) {
 
 function ComposerAction() {
   const { chat, input, isLoading, isFull } = useAsk();
+
   if (isLoading) {
     return (
       <InputGroupButton
@@ -70,6 +72,7 @@ function ComposerAction() {
       </InputGroupButton>
     );
   }
+
   return (
     <InputGroupButton
       type="submit"

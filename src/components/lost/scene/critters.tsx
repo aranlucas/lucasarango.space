@@ -8,11 +8,15 @@ import { type Critter, CRITTERS, type Game, REVEAL_SECONDS, SPOT_SECONDS } from 
 import { SILHOUETTES, type Textures } from "./textures";
 
 const SLOTS = 5;
+
 /** Eyes blink open and shut over these many seconds. */
 const OPENING = 0.15;
+
 const CLOSING = 0.2;
+
 /** Silhouette opacity in the dark, and at the end of a hold just before it's spotted. */
 const DIM = 0.16;
+
 const HELD = 0.6;
 
 interface SlotProps {
@@ -47,10 +51,13 @@ function CritterSlot({ game, index, children }: SlotProps & { children: React.Re
   const group = useRef<Group>(null);
   useFrame(() => {
     const critter = game.critters.at(index);
+
     if (!group.current) return;
     group.current.visible = critter !== undefined;
+
     if (critter) group.current.position.set(...critter.position);
   });
+
   return (
     <group ref={group} visible={false}>
       {children}
@@ -65,16 +72,17 @@ function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
 
   useFrame(() => {
     const critter = game.critters.at(index);
+
     if (!critter || !mesh.current || !material.current) return;
-    const shape = SILHOUETTES[critter.kind];
+    const silhouette = SILHOUETTES[critter.kind];
     const open = openness(critter, game.elapsed);
-    mesh.current.position.x = (side * (shape.eyeGap / 256) * shape.width) / 2;
+    mesh.current.position.x = (side * (silhouette.eyeGap / 256) * silhouette.width) / 2;
     mesh.current.scale.set(
-      shape.eyeRadius,
-      shape.eyeRadius * Math.max(open, 0.05),
-      shape.eyeRadius,
+      silhouette.eyeRadius,
+      silhouette.eyeRadius * Math.max(open, 0.05),
+      silhouette.eyeRadius,
     );
-    material.current.color.set(shape.eyeColor);
+    material.current.color.set(silhouette.eyeColor);
     const lit = critter.held > 0 || critter.spottedAt !== null;
     material.current.opacity = open * (lit ? 1 : 0.4);
   });
@@ -89,6 +97,7 @@ function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
 
 function openness(critter: Critter, now: number) {
   if (critter.spottedAt !== null) return 1;
+
   return clamp01((now - critter.bornAt) / OPENING) * clamp01((critter.diesAt - now) / CLOSING);
 }
 
@@ -104,13 +113,14 @@ function useReveal(
   useFrame(() => {
     const critter = game.critters.at(index);
     const spottedAt = critter?.spottedAt ?? null;
+
     if (spottedAt === null) update(undefined, 0);
     else update(critter, (game.elapsed - spottedAt) / REVEAL_SECONDS);
   });
 }
 
 /**
- * The critter's body behind its eyes: a faint shape in the dark that firms up
+ * The critter's body behind its eyes: a faint silhouette in the dark that firms up
  * while the beam holds on it, then shows in full once spotted.
  */
 function Silhouette({ game, index, textures }: SlotProps & { textures: Textures }) {
@@ -119,14 +129,16 @@ function Silhouette({ game, index, textures }: SlotProps & { textures: Textures 
 
   useFrame(() => {
     const critter = game.critters.at(index);
+
     if (!sprite.current || !material.current) return;
     sprite.current.visible = critter !== undefined;
+
     if (!critter) return;
-    const shape = SILHOUETTES[critter.kind];
+    const silhouette = SILHOUETTES[critter.kind];
     material.current.map = textures.silhouettes[critter.kind];
     material.current.opacity = presence(critter, game.elapsed);
-    sprite.current.scale.set(shape.width, spriteHeight(critter), 1);
-    sprite.current.center.set(0.5, 1 - shape.eyeY / shape.height);
+    sprite.current.scale.set(silhouette.width, spriteHeight(critter), 1);
+    sprite.current.center.set(0.5, 1 - silhouette.eyeY / silhouette.height);
   });
 
   return (
@@ -145,9 +157,12 @@ function Silhouette({ game, index, textures }: SlotProps & { textures: Textures 
 function presence(critter: Critter, now: number) {
   if (critter.spottedAt === null) {
     const hold = Math.min(1, critter.held / SPOT_SECONDS);
+
     return openness(critter, now) * (DIM + (HELD - DIM) * hold);
   }
+
   const reveal = (now - critter.spottedAt) / REVEAL_SECONDS;
+
   return reveal < 0.2 ? HELD + (1 - HELD) * (reveal / 0.2) : 1 - (reveal - 0.2) / 0.8;
 }
 
@@ -165,12 +180,14 @@ function PointsLabel({
     if (!sprite.current || !material.current) return;
     sprite.current.visible = critter !== undefined;
     const map = critter && textures.points.get(CRITTERS[critter.kind].points);
+
     if (!critter || !map) return;
-    const shape = SILHOUETTES[critter.kind];
+    const silhouette = SILHOUETTES[critter.kind];
     material.current.map = map;
     material.current.opacity = 1 - reveal;
     const rise = reducedMotion ? 0 : reveal * 0.35;
-    sprite.current.position.y = (shape.eyeY / shape.height) * spriteHeight(critter) + 0.2 + rise;
+    sprite.current.position.y =
+      (silhouette.eyeY / silhouette.height) * spriteHeight(critter) + 0.2 + rise;
   });
 
   return (
@@ -187,8 +204,9 @@ function PointsLabel({
 }
 
 function spriteHeight(critter: Critter) {
-  const shape = SILHOUETTES[critter.kind];
-  return (shape.width * shape.height) / 256;
+  const silhouette = SILHOUETTES[critter.kind];
+
+  return (silhouette.width * silhouette.height) / 256;
 }
 
 function clamp01(value: number) {

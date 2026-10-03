@@ -8,7 +8,7 @@ import type { Controls } from "./scene/director";
 const BEST_KEY = "lost-in-the-fog:best";
 
 /** Physical keys (so WASD works on any layout) and the direction they push. */
-const KEYS: Partial<Record<string, Partial<Walk>>> = {
+const KEYS = {
   KeyW: { forward: 1 },
   ArrowUp: { forward: 1 },
   KeyS: { forward: -1 },
@@ -17,13 +17,18 @@ const KEYS: Partial<Record<string, Partial<Walk>>> = {
   ArrowLeft: { turn: 1 },
   KeyD: { turn: -1 },
   ArrowRight: { turn: -1 },
-};
+} satisfies Partial<Record<string, Partial<Walk>>>;
+
+function movement(code: string): Partial<Walk> | undefined {
+  return Object.entries(KEYS).find(([key]) => key === code)?.[1];
+}
 
 /** Saves the score if it's a new best, and returns the best either way. */
 export function recordBest(score: number) {
   try {
     const best = Math.max(Number(localStorage.getItem(BEST_KEY)) || 0, score);
     localStorage.setItem(BEST_KEY, String(best));
+
     return best;
   } catch {
     // Private mode or blocked storage: the best just won't persist.
@@ -35,31 +40,39 @@ export function recordBest(score: number) {
 export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean) {
   useEffect(() => {
     const held = new Set<string>();
+
     const update = () => {
       const walk = { forward: 0, turn: 0 };
+
       for (const code of held) {
-        walk.forward += KEYS[code]?.forward ?? 0;
-        walk.turn += KEYS[code]?.turn ?? 0;
+        walk.forward += movement(code)?.forward ?? 0;
+        walk.turn += movement(code)?.turn ?? 0;
       }
+
       controls.current.keys = walk;
     };
+
     const onKey = (event: KeyboardEvent) => {
-      if (!KEYS[event.code] || isTyping(event.target)) return;
+      if (!movement(event.code) || isTyping(event.target)) return;
       event.preventDefault();
+
       if (event.type === "keydown") held.add(event.code);
       else held.delete(event.code);
       update();
     };
+
     // Letting go of the keys in another window must not leave you walking.
     const release = () => {
       held.clear();
       update();
     };
+
     if (enabled) {
       window.addEventListener("keydown", onKey);
       window.addEventListener("keyup", onKey);
       window.addEventListener("blur", release);
     }
+
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("keyup", onKey);
@@ -82,7 +95,9 @@ export function useActive(ref: RefObject<HTMLElement | null>) {
     const observer = new IntersectionObserver(([entry]) => {
       setOnScreen(entry?.isIntersecting ?? true);
     });
+
     if (ref.current) observer.observe(ref.current);
+
     return () => {
       observer.disconnect();
     };
@@ -91,6 +106,7 @@ export function useActive(ref: RefObject<HTMLElement | null>) {
   const visible = useSyncExternalStore(
     (onChange) => {
       document.addEventListener("visibilitychange", onChange);
+
       return () => {
         document.removeEventListener("visibilitychange", onChange);
       };
@@ -98,6 +114,7 @@ export function useActive(ref: RefObject<HTMLElement | null>) {
     () => document.visibilityState === "visible",
     () => true,
   );
+
   return onScreen && visible;
 }
 
@@ -106,6 +123,7 @@ function useMediaQuery(query: string) {
     (onChange) => {
       const list = matchMedia(query);
       list.addEventListener("change", onChange);
+
       return () => {
         list.removeEventListener("change", onChange);
       };
@@ -132,6 +150,7 @@ export function useWebGL() {
     noSubscription,
     () => {
       webgl ??= hasWebGL();
+
       return webgl;
     },
     () => true,
@@ -158,7 +177,9 @@ export function useSpaceToStart(start: () => void, enabled: boolean) {
       event.preventDefault();
       start();
     };
+
     if (enabled) window.addEventListener("keydown", onKey);
+
     return () => {
       window.removeEventListener("keydown", onKey);
     };

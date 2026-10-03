@@ -19,7 +19,9 @@ import {
 import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "./world";
 
 const FRAME = 1 / 60;
+
 const never = () => false;
+
 const always = () => true;
 
 /** Advances the game by `seconds` in 60fps frames, collecting every spot event. */
@@ -30,7 +32,9 @@ function run(
   walk?: Walk,
 ) {
   const events: SpotEvent[] = [];
+
   for (let t = 0; t < seconds; t += FRAME) events.push(...tick(game, FRAME, lit, walk));
+
   return events;
 }
 
@@ -53,15 +57,18 @@ describe("critters", () => {
   it("spawns critters at their kind's height, never too many at once", () => {
     const game = createGame(7);
     startRound(game);
+
     for (let t = 0; t < ROUND_SECONDS - 1; t += FRAME) {
       tick(game, FRAME, never);
       expect(game.critters.length).toBeLessThanOrEqual(5);
+
       for (const c of game.critters) {
         const [low, high] = CRITTERS[c.kind].height;
         expect(c.position[1]).toBeGreaterThanOrEqual(low);
         expect(c.position[1]).toBeLessThanOrEqual(high);
       }
     }
+
     expect(game.nextId).toBeGreaterThan(10);
   });
 
@@ -70,8 +77,10 @@ describe("critters", () => {
     startRound(game);
     game.player.heading = 2;
     let seen = 0;
+
     for (let t = 0; t < 20; t += FRAME) {
       tick(game, FRAME, never);
+
       for (const c of game.critters.filter((born) => born.bornAt === game.elapsed)) {
         seen++;
         const dx = c.position[0] - game.player.x;
@@ -85,6 +94,7 @@ describe("critters", () => {
         expect(Math.abs(off)).toBeGreaterThan(0.1);
       }
     }
+
     expect(seen).toBeGreaterThan(5);
   });
 });
@@ -94,17 +104,23 @@ describe("owls", () => {
     const game = createGame(8);
     startRound(game);
     const owls = new Map<number, Critter>();
+
     for (let t = 0; t < 40; t += FRAME) {
       if (game.phase !== "playing") startRound(game);
       tick(game, FRAME, never, { forward: 0.4, turn: 0.3 });
+
       for (const c of game.critters) if (c.kind === "owl") owls.set(c.id, c);
     }
+
     expect(owls.size).toBeGreaterThan(3);
+
     for (const owl of owls.values()) {
       const [x, , z] = owl.position;
+
       const perch = game.world.trees.find(
         (tree) => Math.hypot(tree.x - x, tree.z - z) < 1.1 * tree.scale,
       );
+
       expect(perch).toBeDefined();
     }
   });
@@ -217,10 +233,13 @@ describe("pacing", () => {
   it("keeps Sasquatch rare", () => {
     const game = createGame(42);
     const kinds: string[] = [];
+
     for (let round = 0; round < 40; round++) {
       startRound(game);
+
       for (const { critter } of run(game, ROUND_SECONDS, always)) kinds.push(critter.kind);
     }
+
     const share = kinds.filter((k) => k === "sasquatch").length / kinds.length;
     expect(share).toBeGreaterThan(0.01);
     expect(share).toBeLessThan(0.1);

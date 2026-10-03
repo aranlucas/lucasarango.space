@@ -21,8 +21,10 @@ const INTENSITY = 70;
 function useBeamRay(beam: RefObject<Beam>) {
   const raycaster = useMemo(() => new Raycaster(), []);
   const ndc = useMemo(() => new Vector2(), []);
+
   return ({ camera }: RootState) => {
     raycaster.setFromCamera(ndc.set(beam.current.x, beam.current.y), camera);
+
     return raycaster.ray;
   };
 }
@@ -36,6 +38,7 @@ export function Headlamp({ beam, on }: { beam: RefObject<Beam>; on: boolean }) {
   useFrame((state) => {
     const { origin, direction } = rayFor(state);
     target.position.copy(origin).addScaledVector(direction, 12);
+
     if (!light.current) return;
     light.current.position.copy(state.camera.position).add({ x: 0.15, y: 0.12, z: 0 });
     light.current.intensity = on ? INTENSITY : 0;
@@ -64,6 +67,7 @@ export function FogGlow({ beam, on, glow }: { beam: RefObject<Beam>; on: boolean
 
   useFrame((state) => {
     const { origin, direction } = rayFor(state);
+
     if (!halo.current) return;
     halo.current.position.copy(origin).addScaledVector(direction, 2.4);
     halo.current.visible = on;

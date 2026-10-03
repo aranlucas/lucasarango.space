@@ -1,16 +1,9 @@
-import type { ModelMessage } from "ai";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { createChatHandler, type ChatDependencies } from "@/lib/chat-handler";
 
-import { POST } from "./route";
+const stream = vi.fn<ChatDependencies["stream"]>();
 
-const { stream } = vi.hoisted(() => ({
-  stream: vi.fn<(options: { messages: ModelMessage[] }) => Promise<{ stream: ReadableStream }>>(),
-}));
-
-vi.mock("@/lib/ask-agent", () => ({
-  askAgent: { stream },
-  env: () => "test-key",
-}));
+const POST = createChatHandler({ stream, hasKey: () => true });
 
 const question = (text: string) => ({
   id: "question",
@@ -59,6 +52,7 @@ it("accepts a follow-up after a tool call was stopped before its result", async 
       { ...question("What experience does Lucas have?"), id: "follow-up" },
     ]),
   );
+
   await response.text();
   expect(response.status).toBe(200);
   expect(stream).toHaveBeenCalledOnce();

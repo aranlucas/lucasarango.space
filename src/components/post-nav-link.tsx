@@ -6,6 +6,7 @@ import type { Post } from "@/interfaces/post";
 
 export function PostNavLink({ post, direction }: { post: Post; direction: "older" | "newer" }) {
   const Arrow = direction === "newer" ? ArrowRight : ArrowLeft;
+
   return (
     <Link href={`/blog/${post.slug}`} className="line-item line-link">
       <span className="line-date">{direction === "newer" ? "Newer" : "Older"}</span>
@@ -25,6 +26,7 @@ export function PostNav({ post, posts }: { post: Post; posts: Post[] }) {
   const index = posts.findIndex((p) => p.slug === post.slug);
   const newer: Post | undefined = posts[index - 1];
   const older: Post | undefined = posts[index + 1];
+
   return (
     <>
       <hr className="rule-double" />

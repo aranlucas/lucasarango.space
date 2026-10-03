@@ -18,5 +18,6 @@ export default async function markdownToHtml(markdown: string) {
     })
     .use(rehypeStringify)
     .process(markdown);
+
   return result.toString();
 }

@@ -6,7 +6,9 @@ import { formatDate } from "@/lib/utils";
 import { SITE } from "@/lib/site";
 
 export const alt = `A post by ${SITE.name}`;
+
 export const size = OG_SIZE;
+
 export const contentType = "image/png";
 
 export function generateStaticParams() {
@@ -15,7 +17,9 @@ export function generateStaticParams() {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const post = getPostBySlug((await params).slug);
+
   if (!post) notFound();
+
   return ogImage({
     eyebrow: `${SITE.name} · Writing`,
     title: post.title,

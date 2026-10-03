@@ -30,6 +30,8 @@ export const AskContext = createContext<AskState | null>(null);
 
 export function useAsk(): AskState {
   const value = use(AskContext);
+
   if (value === null) throw new Error("useAsk must be used inside <AskProvider>");
+
   return value;
 }

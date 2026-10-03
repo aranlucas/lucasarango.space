@@ -17,6 +17,7 @@ const REASONING_LABELS = ["Thinking it over", "Connecting the dots", "Picking th
 /** Suggested questions, shown before the first message. */
 export function Starters() {
   const { send } = useAsk();
+
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-end overflow-y-auto px-5 pt-6 pb-2">
       <p className="text-base/relaxed text-muted-foreground">
@@ -45,6 +46,7 @@ export function Starters() {
 export function Transcript() {
   const { chat, isFull } = useAsk();
   const { messages, status, error } = chat;
+
   return (
     <div className="flex flex-col pt-4 pb-6">
       {messages.map((message, index) => (
@@ -88,18 +90,22 @@ function Message({ message, isLoading }: MessageProps) {
   // after the first is ruled off from the answer above it.
   if (message.role === "user") {
     const text = message.parts.map((part) => (part.type === "text" ? part.text : "")).join("");
+
     return (
       <h3 className="text-lg/snug font-semibold text-pretty text-primary not-first:mt-6 not-first:border-t not-first:pt-6">
         {text}
       </h3>
     );
   }
+
   const hasAnyContent = message.parts.some(
     (part) =>
       ((part.type === "text" || part.type === "reasoning") && part.text.trim() !== "") ||
       isToolUIPart(part),
   );
+
   const isThinking = isLoading && !hasAnyContent;
+
   return (
     <div className="mt-2 text-base/relaxed">
       {isThinking ? <WaitingText /> : <AnswerParts message={message} isLoading={isLoading} />}
@@ -119,6 +125,7 @@ function ThinkingMessage() {
 /** The route's waiting status, which turns into "still waiting" when the model is slow. */
 function WaitingText() {
   const { waitingStatus } = useAsk();
+
   return <Thinking labels={[waitingStatus?.message ?? WAITING.message]} />;
 }
 
@@ -163,6 +170,7 @@ function AnswerPart({
         case "output-error":
           return null;
       }
+
       break;
     // Parts this agent doesn't produce, or that the popup doesn't show.
     case "custom":
@@ -175,18 +183,23 @@ function AnswerPart({
     case "step-start":
       break;
   }
+
   return null;
 }
 
 function AnswerParts({ message, isLoading }: MessageProps) {
   const { hide } = useAsk();
+
   // Full screen on phones, so step aside to show the linked page.
   const onNavigate = () => {
     if (!window.matchMedia("(min-width: 40rem)").matches) hide();
   };
+
   const last = message.parts.at(-1);
+
   const betweenSteps =
     isLoading && last !== undefined && isToolUIPart(last) && last.state === "output-available";
+
   const parts = message.parts.map((part, index) => (
     <AnswerPart
       // Parts only ever append, so their index is stable.
@@ -196,6 +209,7 @@ function AnswerParts({ message, isLoading }: MessageProps) {
       onNavigate={onNavigate}
     />
   ));
+
   return (
     <>
       {parts}
@@ -214,6 +228,7 @@ function Thinking({ labels }: { labels: readonly string[] }) {
             setTick((t) => t + 1);
           }, 2400)
         : undefined;
+
     return () => {
       clearInterval(id);
     };

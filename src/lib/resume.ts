@@ -9,6 +9,7 @@ export const RESUME_CACHE_TAG = "resume";
 const RESUME_API = (
   process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
 ).replace(/\/$/u, "");
+
 const RESUME_URL = `${RESUME_API}/resume.json`;
 
 const YearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/u, "expected YYYY-MM");
@@ -98,7 +99,9 @@ async function fetchResume(): Promise<z.infer<typeof JsonResume>> {
   const res = await fetch(RESUME_URL, {
     next: { revalidate: 60 * 60 * 24 * 30, tags: [RESUME_CACHE_TAG] },
   });
+
   if (!res.ok) throw new Error(`GET ${RESUME_URL} → ${res.status}`);
+
   return JsonResume.parse(await res.json());
 }
 

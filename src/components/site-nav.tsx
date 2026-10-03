@@ -17,6 +17,7 @@ function useActiveTabIndex() {
   // Route segments agree during server rendering and hydration, including a
   // static 404 served for an unknown /blog/slug. The requested pathname may not.
   const activeSegment = useSelectedLayoutSegment();
+
   return TABS.findIndex(({ segment }) => segment === activeSegment);
 }
 
@@ -24,12 +25,15 @@ function useActiveTabIndex() {
 function useTransitionTypes(href: string) {
   const from = useActiveTabIndex();
   const to = TABS.findIndex((tab) => tab.href === href);
+
   if (from === -1 || from === to) return [];
+
   return [to > from ? "nav-forward" : "nav-back"];
 }
 
 export function SiteNav() {
   const active = useActiveTabIndex();
+
   return (
     <nav aria-label="Main" className="site-nav">
       {TABS.map((tab, i) => (

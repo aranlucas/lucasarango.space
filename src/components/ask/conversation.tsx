@@ -26,7 +26,9 @@ export const ConversationContent = (props: ComponentProps<typeof StickToBottom.C
 
 export const ConversationScrollButton = () => {
   const { isAtBottom, scrollToBottom } = useStickToBottomContext();
+
   if (isAtBottom) return null;
+
   return (
     <Button
       variant="outline"

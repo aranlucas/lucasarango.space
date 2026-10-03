@@ -14,6 +14,7 @@ describe("plantForest", () => {
   it("fills the disc but leaves a clearing to start in", () => {
     const trees = plantForest();
     expect(trees.length).toBeGreaterThan(200);
+
     for (const { x, z } of trees) {
       const r = Math.hypot(x, z);
       expect(r).toBeGreaterThan(CLEARING_RADIUS);
