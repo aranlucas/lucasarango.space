@@ -10,13 +10,17 @@ import { FIR, GROUND, NIGHT, TRUNK } from "./palette";
 /** A low-poly fir: three stacked seven-sided cones on a short trunk, 3.4 units tall. */
 function firGeometry() {
   const trunk = new CylinderGeometry(0.09, 0.12, 0.6, 5).translate(0, 0.3, 0);
+
   const tiers = [
     new ConeGeometry(0.95, 1.4, 7).translate(0, 1.1, 0),
     new ConeGeometry(0.72, 1.2, 7).translate(0, 1.85, 0),
     new ConeGeometry(0.46, 1.1, 7).translate(0, 2.6, 0),
   ];
+
   const needles = mergeGeometries(tiers);
+
   for (const g of tiers) g.dispose();
+
   return { trunk, needles };
 }
 
@@ -46,6 +50,7 @@ export function Forest({ trees }: { trees: Tree[] }) {
 
   useLayoutEffect(() => {
     const dummy = new Object3D();
+
     for (const [i, { x, z, scale }] of trees.entries()) {
       dummy.position.set(x, 0, z);
       dummy.scale.setScalar(scale);
@@ -54,6 +59,7 @@ export function Forest({ trees }: { trees: Tree[] }) {
       needleRef.current?.setMatrixAt(i, dummy.matrix);
       trunkRef.current?.setMatrixAt(i, dummy.matrix);
     }
+
     for (const mesh of [needleRef.current, trunkRef.current]) {
       if (mesh) mesh.instanceMatrix.needsUpdate = true;
     }

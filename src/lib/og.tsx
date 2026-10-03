@@ -7,7 +7,9 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 // Light receipt palette from globals.css; the image renderer has no CSS variables.
 const INK = "#111111";
+
 const PAPER = "#f7f7f3";
+
 const MUTED = "#5a5a56";
 
 const font = (file: string) => readFile(path.join(process.cwd(), "assets", "fonts", file));
@@ -35,6 +37,7 @@ export async function ogImage(card: CardText) {
     font("PixelifySans-700.ttf"),
     font("MartianMono-400.ttf"),
   ]);
+
   return new ImageResponse(<Card {...card} />, {
     ...OG_SIZE,
     fonts: [

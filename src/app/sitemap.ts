@@ -5,6 +5,7 @@ import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
+
   return [
     { url: SITE.url },
     { url: `${SITE.url}/blog` },

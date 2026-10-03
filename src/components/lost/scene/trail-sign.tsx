@@ -10,7 +10,9 @@ import { WOOD } from "./palette";
 import type { Textures } from "./textures";
 
 const ARM: [number, number, number] = [1.45, 0.34, 0.06];
+
 const RISE_SECONDS = 0.5;
+
 /** The sign rises this far in front of wherever the round ends. */
 const AHEAD = 3.5;
 
@@ -69,6 +71,7 @@ function signPose({ player, world }: Game) {
     player.x - Math.sin(player.heading) * AHEAD,
     player.z - Math.cos(player.heading) * AHEAD,
   );
+
   return { position: [x, 0, z] as const, heading: player.heading };
 }
 
@@ -86,6 +89,7 @@ function SignArm({
   const [hovered, setHovered] = useState(false);
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "";
+
     return () => {
       document.body.style.cursor = "";
     };

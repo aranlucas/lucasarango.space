@@ -23,6 +23,7 @@ const LOOKING_FOR =
 
 export default async function ResumePage() {
   const resume = await getResume();
+
   return (
     <PageTransition>
       <article className="resume-article" data-resume="" aria-label="Résumé">

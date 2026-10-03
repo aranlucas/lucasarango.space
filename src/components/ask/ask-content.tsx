@@ -11,6 +11,7 @@ import { Starters, Transcript } from "@/components/ask/transcript";
 /** Loaded when Ask opens, while the provider keeps the conversation across navigation. */
 export function AskContent() {
   const { chat } = useAsk();
+
   return chat.messages.length > 0 ? (
     <Conversation>
       <ConversationContent className="px-5">

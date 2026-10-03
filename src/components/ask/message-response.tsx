@@ -11,6 +11,7 @@ import { SITE } from "@/lib/site";
 function sitePath(href: string): string | undefined {
   if (href.startsWith("/")) return href;
   const url = URL.parse(href);
+
   return url?.origin === SITE.url ? `${url.pathname}${url.hash}` : undefined;
 }
 
@@ -19,7 +20,8 @@ function sitePath(href: string): string | undefined {
 function makeComponents(onNavigate: () => void): Components {
   return {
     a: ({ href, children }) => {
-      const path = typeof href === "string" ? sitePath(href) : undefined;
+      const path = href === undefined ? undefined : sitePath(href);
+
       return path === undefined ? (
         <a href={href} target="_blank" rel="noreferrer">
           {children}

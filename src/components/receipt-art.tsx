@@ -84,11 +84,14 @@ export function ReceiptArt({ className }: { className?: string }) {
 const BARS = [
   3, 1, 2, 1, 1, 2, 3, 1, 1, 3, 2, 1, 1, 1, 3, 2, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 3,
 ];
+
 const BAR_RUNS = BARS.reduce<{ x: number; width: number }[]>((runs, width) => {
   const last = runs.at(-1);
   runs.push({ x: last ? last.x + last.width : 0, width });
+
   return runs;
 }, []);
+
 const BARCODE_WIDTH = BARS.reduce((sum, width) => sum + width, 0);
 
 /** The footer's barcode: decorative, like the end of every receipt. */

@@ -12,9 +12,11 @@ const escape = (s: string) =>
 
 export function GET() {
   const posts = getAllPosts();
+
   const items = posts
     .map((post) => {
       const url = `${SITE.url}/blog/${post.slug}`;
+
       return `<item><title>${escape(post.title)}</title><link>${url}</link><guid>${url}</guid><pubDate>${new Date(`${post.date}T12:00:00Z`).toUTCString()}</pubDate><description>${escape(post.summary)}</description></item>`;
     })
     .join("");

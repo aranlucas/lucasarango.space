@@ -1,15 +1,17 @@
-import { expect, it, vi } from "vitest";
+import { expect, it } from "vitest";
+import { MockLanguageModelV4 } from "ai/test";
+import { askTools } from "./ask-tools";
+import { createAskAgent } from "./ask-agent";
 
-import { askAgent } from "./ask-agent";
-
-const { languageModel } = await vi.hoisted(async () => {
-  const { MockLanguageModelV4 } = await import("ai/test");
+const { languageModel } = (() => {
   let call = 0;
+
   return {
     languageModel: new MockLanguageModelV4({
       doGenerate: ({ toolChoice }) => {
         call += 1;
         const answering = toolChoice?.type === "none";
+
         return Promise.resolve({
           content: answering
             ? [{ type: "text", text: "Here is what I found." }]
@@ -31,20 +33,18 @@ const { languageModel } = await vi.hoisted(async () => {
       },
     }),
   };
-});
+})();
 
-vi.mock("@openrouter/ai-sdk-provider", () => ({ openrouter: { chat: () => languageModel } }));
-vi.mock("@/lib/ask", () => ({
-  getSystemPrompt: () => Promise.resolve("Answer from the available facts."),
-}));
-vi.mock("@/lib/ask-tools", async () => {
-  const { tool } = await import("ai");
-  const { z } = await import("zod");
-  return {
-    askTools: {
-      listPosts: tool({ inputSchema: z.object({}), execute: () => Promise.resolve([]) }),
+const askAgent = createAskAgent({
+  model: languageModel,
+  loadInstructions: () => Promise.resolve("Answer from the available facts."),
+  tools: {
+    listPosts: { ...askTools.listPosts, execute: () => Promise.resolve([]) },
+    readPost: {
+      ...askTools.readPost,
+      execute: () => Promise.resolve({ error: "No post in this synthetic fixture." }),
     },
-  };
+  },
 });
 
 it("answers on the last step when the model keeps requesting tools", async () => {

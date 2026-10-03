@@ -56,6 +56,7 @@ export function AskPopup() {
 
 function PanelHeader({ titleId }: { titleId: string }) {
   const { chat, close, inputRef } = useAsk();
+
   return (
     <div className="flex items-center justify-between gap-3 border-b border-dashed border-foreground py-2 ps-5 pe-3">
       <h2 id={titleId} className="font-heading text-lg">
@@ -101,6 +102,7 @@ function PanelHeader({ titleId }: { titleId: string }) {
 
 function Launcher({ panelId }: { panelId: string }) {
   const { open, isLoading, launcherRef, show, close } = useAsk();
+
   return (
     <Tooltip>
       <TooltipTrigger
