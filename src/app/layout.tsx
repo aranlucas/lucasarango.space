@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
 
 import { AskProvider } from "@/components/ask/ask-provider";
+import { AskPopup } from "@/components/ask/ask-popup";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
             </main>
             <SiteFooter />
           </div>
+          <AskPopup />
         </AskProvider>
         <Analytics />
         <SpeedInsights />

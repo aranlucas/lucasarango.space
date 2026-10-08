@@ -202,7 +202,7 @@ Square by default. The current tab and an active line take a small radius (0.375
 
 ### Navigation tabs
 
-About, Writing, Resume and Ask, in Pixelify, centred, each with a 44px target. The current tab is an inverted ink block that glides between tabs with a view transition. Hover inverts too. On phones the Ask panel carries its own close, so the header close hides there.
+About, Writing and Resume are the centred Pixelify tabs, each with a 44px target. The current tab is an inverted ink block that glides between tabs with a view transition. Hover inverts too. Ask lives outside the header as a fixed bottom-right launcher, keeping the navigation row focused on the site's primary routes.
 
 ### Line items
 
@@ -222,7 +222,7 @@ A double rule, "Thank you for stopping by." in Pixelify, GitHub / LinkedIn / RSS
 
 ### Ask
 
-The launcher is a tab with a 9×6 pixel peak glyph that prints row by row while an answer is loading. The panel is a 26rem sheet with a 2px ink border and a dashed header rule on desktop, and the full viewport on phones. The transcript stays dynamically imported.
+Ask is a fixed bottom-right 16rem × 48px bar with a 1rem (or safe-area) bottom gap and a 9×6 pixel peak glyph that prints row by row while an answer is loading. Clicking it opens a flat 26rem-wide compact sheet above the bar: 27rem when empty and up to 34rem with a transcript, capped to the viewport. It keeps a square 2px ink border and the receipt's monochrome paper-and-ink treatment; small mobile gutters keep the bar reachable. Hide or Escape closes the sheet while retaining the conversation and draft, then returns focus to the launcher. The transcript runtime stays dynamically imported.
 
 ## Do's and Don'ts
 

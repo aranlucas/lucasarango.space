@@ -50,7 +50,6 @@
   --text-display: clamp(2.5rem, 7vw, 3.75rem);
   --text-display--line-height: 1.1;
   --container-page: 34rem;
-  --container-popup: 26rem;
 }
 
 /* Post reading progress, tied to page scroll. The line is unclipped left to
@@ -88,11 +87,6 @@
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
-}
-
-/* The Ask popup is as tall as its content needs, short of the viewport. */
-@utility h-popup {
-  height: min(40rem, calc(100dvh - 6.5rem));
 }
 
 /* The 404 game breaks out of the text column: up to 72rem wide, centred, with a gutter. */
@@ -420,9 +414,9 @@
 }
 
 /* The Ask popup floats above page transitions, like the header. */
-/* The Ask surface is the open panel or, when closed, the launcher pill (see
+/* The Ask surface is the open panel or, when closed, the floating bar (see
    components/ask/ask-popup.tsx). Above the page, it holds still while open
-   and morphs from panel to pill when a link in an answer closes it. */
+   and morphs back to the bar when a link in an answer closes it. */
 ::view-transition-group(ask-surface) {
   animation-duration: 350ms;
   animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
@@ -568,8 +562,7 @@ hr.rule-double {
   line-height: 1.75;
 }
 
-/* Header: the tabs, centred like a till's menu line. view-transition-name
-   creates a stacking context; keep the Ask overlay above page content. */
+/* Header: the navigation tabs, centred like a till's menu line. */
 .site-header {
   position: relative;
   z-index: 30;
@@ -583,8 +576,7 @@ hr.rule-double {
   display: flex;
   align-items: center;
 }
-.site-nav-link,
-.ask-launcher.ask-launcher {
+.site-nav-link {
   position: relative;
   isolation: isolate;
   display: inline-flex;
@@ -606,9 +598,7 @@ hr.rule-double {
   color: var(--background);
 }
 .nav-current,
-.site-nav-link:hover::before,
-.ask-launcher.ask-launcher:hover::before,
-.ask-launcher.ask-launcher[aria-expanded="true"]::before {
+.site-nav-link:hover::before {
   content: "";
   position: absolute;
   inset: 0.45rem 0;
@@ -616,11 +606,67 @@ hr.rule-double {
   border-radius: 0.375rem;
   background: var(--foreground);
 }
-.site-nav-link:hover,
-.ask-launcher.ask-launcher:hover,
-.ask-launcher.ask-launcher[aria-expanded="true"] {
+.site-nav-link:hover {
   color: var(--background);
   background: transparent;
+}
+
+/* Ask sits on its own paper strip. The sheet opens above the same anchor. */
+.ask-launcher.ask-launcher {
+  position: fixed;
+  inset-inline-end: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  width: 16rem;
+  max-width: calc(100vw - 2rem);
+  height: 48px;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-inline: 1rem;
+  border: 2px solid var(--foreground);
+  border-radius: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 400;
+}
+.ask-launcher.ask-launcher:hover,
+.ask-launcher.ask-launcher[aria-expanded="true"] {
+  background: var(--foreground);
+  color: var(--background);
+}
+.ask-panel {
+  position: fixed;
+  inset-inline-end: 1rem;
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.5rem);
+  z-index: 40;
+  width: min(26rem, calc(100vw - 2rem));
+  height: min(27rem, calc(100dvh - 6rem - env(safe-area-inset-bottom)));
+  border: 2px solid var(--foreground);
+}
+.ask-panel:has([role="log"]) {
+  height: min(34rem, calc(100dvh - 6rem - env(safe-area-inset-bottom)));
+}
+.site-footer {
+  margin-bottom: 5rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ask-panel:not([hidden]) {
+    animation: ask-unfold 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+@keyframes ask-unfold {
+  from {
+    clip-path: inset(12% 0 0);
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Inline links underline; on hover they reverse-print. */
@@ -957,18 +1003,11 @@ hr.rule-double {
   background: var(--foreground);
 }
 
-/* On phones the open panel fills the screen and carries its own close. */
-@media (width < 40rem) {
-  .ask-launcher.ask-launcher[aria-expanded="true"] {
-    display: none;
-  }
-}
 @media (max-width: 40rem) {
   .site-header {
     padding-block: 0.75rem 1.25rem;
   }
-  .site-nav-link,
-  .ask-launcher.ask-launcher {
+  .site-nav-link {
     padding-inline: 0.55rem;
     font-size: 0.9375rem;
   }

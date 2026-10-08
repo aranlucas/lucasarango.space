@@ -19,7 +19,7 @@ OWN-WORLD: Cool thermal paper (#f7f7f3) with carbon ink (#111), no hue anywhere.
 
 STORY: A visitor meets Lucas (greeting, Seattle, the Ask DoorDash origin), scans what he is building and writing as line items, and leaves through "Thank you for stopping by" with GitHub, LinkedIn, RSS and the owl's wrong turn.
 
-FIRST VIEWPORT: Centered column ≈38rem. Pixel tab nav (About, Writing, Resume, Ask) at top center, active tab inverted. Dithered Cascades peak with firs, full column width, printed in on load. "Hi, I’m Lucas." in Pixelify ~3.5rem centered, SOFTWARE ENGINEER · SEATTLE, WA beneath, dashed rule, bio copy, double rule, first project line item visible.
+FIRST VIEWPORT: Centered column ≈38rem. Pixel tab nav (About, Writing, Resume) at top center, active tab inverted. Ask sits outside the header as a fixed bottom-right 16rem × 48px launcher with a 1rem/safe-area bottom gap; clicking it opens a flat 26rem-wide compact panel above the bar. Dithered Cascades peak with firs, full column width, printed in on load. "Hi, I’m Lucas." in Pixelify ~3.5rem centered, SOFTWARE ENGINEER · SEATTLE, WA beneath, dashed rule, bio copy, double rule, first project line item visible.
 
 FORM: Thermal grocery receipt, position 5 of the grounded list (Swiss poster, summit register, ferry wayfinding, USGS quad, receipt, gear tag, catalog card), fused with challenger HyperCard stack (one-bit dither, pixel headings, inverted pressed state). Seed key befff0fa. Raises: split-flap character grid (columns never move); orienteering's single reserved mark, here reverse-print reserved for the active row; futurist book's words-as-levers, so no button chrome on links.
 

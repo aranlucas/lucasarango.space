@@ -111,7 +111,7 @@ function PanelHeader({ titleId }: { titleId: string }) {
               chat.setMessages([]);
               inputRef.current?.focus();
             }}
-            className="text-muted-foreground"
+            className="size-11 text-muted-foreground"
           >
             <SquarePen aria-hidden="true" />
           </Button>
@@ -122,7 +122,7 @@ function PanelHeader({ titleId }: { titleId: string }) {
           onClick={close}
           aria-label="Close"
           title="Close"
-          className="text-muted-foreground"
+          className="size-11 text-muted-foreground"
         >
           <X aria-hidden="true" className="size-5" />
         </Button>

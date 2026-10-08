@@ -57,9 +57,6 @@ export function Composer({ id, ref }: { id: string; ref: Ref<ComposerDraft> }) {
           <ComposerAction input={input} />
         </InputGroupAddon>
       </InputGroup>
-      <p className="mt-2 px-1 text-xs text-muted-foreground">
-        A free AI model writes these answers, and it can be wrong.
-      </p>
     </form>
   );
 }
@@ -72,6 +69,7 @@ function ComposerAction({ input }: { input: string }) {
       <InputGroupButton
         variant="outline"
         size="sm"
+        className="min-h-11"
         onClick={() => {
           void chat.stop();
         }}
@@ -86,6 +84,7 @@ function ComposerAction({ input }: { input: string }) {
       type="submit"
       variant="default"
       size="sm"
+      className="min-h-11"
       disabled={input.trim() === "" || isFull}
     >
       Ask

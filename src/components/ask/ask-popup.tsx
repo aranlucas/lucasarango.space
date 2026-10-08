@@ -1,7 +1,6 @@
 "use client";
 
-import { cn } from "cn";
-import { X } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useId } from "react";
 
@@ -21,7 +20,7 @@ const AskRuntime = dynamic(
   },
 );
 
-/** A lightweight launcher; reader intent mounts the persistent chat panel. */
+/** A floating bar anchors the persistent conversation independently of navigation. */
 export function AskPopup() {
   const { open, activated } = useAsk();
   const panelId = useId();
@@ -36,7 +35,7 @@ export function AskPopup() {
         aria-labelledby={titleId}
         hidden={!open}
         style={open ? { viewTransitionName: "ask-surface" } : undefined}
-        className="fixed inset-0 z-40 flex flex-col bg-card text-card-foreground sm:inset-auto sm:inset-e-5 sm:bottom-5 sm:h-popup sm:w-popup sm:border-2 sm:border-foreground"
+        className="ask-panel flex flex-col bg-card text-card-foreground"
       >
         {activated && <AskRuntime titleId={titleId} inputId={`${panelId}-question`} />}
       </section>
@@ -53,23 +52,18 @@ function Launcher({ panelId }: { panelId: string }) {
       ref={launcherRef}
       aria-expanded={open}
       aria-controls={panelId}
-      aria-label={open ? "Close" : "Ask about my work"}
-      title={open ? "Close" : "Ask about my work"}
+      aria-haspopup="dialog"
+      aria-label={open ? "Hide conversation" : "Ask about my work"}
       onClick={open ? close : show}
       onPointerEnter={preload}
       onFocus={preload}
       style={{ viewTransitionName: open ? "ask-launcher" : "ask-surface" }}
       variant="ghost"
-      className={cn("ask-launcher relative z-40", open && "max-sm:hidden")}
+      className="ask-launcher"
     >
-      {open ? (
-        <X aria-hidden="true" className="size-5" />
-      ) : (
-        <>
-          <PeakGlyph printing={isLoading} className="h-2.5 w-3.75" />
-          Ask
-        </>
-      )}
+      <PeakGlyph printing={isLoading} className="h-2.5 w-3.75" />
+      <span>{open ? "Hide conversation" : isLoading ? "Answering…" : "Ask about my work"}</span>
+      {open ? <ChevronDown aria-hidden="true" /> : <ChevronUp aria-hidden="true" />}
     </Button>
   );
 }

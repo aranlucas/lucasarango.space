@@ -20,8 +20,8 @@ export function Starters() {
   const { send } = useAskRuntime();
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col justify-end overflow-y-auto px-5 pt-6 pb-2">
-      <p className="text-base/relaxed text-muted-foreground">
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-4 pb-2">
+      <p className="text-sm/relaxed text-muted-foreground">
         This is an agent that has read my résumé and everything I’ve written here. Ask it what you’d
         ask me in a first call.
       </p>
@@ -33,7 +33,7 @@ export function Starters() {
               onClick={() => {
                 send(question);
               }}
-              className="-mx-2 h-auto w-full justify-start px-2 py-3 text-start text-base/snug font-semibold text-pretty whitespace-normal hover:bg-transparent hover:text-primary"
+              className="-mx-2 h-auto min-h-11 w-full justify-start px-2 py-3 text-start text-sm/snug font-semibold text-pretty whitespace-normal hover:bg-transparent hover:text-primary"
             >
               {question}
             </Button>
