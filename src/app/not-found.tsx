@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { LostGame } from "@/components/lost/lost-game";
+import { LostGameLoader } from "@/components/lost/lost-game-loader";
 
 export default function NotFound() {
   return (
-    <LostGame>
+    <LostGameLoader>
       <div className="flex flex-col items-center gap-3">
         <h1 className="text-title font-semibold tracking-tight text-balance">
           Nothing at this address
@@ -25,6 +25,6 @@ export default function NotFound() {
           Browse all writing
         </Link>
       </div>
-    </LostGame>
+    </LostGameLoader>
   );
 }

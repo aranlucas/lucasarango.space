@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { PageTransition } from "@/components/page-transition";
@@ -7,8 +6,10 @@ import { PostBody } from "@/components/post-body";
 import { PostHeader } from "@/components/post-header";
 import { PostNav } from "@/components/post-nav-link";
 import { ReadingProgress } from "@/components/reading-progress";
-import { getAllPosts, getPostBySlug } from "@/lib/api";
+import { getAllPosts } from "@/lib/api";
 import { FEED_ALTERNATE, SITE } from "@/lib/site";
+
+import { getPost } from "./get-post";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,9 +18,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug((await params).slug);
-
-  if (!post) notFound();
+  const post = await getPost(params);
 
   return {
     title: post.title,
@@ -52,9 +51,7 @@ export default function PostPage({ params }: Props) {
 }
 
 async function PostContent({ params }: Props) {
-  const post = getPostBySlug((await params).slug);
-
-  if (!post) notFound();
+  const post = await getPost(params);
 
   return (
     <PageTransition>

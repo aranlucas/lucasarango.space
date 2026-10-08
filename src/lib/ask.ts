@@ -4,12 +4,8 @@
 import { cacheLife, cacheTag } from "next/cache";
 
 import { PROJECTS } from "@/lib/projects";
-import { RESUME_CACHE_TAG } from "@/lib/resume";
+import { RESUME_API, RESUME_CACHE_TAG } from "@/lib/resume";
 import { SITE } from "@/lib/site";
-
-const RESUME_API = (
-  process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
-).replace(/\/$/u, "");
 
 async function getResumeMarkdown(): Promise<string> {
   "use cache";

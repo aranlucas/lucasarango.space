@@ -6,10 +6,14 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   devIndicators: false,
+  turbopack: {
+    resolveAlias: { "tailwind-merge": "cn", clsx: "cn" },
+  },
   experimental: {
     turbopackRustReactCompiler: true,
-    // Compile the Ask and three.js imports on demand; collect unused dev cache work.
+    // Compile the Ask and three.js imports on demand.
     turbopackLazyDynamicImports: true,
+    // Collect unused development cache work.
     turbopackGc: true,
   },
   // The Ask agent's tools read posts at request time, which tracing can't see.

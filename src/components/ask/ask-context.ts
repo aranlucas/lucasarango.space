@@ -1,29 +1,26 @@
 "use client";
 
-import type { UseChatHelpers } from "@ai-sdk/react";
 import { createContext, use } from "react";
 
-import type { AskMessage, WaitingStatus } from "@/lib/ask-types";
+export type PendingQuestion = { id: number; text: string };
 
 export type AskState = {
-  chat: UseChatHelpers<AskMessage>;
-  /** The route's latest waiting status for the current question. */
-  waitingStatus: WaitingStatus | undefined;
   open: boolean;
+  activated: boolean;
+  /** False until the deferred chat runtime reports its status. */
   isLoading: boolean;
-  isFull: boolean;
-  input: string;
-  setInput: (input: string) => void;
-  inputRef: React.RefObject<HTMLTextAreaElement | null>;
+  questions: PendingQuestion[];
   launcherRef: React.RefObject<HTMLButtonElement | null>;
-  /** Sends a question now; false when it can't be sent yet. */
-  send: (text: string) => boolean;
-  /** Opens the popup and asks, or leaves the question in the box mid-answer. */
+  inputRef: React.RefObject<HTMLTextAreaElement | null>;
+  /** Opens Ask and queues a question until the runtime mounts. */
   ask: (question: string) => void;
   show: () => void;
   close: () => void;
-  /** Collapses to the launcher without moving focus, as a linked page loads. */
+  /** Collapses without moving focus as a linked page loads. */
   hide: () => void;
+  preload: () => void;
+  consume: (id: number) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export const AskContext = createContext<AskState | null>(null);

@@ -36,7 +36,7 @@ export default function LostScene(props: Props) {
 
   return (
     <Canvas
-      frameloop={active ? "always" : "never"}
+      frameloop={active ? (phase === "idle" ? "demand" : "always") : "never"}
       dpr={[1, 2]}
       camera={{ fov: 60, near: 0.1, far: 60 }}
     >

@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const RESUME_CACHE_TAG = "resume";
 
-const RESUME_API = (
+export const RESUME_API = (
   process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
 ).replace(/\/$/u, "");
 
