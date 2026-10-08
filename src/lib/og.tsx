@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
+import { cacheLife } from "next/cache";
 import { ImageResponse } from "next/og";
 
 export const OG_SIZE = { width: 1200, height: 630 };
@@ -12,7 +13,14 @@ const PAPER = "#f7f7f3";
 
 const MUTED = "#5a5a56";
 
-const font = (file: string) => readFile(path.join(process.cwd(), "assets", "fonts", file));
+async function font(file: string) {
+  "use cache";
+  cacheLife("max");
+
+  const data = await readFile(path.join(process.cwd(), "assets", "fonts", file));
+
+  return Uint8Array.from(data).buffer;
+}
 
 // The site's dithered peak (components/receipt-art.tsx) as a standalone image,
 // since the card renderer only draws patterns inside an <img>.

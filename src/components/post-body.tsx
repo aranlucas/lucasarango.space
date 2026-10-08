@@ -1,6 +1,11 @@
+import { cacheLife } from "next/cache";
+
 import markdownToHtml from "@/lib/markdown-to-html";
 
 export async function PostBody({ markdown }: { markdown: string }) {
+  "use cache";
+  cacheLife("max");
+
   const content = await markdownToHtml(markdown);
 
   return (

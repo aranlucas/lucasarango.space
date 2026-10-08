@@ -110,8 +110,9 @@ export function createGame(seed = Date.now(), world = createWorld()): Game {
   };
 }
 
-export function startRound(game: Game) {
+export function startRound(game: Game, seed = game.seed) {
   Object.assign(game, {
+    seed,
     phase: "playing",
     elapsed: 0,
     score: 0,

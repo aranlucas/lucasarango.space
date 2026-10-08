@@ -2,11 +2,12 @@
 // github.com/aranlucas/resume. It is fetched at build time and cached for 30
 // days; the resume repo's deploy calls /api/revalidate to refresh it sooner.
 
+import { cacheLife, cacheTag } from "next/cache";
 import { z } from "zod";
 
 export const RESUME_CACHE_TAG = "resume";
 
-const RESUME_API = (
+export const RESUME_API = (
   process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
 ).replace(/\/$/u, "");
 
@@ -96,9 +97,11 @@ const formatRange = (start: string, end?: string) =>
 const displayUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/u, "").replace(/\/$/u, "");
 
 async function fetchResume(): Promise<z.infer<typeof JsonResume>> {
-  const res = await fetch(RESUME_URL, {
-    next: { revalidate: 60 * 60 * 24 * 30, tags: [RESUME_CACHE_TAG] },
-  });
+  "use cache";
+  cacheLife("max");
+  cacheTag(RESUME_CACHE_TAG);
+
+  const res = await fetch(RESUME_URL);
 
   if (!res.ok) throw new Error(`GET ${RESUME_URL} → ${res.status}`);
 

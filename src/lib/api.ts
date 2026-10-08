@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { join } from "node:path";
 
+import { cache } from "react";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 import { z } from "zod";
@@ -14,7 +15,7 @@ export function getPostSlugs() {
 }
 
 /** Undefined for a missing post, or a draft outside `pnpm dev`. */
-export function getPostBySlug(slug: string): Post | undefined {
+export const getPostBySlug = cache((slug: string): Post | undefined => {
   const realSlug = slug.replace(/\.md$/u, "");
 
   // Slugs can come from the Ask agent, so never let one leave the posts directory.
@@ -25,7 +26,7 @@ export function getPostBySlug(slug: string): Post | undefined {
   const post = parsePost(realSlug, fs.readFileSync(fullPath, "utf8"));
 
   return post.draft && process.env.NODE_ENV !== "development" ? undefined : post;
-}
+});
 
 export function getAllPosts(): Post[] {
   const slugs = getPostSlugs();

@@ -1,5 +1,7 @@
 "use client";
 
+import { useImperativeHandle, useState, type Ref } from "react";
+
 import { useAsk } from "@/components/ask/ask-context";
 import {
   InputGroup,
@@ -7,11 +9,17 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
+import { useAskRuntime } from "@/components/ask/ask-runtime-context";
 import { ASK_LIMITS } from "@/lib/ask-config";
 
 /** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. */
-export function Composer({ id }: { id: string }) {
-  const { input, setInput, inputRef, send } = useAsk();
+export type ComposerDraft = { setInput: (input: string) => void };
+
+export function Composer({ id, ref }: { id: string; ref: Ref<ComposerDraft> }) {
+  const [input, setInput] = useState("");
+  const { inputRef } = useAsk();
+  const { send } = useAskRuntime();
+  useImperativeHandle(ref, () => ({ setInput }), []);
 
   return (
     <form
@@ -46,7 +54,7 @@ export function Composer({ id }: { id: string }) {
           autoComplete="off"
         />
         <InputGroupAddon align="inline-end" className="self-end pb-1.5">
-          <ComposerAction />
+          <ComposerAction input={input} />
         </InputGroupAddon>
       </InputGroup>
       <p className="mt-2 px-1 text-xs text-muted-foreground">
@@ -56,8 +64,8 @@ export function Composer({ id }: { id: string }) {
   );
 }
 
-function ComposerAction() {
-  const { chat, input, isLoading, isFull } = useAsk();
+function ComposerAction({ input }: { input: string }) {
+  const { chat, isLoading, isFull } = useAskRuntime();
 
   if (isLoading) {
     return (

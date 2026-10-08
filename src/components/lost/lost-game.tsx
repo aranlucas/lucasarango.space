@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 
-import { createGame, ROUND_SECONDS, startRound, type Walk } from "./game";
+import { createGame, ROUND_SECONDS, startRound, type Game, type Walk } from "./game";
 import {
   recordBest,
   useActive,
@@ -77,8 +77,12 @@ export function LostGame({ children }: { children: React.ReactNode }) {
 
 /** The game, what the HUD shows, and the best score so far. */
 function useRound() {
+  "use no memo";
+  // Expose the live simulation to the imperative scene; only HUD snapshots are React state.
   const router = useRouter();
-  const [game] = useState(() => createGame());
+  const game = useRef<Game | null>(null);
+
+  game.current ??= createGame(0);
   const [hud, setHud] = useState(IDLE_HUD);
   const [best, setBest] = useState(0);
 
@@ -89,7 +93,8 @@ function useRound() {
   }, []);
 
   const play = useCallback(() => {
-    startRound(game);
+    // Seed a round when it starts, so prerendering never reads the current time.
+    if (game.current) startRound(game.current, Date.now());
     setHud({ ...IDLE_HUD, phase: "playing" });
   }, [game]);
 
@@ -100,7 +105,9 @@ function useRound() {
     [router],
   );
 
-  return { game, hud, best, onHud, play, onNavigate };
+  // Only the opted-out frame consumers read this live object; JSX uses the HUD snapshot.
+  // oxlint-disable-next-line react/refs
+  return { game: game.current, hud, best, onHud, play, onNavigate };
 }
 
 /** Walking input from the keyboard and the touch thumbstick. */

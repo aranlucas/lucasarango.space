@@ -28,6 +28,9 @@ export function TrailSign({
   reducedMotion: boolean;
   onNavigate: (href: string) => void;
 }) {
+  "use no memo";
+  // Capture the live player pose on mount and animate a mutable three.js group.
+
   const [pose] = useState(() => signPose(game));
   const group = useRef<Group>(null);
   const age = useRef(reducedMotion ? RISE_SECONDS : 0);

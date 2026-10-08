@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useAsk } from "@/components/ask/ask-context";
+import { useAskRuntime } from "@/components/ask/ask-runtime-context";
 import { MessageResponse } from "@/components/ask/message-response";
 import { PeakGlyph } from "@/components/ask/peak-glyph";
 import { STARTERS, WAITING } from "@/lib/ask-config";
@@ -16,7 +17,7 @@ const REASONING_LABELS = ["Thinking it over", "Connecting the dots", "Picking th
 
 /** Suggested questions, shown before the first message. */
 export function Starters() {
-  const { send } = useAsk();
+  const { send } = useAskRuntime();
 
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-end overflow-y-auto px-5 pt-6 pb-2">
@@ -44,7 +45,7 @@ export function Starters() {
 }
 
 export function Transcript() {
-  const { chat, isFull } = useAsk();
+  const { chat, isFull } = useAskRuntime();
   const { messages, status, error } = chat;
 
   return (
@@ -124,7 +125,7 @@ function ThinkingMessage() {
 
 /** The route's waiting status, which turns into "still waiting" when the model is slow. */
 function WaitingText() {
-  const { waitingStatus } = useAsk();
+  const { waitingStatus } = useAskRuntime();
 
   return <Thinking labels={[waitingStatus?.message ?? WAITING.message]} />;
 }
@@ -239,7 +240,7 @@ function Thinking({ labels }: { labels: readonly string[] }) {
   return (
     <div className="flex items-center gap-3 text-muted-foreground" role="status">
       <PeakGlyph printing className="h-4 w-6" />
-      <span key={label} className="animate-in fade-in">
+      <span key={label} className="ask-fade-in">
         {label}
       </span>
     </div>

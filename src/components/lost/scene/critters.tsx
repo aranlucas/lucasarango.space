@@ -48,6 +48,9 @@ export function Critters({
 }
 
 function CritterSlot({ game, index, children }: SlotProps & { children: React.ReactNode }) {
+  "use no memo";
+  // Read the live critter pool each frame; spawning does not change game identity.
+
   const group = useRef<Group>(null);
   useFrame(() => {
     const critter = game.critters.at(index);
@@ -67,6 +70,9 @@ function CritterSlot({ game, index, children }: SlotProps & { children: React.Re
 
 /** One glowing eye: faint in the dark, bright while the beam is on it. */
 function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
+  "use no memo";
+  // Read live critter values and update the three.js mesh and material each frame.
+
   const mesh = useRef<Mesh>(null);
   const material = useRef<MeshBasicMaterial>(null);
 
@@ -110,6 +116,9 @@ function useReveal(
   index: number,
   update: (critter: Critter | undefined, reveal: number) => void,
 ) {
+  "use no memo";
+  // Read live reveal progress each frame, independently of React rendering.
+
   useFrame(() => {
     const critter = game.critters.at(index);
     const spottedAt = critter?.spottedAt ?? null;
@@ -124,6 +133,9 @@ function useReveal(
  * while the beam holds on it, then shows in full once spotted.
  */
 function Silhouette({ game, index, textures }: SlotProps & { textures: Textures }) {
+  "use no memo";
+  // Read live critter values and update the sprite and material each frame.
+
   const sprite = useRef<Sprite>(null);
   const material = useRef<SpriteMaterial>(null);
 
@@ -173,6 +185,9 @@ function PointsLabel({
   textures,
   reducedMotion,
 }: SlotProps & { textures: Textures; reducedMotion: boolean }) {
+  "use no memo";
+  // Update the mutable sprite and material from live reveal progress.
+
   const sprite = useRef<Sprite>(null);
   const material = useRef<SpriteMaterial>(null);
 

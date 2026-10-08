@@ -27,6 +27,7 @@ const scratch = new Vector3();
 /**
  * Runs the game each frame: eases the beam toward where the player aims,
  * walks them, checks which eyes the beam lights, and reports the HUD.
+ * Opted out of compilation because the frame loop mutates the live game.
  */
 export function Director({
   game,
@@ -43,6 +44,7 @@ export function Director({
   glow: Texture;
   onHud: (hud: Hud) => void;
 }) {
+  "use no memo";
   const beam = useRef<Beam>({ x: 0, y: 0 });
   const last = useRef("");
 
@@ -89,6 +91,9 @@ function isLit(critter: Critter, { camera, size }: RootState, beam: Beam) {
 
 /** Puts the camera at the player's eyes, with a little head-bob while walking. */
 export function CameraRig({ game, reducedMotion }: { game: Game; reducedMotion: boolean }) {
+  "use no memo";
+  // Read the live player position each frame, even though the game identity is stable.
+
   const stride = useRef(0);
   const previous = useRef({ x: game.player.x, z: game.player.z });
 

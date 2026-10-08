@@ -1,6 +1,6 @@
 "use client";
 
-import { useAsk } from "@/components/ask/ask-context";
+import { useAskRuntime } from "@/components/ask/ask-runtime-context";
 import {
   Conversation,
   ConversationContent,
@@ -10,7 +10,7 @@ import { Starters, Transcript } from "@/components/ask/transcript";
 
 /** Loaded when Ask opens, while the provider keeps the conversation across navigation. */
 export function AskContent() {
-  const { chat } = useAsk();
+  const { chat } = useAskRuntime();
 
   return chat.messages.length > 0 ? (
     <Conversation>

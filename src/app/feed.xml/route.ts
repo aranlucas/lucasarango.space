@@ -1,7 +1,7 @@
+import { cacheLife } from "next/cache";
+
 import { getAllPosts } from "@/lib/api";
 import { SITE } from "@/lib/site";
-
-export const dynamic = "force-static";
 
 const escape = (s: string) =>
   s
@@ -10,7 +10,11 @@ const escape = (s: string) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-export function GET() {
+// oxlint-disable-next-line require-await, typescript/require-await -- use cache requires an async function, even for local synchronous data.
+async function getFeed() {
+  "use cache";
+  cacheLife("max");
+
   const posts = getAllPosts();
 
   const items = posts
@@ -23,5 +27,11 @@ export function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${SITE.name}</title><link>${SITE.url}</link><description>${escape(SITE.description)}</description><language>en-us</language>${items}</channel></rss>`;
 
-  return new Response(xml, { headers: { "Content-Type": "application/rss+xml; charset=utf-8" } });
+  return xml;
+}
+
+export async function GET() {
+  return new Response(await getFeed(), {
+    headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
+  });
 }

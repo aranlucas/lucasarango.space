@@ -10,6 +10,8 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
+export const ensureStatic = "navigation";
+
 // The receipt is set in one monospace at a condensed width; headings print in
 // a bitmap face, like a till's logo. Both sit on the LCP path, so both preload.
 const mono = Martian_Mono({
