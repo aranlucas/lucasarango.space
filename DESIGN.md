@@ -188,6 +188,8 @@ Dashed rules separate items within a story; double rules separate the receipt's 
 
 **The Single Column Rule.** Nothing sits beside anything else. Leaders and flush-right quantities are the only horizontal structure.
 
+Article footer navigation is an exception: Older and Newer split left and right within the reading column, with titles beneath their direction labels. Both links explicitly prefetch their routes; the Writing tab provides access to the full index.
+
 ## Elevation & Depth
 
 Flat. Paper has no shadow and no layers except the Ask panel, which is a sheet with a 2px ink border on desktop and the full screen on phones. Depth is expressed by inversion, not elevation.
