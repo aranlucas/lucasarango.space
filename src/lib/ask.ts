@@ -1,6 +1,8 @@
 // Context for the Ask agent: the résumé Markdown from the resume API and this
 // site's projects. Posts are read on demand through tools (src/lib/ask-tools.ts).
 
+import { cacheLife, cacheTag } from "next/cache";
+
 import { PROJECTS } from "@/lib/projects";
 import { RESUME_CACHE_TAG } from "@/lib/resume";
 import { SITE } from "@/lib/site";
@@ -10,11 +12,13 @@ const RESUME_API = (
 ).replace(/\/$/u, "");
 
 async function getResumeMarkdown(): Promise<string> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(RESUME_CACHE_TAG);
+
   const url = `${RESUME_API}/resume.md`;
 
-  const res = await fetch(url, {
-    next: { revalidate: 60 * 60 * 24 * 30, tags: [RESUME_CACHE_TAG] },
-  });
+  const res = await fetch(url);
 
   if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
 

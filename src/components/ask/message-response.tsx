@@ -2,7 +2,7 @@
 
 import { cn } from "cn";
 import Link from "next/link";
-import { memo, type ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import { Streamdown, type Components } from "streamdown";
 
 import { SITE } from "@/lib/site";
@@ -38,17 +38,14 @@ function makeComponents(onNavigate: () => void): Components {
 type Props = ComponentProps<typeof Streamdown> & { onNavigate: () => void };
 
 // Streamdown renders half-finished Markdown (an unclosed **bold**, a partial
-// list) cleanly while an answer streams; memo skips re-rendering until the text changes.
-export const MessageResponse = memo(
-  ({ className, onNavigate, ...props }: Props) => (
+// list) cleanly while an answer streams; the compiler handles memoization.
+export function MessageResponse({ className, onNavigate, ...props }: Props) {
+  return (
     <Streamdown
       className={cn("answer", className)}
       linkSafety={{ enabled: false }}
       components={makeComponents(onNavigate)}
       {...props}
     />
-  ),
-  (prev, next) => prev.children === next.children && prev.className === next.className,
-);
-
-MessageResponse.displayName = "MessageResponse";
+  );
+}

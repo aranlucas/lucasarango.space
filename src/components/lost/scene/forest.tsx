@@ -36,6 +36,9 @@ export function Night() {
 }
 
 export function Forest({ trees }: { trees: Tree[] }) {
+  "use no memo";
+  // The memoized geometries have an explicit lifetime and are disposed on unmount.
+
   const { trunk, needles } = useMemo(() => firGeometry(), []);
   const needleRef = useRef<InstancedMesh>(null);
   const trunkRef = useRef<InstancedMesh>(null);

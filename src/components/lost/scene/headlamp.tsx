@@ -19,6 +19,9 @@ const INTENSITY = 70;
 
 /** The ray from the camera through the beam's point on screen, recomputed per frame. */
 function useBeamRay(beam: RefObject<Beam>) {
+  "use no memo";
+  // The cached raycaster and vector are mutable scratch objects, reused every frame.
+
   const raycaster = useMemo(() => new Raycaster(), []);
   const ndc = useMemo(() => new Vector2(), []);
 
@@ -31,6 +34,9 @@ function useBeamRay(beam: RefObject<Beam>) {
 
 /** A spotlight on your forehead, aimed down the beam. */
 export function Headlamp({ beam, on }: { beam: RefObject<Beam>; on: boolean }) {
+  "use no memo";
+  // The memoized target is a live Object3D mutated by the frame loop.
+
   const light = useRef<SpotLight>(null);
   const target = useMemo(() => new Object3D(), []);
   const rayFor = useBeamRay(beam);

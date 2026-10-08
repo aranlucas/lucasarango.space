@@ -5,6 +5,7 @@ import {
   startTransition,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -44,10 +45,13 @@ function useSend(
 
 /** The conversation, plus the route's latest waiting status from its transient data parts. */
 function useAskChat() {
+  const id = useId();
   const [waitingStatus, setWaitingStatus] = useState<WaitingStatus>();
 
   // Posts to /api/chat, the default endpoint.
   const chat = useChat<AskMessage>({
+    // The SDK's default random ID cannot be evaluated during a static prerender.
+    id,
     onData: (part) => {
       if (part.type === "data-waiting-status") setWaitingStatus(part.data);
     },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { PageTransition } from "@/components/page-transition";
 import { PostBody } from "@/components/post-body";
@@ -11,8 +12,6 @@ import { FEED_ALTERNATE, SITE } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return getAllPosts().map(({ slug }) => ({ slug }));
 }
@@ -20,7 +19,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug((await params).slug);
 
-  if (!post) return {};
+  if (!post) notFound();
 
   return {
     title: post.title,
@@ -38,7 +37,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function PostPage({ params }: Props) {
+export default function PostPage({ params }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <p className="page-lede" role="status">
+          Loading post…
+        </p>
+      }
+    >
+      <PostContent params={params} />
+    </Suspense>
+  );
+}
+
+async function PostContent({ params }: Props) {
   const post = getPostBySlug((await params).slug);
 
   if (!post) notFound();
