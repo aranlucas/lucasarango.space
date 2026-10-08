@@ -2,7 +2,6 @@ import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 
 import { ForestLink } from "@/components/forest-link";
-import { AskPopup } from "@/components/ask/ask-popup";
 import { Barcode } from "@/components/receipt-art";
 import { SiteNav } from "@/components/site-nav";
 import { SITE } from "@/lib/site";
@@ -12,7 +11,6 @@ export function SiteHeader() {
   return (
     <header className="site-header print:hidden" style={{ viewTransitionName: "site-header" }}>
       <SiteNav />
-      <AskPopup />
     </header>
   );
 }
