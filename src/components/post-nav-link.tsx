@@ -8,50 +8,42 @@ export function PostNavLink({ post, direction }: { post: Post; direction: "older
   const Arrow = direction === "newer" ? ArrowRight : ArrowLeft;
 
   return (
-    <Link href={`/blog/${post.slug}`} className="line-item line-link">
-      <span className="line-date">{direction === "newer" ? "Newer" : "Older"}</span>
-      <PostTitleTransition slug={post.slug}>
-        <span className="line-title">{post.title}</span>
-      </PostTitleTransition>
-      <span className="line-leader" aria-hidden="true" />
-      <span className="line-qty">
-        <Arrow aria-hidden="true" size={14} />
+    <Link
+      href={`/blog/${post.slug}`}
+      prefetch={true}
+      className={
+        direction === "older" ? "post-nav-link post-nav-older" : "post-nav-link post-nav-newer"
+      }
+    >
+      <span className="post-nav-direction">
+        {direction === "older" && <Arrow aria-hidden="true" size={14} />}
+        {direction === "newer" ? "Newer" : "Older"}
+        {direction === "newer" && <Arrow aria-hidden="true" size={14} />}
       </span>
+      <PostTitleTransition slug={post.slug}>
+        <span className="post-nav-title">{post.title}</span>
+      </PostTitleTransition>
     </Link>
   );
 }
 
-/** Older/newer lines under a post; `posts` is newest first. */
+/** Split article navigation; `posts` is newest first. */
 export function PostNav({ post, posts }: { post: Post; posts: Post[] }) {
   const index = posts.findIndex((p) => p.slug === post.slug);
+
+  if (index === -1) return null;
+
   const newer: Post | undefined = posts[index - 1];
   const older: Post | undefined = posts[index + 1];
+
+  if (newer === undefined && older === undefined) return null;
 
   return (
     <>
       <hr className="rule-double" />
-      <nav aria-label="More writing">
-        <ul className="line-items">
-          {newer !== undefined && (
-            <li>
-              <PostNavLink post={newer} direction="newer" />
-            </li>
-          )}
-          {older !== undefined && (
-            <li>
-              <PostNavLink post={older} direction="older" />
-            </li>
-          )}
-          <li>
-            <Link href="/blog" className="line-item line-link">
-              <span className="line-title">All writing</span>
-              <span className="line-leader" aria-hidden="true" />
-              <span className="line-qty">
-                <ArrowRight aria-hidden="true" size={14} />
-              </span>
-            </Link>
-          </li>
-        </ul>
+      <nav className="post-nav" aria-label="More writing">
+        {older !== undefined && <PostNavLink post={older} direction="older" />}
+        {newer !== undefined && <PostNavLink post={newer} direction="newer" />}
       </nav>
     </>
   );
