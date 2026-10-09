@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "portless run --name lucasarango.space next dev",
+    "dev": "portless run next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.anti-slop.json",
@@ -61,6 +61,7 @@
     "oxlint": "1.87.0",
     "oxlint-tailwindcss": "^1.14.0",
     "oxlint-tsgolint": "^7.0.2003",
+    "portless": "0.15.7",
     "shadcn": "^4.21.4",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",

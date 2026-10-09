@@ -25,11 +25,10 @@ Requirements are Node.js 24 and pnpm 12.6.0 (`packageManager` in `package.json`)
 ```bash
 corepack enable
 pnpm install --frozen-lockfile
-npm install -g portless@0.15.7
 pnpm dev
 ```
 
-Open [https://lucasarango.space.localhost](https://lucasarango.space.localhost). Draft posts are visible in development and hidden from production routes.
+Open [https://lucasarango.space.localhost](https://lucasarango.space.localhost). `pnpm dev` runs through [Portless](https://github.com/vercel-labs/portless) (a dev dependency); its first run may ask for `sudo` to bind port 443 and trust a local certificate. Draft posts are visible in development and hidden from production routes.
 
 Run the same checks used by CI:
 
@@ -40,28 +39,6 @@ pnpm start
 ```
 
 `pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), formatting checks, and Vitest. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat`.
-
-### Named local URL with Portless
-
-After the normal project setup, use [Portless](https://github.com/vercel-labs/portless/tree/v0.15.7)
-to run this app alongside other repositories without choosing a port. Use Node.js
-24 or newer, within this project's supported Node version, and install the CLI once:
-
-```sh
-npm install -g portless@0.15.7
-pnpm dev
-```
-
-With default proxy settings, the primary checkout is available at
-[https://lucasarango.space.localhost](https://lucasarango.space.localhost). Portless starts
-Next.js on an available `PORT`. Linked Git worktrees get a branch
-prefix; use the exact URL printed at startup. The proxy reuses its most recent
-settings, so a custom port or domain can change that URL.
-
-Run the first launch in an interactive terminal: the default HTTPS setup may ask
-to trust a local certificate authority and request administrator access for port
-443 and local hostname entries. Use `portless list` to see routes and
-`portless doctor` for connection or certificate problems.
 
 ## Optional configuration
 
