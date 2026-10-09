@@ -25,10 +25,11 @@ Requirements are Node.js 24 and pnpm 12.6.0 (`packageManager` in `package.json`)
 ```bash
 corepack enable
 pnpm install --frozen-lockfile
+npm install -g portless@0.15.7
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Draft posts are visible in development and hidden from production routes.
+Open [https://lucasarango.space.localhost](https://lucasarango.space.localhost). Draft posts are visible in development and hidden from production routes.
 
 Run the same checks used by CI:
 
@@ -40,7 +41,7 @@ pnpm start
 
 `pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), formatting checks, and Vitest. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat`.
 
-### Named local URL with Portless (optional)
+### Named local URL with Portless
 
 After the normal project setup, use [Portless](https://github.com/vercel-labs/portless/tree/v0.15.7)
 to run this app alongside other repositories without choosing a port. Use Node.js
@@ -48,7 +49,7 @@ to run this app alongside other repositories without choosing a port. Use Node.j
 
 ```sh
 npm install -g portless@0.15.7
-pnpm dev:portless
+pnpm dev
 ```
 
 With default proxy settings, the primary checkout is available at
@@ -62,7 +63,7 @@ to trust a local certificate authority and request administrator access for port
 443 and local hostname entries. Use `portless list` to see routes and
 `portless doctor` for connection or certificate problems.
 
-Use `pnpm dev` for the original localhost workflow.
+Use `pnpm dev:direct` for the localhost workflow.
 
 ## Optional configuration
 

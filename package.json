@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:portless": "portless",
-    "dev": "next dev",
+    "dev": "portless",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.anti-slop.json",
@@ -15,7 +14,8 @@
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev:direct": "next dev"
   },
   "dependencies": {
     "@ai-sdk/react": "4.0.137",
@@ -79,6 +79,6 @@
   "packageManager": "pnpm@12.10.1",
   "portless": {
     "name": "lucasarango.space",
-    "script": "dev"
+    "script": "dev:direct"
   }
 }
