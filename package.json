@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev:portless": "portless",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -75,5 +76,9 @@
       "oxfmt --no-error-on-unmatched-pattern"
     ]
   },
-  "packageManager": "pnpm@12.10.1"
+  "packageManager": "pnpm@12.10.1",
+  "portless": {
+    "name": "lucasarango.space",
+    "script": "dev"
+  }
 }
