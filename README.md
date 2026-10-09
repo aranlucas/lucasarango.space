@@ -28,7 +28,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Draft posts are visible in development and hidden from production routes.
+Open [https://lucasarango.space.localhost](https://lucasarango.space.localhost). `pnpm dev` runs through [Portless](https://github.com/vercel-labs/portless) (a dev dependency); its first run may ask for `sudo` to bind port 443 and trust a local certificate. Draft posts are visible in development and hidden from production routes.
 
 Run the same checks used by CI:
 
