@@ -1,3 +1,5 @@
+import { SITE } from "@/lib/site";
+
 // Public projects, verified against their repository READMEs.
 export const PROJECTS = [
   {
@@ -22,3 +24,11 @@ export const PROJECTS = [
     story: "/blog/one-plugin-repo-for-all-my-mcp-servers",
   },
 ] as const;
+
+/** The same public projects shown on the home page, with links agents can share. */
+export function projectsMarkdown() {
+  return `# Projects by ${SITE.name}\n\n${PROJECTS.map(
+    (project) =>
+      `## ${project.name}\n\n${project.description}\n\n- [Source](${project.source})\n- [Story](${SITE.url}${project.story})`,
+  ).join("\n\n")}\n`;
+}
