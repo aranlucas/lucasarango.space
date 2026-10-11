@@ -1,5 +1,3 @@
-import { cacheLife } from "next/cache";
-
 import { getAllPosts } from "@/lib/api";
 import { SITE } from "@/lib/site";
 
@@ -10,11 +8,7 @@ const escape = (s: string) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-// oxlint-disable-next-line require-await, typescript/require-await -- use cache requires an async function, even for local synchronous data.
-async function getFeed() {
-  "use cache";
-  cacheLife("max");
-
+function getFeed() {
   const posts = getAllPosts();
 
   const items = posts
@@ -30,8 +24,8 @@ async function getFeed() {
   return xml;
 }
 
-export async function GET() {
-  return new Response(await getFeed(), {
+export function GET() {
+  return new Response(getFeed(), {
     headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
   });
 }
