@@ -48,7 +48,7 @@ The site registers three read-only browser tools on every page:
 - `listPosts` returns published post slugs, titles, dates, summaries, and canonical URLs, newest first.
 - `readPost` accepts a slug from `listPosts` and returns the full Markdown article.
 
-The integration follows the [WebMCP draft](https://webmachinelearning.github.io/webmcp/) using `document.modelContext` through the lightweight [`usewebmcp`](https://github.com/WebMCP-org/npm-packages) React library. WebMCP requires a supporting browser in a secure context (HTTPS or localhost). Browsers without the API keep working normally. No AI provider key is needed, and content is fetched only when an agent calls a tool. Drafts are excluded in every environment.
+The integration follows the [WebMCP draft](https://webmachinelearning.github.io/webmcp/) using `document.modelContext` through Chrome’s [`use-webmcp-tool`](https://github.com/GoogleChromeLabs/use-webmcp-tool) React library. WebMCP requires a supporting browser in a secure context (HTTPS or localhost). Browsers without the API keep working normally. No AI provider key is needed, and content is fetched only when an agent calls a tool. Drafts are excluded in every environment.
 
 The browser tools read `/api/webmcp?tool=getResume`, `/api/webmcp?tool=listPosts`, and `/api/webmcp?tool=readPost&slug=...`. These are public JSON content endpoints, not a remote MCP JSON-RPC server that a desktop MCP client can connect to.
 
@@ -60,7 +60,7 @@ const resume = tools.find((tool) => tool.name === "getResume");
 await document.modelContext.executeTool(resume, {});
 ```
 
-The library handles registration, cancellation, and cleanup with abort signals. Tests cover browser feature detection, cleanup, on-demand reads, invalid slugs, draft exclusion, and upstream résumé failures.
+The library ties registration to component lifecycle, uses abort signals for cleanup, and detects browser APIs injected shortly after mount. It serializes successful browser tool results into MCP text content blocks and marks execution failures with `isError: true`. The HTTP route returns plain JSON. Tests cover browser feature detection, late injection, cleanup, result/error normalization, on-demand reads, invalid slugs, draft exclusion, and upstream résumé failures.
 
 ### HTTP end-to-end tests
 

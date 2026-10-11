@@ -1,6 +1,6 @@
 "use client";
 
-import { useWebMCP, type WebMCPConfig } from "usewebmcp";
+import { useWebMCP, type WebMCPOptions } from "use-webmcp-tool";
 import { z } from "zod";
 
 const JsonValue = z.json();
@@ -40,7 +40,7 @@ const emptySchema: z.core.JSONSchema.JSONSchema = {
   additionalProperties: false,
 };
 
-const tools: WebMCPConfig<object, JsonContent>[] = [
+const tools: WebMCPOptions<JsonContent, JsonContent>[] = [
   {
     name: "getResume",
     description:
@@ -61,8 +61,7 @@ const tools: WebMCPConfig<object, JsonContent>[] = [
     name: "readPost",
     description:
       "Read a published blog post in full as Markdown. Use a slug returned by listPosts. Read before quoting or answering details about a post.",
-    // Copy enumerable JSON Schema fields; Zod also attaches a non-enumerable Standard Schema marker.
-    inputSchema: { ...z.toJSONSchema(PostInput) },
+    inputSchema: z.toJSONSchema(PostInput),
     annotations: { readOnlyHint: true },
     execute: (input, options) => {
       const { slug } = PostInput.parse(input);

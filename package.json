@@ -43,7 +43,7 @@
     "three": "^0.186.1",
     "unified": "^11.0.5",
     "use-stick-to-bottom": "^1.1.6",
-    "usewebmcp": "^6.0.0",
+    "use-webmcp-tool": "^0.3.0",
     "vfile": "^6.0.3",
     "vfile-matter": "^5.0.1",
     "zod": "^4.6.5"
