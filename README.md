@@ -52,6 +52,12 @@ OPENROUTER_MODEL=openrouter/free
 
 The public endpoint caps a conversation at 24 messages and each question at 1,000 characters. The résumé fetch defaults to `https://resume-api.aranlucas.workers.dev`; set `RESUME_API_URL` to another base URL when building against a local or alternate copy.
 
+## WebMCP origin trial
+
+The site includes a public [WebMCP origin-trial registration](https://developer.chrome.com/origintrials/#/registration/442038858738040833) for `https://lucasarango.space`, expiring **March 29, 2027**. Next.js sends its token in the `Origin-Trial` response header, enabling compatible Chrome versions without the testing flag after deployment. The token is intended to be public and is not an authentication credential.
+
+Renew the registration before expiry. Update the default token in `next.config.ts`, or set `WEBMCP_ORIGIN_TRIAL_TOKEN` in the hosting project's build environment and redeploy. Set it to an empty string to omit the header. The token matches only the production origin, so it does not enable localhost, subdomains, or preview deployment origins.
+
 ## Writing and content workflow
 
 Add a Markdown file to `_posts/`; the filename becomes the URL slug:

@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Public origin-trial token for https://lucasarango.space:443, expires March 29, 2027.
+// It is delivered to every visitor; it is not an authentication credential.
+const WEBMCP_ORIGIN_TRIAL_TOKEN =
+  "AjJY27Ugx8OTgMyemTTvFF+qJ6Q81djNQ1jjLNv+CUZnaBr6aC+NnylVZqQlvS0UQssDJ2F3mfIRv1cB1xR95gEAAABReyJvcmlnaW4iOiJodHRwczovL2x1Y2FzYXJhbmdvLnNwYWNlOjQ0MyIsImZlYXR1cmUiOiJXZWJNQ1AiLCJleHBpcnkiOjE4MDYzNjQ4MDB9";
+
 const ACCEPTS_MARKDOWN = [
   { type: "header" as const, key: "accept", value: "(.*)text/markdown(.*)" },
 ];
@@ -27,6 +32,14 @@ const nextConfig: NextConfig = {
     "/blog/md/[slug]": ["./_posts/**/*.md"],
     "/blog/sitemap.md": ["./_posts/**/*.md"],
     "/llms.txt": ["./_posts/**/*.md"],
+  },
+  // Origin-trial tokens are issued for the deployment's exact public origin.
+  headers() {
+    const token = process.env.WEBMCP_ORIGIN_TRIAL_TOKEN ?? WEBMCP_ORIGIN_TRIAL_TOKEN;
+
+    return token === ""
+      ? []
+      : [{ source: "/:path*", headers: [{ key: "Origin-Trial", value: token }] }];
   },
   // Serve agents Markdown from the same URLs people read, and from `.md` URLs
   // they can share. Slug patterns exclude dots so `/blog/sitemap.md` isn't
