@@ -29,6 +29,19 @@ export default defineConfig({
           globals: false,
         },
       },
+      {
+        // Real Chrome against the production build: `pnpm build && pnpm test:chrome`.
+        extends: true,
+        test: {
+          name: "chrome",
+          environment: "node",
+          include: ["e2e/**/*.test.ts"],
+          globalSetup: ["./e2e/serve.ts"],
+          testTimeout: 30_000,
+          hookTimeout: 60_000,
+          globals: false,
+        },
+      },
     ],
   },
 });
