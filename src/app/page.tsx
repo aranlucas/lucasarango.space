@@ -8,9 +8,9 @@ import { ProjectsSection } from "@/components/project-list";
 import { SectionHeading } from "@/components/section-heading";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { getAllPosts } from "@/lib/api";
-import { FEED_ALTERNATE } from "@/lib/site";
+import { markdownAlternate } from "@/lib/site";
 
-export const metadata = { alternates: { canonical: "/", types: FEED_ALTERNATE } };
+export const metadata = { alternates: { canonical: "/", types: markdownAlternate("/llms.txt") } };
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 5);

@@ -7,7 +7,7 @@ import { PostHeader } from "@/components/post-header";
 import { PostNav } from "@/components/post-nav-link";
 import { ReadingProgress } from "@/components/reading-progress";
 import { getAllPosts } from "@/lib/api";
-import { FEED_ALTERNATE, SITE } from "@/lib/site";
+import { markdownAlternate, markdownPath, SITE } from "@/lib/site";
 
 import { getPost } from "./get-post";
 
@@ -23,7 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.summary,
-    alternates: { canonical: `/blog/${post.slug}`, types: FEED_ALTERNATE },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      types: markdownAlternate(markdownPath(post.slug)),
+    },
     openGraph: {
       type: "article",
       siteName: SITE.name,
