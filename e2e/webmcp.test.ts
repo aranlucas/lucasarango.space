@@ -166,6 +166,40 @@ test("list_posts searches body text, returns excerpts, and handles no matches", 
   expect(await text("list_posts", { query: "   " })).toBe(await text("list_posts"));
 });
 
+test("list_posts ranks a project question and honors result limits", async () => {
+  await open("/");
+
+  const results = await text("list_posts", {
+    query: "How does Lucas practice system design with an AI whiteboard?",
+    limit: 1,
+  });
+
+  expect(results).toContain("/blog/practicing-system-design-with-an-ai-on-the-whiteboard)");
+  expect(results).toContain("Showing 1 of ");
+  expect(results.match(/^- \[/gmu)).toHaveLength(1);
+  const oldest = await text("list_posts", { sort: "oldest", limit: 1 });
+  expect(oldest).toContain("/blog/a-website-for-every-adventure)");
+});
+
+test("list_posts rejects malformed agent input with a field-specific error", async () => {
+  await open("/");
+
+  const raw = await page.evaluate(async () => {
+    const context = document.modelContext;
+    const tool = (await context?.getTools())?.find((candidate) => candidate.name === "list_posts");
+
+    if (context === undefined || tool === undefined) throw new Error("list_posts is missing");
+
+    return context.executeTool(tool, JSON.stringify({ query: 42 }));
+  });
+
+  const result = ToolResult.parse(JSON.parse(raw ?? "null"));
+
+  expect(result.isError).toBe(true);
+  expect(result.content[0]?.text).toContain("Invalid list_posts input: query");
+  expect(result.content[0]?.text).not.toContain("trim is not a function");
+});
+
 test("list_projects returns the home page's projects with shareable links", async () => {
   await open("/");
   const projects = await text("list_projects");

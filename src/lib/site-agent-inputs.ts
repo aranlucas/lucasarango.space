@@ -4,8 +4,19 @@ export const ListPostsInput = z.object({
   query: z
     .string()
     .describe(
-      "Optional case-insensitive keywords; all words must match. Omit or leave blank to list every post.",
+      "Optional question or keywords. Matches relevant words in titles, summaries, and bodies; question wording is ignored. Omit or leave blank to list posts newest first.",
     )
+    .optional(),
+  sort: z
+    .enum(["relevance", "newest", "oldest"])
+    .describe("Result order. Defaults to relevance with a query, newest without one.")
+    .optional(),
+  limit: z
+    .number()
+    .int()
+    .min(1)
+    .max(50)
+    .describe("Maximum posts to return, from 1 to 50. Omit to return all matches.")
     .optional(),
 });
 

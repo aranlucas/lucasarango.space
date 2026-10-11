@@ -128,14 +128,28 @@ test("read_post reports missing posts as errors the agent can act on", async () 
 });
 
 test("list_posts encodes search keywords and leaves blank queries unfiltered", async () => {
-  MARKDOWN_ROUTES.set("/blog/sitemap.md?query=MCP%20%26%20agents", "matching posts");
+  MARKDOWN_ROUTES.set("/blog/sitemap.md?query=MCP+%26+agents", "matching posts");
 
   try {
     await mount();
     expect(await call("list_posts", { query: " MCP & agents " })).toEqual(text("matching posts"));
     expect(await call("list_posts", { query: "  " })).toEqual(text("the blog index"));
   } finally {
-    MARKDOWN_ROUTES.delete("/blog/sitemap.md?query=MCP%20%26%20agents");
+    MARKDOWN_ROUTES.delete("/blog/sitemap.md?query=MCP+%26+agents");
+  }
+});
+
+test("list_posts passes result limits and order to the Markdown route", async () => {
+  const path = "/blog/sitemap.md?query=system+design&sort=relevance&limit=2";
+  MARKDOWN_ROUTES.set(path, "two matching posts");
+
+  try {
+    await mount();
+    expect(
+      await call("list_posts", { query: "system design", sort: "relevance", limit: 2 }),
+    ).toEqual(text("two matching posts"));
+  } finally {
+    MARKDOWN_ROUTES.delete(path);
   }
 });
 

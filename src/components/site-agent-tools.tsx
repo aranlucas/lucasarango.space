@@ -22,7 +22,7 @@ import {
 // Module scope: the hook compares schemas by their JSON, which is key-order sensitive.
 const LIST_POSTS = {
   name: "list_posts",
-  description: `Lists posts on ${SITE.name}'s blog, newest first, with titles, dates, summaries, and absolute page and Markdown links. Optionally search titles, summaries, and bodies to get matching posts with excerpts. Use to find posts before reading or linking one.`,
+  description: `Finds posts on ${SITE.name}'s blog from a question or keywords, ranked by relevance with excerpts. Without a query, lists posts newest first. Returns titles, dates, summaries, absolute page and Markdown links, and total match counts. Optionally choose sort order and limit results. Use to find posts before reading or linking one.`,
   inputSchema: z.toJSONSchema(ListPostsInput, { io: "input" }),
   annotations: { readOnlyHint: true },
 } as const;
@@ -91,13 +91,26 @@ function readPost(post: string | undefined, signal: AbortSignal) {
 export function SiteAgentTools() {
   useWebMCP<ListPostsArgs>({
     ...LIST_POSTS,
-    execute: ({ query }, { signal }) => {
-      const search = query?.trim() ?? "";
+    execute: (input, { signal }) => {
+      const parsed = ListPostsInput.safeParse(input);
 
-      const path =
-        search.length > 0
-          ? `/blog/sitemap.md?query=${encodeURIComponent(search)}`
-          : "/blog/sitemap.md";
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        throw new Error(
+          `Invalid list_posts input: ${issue?.path.join(".") || "arguments"} ${issue?.message}`,
+        );
+      }
+
+      const { query, sort, limit } = parsed.data;
+      const search = query?.trim() ?? "";
+      const params = new URLSearchParams();
+
+      if (search.length > 0) params.set("query", search);
+
+      if (sort !== undefined) params.set("sort", sort);
+
+      if (limit !== undefined) params.set("limit", String(limit));
+      const path = `/blog/sitemap.md${params.size > 0 ? `?${params}` : ""}`;
 
       return fetchMarkdown(path, signal);
     },

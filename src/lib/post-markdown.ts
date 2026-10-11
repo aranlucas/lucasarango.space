@@ -1,4 +1,6 @@
 import type { Post } from "@/interfaces/post";
+import { searchPosts } from "@/lib/post-search";
+import type { ListPostsArgs } from "@/lib/site-agent-inputs";
 import { markdownPath, SITE } from "@/lib/site";
 
 export const MARKDOWN_HEADERS = {
@@ -28,28 +30,31 @@ export function postToMarkdown(post: Post) {
  * The blog index as a Markdown sitemap. Each post links its page, which agents
  * cite to people, and its Markdown version, which they read.
  */
-export function blogIndexMarkdown(posts: Post[], query = "") {
-  const terms = query.trim().toLowerCase().split(/\s+/u).filter(Boolean);
-
-  const matches = posts.filter((post) => {
-    const searchable = `${post.title}\n${post.summary}\n${post.content}`.toLowerCase();
-
-    return terms.every((term) => searchable.includes(term));
-  });
+export function blogIndexMarkdown(
+  posts: Post[],
+  query = "",
+  options: Omit<ListPostsArgs, "query"> = {},
+) {
+  const { posts: matches, total, sort, terms } = searchPosts(posts, { query, ...options });
+  const searching = query.trim().length > 0;
 
   const items = matches
     .map(
       (post) =>
-        `- [${post.title}](${SITE.url}/blog/${post.slug}) (${post.date}, [Markdown](${SITE.url}${markdownPath(post.slug)})): ${post.summary}${terms.length > 0 ? `\n  Excerpt: ${postExcerpt(post.content, terms)}` : ""}`,
+        `- [${post.title}](${SITE.url}/blog/${post.slug}) (${post.date}, [Markdown](${SITE.url}${markdownPath(post.slug)})): ${post.summary}${searching ? `\n  Excerpt: ${postExcerpt(post.content, terms)}` : ""}`,
     )
     .join("\n");
 
-  const introduction =
-    terms.length > 0
-      ? `Search results for ${JSON.stringify(query.trim())}. Matches all query words in titles, summaries, or post bodies; newest first.\n\n${matches.length > 0 ? "Read the linked post for full context." : "No matching posts. Try fewer words or call list_posts without a query."}`
-      : "Notes on building agents, AI products, and the tools I make along the way.";
+  const introduction = searching
+    ? `Search results for ${JSON.stringify(query.trim())}. Matches relevant words in titles, summaries, or post bodies; ${sort === "relevance" ? "most relevant first" : `${sort} first`}.\n\n${matches.length > 0 ? "Read the linked post for full context." : "No matching posts. Try a topic or call list_posts without a query."}`
+    : "Notes on building agents, AI products, and the tools I make along the way.";
 
-  return `# Writing by ${SITE.name}\n\n${introduction}\n\n${items}\n`;
+  const count = `Showing ${matches.length} of ${total} ${searching ? "matching " : ""}posts.`;
+
+  const continuation =
+    matches.length < total ? " Increase limit or omit it to read all matches." : "";
+
+  return `# Writing by ${SITE.name}\n\n${introduction}\n\n${count}${continuation}\n\n${items}\n`;
 }
 
 function postExcerpt(content: string, terms: string[]) {
