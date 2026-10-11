@@ -7,6 +7,10 @@ import { z } from "zod";
 
 export const RESUME_CACHE_TAG = "resume";
 
+/** Closes the summary on the page and in its Markdown version. */
+export const LOOKING_FOR =
+  "I’m interested in senior and staff engineering roles where I can help shape a product, build it, and make it dependable.";
+
 export const RESUME_API = (
   process.env.RESUME_API_URL ?? "https://resume-api.aranlucas.workers.dev"
 ).replace(/\/$/u, "");

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
-import { formatMonth, getResume, type Resume, type ResumeProject } from "@/lib/resume";
-import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
+import { formatMonth, getResume, LOOKING_FOR, type Resume, type ResumeProject } from "@/lib/resume";
+import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 
 import { PrintButton } from "./print-button";
 import { Bullets, Role } from "./role";
@@ -14,12 +14,9 @@ export const metadata = {
   title: "Resume",
   description:
     "Lucas Arango’s experience at DoorDash, AWS, and Amazon: AI products, agent platforms, cloud services, and production reliability.",
-  alternates: { canonical: "/resume", types: FEED_ALTERNATE },
+  alternates: { canonical: "/resume", types: markdownAlternate("/resume.md") },
   openGraph: { ...SITE_OPEN_GRAPH, url: "/resume" },
 };
-
-const LOOKING_FOR =
-  "I’m interested in senior and staff engineering roles where I can help shape a product, build it, and make it dependable.";
 
 export default async function ResumePage() {
   const resume = await getResume();

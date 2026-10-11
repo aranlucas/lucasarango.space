@@ -43,7 +43,7 @@ export function llmsTxt(posts: Post[]) {
 
 > ${SITE.description}
 
-The home page and blog pages return Markdown when requested with \`Accept: text/markdown\`. Each post is also available as Markdown by appending \`.md\` to its URL.
+The home page, blog pages, and résumé return Markdown when requested with \`Accept: text/markdown\`. Each post is also available as Markdown by appending \`.md\` to its URL.
 
 ## Writing
 
@@ -52,7 +52,7 @@ ${items}
 ## Elsewhere
 
 - [Blog index](${SITE.url}/blog/sitemap.md): every post with its summary
-- [Resume](${SITE.url}/resume): work history and skills
+- [Resume](${SITE.url}/resume.md): work history and skills
 - [RSS feed](${SITE.url}/feed.xml)
 - [GitHub](${SITE.github})
 `;
