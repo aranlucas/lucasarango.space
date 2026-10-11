@@ -52,6 +52,12 @@ OPENROUTER_MODEL=openrouter/free
 
 The public endpoint caps a conversation at 24 messages and each question at 1,000 characters. The résumé fetch defaults to `https://resume-api.aranlucas.workers.dev`; set `RESUME_API_URL` to another base URL when building against a local or alternate copy.
 
+## WebMCP
+
+Compatible browser agents can call `list_posts`, `read_post`, and `get_resume` from any page. Browsers without WebMCP continue to work normally.
+
+For local testing, enable `chrome://flags/#enable-webmcp-testing`. Run `pnpm build && pnpm test:chrome` to exercise Chrome's native API against a production build.
+
 ## WebMCP origin trial
 
 The site includes a public [WebMCP origin-trial registration](https://developer.chrome.com/origintrials/#/registration/442038858738040833) for `https://lucasarango.space`, expiring **March 29, 2027**. Next.js sends its token in the `Origin-Trial` response header, enabling compatible Chrome versions without the testing flag after deployment. The token is intended to be public and is not an authentication credential.

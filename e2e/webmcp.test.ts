@@ -2,7 +2,7 @@
 // the way an in-browser agent does, against the production build.
 
 import { type Browser, chromium, type Page } from "playwright-core";
-import { afterAll, beforeAll, beforeEach, expect, inject, test } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, expect, inject, test } from "vitest";
 import { z } from "zod";
 
 declare global {
@@ -11,11 +11,6 @@ declare global {
       // Chrome 154 takes the input as JSON text; the spec now takes an object.
       executeTool(tool: RegisteredTool, input: string): Promise<string>;
     }
-  }
-
-  interface Window {
-    /** Survives client-side navigation, and only client-side navigation. */
-    sameDocument?: true;
   }
 }
 
@@ -26,7 +21,7 @@ const ToolResult = z.object({
 
 type ToolArgs = { post?: string };
 
-const TOOLS = ["get_resume", "list_posts", "open_post", "read_post"];
+const TOOLS = ["get_resume", "list_posts", "read_post"];
 
 let browser: Browser;
 
@@ -42,6 +37,10 @@ afterAll(async () => {
 
 beforeEach(async () => {
   page = await browser.newPage({ baseURL: inject("baseURL") });
+});
+
+afterEach(async () => {
+  await page.close();
 });
 
 /** Opens `path` and waits for the site's tools to register. */
@@ -106,7 +105,7 @@ async function firstPostPath() {
   return path;
 }
 
-test("Chrome registers every tool, marking only the readers read-only", async () => {
+test("Chrome registers every tool as read-only", async () => {
   await open("/");
 
   const readOnly = await page.evaluate(async () =>
@@ -119,7 +118,6 @@ test("Chrome registers every tool, marking only the readers read-only", async ()
   expect(Object.fromEntries(readOnly ?? [])).toEqual({
     get_resume: true,
     list_posts: true,
-    open_post: false,
     read_post: true,
   });
 });
@@ -149,18 +147,4 @@ test("get_resume returns the résumé as Markdown", async () => {
   await open("/");
 
   expect(await text("get_resume")).toMatch(/^---\ntitle: ".+ résumé"\n[\s\S]*\n## Experience\n/u);
-});
-
-test("open_post shows the post without reloading the page, keeping the tools", async () => {
-  await open("/");
-  const path = await firstPostPath();
-
-  await page.evaluate(() => {
-    window.sameDocument = true;
-  });
-
-  expect(await text("open_post", { post: path })).toMatch(/^Opened ".+" at \/blog\/[\w-]+\.$/u);
-  expect(new URL(page.url()).pathname).toBe(path);
-  expect(await page.evaluate(() => window.sameDocument)).toBe(true);
-  expect(await text("read_post")).toContain(`url: ${path}\n`);
 });
