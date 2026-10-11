@@ -1,5 +1,7 @@
 # Repository research archive
 
+> Current repository state and article revisions are recorded in the [October 10, 2026 review](repository-review-2026-10-10.md). The inventory and questions below preserve the September 27 research and may describe superseded layouts, visibility, or project status.
+
 Reviewed September 27, 2026. Scope: all 56 repositories owned by `aranlucas`, paginated through the authenticated GitHub API. This is a writing review of repository metadata, READMEs, file trees, selected source, and selected commit history; it is not a full code audit or a live functional test of every project.
 
 This preserves the research from the superseded per-repository writing pass: 45 drafts now live in `repository-drafts/`, and three published articles remain at their original URLs. The active themed series is mapped in [the writing inventory](repository-writing-inventory.md). The eight forks are inventoried but excluded from the series at Lucas's request. No changes have been published or pushed.
