@@ -1,6 +1,7 @@
 "use client";
 
 import { useWebMCP } from "use-webmcp-tool";
+import { z } from "zod";
 
 import { projectsMarkdown } from "@/lib/projects";
 import { markdownPath, SITE } from "@/lib/site";
@@ -11,19 +12,30 @@ import { markdownPath, SITE } from "@/lib/site";
 // where `document.modelContext` is missing.
 
 // Module scope: the hook compares schemas by their JSON, which is key-order sensitive.
+const ListPostsInput = z.object({
+  query: z
+    .string()
+    .describe(
+      "Optional case-insensitive keywords; all words must match. Omit or leave blank to list every post.",
+    )
+    .optional(),
+});
+
+const ReadPostInput = z.object({
+  post: z
+    .string()
+    .describe(
+      "The post's slug, page URL, or Markdown URL from list_posts. Omit to read the post open in this tab.",
+    )
+    .optional(),
+});
+
+const EmptyInput = z.object({});
+
 const LIST_POSTS = {
   name: "list_posts",
   description: `Lists posts on ${SITE.name}'s blog, newest first, with titles, dates, summaries, and absolute page and Markdown links. Optionally search titles, summaries, and bodies to get matching posts with excerpts. Use to find posts before reading or linking one.`,
-  inputSchema: {
-    type: "object",
-    properties: {
-      query: {
-        type: "string",
-        description:
-          "Optional case-insensitive keywords; all words must match. Omit or leave blank to list every post.",
-      },
-    },
-  },
+  inputSchema: z.toJSONSchema(ListPostsInput, { io: "input" }),
   annotations: { readOnlyHint: true },
 } as const;
 
@@ -31,30 +43,21 @@ const READ_POST = {
   name: "read_post",
   description:
     "Reads one blog post in full as Markdown, with its title, date, and canonical URL. Use before quoting, summarizing, or answering details from a post.",
-  inputSchema: {
-    type: "object",
-    properties: {
-      post: {
-        type: "string",
-        description:
-          "The post's slug, page URL, or Markdown URL from list_posts. Omit to read the post open in this tab.",
-      },
-    },
-  },
+  inputSchema: z.toJSONSchema(ReadPostInput, { io: "input" }),
   annotations: { readOnlyHint: true },
 } as const;
 
 const GET_RESUME = {
   name: "get_resume",
   description: `Gets ${SITE.name}'s résumé as Markdown: summary, roles, projects, writing, skills, and education. Use for questions about his work history, experience, or skills.`,
-  inputSchema: { type: "object", properties: {} },
+  inputSchema: z.toJSONSchema(EmptyInput, { io: "input" }),
   annotations: { readOnlyHint: true },
 } as const;
 
 const LIST_PROJECTS = {
   name: "list_projects",
   description: `Lists ${SITE.name}'s featured public projects with descriptions, source repositories, and related blog posts. Use for questions about what he has built; read the linked post for details.`,
-  inputSchema: { type: "object", properties: {} },
+  inputSchema: z.toJSONSchema(EmptyInput, { io: "input" }),
   annotations: { readOnlyHint: true },
 } as const;
 
@@ -98,7 +101,7 @@ function readPost(post: string | undefined, signal: AbortSignal) {
 
 /** Registers the site's WebMCP tools; renders nothing. */
 export function SiteAgentTools() {
-  useWebMCP<{ query?: string }>({
+  useWebMCP<z.infer<typeof ListPostsInput>>({
     ...LIST_POSTS,
     execute: ({ query }, { signal }) => {
       const search = query?.trim() ?? "";
@@ -112,17 +115,17 @@ export function SiteAgentTools() {
     },
   });
 
-  useWebMCP<{ post?: string }>({
+  useWebMCP<z.infer<typeof ReadPostInput>>({
     ...READ_POST,
     execute: ({ post }, { signal }) => readPost(post, signal),
   });
 
-  useWebMCP({
+  useWebMCP<z.infer<typeof EmptyInput>>({
     ...GET_RESUME,
     execute: (_, { signal }) => fetchMarkdown("/resume.md", signal),
   });
 
-  useWebMCP({
+  useWebMCP<z.infer<typeof EmptyInput>>({
     ...LIST_PROJECTS,
     execute: () => projectsMarkdown(),
   });
