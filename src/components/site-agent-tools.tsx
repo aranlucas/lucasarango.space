@@ -35,7 +35,7 @@ const READ_POST = {
 } as const;
 
 const GET_RESUME = {
-  name: "getResume",
+  name: "get_resume",
   description: `Gets ${SITE.name}'s résumé as Markdown: summary, roles, projects, writing, skills, and education. Use for questions about his work history, experience, or skills.`,
   inputSchema: { type: "object", properties: {} },
   annotations: { readOnlyHint: true },

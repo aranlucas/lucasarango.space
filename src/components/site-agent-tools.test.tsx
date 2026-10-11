@@ -75,7 +75,7 @@ test("postSlug accepts slugs, paths, and URLs but never a path outside the blog"
 test("registers read-only tools while mounted", () => {
   const { unmount } = render(<SiteAgentTools />);
 
-  expect([...tools.keys()]).toEqual(["list_posts", "read_post", "getResume"]);
+  expect([...tools.keys()]).toEqual(["list_posts", "read_post", "get_resume"]);
 
   for (const tool of tools.values()) expect(tool.annotations).toEqual({ readOnlyHint: true });
 
@@ -91,10 +91,10 @@ test("list_posts returns the Markdown blog index", async () => {
   });
 });
 
-test("getResume returns the Markdown résumé", async () => {
+test("get_resume returns the Markdown résumé", async () => {
   render(<SiteAgentTools />);
 
-  expect(await call("getResume")).toEqual({
+  expect(await call("get_resume")).toEqual({
     content: [{ type: "text", text: "markdown for /resume.md" }],
   });
 });
