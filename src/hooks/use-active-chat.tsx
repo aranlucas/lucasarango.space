@@ -10,13 +10,10 @@ import { CHAT_LIMITS } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 import { fetchWithErrorHandlers } from "@/lib/utils";
 
-type ActiveChatContextValue = {
-  messages: ChatMessage[];
-  setMessages: UseChatHelpers<ChatMessage>["setMessages"];
-  status: UseChatHelpers<ChatMessage>["status"];
-  error: UseChatHelpers<ChatMessage>["error"];
-  stop: UseChatHelpers<ChatMessage>["stop"];
-  regenerate: UseChatHelpers<ChatMessage>["regenerate"];
+type ActiveChatContextValue = Pick<
+  UseChatHelpers<ChatMessage>,
+  "messages" | "setMessages" | "status" | "error" | "stop" | "regenerate"
+> & {
   input: string;
   setInput: (input: string) => void;
   isLoading: boolean;
@@ -44,27 +41,21 @@ function useQueuedQuestions(send: (text: string) => boolean, setInput: (input: s
   }, [questions, consume, send, setInput]);
 }
 
-/** Wraps useChat with the route's transport and its waiting status. */
-function useAskChat() {
+/** Mounted once on the client and retained by the root layout across navigation. */
+export function ActiveChatProvider({ children }: { children: React.ReactNode }) {
   const { setWaitingStatus } = useDataStream();
+  const [input, setInput] = useState("");
 
   // Client-only mounting lets the SDK safely generate its default random chat ID.
-  return useChat<ChatMessage>({
+  const { sendMessage, ...chat } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({ api: "/api/chat", fetch: fetchWithErrorHandlers }),
     onData: (part) => {
       if (part.type === "data-waiting-status") setWaitingStatus(part.data);
     },
   });
-}
 
-/** Mounted once on the client and retained by the root layout across navigation. */
-export function ActiveChatProvider({ children }: { children: React.ReactNode }) {
-  const { setWaitingStatus } = useDataStream();
-  const [input, setInput] = useState("");
-  const { messages, setMessages, sendMessage, status, error, stop, regenerate } = useAskChat();
-
-  const isLoading = status === "submitted" || status === "streaming";
-  const isFull = messages.length >= CHAT_LIMITS.messages;
+  const isLoading = chat.status === "submitted" || chat.status === "streaming";
+  const isFull = chat.messages.length >= CHAT_LIMITS.messages;
 
   const send = useCallback(
     (text: string) => {
@@ -83,21 +74,9 @@ export function ActiveChatProvider({ children }: { children: React.ReactNode }) 
 
   useQueuedQuestions(send, setInput);
 
-  const value = useMemo<ActiveChatContextValue>(
-    () => ({
-      messages,
-      setMessages,
-      status,
-      error,
-      stop,
-      regenerate,
-      input,
-      setInput,
-      isLoading,
-      isFull,
-      send,
-    }),
-    [messages, setMessages, status, error, stop, regenerate, input, isLoading, isFull, send],
+  const value = useMemo(
+    () => ({ ...chat, input, isLoading, isFull, setInput, send }),
+    [chat, input, isLoading, isFull, send],
   );
 
   return <ActiveChatContext value={value}>{children}</ActiveChatContext>;

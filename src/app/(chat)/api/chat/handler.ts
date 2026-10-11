@@ -12,18 +12,17 @@ import {
 import { chatTools } from "@/lib/ai/agent";
 import { WAITING } from "@/lib/constants";
 import { ChatbotError } from "@/lib/errors";
-import type { ChatMessage, WaitingStatusData } from "@/lib/types";
+import type { ChatMessage } from "@/lib/types";
 
 import { postRequestBodySchema } from "./schema";
 
-export interface ChatDependencies {
+/** The part of the Ask agent the route uses; tests pass a fake. A missing provider key surfaces as a stream error. */
+export type ChatAgent = {
   stream: (options: {
     messages: ModelMessage[];
     abortSignal: AbortSignal;
-    onEnd: () => void;
   }) => Promise<{ stream: ReadableStream<TextStreamPart<typeof chatTools>> }>;
-  hasKey: () => boolean;
-}
+};
 
 /** Anything past the stream's framing means the model has started. */
 function isModelStreamActivity(chunk: { type: string }) {
@@ -45,20 +44,20 @@ function watchActivity<T extends { type: string }>(onActivity: () => void) {
 function startWaiting(writer: UIMessageStreamWriter<ChatMessage>, signal: AbortSignal) {
   signal.throwIfAborted();
 
-  const writeWaitingStatus = (phase: WaitingStatusData["phase"], message: string) => {
+  const writeWaitingStatus = (message: string) => {
     // Transient parts reach onData; the client replaces its waiting status in state.
     writer.write({
       type: "data-waiting-status",
       id: "waiting-status",
-      data: { phase, message },
+      data: { message },
       transient: true,
     });
   };
 
-  writeWaitingStatus("waiting", WAITING.message);
+  writeWaitingStatus(WAITING.message);
 
   const timer = setTimeout(() => {
-    writeWaitingStatus("still-waiting", WAITING.stillWaitingMessage);
+    writeWaitingStatus(WAITING.stillWaitingMessage);
   }, WAITING.stillWaitingAfterMs);
 
   const stopWaiting = () => {
@@ -77,7 +76,7 @@ function startWaiting(writer: UIMessageStreamWriter<ChatMessage>, signal: AbortS
  * SDK chatbot template's app/(chat)/api/chat/route.ts, which this file backs:
  * route modules can only export handlers, and tests inject the agent.
  */
-function streamAnswer(req: Request, messages: ChatMessage[], dependencies: ChatDependencies) {
+function streamAnswer(req: Request, messages: ChatMessage[], agent: ChatAgent) {
   let stopWaiting: (() => void) | undefined;
 
   const onError = (cause: unknown) => {
@@ -93,18 +92,17 @@ function streamAnswer(req: Request, messages: ChatMessage[], dependencies: ChatD
       stopWaiting = startWaiting(writer, req.signal);
 
       try {
-        const result = await dependencies.stream({
+        const result = await agent.stream({
           messages: await convertToModelMessages(messages, {
             tools: chatTools,
             // Stop can leave a tool call without its result in the UI history.
             ignoreIncompleteToolCalls: true,
           }),
           abortSignal: req.signal,
-          onEnd: stopWaiting,
         });
 
         writer.merge(
-          toUIMessageStream<typeof chatTools, ChatMessage>({
+          toUIMessageStream({
             stream: result.stream.pipeThrough(watchActivity(stopWaiting)),
             // The popup shows a "thinking" state while reasoning streams.
             sendReasoning: true,
@@ -120,12 +118,8 @@ function streamAnswer(req: Request, messages: ChatMessage[], dependencies: ChatD
   });
 }
 
-export function createChatHandler(dependencies: ChatDependencies) {
+export function createChatHandler(agent: ChatAgent) {
   return async function POST(req: Request) {
-    if (!dependencies.hasKey()) {
-      return new ChatbotError("offline:chat").toResponse();
-    }
-
     const request = postRequestBodySchema.safeParse(await req.json().catch(() => null));
 
     if (!request.success) {
@@ -143,7 +137,7 @@ export function createChatHandler(dependencies: ChatDependencies) {
     }
 
     return createUIMessageStreamResponse({
-      stream: streamAnswer(req, messages.data, dependencies),
+      stream: streamAnswer(req, messages.data, agent),
     });
   };
 }

@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { createChatHandler, type ChatDependencies } from "./handler";
+import { createChatHandler, type ChatAgent } from "./handler";
 
-const stream = vi.fn<ChatDependencies["stream"]>();
+const stream = vi.fn<ChatAgent["stream"]>();
 
-const POST = createChatHandler({ stream, hasKey: () => true });
+const POST = createChatHandler({ stream });
 
 const question = (text: string) => ({
   id: "question",
