@@ -43,6 +43,8 @@
     "react/self-closing-comp": "error",
     "react/react-in-jsx-scope": "off",
     "react-hooks/exhaustive-deps": "error",
+    // The React Compiler (next.config.ts reactCompiler) memoizes context values.
+    "react/jsx-no-constructed-context-values": "off",
     "jsx-a11y/prefer-tag-over-role": "off",
     "import/no-cycle": "error",
     "import/no-unassigned-import": [

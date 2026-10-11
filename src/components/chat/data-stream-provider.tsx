@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, use, useMemo, useState } from "react";
+import { createContext, use, useState } from "react";
 
 import type { WaitingStatusData } from "@/lib/types";
 
@@ -15,9 +15,9 @@ const DataStreamContext = createContext<DataStreamContextValue | null>(null);
 export function DataStreamProvider({ children }: { children: React.ReactNode }) {
   const [waitingStatus, setWaitingStatus] = useState<WaitingStatusData>();
 
-  const value = useMemo(() => ({ waitingStatus, setWaitingStatus }), [waitingStatus]);
-
-  return <DataStreamContext value={value}>{children}</DataStreamContext>;
+  return (
+    <DataStreamContext value={{ waitingStatus, setWaitingStatus }}>{children}</DataStreamContext>
+  );
 }
 
 export function useDataStream(): DataStreamContextValue {

@@ -2,7 +2,7 @@
 
 import { useChat, type UseChatHelpers } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { createContext, use, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, use, useEffect, useRef, useState } from "react";
 
 import { useAsk } from "@/components/chat/ask-provider";
 import { useDataStream } from "@/components/chat/data-stream-provider";
@@ -57,29 +57,25 @@ export function ActiveChatProvider({ children }: { children: React.ReactNode }) 
   const isLoading = chat.status === "submitted" || chat.status === "streaming";
   const isFull = chat.messages.length >= CHAT_LIMITS.messages;
 
-  const send = useCallback(
-    (text: string) => {
-      const question = text.trim();
+  const send = (text: string) => {
+    const question = text.trim();
 
-      if (question === "" || isLoading || isFull) return false;
+    if (question === "" || isLoading || isFull) return false;
 
-      setWaitingStatus(undefined);
-      void sendMessage({ text: question });
-      setInput("");
+    setWaitingStatus(undefined);
+    void sendMessage({ text: question });
+    setInput("");
 
-      return true;
-    },
-    [isLoading, isFull, sendMessage, setWaitingStatus],
-  );
+    return true;
+  };
 
   useQueuedQuestions(send, setInput);
 
-  const value = useMemo(
-    () => ({ ...chat, input, isLoading, isFull, setInput, send }),
-    [chat, input, isLoading, isFull, send],
+  return (
+    <ActiveChatContext value={{ ...chat, input, setInput, isLoading, isFull, send }}>
+      {children}
+    </ActiveChatContext>
   );
-
-  return <ActiveChatContext value={value}>{children}</ActiveChatContext>;
 }
 
 export function useActiveChat(): ActiveChatContextValue {
