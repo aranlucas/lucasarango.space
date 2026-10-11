@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { createChatHandler, type ChatDependencies } from "@/lib/chat-handler";
+import { createChatHandler, type ChatDependencies } from "./handler";
 
 const stream = vi.fn<ChatDependencies["stream"]>();
 
@@ -99,5 +99,6 @@ it.each([
 ])("rejects an empty or oversized question: %j", async ({ parts }) => {
   const response = await POST(request([{ ...question(""), parts }]));
   expect(response.status).toBe(400);
+  expect(await response.json()).toMatchObject({ code: "bad_request:chat" });
   expect(stream).not.toHaveBeenCalled();
 });

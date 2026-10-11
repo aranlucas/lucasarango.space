@@ -112,6 +112,21 @@ async function fetchResume(): Promise<z.infer<typeof JsonResume>> {
   return JsonResume.parse(await res.json());
 }
 
+/** The résumé as Markdown, from the resume API; the Ask agent reads it in its instructions. */
+export async function getResumeMarkdown(): Promise<string> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(RESUME_CACHE_TAG);
+
+  const url = `${RESUME_API}/resume.md`;
+
+  const res = await fetch(url);
+
+  if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
+
+  return res.text();
+}
+
 export async function getResume() {
   const { basics, work, projects, publications, education, skills } = await fetchResume();
 

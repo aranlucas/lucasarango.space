@@ -1,25 +1,19 @@
 "use client";
 
-import { useImperativeHandle, useState, type Ref } from "react";
-
-import { useAsk } from "@/components/ask/ask-context";
+import { useAsk } from "@/components/chat/ask-provider";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { useAskRuntime } from "@/components/ask/ask-runtime-context";
-import { ASK_LIMITS } from "@/lib/ask-config";
+import { useActiveChat } from "@/hooks/use-active-chat";
+import { CHAT_LIMITS } from "@/lib/constants";
 
-/** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. */
-export type ComposerDraft = { setInput: (input: string) => void };
-
-export function Composer({ id, ref }: { id: string; ref: Ref<ComposerDraft> }) {
-  const [input, setInput] = useState("");
+/** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. Text only. */
+export function MultimodalInput({ id }: { id: string }) {
   const { inputRef } = useAsk();
-  const { send } = useAskRuntime();
-  useImperativeHandle(ref, () => ({ setInput }), []);
+  const { input, setInput, send } = useActiveChat();
 
   return (
     <form
@@ -38,7 +32,7 @@ export function Composer({ id, ref }: { id: string; ref: Ref<ComposerDraft> }) {
           ref={inputRef}
           id={id}
           rows={1}
-          maxLength={ASK_LIMITS.questionChars}
+          maxLength={CHAT_LIMITS.questionChars}
           placeholder="Ask a question"
           className="max-h-32 min-h-11 px-3 text-base md:text-base"
           value={input}
@@ -54,15 +48,15 @@ export function Composer({ id, ref }: { id: string; ref: Ref<ComposerDraft> }) {
           autoComplete="off"
         />
         <InputGroupAddon align="inline-end" className="self-end pb-1.5">
-          <ComposerAction input={input} />
+          <SubmitButton input={input} />
         </InputGroupAddon>
       </InputGroup>
     </form>
   );
 }
 
-function ComposerAction({ input }: { input: string }) {
-  const { chat, isLoading, isFull } = useAskRuntime();
+function SubmitButton({ input }: { input: string }) {
+  const { stop, isLoading, isFull } = useActiveChat();
 
   if (isLoading) {
     return (
@@ -71,7 +65,7 @@ function ComposerAction({ input }: { input: string }) {
         size="sm"
         className="min-h-11"
         onClick={() => {
-          void chat.stop();
+          void stop();
         }}
       >
         Stop

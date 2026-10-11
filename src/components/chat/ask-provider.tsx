@@ -1,7 +1,9 @@
 "use client";
 
 import {
+  createContext,
   startTransition,
+  use,
   useCallback,
   useEffect,
   useMemo,
@@ -10,7 +12,29 @@ import {
   type RefObject,
 } from "react";
 
-import { AskContext, type AskState, type PendingQuestion } from "@/components/ask/ask-context";
+export type PendingQuestion = { id: number; text: string };
+
+/** Whether Ask is open, and questions waiting for the chat to mount. Kept across navigation. */
+export type AskState = {
+  open: boolean;
+  activated: boolean;
+  /** False until the deferred chat reports its status. */
+  isLoading: boolean;
+  questions: PendingQuestion[];
+  launcherRef: React.RefObject<HTMLButtonElement | null>;
+  inputRef: React.RefObject<HTMLTextAreaElement | null>;
+  /** Opens Ask and queues a question until the chat mounts. */
+  ask: (question: string) => void;
+  show: () => void;
+  close: () => void;
+  /** Collapses without moving focus as a linked page loads. */
+  hide: () => void;
+  preload: () => void;
+  consume: (id: number) => void;
+  setLoading: (loading: boolean) => void;
+};
+
+const AskContext = createContext<AskState | null>(null);
 
 function useFocusReturn(open: boolean, launcherRef: RefObject<HTMLButtonElement | null>) {
   const requested = useRef(false);
@@ -123,9 +147,17 @@ function useAskState(): AskState {
   );
 }
 
-/** Lightweight layout state; the chat runtime only mounts after reader intent. */
+/** Lightweight layout state; the chat only mounts after reader intent. */
 export function AskProvider({ children }: { children: React.ReactNode }) {
   const state = useAskState();
 
   return <AskContext value={state}>{children}</AskContext>;
+}
+
+export function useAsk(): AskState {
+  const value = use(AskContext);
+
+  if (value === null) throw new Error("useAsk must be used inside <AskProvider>");
+
+  return value;
 }

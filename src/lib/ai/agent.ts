@@ -1,21 +1,14 @@
-import { openrouter } from "@openrouter/ai-sdk-provider";
 import { isStepCount, ToolLoopAgent, type LanguageModel } from "ai";
 
-import { getSystemPrompt } from "@/lib/ask";
-import { askTools } from "@/lib/ask-tools";
-
-// Routes to whichever free OpenRouter model is available; override with OPENROUTER_MODEL.
-// See https://openrouter.ai/collections/free-models.
-const DEFAULT_MODEL = "openrouter/free";
+import { systemPrompt } from "@/lib/ai/prompts";
+import { getLanguageModel } from "@/lib/ai/providers";
+import { listPosts } from "@/lib/ai/tools/list-posts";
+import { readPost } from "@/lib/ai/tools/read-post";
 
 const MAX_STEPS = 5;
 
-/** A trimmed environment variable, or undefined when unset or blank. */
-export function env(name: string): string | undefined {
-  const value = process.env[name]?.trim();
-
-  return value === undefined || value === "" ? undefined : value;
-}
+/** The tools the agent reads Lucas's writing with; the route validates history against them. */
+export const chatTools = { listPosts, readPost };
 
 /**
  * The Ask agent: answers from the résumé and projects in its instructions and
@@ -28,7 +21,7 @@ export function createAskAgent({
   loadInstructions,
 }: {
   model: LanguageModel;
-  tools: typeof askTools;
+  tools: typeof chatTools;
   loadInstructions: () => Promise<string>;
 }) {
   return new ToolLoopAgent({
@@ -44,7 +37,7 @@ export function createAskAgent({
 }
 
 export const askAgent = createAskAgent({
-  model: openrouter.chat(env("OPENROUTER_MODEL") ?? DEFAULT_MODEL),
-  tools: askTools,
-  loadInstructions: getSystemPrompt,
+  model: getLanguageModel(),
+  tools: chatTools,
+  loadInstructions: systemPrompt,
 });

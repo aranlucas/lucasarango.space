@@ -4,89 +4,22 @@ import { isToolUIPart } from "ai";
 import { cn } from "cn";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { useAsk } from "@/components/ask/ask-context";
-import { useAskRuntime } from "@/components/ask/ask-runtime-context";
-import { MessageResponse } from "@/components/ask/message-response";
-import { PeakGlyph } from "@/components/ask/peak-glyph";
-import { STARTERS, WAITING } from "@/lib/ask-config";
-import type { AskMessage } from "@/lib/ask-types";
+import { MessageResponse } from "@/components/ai-elements/message";
+import { useAsk } from "@/components/chat/ask-provider";
+import { useDataStream } from "@/components/chat/data-stream-provider";
+import { PeakGlyph } from "@/components/chat/icons";
+import { WAITING } from "@/lib/constants";
+import type { ChatMessage } from "@/lib/types";
 
 // Rotated while the model reasons, so a long wait still shows progress.
 const REASONING_LABELS = ["Thinking it over", "Connecting the dots", "Picking the best examples"];
 
-/** Suggested questions, shown before the first message. */
-export function Starters() {
-  const { send } = useAskRuntime();
-
-  return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-4 pb-2">
-      <p className="text-sm/relaxed text-muted-foreground">
-        This is an agent that has read my résumé and everything I’ve written here. Ask it what you’d
-        ask me in a first call.
-      </p>
-      <ul className="mt-4 border-t">
-        {STARTERS.map((question) => (
-          <li key={question} className="border-b">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                send(question);
-              }}
-              className="-mx-2 h-auto min-h-11 w-full justify-start px-2 py-3 text-start text-sm/snug font-semibold text-pretty whitespace-normal hover:bg-transparent hover:text-primary"
-            >
-              {question}
-            </Button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export function Transcript() {
-  const { chat, isFull } = useAskRuntime();
-  const { messages, status, error } = chat;
-
-  return (
-    <div className="flex flex-col pt-4 pb-6">
-      {messages.map((message, index) => (
-        <Message
-          key={message.id}
-          message={message}
-          isLoading={status === "streaming" && index === messages.length - 1}
-        />
-      ))}
-      {status === "submitted" && messages.at(-1)?.role !== "assistant" && <ThinkingMessage />}
-      {error !== undefined && (
-        <p className="mt-4 text-base text-destructive" role="alert">
-          {error.message === "" ? "The answer didn’t come through." : error.message}{" "}
-          <Button
-            variant="link"
-            onClick={() => {
-              void chat.regenerate();
-            }}
-            className="h-auto p-0 text-base font-semibold text-destructive underline"
-          >
-            Try again
-          </Button>
-        </p>
-      )}
-      {isFull && (
-        <p className="mt-6 text-sm text-muted-foreground" role="status">
-          This conversation is full. Start a new conversation to keep asking.
-        </p>
-      )}
-    </div>
-  );
-}
-
 type MessageProps = {
-  message: AskMessage;
+  message: ChatMessage;
   isLoading: boolean;
 };
 
-function Message({ message, isLoading }: MessageProps) {
+export function PreviewMessage({ message, isLoading }: MessageProps) {
   // Questions read as the headings of an interview transcript; every one
   // after the first is ruled off from the answer above it.
   if (message.role === "user") {
@@ -115,7 +48,7 @@ function Message({ message, isLoading }: MessageProps) {
 }
 
 /** Shown after a question is sent, before the reply exists. */
-function ThinkingMessage() {
+export function ThinkingMessage() {
   return (
     <div className="mt-2">
       <WaitingText />
@@ -125,7 +58,7 @@ function ThinkingMessage() {
 
 /** The route's waiting status, which turns into "still waiting" when the model is slow. */
 function WaitingText() {
-  const { waitingStatus } = useAskRuntime();
+  const { waitingStatus } = useDataStream();
 
   return <Thinking labels={[waitingStatus?.message ?? WAITING.message]} />;
 }
@@ -143,7 +76,7 @@ function AnswerPart({
   part,
   onNavigate,
 }: {
-  part: AskMessage["parts"][number];
+  part: ChatMessage["parts"][number];
   onNavigate: () => void;
 }) {
   switch (part.type) {
