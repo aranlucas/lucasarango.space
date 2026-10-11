@@ -5,8 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
 
-import { AskProvider } from "@/components/ask/ask-provider";
-import { AskPopup } from "@/components/ask/ask-popup";
+import { AskProvider } from "@/components/chat/ask-provider";
+import { AskPopup } from "@/components/chat/ask-popup";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { markdownAlternate, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";

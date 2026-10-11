@@ -5,13 +5,16 @@
 
 import { z } from "zod";
 
-import { ASK_LIMITS } from "@/lib/ask-config";
+import { CHAT_LIMITS } from "@/lib/constants";
 
 const textPartSchema = z.object({
   text: z
     .string()
     .min(1)
-    .max(ASK_LIMITS.questionChars, `Keep questions under ${ASK_LIMITS.questionChars} characters.`),
+    .max(
+      CHAT_LIMITS.questionChars,
+      `Keep questions under ${CHAT_LIMITS.questionChars} characters.`,
+    ),
   type: z.enum(["text"]),
 });
 
@@ -23,8 +26,8 @@ const userMessageSchema = z.object({
     .refine((parts) => parts.some((part) => part.text.trim() !== ""), "Send a question.")
     .refine(
       (parts) =>
-        parts.reduce((total, part) => total + part.text.length, 0) <= ASK_LIMITS.questionChars,
-      `Keep questions under ${ASK_LIMITS.questionChars} characters.`,
+        parts.reduce((total, part) => total + part.text.length, 0) <= CHAT_LIMITS.questionChars,
+      `Keep questions under ${CHAT_LIMITS.questionChars} characters.`,
     ),
   role: z.enum(["user"]),
 });
@@ -40,7 +43,9 @@ export const postRequestBodySchema = z.object(
     messages: z
       .array(z.discriminatedUnion("role", [userMessageSchema, assistantMessageSchema]))
       .min(1, "Send at least one message.")
-      .max(ASK_LIMITS.messages, "This conversation is full. Start a new one to keep asking."),
+      .max(CHAT_LIMITS.messages, "This conversation is full. Start a new one to keep asking."),
   },
   { error: "Send the conversation as chat messages." },
 );
+
+export type PostRequestBody = z.infer<typeof postRequestBodySchema>;

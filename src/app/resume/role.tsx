@@ -1,4 +1,4 @@
-import { AskAbout } from "@/components/ask/ask-about";
+import { AskAbout } from "@/components/chat/ask-about";
 import type { ResumeRole } from "@/lib/resume";
 
 export function Role({ role }: { role: ResumeRole }) {

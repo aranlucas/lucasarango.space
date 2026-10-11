@@ -1,7 +1,7 @@
 // Shared by the Ask popup and its API route, so it stays free of server imports.
 
 /** Questions offered before the first message. */
-export const STARTERS = [
+export const suggestions = [
   "How did the Ask DoorDash grocery agent go from prototype to launch?",
   "What has Lucas written about MCP servers?",
   "Why would Lucas be a strong hire for an AI agents team?",
@@ -9,7 +9,7 @@ export const STARTERS = [
 ];
 
 /** Limits for a public endpoint on a free model. */
-export const ASK_LIMITS = { messages: 24, questionChars: 1000 } as const;
+export const CHAT_LIMITS = { messages: 24, questionChars: 1000 } as const;
 
 /** The route's waiting status, and how long it waits before saying it's still waiting. */
 export const WAITING = {

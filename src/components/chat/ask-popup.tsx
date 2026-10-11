@@ -5,11 +5,11 @@ import dynamic from "next/dynamic";
 import { useId } from "react";
 
 import { Button } from "@/components/ui/button";
-import { useAsk } from "@/components/ask/ask-context";
-import { PeakGlyph } from "@/components/ask/peak-glyph";
+import { useAsk } from "@/components/chat/ask-provider";
+import { PeakGlyph } from "@/components/chat/icons";
 
-const AskRuntime = dynamic(
-  () => import("@/components/ask/ask-runtime").then((module) => module.AskRuntime),
+const ChatShell = dynamic(
+  () => import("@/components/chat/shell").then((module) => module.ChatShell),
   {
     ssr: false,
     loading: () => (
@@ -37,7 +37,7 @@ export function AskPopup() {
         style={open ? { viewTransitionName: "ask-surface" } : undefined}
         className="ask-panel flex flex-col bg-card text-card-foreground"
       >
-        {activated && <AskRuntime titleId={titleId} inputId={`${panelId}-question`} />}
+        {activated && <ChatShell titleId={titleId} inputId={`${panelId}-question`} />}
       </section>
       <Launcher panelId={panelId} />
     </div>

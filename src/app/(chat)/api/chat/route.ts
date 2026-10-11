@@ -1,0 +1,8 @@
+import { askAgent } from "@/lib/ai/agent";
+
+import { createChatHandler } from "./handler";
+
+// Free providers can take a while to start streaming when they are busy.
+export const maxDuration = 60;
+
+export const POST = createChatHandler(askAgent);

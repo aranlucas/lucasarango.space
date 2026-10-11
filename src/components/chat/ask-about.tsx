@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAsk } from "@/components/ask/ask-context";
+import { useAsk } from "@/components/chat/ask-provider";
 
 /** A quiet link on the résumé that opens the Ask popup with a question about one role. */
 export function AskAbout({ question }: { question: string }) {

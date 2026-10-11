@@ -1,7 +1,6 @@
 import { expect, it } from "vitest";
 import { MockLanguageModelV4 } from "ai/test";
-import { askTools } from "./ask-tools";
-import { createAskAgent } from "./ask-agent";
+import { chatTools, createAskAgent } from "./agent";
 
 const { languageModel } = (() => {
   let call = 0;
@@ -39,9 +38,9 @@ const askAgent = createAskAgent({
   model: languageModel,
   loadInstructions: () => Promise.resolve("Answer from the available facts."),
   tools: {
-    listPosts: { ...askTools.listPosts, execute: () => Promise.resolve([]) },
+    listPosts: { ...chatTools.listPosts, execute: () => Promise.resolve([]) },
     readPost: {
-      ...askTools.readPost,
+      ...chatTools.readPost,
       execute: () => Promise.resolve({ error: "No post in this synthetic fixture." }),
     },
   },

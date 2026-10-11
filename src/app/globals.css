@@ -415,7 +415,7 @@
 
 /* The Ask popup floats above page transitions, like the header. */
 /* The Ask surface is the open panel or, when closed, the floating bar (see
-   components/ask/ask-popup.tsx). Above the page, it holds still while open
+   components/chat/ask-popup.tsx). Above the page, it holds still while open
    and morphs back to the bar when a link in an answer closes it. */
 ::view-transition-group(ask-surface) {
   animation-duration: 350ms;

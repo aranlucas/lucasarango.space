@@ -1,27 +1,11 @@
-// Context for the Ask agent: the résumé Markdown from the resume API and this
-// site's projects. Posts are read on demand through tools (src/lib/ask-tools.ts).
-
-import { cacheLife, cacheTag } from "next/cache";
+// Instructions for the Ask agent: the résumé Markdown from the resume API and
+// this site's projects. Posts are read on demand through tools (src/lib/ai/tools/).
 
 import { PROJECTS } from "@/lib/projects";
-import { RESUME_API, RESUME_CACHE_TAG } from "@/lib/resume";
+import { getResumeMarkdown } from "@/lib/resume";
 import { SITE } from "@/lib/site";
 
-async function getResumeMarkdown(): Promise<string> {
-  "use cache";
-  cacheLife("max");
-  cacheTag(RESUME_CACHE_TAG);
-
-  const url = `${RESUME_API}/resume.md`;
-
-  const res = await fetch(url);
-
-  if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
-
-  return res.text();
-}
-
-export async function getSystemPrompt(): Promise<string> {
+export async function systemPrompt(): Promise<string> {
   const resume = await getResumeMarkdown();
 
   const projects = PROJECTS.map(
