@@ -14,7 +14,8 @@
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:e2e": "pnpm build && playwright test"
   },
   "dependencies": {
     "@ai-sdk/react": "4.0.137",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@oxlint/plugins": "1.87.0",
+    "@playwright/test": "^1.64.0",
     "@shadcn/lint": "^0.2.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",

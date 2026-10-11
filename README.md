@@ -62,6 +62,12 @@ await document.modelContext.executeTool(resume, {});
 
 The library handles registration, cancellation, and cleanup with abort signals. Tests cover browser feature detection, cleanup, on-demand reads, invalid slugs, draft exclusion, and upstream résumé failures.
 
+### HTTP end-to-end tests
+
+Run `pnpm test:e2e` to build the production app and test the real `/api/webmcp` route with Playwright. The runner starts and stops its own server at `http://127.0.0.1:3217`; no browser download is needed for these HTTP tests.
+
+Tests exercise the public résumé source, list all published posts, compare an article's complete Markdown against its source file, and check invalid requests and unsupported methods. Each request and its full response are attached as JSON in `test-results/` and the HTML report in `playwright-report/`. Open the report with `pnpm exec playwright show-report`. The résumé test requires access to the public résumé API.
+
 ## Optional configuration
 
 The site builds without an AI key, but the Ask popup returns an unavailable response until a provider is configured. For local chat, create `.env.local` with:

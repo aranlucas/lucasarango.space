@@ -10,3 +10,7 @@ next-env.d.ts
 
 # Private local browser evidence; shared through Library, never the public repository.
 .impeccable/review/
+
+# Generated Playwright reports and request/result attachments.
+playwright-report/
+test-results/
