@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
   // which tracing can't see.
   outputFileTracingIncludes: {
     "/api/chat": ["./_posts/**/*.md"],
+    "/api/webmcp": ["./_posts/**/*.md"],
     "/blog/md/[slug]": ["./_posts/**/*.md"],
     "/blog/sitemap.md": ["./_posts/**/*.md"],
     "/llms.txt": ["./_posts/**/*.md"],

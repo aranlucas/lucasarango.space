@@ -38,7 +38,29 @@ pnpm build
 pnpm start
 ```
 
-`pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), formatting checks, and Vitest. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat`.
+`pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), Oxfmt formatting checks, and Vitest. Tests live in `tests/`, mirroring the source paths, with shared browser cleanup in `tests/setup.ts`. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat` and `/api/webmcp`.
+
+## WebMCP agent access
+
+The site registers three read-only browser tools on every page:
+
+- `getResume` returns the same cached résumé used by `/resume`, with experience, projects, skills, education, publications, and profile links.
+- `listPosts` returns published post slugs, titles, dates, summaries, and canonical URLs, newest first.
+- `readPost` accepts a slug from `listPosts` and returns the full Markdown article.
+
+The integration follows the [WebMCP draft](https://webmachinelearning.github.io/webmcp/) using `document.modelContext` through the lightweight [`usewebmcp`](https://github.com/WebMCP-org/npm-packages) React library. WebMCP requires a supporting browser in a secure context (HTTPS or localhost). Browsers without the API keep working normally. No AI provider key is needed, and content is fetched only when an agent calls a tool. Drafts are excluded in every environment.
+
+The browser tools read `/api/webmcp?tool=getResume`, `/api/webmcp?tool=listPosts`, and `/api/webmcp?tool=readPost&slug=...`. These are public JSON content endpoints, not a remote MCP JSON-RPC server that a desktop MCP client can connect to.
+
+To inspect tools in a browser implementing the current draft:
+
+```js
+const tools = await document.modelContext.getTools();
+const resume = tools.find((tool) => tool.name === "getResume");
+await document.modelContext.executeTool(resume, {});
+```
+
+The library handles registration, cancellation, and cleanup with abort signals. Tests cover browser feature detection, cleanup, on-demand reads, invalid slugs, draft exclusion, and upstream résumé failures.
 
 ## Optional configuration
 

@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { MockLanguageModelV4 } from "ai/test";
-import { askTools } from "./ask-tools";
-import { createAskAgent } from "./ask-agent";
+import { askTools } from "@/lib/ask-tools";
+import { createAskAgent } from "@/lib/ask-agent";
 
 const { languageModel } = (() => {
   let call = 0;

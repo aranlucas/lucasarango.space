@@ -89,7 +89,6 @@ const RULE = {
 function Card({ eyebrow, title, footer }: CardText) {
   return (
     <div style={PAGE}>
-      {/* oxlint-disable-next-line nextjs/no-img-element -- the card renderer only accepts <img> */}
       <img src={PEAK} width={480} height={180} alt="" />
       <div
         style={{

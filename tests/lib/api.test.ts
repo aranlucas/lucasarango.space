@@ -2,9 +2,9 @@ import fs from "node:fs";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { getPostBySlug, parsePost } from "./api";
-import markdownToHtml from "./markdown-to-html";
-import { formatDate } from "./utils";
+import { getPostBySlug, parsePost } from "@/lib/api";
+import markdownToHtml from "@/lib/markdown-to-html";
+import { formatDate } from "@/lib/utils";
 
 const post = (frontmatter: string, body = "Hello world.") => `---\n${frontmatter}\n---\n${body}`;
 

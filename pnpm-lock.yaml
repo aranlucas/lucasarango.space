@@ -241,6 +241,9 @@ importers:
       use-stick-to-bottom:
         specifier: ^1.1.6
         version: 1.1.6(react@19.3.0)
+      usewebmcp:
+        specifier: ^6.0.0
+        version: 6.0.0(react@19.3.0)
       vfile:
         specifier: ^6.0.3
         version: 6.0.3
@@ -3744,6 +3747,12 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  usewebmcp@6.0.0:
+    resolution: {integrity: sha512-Ycv8TccAH8mPd9SBIwIOkD1hyDkz1NjQrKkMDBthzCGVrxpu90h82wCyMtoUJvycL8zwuOkknVYugObw2lCp1A==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -3866,6 +3875,9 @@ packages:
   webidl-conversions@8.0.1:
     resolution: {integrity: sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==}
     engines: {node: '>=20'}
+
+  webmcp-types@0.1.9:
+    resolution: {integrity: sha512-ibdkppgRDkQ/nvH541YS48kVt96OiuDr+d9JHnirAtI5k0coaFdo2QqCipbXyfwrteDC6xXwPoUGC9uS5ZGwfw==}
 
   whatwg-mimetype@5.0.0:
     resolution: {integrity: sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==}
@@ -7305,6 +7317,11 @@ snapshots:
     dependencies:
       react: 19.3.0
 
+  usewebmcp@6.0.0(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+      webmcp-types: 0.1.9
+
   util-deprecate@1.0.2: {}
 
   validate-npm-package-name@7.0.2: {}
@@ -7383,6 +7400,8 @@ snapshots:
   web-namespaces@2.0.1: {}
 
   webidl-conversions@8.0.1: {}
+
+  webmcp-types@0.1.9: {}
 
   whatwg-mimetype@5.0.0: {}
 

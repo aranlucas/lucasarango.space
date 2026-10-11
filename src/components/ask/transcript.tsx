@@ -201,15 +201,16 @@ function AnswerParts({ message, isLoading }: MessageProps) {
   const betweenSteps =
     isLoading && last !== undefined && isToolUIPart(last) && last.state === "output-available";
 
-  const parts = message.parts.map((part, index) => (
-    <AnswerPart
-      // Parts only ever append, so their index is stable.
-      // oxlint-disable-next-line react/no-array-index-key
-      key={index}
-      part={part}
-      onNavigate={onNavigate}
-    />
-  ));
+  const occurrences = new Map<AskMessage["parts"][number]["type"], number>();
+
+  const parts = message.parts.map((part) => {
+    const occurrence = occurrences.get(part.type) ?? 0;
+    occurrences.set(part.type, occurrence + 1);
+
+    const key = isToolUIPart(part) ? part.toolCallId : `${part.type}:${occurrence}`;
+
+    return <AnswerPart key={key} part={part} onNavigate={onNavigate} />;
+  });
 
   return (
     <>

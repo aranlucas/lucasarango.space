@@ -15,8 +15,8 @@ import {
   TURN_SPEED,
   WALK_SPEED,
   type Walk,
-} from "./game";
-import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "./world";
+} from "@/components/lost/game";
+import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "@/components/lost/world";
 
 const FRAME = 1 / 60;
 

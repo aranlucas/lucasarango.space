@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { cn } from "cn";
 import { Martian_Mono, Pixelify_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -8,6 +7,7 @@ import type { ReactNode } from "react";
 import { AskProvider } from "@/components/ask/ask-provider";
 import { AskPopup } from "@/components/ask/ask-popup";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
+import { WebMCP } from "@/components/webmcp";
 import { markdownAlternate, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={cn(mono.variable, pixel.variable)}>
+    <html lang="en" className={`${mono.variable} ${pixel.variable}`}>
       <body>
         <a
           href="#main-content"
@@ -65,6 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           <AskPopup />
         </AskProvider>
         <Analytics />
+        <WebMCP />
         <SpeedInsights />
       </body>
     </html>
