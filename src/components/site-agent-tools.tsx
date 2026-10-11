@@ -2,6 +2,7 @@
 
 import { useWebMCP } from "use-webmcp-tool";
 
+import { projectsMarkdown } from "@/lib/projects";
 import { markdownPath, SITE } from "@/lib/site";
 
 // WebMCP tools for agents built into the visitor's browser, reading the same
@@ -12,8 +13,17 @@ import { markdownPath, SITE } from "@/lib/site";
 // Module scope: the hook compares schemas by their JSON, which is key-order sensitive.
 const LIST_POSTS = {
   name: "list_posts",
-  description: `Lists every post on ${SITE.name}'s blog, newest first, with its title, date, one-sentence summary, and page link. Use to find posts on a topic before reading or linking one.`,
-  inputSchema: { type: "object", properties: {} },
+  description: `Lists posts on ${SITE.name}'s blog, newest first, with titles, dates, summaries, and absolute page and Markdown links. Optionally search titles, summaries, and bodies to get matching posts with excerpts. Use to find posts before reading or linking one.`,
+  inputSchema: {
+    type: "object",
+    properties: {
+      query: {
+        type: "string",
+        description:
+          "Optional case-insensitive keywords; all words must match. Omit or leave blank to list every post.",
+      },
+    },
+  },
   annotations: { readOnlyHint: true },
 } as const;
 
@@ -37,6 +47,13 @@ const READ_POST = {
 const GET_RESUME = {
   name: "get_resume",
   description: `Gets ${SITE.name}'s résumé as Markdown: summary, roles, projects, writing, skills, and education. Use for questions about his work history, experience, or skills.`,
+  inputSchema: { type: "object", properties: {} },
+  annotations: { readOnlyHint: true },
+} as const;
+
+const LIST_PROJECTS = {
+  name: "list_projects",
+  description: `Lists ${SITE.name}'s featured public projects with descriptions, source repositories, and related blog posts. Use for questions about what he has built; read the linked post for details.`,
   inputSchema: { type: "object", properties: {} },
   annotations: { readOnlyHint: true },
 } as const;
@@ -81,9 +98,18 @@ function readPost(post: string | undefined, signal: AbortSignal) {
 
 /** Registers the site's WebMCP tools; renders nothing. */
 export function SiteAgentTools() {
-  useWebMCP({
+  useWebMCP<{ query?: string }>({
     ...LIST_POSTS,
-    execute: (_, { signal }) => fetchMarkdown("/blog/sitemap.md", signal),
+    execute: ({ query }, { signal }) => {
+      const search = query?.trim() ?? "";
+
+      const path =
+        search.length > 0
+          ? `/blog/sitemap.md?query=${encodeURIComponent(search)}`
+          : "/blog/sitemap.md";
+
+      return fetchMarkdown(path, signal);
+    },
   });
 
   useWebMCP<{ post?: string }>({
@@ -94,6 +120,11 @@ export function SiteAgentTools() {
   useWebMCP({
     ...GET_RESUME,
     execute: (_, { signal }) => fetchMarkdown("/resume.md", signal),
+  });
+
+  useWebMCP({
+    ...LIST_PROJECTS,
+    execute: () => projectsMarkdown(),
   });
 
   return null;

@@ -8,7 +8,7 @@ function mount() {
   return act(() => Promise.resolve(render(<SiteAgentTools />)));
 }
 
-type ToolArgs = { post?: string };
+type ToolArgs = { post?: string; query?: string };
 
 type Tool = {
   name: string;
@@ -88,6 +88,7 @@ test("registers the tools while mounted, marking them read-only", async () => {
     list_posts: { readOnlyHint: true },
     read_post: { readOnlyHint: true },
     get_resume: { readOnlyHint: true },
+    list_projects: { readOnlyHint: true },
   });
 
   unmount();
@@ -122,4 +123,28 @@ test("read_post reports missing posts as errors the agent can act on", async () 
     error("This tab isn't showing a post. Pass a post from list_posts."),
   );
   expect(fetchMock).toHaveBeenCalledTimes(1);
+});
+
+test("list_posts encodes search keywords and leaves blank queries unfiltered", async () => {
+  MARKDOWN_ROUTES.set("/blog/sitemap.md?query=MCP%20%26%20agents", "matching posts");
+
+  try {
+    await mount();
+    expect(await call("list_posts", { query: " MCP & agents " })).toEqual(text("matching posts"));
+    expect(await call("list_posts", { query: "  " })).toEqual(text("the blog index"));
+  } finally {
+    MARKDOWN_ROUTES.delete("/blog/sitemap.md?query=MCP%20%26%20agents");
+  }
+});
+
+test("list_projects returns featured projects with absolute source and story links", async () => {
+  await mount();
+  const result = await call("list_projects");
+  expect(result.isError).toBeUndefined();
+  expect(result.content?.[0]?.text).toContain("Grocery shopping MCP");
+  expect(result.content?.[0]?.text).toContain("https://github.com/aranlucas/ai-shopping-mcp");
+  expect(result.content?.[0]?.text).toContain(
+    "https://lucasarango.space/blog/the-first-ask-doordash-prototype-was-an-mcp-server",
+  );
+  expect(fetchMock).not.toHaveBeenCalled();
 });

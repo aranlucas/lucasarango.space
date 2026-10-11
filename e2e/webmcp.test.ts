@@ -19,9 +19,9 @@ const ToolResult = z.object({
   isError: z.boolean().optional(),
 });
 
-type ToolArgs = { post?: string };
+type ToolArgs = { post?: string; query?: string };
 
-const TOOLS = ["get_resume", "list_posts", "read_post"];
+const TOOLS = ["get_resume", "list_posts", "list_projects", "read_post"];
 
 let browser: Browser;
 
@@ -98,7 +98,9 @@ const text = async (name: string, args?: ToolArgs) => {
 
 /** The first post in `list_posts`, by its page path. */
 async function firstPostPath() {
-  const path = /\]\((\/blog\/[\w-]+)\)/u.exec(await text("list_posts"))?.[1];
+  const path = /\]\(https:\/\/lucasarango\.space(\/blog\/[\w-]+)\)/u.exec(
+    await text("list_posts"),
+  )?.[1];
 
   if (path === undefined) throw new Error("list_posts returned no post links");
 
@@ -118,6 +120,7 @@ test("Chrome registers every tool as read-only", async () => {
   expect(Object.fromEntries(readOnly ?? [])).toEqual({
     get_resume: true,
     list_posts: true,
+    list_projects: true,
     read_post: true,
   });
 });
@@ -126,7 +129,7 @@ test("list_posts links post pages, with their Markdown alongside", async () => {
   await open("/");
 
   expect(await text("list_posts")).toMatch(
-    /^- \[.+\]\(\/blog\/[\w-]+\) \(\d{4}-\d{2}-\d{2}, \[Markdown\]\(\/blog\/[\w-]+\.md\)\): /mu,
+    /^- \[.+\]\(https:\/\/lucasarango\.space\/blog\/[\w-]+\) \(\d{4}-\d{2}-\d{2}, \[Markdown\]\(https:\/\/lucasarango\.space\/blog\/[\w-]+\.md\)\): /mu,
   );
 });
 
@@ -147,4 +150,26 @@ test("get_resume returns the résumé as Markdown", async () => {
   await open("/");
 
   expect(await text("get_resume")).toMatch(/^---\ntitle: ".+ résumé"\n[\s\S]*\n## Experience\n/u);
+});
+
+test("list_posts searches body text, returns excerpts, and handles no matches", async () => {
+  await open("/");
+  const results = await text("list_posts", { query: "Kroger" });
+  expect(results).toContain("Excerpt:");
+  expect(results).toContain("https://lucasarango.space/blog/");
+  expect(results.toLowerCase()).toContain("kroger");
+  expect(await text("list_posts", { query: "zzzznonexistentkeyword" })).toContain(
+    "No matching posts.",
+  );
+  expect(await text("list_posts", { query: "   " })).toBe(await text("list_posts"));
+});
+
+test("list_projects returns the home page's projects with shareable links", async () => {
+  await open("/");
+  const projects = await text("list_projects");
+  expect(projects).toContain("Grocery shopping MCP");
+  expect(projects).toContain("System Design Companion");
+  expect(projects).toContain("Lucas Plugins");
+  expect(projects).toContain("https://github.com/aranlucas/ai-shopping-mcp");
+  expect(projects).toContain("https://lucasarango.space/blog/");
 });

@@ -36,7 +36,7 @@ Some **markdown**.
 describe("indexes", () => {
   it("links each post's page and Markdown URL from the blog sitemap", () => {
     expect(blogIndexMarkdown([post])).toContain(
-      `- [${post.title}](/blog/hello-world) (2026-09-25, [Markdown](/blog/hello-world.md)): Where it starts.`,
+      `- [${post.title}](https://lucasarango.space/blog/hello-world) (2026-09-25, [Markdown](https://lucasarango.space/blog/hello-world.md)): Where it starts.`,
     );
   });
 
@@ -47,5 +47,28 @@ describe("indexes", () => {
     expect(index).toContain(
       `(https://lucasarango.space${markdownPath(post.slug)}): Where it starts.`,
     );
+  });
+});
+
+describe("post search", () => {
+  it("matches all words across title, summary, and body, ignoring case", () => {
+    const result = blogIndexMarkdown([post], " FIRST markdown ");
+    expect(result).toContain("https://lucasarango.space/blog/hello-world");
+    expect(result).toContain("Excerpt: Some **markdown**.");
+    expect(blogIndexMarkdown([post], "starts")).toContain(post.title);
+    expect(blogIndexMarkdown([post], "first missing")).toContain("No matching posts.");
+  });
+
+  it("treats blank queries as the full index and bounds body excerpts", () => {
+    expect(blogIndexMarkdown([post], "  ")).toBe(blogIndexMarkdown([post]));
+
+    const result = blogIndexMarkdown(
+      [{ ...post, content: `${"prefix ".repeat(100)}needle ${"tail ".repeat(100)}` }],
+      "needle",
+    );
+
+    const excerpt = result.split("Excerpt: ")[1]?.trim();
+    expect(excerpt).toContain("needle");
+    expect(excerpt?.length).toBeLessThanOrEqual(242);
   });
 });

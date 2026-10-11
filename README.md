@@ -54,7 +54,9 @@ The public endpoint caps a conversation at 24 messages and each question at 1,00
 
 ## WebMCP
 
-Compatible browser agents can call `list_posts`, `read_post`, and `get_resume` from any page. Browsers without WebMCP continue to work normally.
+Compatible browser agents can call `list_posts`, `read_post`, `get_resume`, and `list_projects` from any page. Browsers without WebMCP continue to work normally.
+
+`list_posts({})` returns every post with absolute page and Markdown URLs. Pass an optional `query` (for example, `{ "query": "grocery MCP" }`) to match all case-insensitive keywords across titles, summaries, and bodies; results include short body excerpts. Blank queries list everything, and no matches return a helpful message. The same search is available at `/blog/sitemap.md?query=grocery%20MCP`. `list_projects({})` returns the featured home-page projects with descriptions, source repositories, and absolute story links. All four tools are read-only.
 
 For local testing, enable `chrome://flags/#enable-webmcp-testing`. Run `pnpm build && pnpm test:chrome` to exercise Chrome's native API against a production build.
 
