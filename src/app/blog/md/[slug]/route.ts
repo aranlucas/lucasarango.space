@@ -7,8 +7,12 @@ export function generateStaticParams() {
   return getAllPosts().map(({ slug }) => ({ slug }));
 }
 
-export async function GET(_: Request, ctx: RouteContext<"/blog/md/[slug]">) {
-  const post = getPostBySlug((await ctx.params).slug);
+// Typed inline: the global `RouteContext` only exists after `next build` or
+// `next typegen`, and CI typechecks in parallel with the build.
+type Context = { params: Promise<{ slug: string }> };
+
+export async function GET(_: Request, { params }: Context) {
+  const post = getPostBySlug((await params).slug);
 
   if (!post) {
     return new Response("Post not found.\n", { status: 404, headers: MARKDOWN_HEADERS });
