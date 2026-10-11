@@ -45,7 +45,7 @@ export function WebMCP({ posts }: { posts: PublishedPost[] }) {
   useWebMCP({
     name: "readPost",
     description:
-      "Read a published blog article as Markdown converted from its HTML page. Use a slug returned by listPosts. Read before quoting or answering details about a post.",
+      "Read a published blog article's original Markdown, including metadata and its canonical URL. Use a slug returned by listPosts. Read before quoting or answering details about a post.",
     inputSchema: z.toJSONSchema(PostInput),
     annotations: { readOnlyHint: true },
     execute: (input, options) => {

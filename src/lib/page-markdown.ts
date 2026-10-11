@@ -1,10 +1,14 @@
-/** Read the site's existing HTML pages; no separate content endpoint is needed. */
+/** Prefer negotiated Markdown; convert HTML for pages such as the résumé. */
 export async function readPageMarkdown(path: string, signal?: AbortSignal): Promise<string> {
-  const response = await fetch(path, { signal, headers: { Accept: "text/html" } });
+  const response = await fetch(path, { signal, headers: { Accept: "text/markdown" } });
 
   if (!response.ok) {
     throw new Error(`Could not read ${path} (HTTP ${response.status}). Retry later.`);
   }
+
+  const contentType = response.headers.get("content-type")?.split(";")[0]?.trim();
+
+  if (contentType === "text/markdown") return response.text();
 
   const page = new DOMParser().parseFromString(await response.text(), "text/html");
   const article = page.querySelector<HTMLElement>("article.reading-article, article[data-resume]");

@@ -3,6 +3,25 @@ import { readPageMarkdown } from "@/lib/page-markdown";
 
 afterEach(() => vi.restoreAllMocks());
 
+it("returns negotiated Markdown unchanged without parsing HTML", async () => {
+  const original = '---\ntitle: "Post"\n---\n\n# Post\n\nExact **Markdown**.\n';
+
+  const fetch = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValue(
+      new Response(original, { headers: { "Content-Type": "text/markdown; charset=utf-8" } }),
+    );
+
+  const parser = vi.spyOn(DOMParser.prototype, "parseFromString");
+
+  expect(await readPageMarkdown("/blog/post")).toBe(original);
+  expect(fetch).toHaveBeenCalledWith("/blog/post", {
+    signal: undefined,
+    headers: { Accept: "text/markdown" },
+  });
+  expect(parser).not.toHaveBeenCalled();
+});
+
 it("preserves article headings, links, images, code, and GFM tables without site chrome", async () => {
   vi.spyOn(globalThis, "fetch").mockResolvedValue(
     new Response(`

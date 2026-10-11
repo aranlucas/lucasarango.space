@@ -1,7 +1,6 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
 import { z } from "zod";
 import { getAllPosts } from "@/lib/api";
-import markdownToHtml from "@/lib/markdown-to-html";
 
 const ToolResult = z.object({
   content: z.array(z.object({ type: z.literal("text"), text: z.string() })),
@@ -35,29 +34,13 @@ async function execute(page: Page, info: TestInfo, name: string, input: { slug?:
   return parsed;
 }
 
-async function expectArticleContent(page: Page, slug: string, markdown: string) {
+function expectArticleContent(slug: string, markdown: string) {
   const source = getAllPosts().find((entry) => entry.slug === slug);
 
   if (!source) throw new Error(`Missing source: ${slug}`);
 
-  const [originalHtml, convertedHtml] = await Promise.all([
-    markdownToHtml(source.content),
-    markdownToHtml(markdown),
-  ]);
-
-  const text = await page.evaluate(
-    ({ original, converted }) => {
-      const parser = new DOMParser();
-
-      const normalized = (html: string) =>
-        parser.parseFromString(html, "text/html").body.textContent.replaceAll(/\s+/gu, " ").trim();
-
-      return { original: normalized(original), converted: normalized(converted) };
-    },
-    { original: originalHtml, converted: convertedHtml },
-  );
-
-  expect(text.converted).toContain(text.original);
+  expect(markdown).toContain(source.content.trim());
+  expect(markdown).toContain(`canonical_url: https://lucasarango.space/blog/${slug}`);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -80,7 +63,7 @@ test("native Chrome discovers tools and reads the real résumé and every publis
   page.on("pageerror", (error) => errors.push(error.message));
   const requests: string[] = [];
   page.on("request", (request) => {
-    if (request.headers().accept === "text/html") requests.push(request.url());
+    if (request.headers().accept === "text/markdown") requests.push(request.url());
   });
   const listed = await execute(page, info, "listPosts");
   const posts = z.array(PostMetadata).parse(JSON.parse(listed.content[0].text));
@@ -103,7 +86,7 @@ test("native Chrome discovers tools and reads the real résumé and every publis
       expect(article.isError).not.toBe(true);
       expect(article.content[0].text).toContain(`# ${post.title}`);
       expect(article.content[0].text.length).toBeGreaterThan(500);
-      await expectArticleContent(page, post.slug, article.content[0].text);
+      expectArticleContent(post.slug, article.content[0].text);
       expect(article.content[0].text).not.toContain("Ask about my work");
       expect(article.content[0].text).not.toContain("post-nav");
     }),
@@ -123,7 +106,7 @@ test("unknown and draft slugs return useful errors without fetching a page", asy
 }, info) => {
   const requests: string[] = [];
   page.on("request", (request) => {
-    if (request.headers().accept === "text/html") requests.push(request.url());
+    if (request.headers().accept === "text/markdown") requests.push(request.url());
   });
   const result = await execute(page, info, "readPost", { slug: "not-a-published-post" });
   expect(result.isError).toBe(true);
@@ -147,4 +130,38 @@ test("tools survive client navigation without duplicate registration", async ({ 
   expect(await page.evaluate(async () => (await document.modelContext?.getTools())?.length)).toBe(
     3,
   );
+});
+
+test("content negotiation preserves HTML and exposes the same article through its md URL", async ({
+  request,
+}, info) => {
+  const post = getAllPosts().find((entry) => !entry.draft);
+
+  if (!post) throw new Error("No published posts");
+
+  const path = `/blog/${post.slug}`;
+  const markdown = await request.get(path, { headers: { Accept: "text/markdown" } });
+  expect(markdown.status()).toBe(200);
+  expect(markdown.headers()["content-type"]).toContain("text/markdown");
+  expect(markdown.headers().vary).toContain("Accept");
+  const body = await markdown.text();
+  expectArticleContent(post.slug, body);
+  await info.attach("negotiated-markdown-request-result", {
+    body: JSON.stringify(
+      {
+        request: { method: "GET", path, headers: { Accept: "text/markdown" } },
+        response: { status: markdown.status(), headers: markdown.headers(), body },
+      },
+      null,
+      2,
+    ),
+    contentType: "application/json",
+  });
+
+  const html = await request.get(path, { headers: { Accept: "text/html" } });
+  expect(html.headers()["content-type"]).toContain("text/html");
+  expect(await html.text()).toContain('class="reading-article"');
+  const direct = await request.get(`${path}.md`);
+  expect(direct.headers()["content-type"]).toContain("text/markdown");
+  expect(await direct.text()).toBe(body);
 });

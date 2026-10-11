@@ -121,7 +121,10 @@ it("reads existing HTML on demand as Markdown and forwards cancellation", async 
   const result = await read.execute({ slug: "hello" }, { signal });
   expect(result.content[0].text).toContain("# Hello\n\nFull article.");
   expect(result.content[0].text).not.toContain("Other posts");
-  expect(fetch).toHaveBeenCalledWith("/blog/hello", { signal, headers: { Accept: "text/html" } });
+  expect(fetch).toHaveBeenCalledWith("/blog/hello", {
+    signal,
+    headers: { Accept: "text/markdown" },
+  });
 });
 
 it("gives résumé failures relevant recovery advice", async () => {

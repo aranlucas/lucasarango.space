@@ -46,9 +46,11 @@ The site registers three read-only browser tools on every page using Chrome's [`
 
 - `getResume` fetches the existing `/resume` HTML page and returns its article as Markdown.
 - `listPosts` returns published post metadata passed from the server, newest first, without a network request.
-- `readPost` accepts a slug from `listPosts`, fetches its existing `/blog/<slug>` HTML page, and returns the article as Markdown.
+- `readPost` accepts a slug from `listPosts` and requests its existing `/blog/<slug>` URL with `Accept: text/markdown`, returning original Markdown with frontmatter and a canonical URL.
 
-There is no separate WebMCP content API or remote MCP server. [Turndown](https://github.com/mixmark-io/turndown) with its GFM plugin converts articles in the browser, preserving headings, lists, links, images, code blocks, and tables. Navigation, buttons, and framework scripts are excluded. Article bodies and the converter are used only when a tool is called; no blog bodies are passed in the root layout. Drafts are excluded even in development. This returns the published page content, rather than the original Markdown source.
+WebMCP reuses the content negotiation added in PR #30. Blog pages serve original Markdown to `Accept: text/markdown` requests and HTML to browser navigation. Posts also have `.md` URLs, `/blog/sitemap.md` lists articles, and `/llms.txt` provides the site index. There is no separate WebMCP content API or remote MCP server.
+
+The résumé currently serves HTML, so [Turndown](https://github.com/mixmark-io/turndown) with its GFM plugin converts the résumé article in the browser, preserving headings, lists, links, images, code blocks, and tables. Navigation, buttons, and framework scripts are excluded. Article bodies and the converter are used only when a tool is called; no blog bodies are passed in the root layout. Drafts are excluded even in development. Blog tools return the original Markdown source; the résumé tool returns its published page content as Markdown.
 
 WebMCP needs a supporting browser in a secure context. For local native Chrome testing, enable `chrome://flags/#enable-webmcp-testing` and restart Chrome. For ordinary production Chrome visitors, enroll `https://lucasarango.space` in the [WebMCP origin trial](https://developer.chrome.com/blog/ai-webmcp-origin-trial) and set `WEBMCP_ORIGIN_TRIAL_TOKEN` to the issued token before building. Next sends the `Origin-Trial` header on every route when configured. Tokens are issued for specific origins and expire; this repository does not supply a token. Browsers without WebMCP keep working normally.
 
@@ -66,7 +68,7 @@ Chrome 154 expects JSON text for execution input; the newest draft uses an objec
 
 Run `pnpm exec playwright install chrome` if Google Chrome is unavailable, then `pnpm test:e2e`. The runner builds the app, starts its own server at `http://127.0.0.1:3217`, and launches native Chrome with WebMCP testing enabled. No mocked browser API is used in these tests.
 
-Tests discover the registered tools, execute them for the real résumé and every published post, check error responses, and navigate between pages. Full tool requests/results and content page URLs are attached as JSON in `playwright-report/` and `test-results/`. Open the report with `pnpm exec playwright show-report`. CI uploads these reports as the `webmcp-e2e` artifact. Component tests separately cover promise rejection and Strict Mode cancellation. The build requires access to the public résumé source; browser tool calls reuse the site's own pages.
+Tests discover the registered tools, execute them for the real résumé and every published post, check error responses, navigate between pages, and verify that negotiated Markdown, explicit `.md` URLs, and HTML responses stay distinct. Full tool requests/results and content page URLs are attached as JSON in `playwright-report/` and `test-results/`. Open the report with `pnpm exec playwright show-report`. CI uploads these reports as the `webmcp-e2e` artifact. Component tests separately cover promise rejection and Strict Mode cancellation. The build requires access to the public résumé source; browser tool calls reuse the site's own pages.
 
 ## Optional configuration
 
