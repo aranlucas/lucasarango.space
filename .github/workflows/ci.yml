@@ -42,7 +42,10 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: HTTP end-to-end tests
+      - name: Install Chrome for WebMCP tests
+        run: pnpm exec playwright install chrome
+
+      - name: Browser end-to-end tests
         run: pnpm exec playwright test
 
       - name: Upload end-to-end request/result evidence

@@ -10,3 +10,5 @@ minimumReleaseAgeExclude:
   - "@ai-sdk/react@4.0.137"
   - ai@7.0.134
   - lucide-react@1.53.0
+patchedDependencies:
+  use-webmcp-tool@0.3.0: patches/use-webmcp-tool@0.3.0.patch

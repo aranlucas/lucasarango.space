@@ -1,0 +1,38 @@
+diff --git a/useWebMCP.js b/useWebMCP.js
+index 4ba183da33b09e2a1f441aa37d0b9986992f5040..9b5e91d3c5f83493cc2b333a7a271dfabcbcce61 100644
+--- a/useWebMCP.js
++++ b/useWebMCP.js
+@@ -133,7 +133,7 @@ export function useWebMCP({
+     const controller = new AbortController();
+ 
+     try {
+-      document.modelContext.registerTool(
++      Promise.resolve(document.modelContext.registerTool(
+         {
+           name,
+           description,
+@@ -157,9 +157,22 @@ export function useWebMCP({
+           },
+         },
+         { signal: controller.signal }
++      )).then(
++        () => {
++          if (!controller.signal.aborted) {
++            setState({ supported: true, registered: true, error: null });
++          }
++        },
++        (error) => {
++          if (!controller.signal.aborted) {
++            setState({
++              supported: true,
++              registered: false,
++              error: error instanceof Error ? error : new Error(safeStringify(error)),
++            });
++          }
++        }
+       );
+-
+-      setState({ supported: true, registered: true, error: null });
+     } catch (error) {
+       // e.g. NotAllowedError when the `tools` permissions policy is disabled.
+       setState({

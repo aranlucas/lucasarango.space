@@ -1,10 +1,12 @@
-import { readFileSync } from "node:fs";
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
-import { expect, test, type APIRequestContext, type TestInfo } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
 import { z } from "zod";
+import { getAllPosts } from "@/lib/api";
+import markdownToHtml from "@/lib/markdown-to-html";
 
-import { getAllPosts, parsePost } from "@/lib/api";
+const ToolResult = z.object({
+  content: z.array(z.object({ type: z.literal("text"), text: z.string() })),
+  isError: z.boolean().optional(),
+});
 
 const PostMetadata = z.object({
   slug: z.string(),
@@ -14,115 +16,135 @@ const PostMetadata = z.object({
   url: z.url(),
 });
 
-async function saveExchange(info: TestInfo, name: string, exchange: string) {
-  const path = info.outputPath(`${name}.json`);
-  await writeFile(path, exchange);
-  await info.attach("request-result", { path, contentType: "application/json" });
-}
+async function execute(page: Page, info: TestInfo, name: string, input: { slug?: string } = {}) {
+  // Chrome 154 still expects JSON text for executeTool input, unlike the newest draft's object signature.
+  const result = await page.evaluate<string>(`(async () => {
+    const call = ${JSON.stringify({ name, input })};
+    const tools = (await document.modelContext?.getTools()) ?? [];
+    const tool = tools.find((entry) => entry.name === call.name);
+    if (!tool) throw new Error("Tool not registered: " + call.name);
+    return document.modelContext.executeTool(tool, JSON.stringify(call.input));
+  })()`);
 
-async function capture(request: APIRequestContext, path: string, info: TestInfo) {
-  const response = await request.get(path);
-  const body = z.json().parse(await response.json());
-
-  const exchange = {
-    request: { method: "GET", url: response.url(), headers: { Accept: "application/json" } },
-    response: { status: response.status(), headers: response.headers(), body },
-  };
-
-  const tool = new URL(response.url()).searchParams.get("tool") ?? "missing-tool";
-
-  await saveExchange(info, `get-${tool}`, JSON.stringify(exchange, null, 2));
-
-  console.log(`GET ${path} → ${response.status()}`);
-
-  return { response, body };
-}
-
-test("lists every published post with canonical URLs and no article bodies", async ({
-  request,
-}, info) => {
-  const { response, body } = await capture(request, "/api/webmcp?tool=listPosts", info);
-  expect(response.status()).toBe(200);
-  expect(response.headers()["content-type"]).toContain("application/json");
-
-  const posts = z.array(PostMetadata.strict()).parse(body);
-  const published = getAllPosts().filter((post) => !post.draft);
-  expect(posts.map((post) => post.slug)).toEqual(published.map((post) => post.slug));
-
-  for (const post of posts) expect(post.url).toBe(`https://lucasarango.space/blog/${post.slug}`);
-});
-
-test("reads the complete Markdown body from a listed slug", async ({ request }, info) => {
-  const list = await capture(request, "/api/webmcp?tool=listPosts", info);
-  const posts = z.array(PostMetadata).parse(list.body);
-  expect(posts.length).toBeGreaterThan(0);
-
-  const slug = posts[0].slug;
-  const { response, body } = await capture(request, `/api/webmcp?tool=readPost&slug=${slug}`, info);
-  expect(response.status()).toBe(200);
-
-  const post = PostMetadata.extend({ body: z.string() }).strict().parse(body);
-  const source = parsePost(slug, readFileSync(join(process.cwd(), "_posts", `${slug}.md`), "utf8"));
-  expect(post.body).toBe(source.content);
-  expect(post.title).toBe(source.title);
-  expect(post.url).toBe(`https://lucasarango.space/blog/${slug}`);
-});
-
-test("returns the real public resume with experience and skills", async ({ request }, info) => {
-  const { response, body } = await capture(request, "/api/webmcp?tool=getResume", info);
-  expect(response.status()).toBe(200);
-
-  const resume = z
-    .object({
-      name: z.literal("Lucas Arango"),
-      title: z.string().min(1),
-      url: z.literal("https://lucasarango.space/resume"),
-      roles: z
-        .array(z.object({ company: z.string(), title: z.string(), bullets: z.array(z.string()) }))
-        .min(1),
-      skills: z.array(z.object({ category: z.string(), items: z.array(z.string()) })).min(1),
-      education: z.array(z.object({ school: z.string() })).min(1),
-    })
-    .parse(body);
-
-  expect(resume.roles[0].bullets.length).toBeGreaterThan(0);
-});
-
-for (const [query, status, error] of [
-  ["tool=readPost", 400, "Provide a slug from listPosts."],
-  ["tool=readPost&slug=..%2FREADME", 400, "Provide a slug from listPosts."],
-  [
-    "tool=readPost&slug=missing-e2e-post",
-    404,
-    "Post not found. Call listPosts for published slugs.",
-  ],
-  ["tool=unknown", 400, "Use getResume, listPosts, or readPost."],
-  ["", 400, "Use getResume, listPosts, or readPost."],
-] as const) {
-  test(`rejects ${query || "a missing tool"} with HTTP ${status}`, async ({ request }, info) => {
-    const { response, body } = await capture(request, `/api/webmcp?${query}`, info);
-    expect(response.status()).toBe(status);
-    expect(body).toEqual({ error });
+  const parsed = ToolResult.parse(JSON.parse(result));
+  await info.attach(`tool-${name}-${input.slug ?? "empty"}-request-result`, {
+    body: JSON.stringify({ request: { tool: name, input }, result: parsed }, null, 2),
+    contentType: "application/json",
   });
+
+  return parsed;
 }
 
-test("rejects unsupported POST requests", async ({ request }, info) => {
-  const response = await request.post("/api/webmcp?tool=getResume");
-  const body = await response.text();
+async function expectArticleContent(page: Page, slug: string, markdown: string) {
+  const source = getAllPosts().find((entry) => entry.slug === slug);
 
-  await saveExchange(
-    info,
-    "post-getResume",
-    JSON.stringify(
-      {
-        request: { method: "POST", url: response.url() },
-        response: { status: response.status(), body },
-      },
-      null,
-      2,
-    ),
+  if (!source) throw new Error(`Missing source: ${slug}`);
+
+  const [originalHtml, convertedHtml] = await Promise.all([
+    markdownToHtml(source.content),
+    markdownToHtml(markdown),
+  ]);
+
+  const text = await page.evaluate(
+    ({ original, converted }) => {
+      const parser = new DOMParser();
+
+      const normalized = (html: string) =>
+        parser.parseFromString(html, "text/html").body.textContent.replaceAll(/\s+/gu, " ").trim();
+
+      return { original: normalized(original), converted: normalized(converted) };
+    },
+    { original: originalHtml, converted: convertedHtml },
   );
 
-  expect(response.status()).toBe(405);
-  console.log(`POST /api/webmcp?tool=getResume → ${response.status()}`);
+  expect(text.converted).toContain(text.original);
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.goto("/");
+  await expect
+    .poll(() =>
+      page.evaluate(async () => {
+        const tools = (await document.modelContext?.getTools()) ?? [];
+
+        return tools.map((tool) => tool.name).toSorted();
+      }),
+    )
+    .toEqual(["getResume", "listPosts", "readPost"]);
+});
+
+test("native Chrome discovers tools and reads the real résumé and every published article", async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const requests: string[] = [];
+  page.on("request", (request) => {
+    if (request.headers().accept === "text/html") requests.push(request.url());
+  });
+  const listed = await execute(page, info, "listPosts");
+  const posts = z.array(PostMetadata).parse(JSON.parse(listed.content[0].text));
+  expect(posts.map((post) => post.slug)).toEqual(
+    getAllPosts().flatMap((post) => (post.draft ? [] : [post.slug])),
+  );
+  expect(requests).toEqual([]);
+
+  const resume = await execute(page, info, "getResume");
+  const markdown = resume.content[0].text;
+  expect(markdown).toContain("# Résumé Lucas Arango");
+  expect(markdown).toContain("## Experience");
+  expect(markdown).toContain("DoorDash");
+  expect(markdown).toContain("## Education");
+  expect(markdown).not.toContain("Print résumé");
+
+  await Promise.all(
+    posts.map(async (post) => {
+      const article = await execute(page, info, "readPost", { slug: post.slug });
+      expect(article.isError).not.toBe(true);
+      expect(article.content[0].text).toContain(`# ${post.title}`);
+      expect(article.content[0].text.length).toBeGreaterThan(500);
+      await expectArticleContent(page, post.slug, article.content[0].text);
+      expect(article.content[0].text).not.toContain("Ask about my work");
+      expect(article.content[0].text).not.toContain("post-nav");
+    }),
+  );
+
+  expect(requests.some((url) => url.includes("/api/webmcp"))).toBe(false);
+  expect(requests.some((url) => url.endsWith("/resume"))).toBe(true);
+  expect(errors).toEqual([]);
+  await info.attach("content-page-requests", {
+    body: JSON.stringify(requests, null, 2),
+    contentType: "application/json",
+  });
+});
+
+test("unknown and draft slugs return useful errors without fetching a page", async ({
+  page,
+}, info) => {
+  const requests: string[] = [];
+  page.on("request", (request) => {
+    if (request.headers().accept === "text/html") requests.push(request.url());
+  });
+  const result = await execute(page, info, "readPost", { slug: "not-a-published-post" });
+  expect(result.isError).toBe(true);
+  expect(result.content[0].text).toContain("Call listPosts");
+  expect(requests).toEqual([]);
+});
+
+test("page fetch failures return relevant tool errors", async ({ page }, info) => {
+  await page.route("**/resume", (route) => route.fulfill({ status: 503, body: "Unavailable" }));
+  const result = await execute(page, info, "getResume");
+  expect(result.isError).toBe(true);
+  expect(result.content[0].text).toContain("/resume (HTTP 503)");
+  expect(result.content[0].text).not.toContain("listPosts");
+});
+
+test("tools survive client navigation without duplicate registration", async ({ page }, info) => {
+  await page.getByRole("link", { name: "Writing", exact: true }).first().click();
+  await expect(page).toHaveURL(/\/blog$/u);
+  const result = await execute(page, info, "listPosts");
+  expect(result.isError).not.toBe(true);
+  expect(await page.evaluate(async () => (await document.modelContext?.getTools())?.length)).toBe(
+    3,
+  );
 });

@@ -20,11 +20,19 @@ const nextConfig: NextConfig = {
     // Collect unused development cache work.
     turbopackGc: true,
   },
+  headers() {
+    const token = process.env.WEBMCP_ORIGIN_TRIAL_TOKEN;
+
+    return Promise.resolve(
+      token !== undefined && token !== ""
+        ? [{ source: "/:path*", headers: [{ key: "Origin-Trial", value: token }] }]
+        : [],
+    );
+  },
   // The Ask agent's tools and the Markdown routes read posts at request time,
   // which tracing can't see.
   outputFileTracingIncludes: {
     "/api/chat": ["./_posts/**/*.md"],
-    "/api/webmcp": ["./_posts/**/*.md"],
     "/blog/md/[slug]": ["./_posts/**/*.md"],
     "/blog/sitemap.md": ["./_posts/**/*.md"],
     "/llms.txt": ["./_posts/**/*.md"],

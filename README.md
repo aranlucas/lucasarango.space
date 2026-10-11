@@ -42,31 +42,31 @@ pnpm start
 
 ## WebMCP agent access
 
-The site registers three read-only browser tools on every page:
+The site registers three read-only browser tools on every page using Chrome's [`use-webmcp-tool`](https://github.com/GoogleChromeLabs/use-webmcp-tool):
 
-- `getResume` returns the same cached résumé used by `/resume`, with experience, projects, skills, education, publications, and profile links.
-- `listPosts` returns published post slugs, titles, dates, summaries, and canonical URLs, newest first.
-- `readPost` accepts a slug from `listPosts` and returns the full Markdown article.
+- `getResume` fetches the existing `/resume` HTML page and returns its article as Markdown.
+- `listPosts` returns published post metadata passed from the server, newest first, without a network request.
+- `readPost` accepts a slug from `listPosts`, fetches its existing `/blog/<slug>` HTML page, and returns the article as Markdown.
 
-The integration follows the [WebMCP draft](https://webmachinelearning.github.io/webmcp/) using `document.modelContext` through Chrome’s [`use-webmcp-tool`](https://github.com/GoogleChromeLabs/use-webmcp-tool) React library. WebMCP requires a supporting browser in a secure context (HTTPS or localhost). Browsers without the API keep working normally. No AI provider key is needed, and content is fetched only when an agent calls a tool. Drafts are excluded in every environment.
+There is no separate WebMCP content API or remote MCP server. [Turndown](https://github.com/mixmark-io/turndown) with its GFM plugin converts articles in the browser, preserving headings, lists, links, images, code blocks, and tables. Navigation, buttons, and framework scripts are excluded. Article bodies and the converter are used only when a tool is called; no blog bodies are passed in the root layout. Drafts are excluded even in development. This returns the published page content, rather than the original Markdown source.
 
-The browser tools read `/api/webmcp?tool=getResume`, `/api/webmcp?tool=listPosts`, and `/api/webmcp?tool=readPost&slug=...`. These are public JSON content endpoints, not a remote MCP JSON-RPC server that a desktop MCP client can connect to.
+WebMCP needs a supporting browser in a secure context. For local native Chrome testing, enable `chrome://flags/#enable-webmcp-testing` and restart Chrome. For ordinary production Chrome visitors, enroll `https://lucasarango.space` in the [WebMCP origin trial](https://developer.chrome.com/blog/ai-webmcp-origin-trial) and set `WEBMCP_ORIGIN_TRIAL_TOKEN` to the issued token before building. Next sends the `Origin-Trial` header on every route when configured. Tokens are issued for specific origins and expire; this repository does not supply a token. Browsers without WebMCP keep working normally.
 
-To inspect tools in a browser implementing the current draft:
+To inspect tools in Chrome 154:
 
 ```js
 const tools = await document.modelContext.getTools();
 const resume = tools.find((tool) => tool.name === "getResume");
-await document.modelContext.executeTool(resume, {});
+await document.modelContext.executeTool(resume, JSON.stringify({}));
 ```
 
-The library ties registration to component lifecycle, uses abort signals for cleanup, and detects browser APIs injected shortly after mount. It serializes successful browser tool results into MCP text content blocks and marks execution failures with `isError: true`. The HTTP route returns plain JSON. Tests cover browser feature detection, late injection, cleanup, result/error normalization, on-demand reads, invalid slugs, draft exclusion, and upstream résumé failures.
+Chrome 154 expects JSON text for execution input; the newest draft uses an object instead. The hook owns registration and cleanup. A small pnpm patch for version 0.3.0 handles the promise returned by `registerTool`, including aborts and rejected registrations, until the upstream library incorporates this behavior.
 
-### HTTP end-to-end tests
+### Browser end-to-end tests
 
-Run `pnpm test:e2e` to build the production app and test the real `/api/webmcp` route with Playwright. The runner starts and stops its own server at `http://127.0.0.1:3217`; no browser download is needed for these HTTP tests.
+Run `pnpm exec playwright install chrome` if Google Chrome is unavailable, then `pnpm test:e2e`. The runner builds the app, starts its own server at `http://127.0.0.1:3217`, and launches native Chrome with WebMCP testing enabled. No mocked browser API is used in these tests.
 
-Tests exercise the public résumé source, list all published posts, compare an article's complete Markdown against its source file, and check invalid requests and unsupported methods. Each request and its full response are attached as JSON in `test-results/` and the HTML report in `playwright-report/`. Open the report with `pnpm exec playwright show-report`. The résumé test requires access to the public résumé API.
+Tests discover the registered tools, execute them for the real résumé and every published post, check error responses, and navigate between pages. Full tool requests/results and content page URLs are attached as JSON in `playwright-report/` and `test-results/`. Open the report with `pnpm exec playwright show-report`. CI uploads these reports as the `webmcp-e2e` artifact. Component tests separately cover promise rejection and Strict Mode cancellation. The build requires access to the public résumé source; browser tool calls reuse the site's own pages.
 
 ## Optional configuration
 
