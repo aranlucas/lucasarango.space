@@ -2,13 +2,15 @@ import { act, render } from "@testing-library/react";
 import type { WebMCPToolResponse } from "use-webmcp-tool";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
+import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
+
 import { postSlug, SiteAgentTools } from "./site-agent-tools";
 
 function mount() {
   return act(() => Promise.resolve(render(<SiteAgentTools />)));
 }
 
-type ToolArgs = { post?: string; query?: string };
+type ToolArgs = ListPostsArgs & ReadPostArgs;
 
 type Tool = {
   name: string;

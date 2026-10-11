@@ -5,6 +5,14 @@ import { z } from "zod";
 
 import { projectsMarkdown } from "@/lib/projects";
 import { markdownPath, SITE } from "@/lib/site";
+import {
+  EmptyInput,
+  ListPostsInput,
+  ReadPostInput,
+  type EmptyArgs,
+  type ListPostsArgs,
+  type ReadPostArgs,
+} from "@/lib/site-agent-inputs";
 
 // WebMCP tools for agents built into the visitor's browser, reading the same
 // Markdown routes served to crawling agents. Tools register once for the whole
@@ -12,26 +20,6 @@ import { markdownPath, SITE } from "@/lib/site";
 // where `document.modelContext` is missing.
 
 // Module scope: the hook compares schemas by their JSON, which is key-order sensitive.
-const ListPostsInput = z.object({
-  query: z
-    .string()
-    .describe(
-      "Optional case-insensitive keywords; all words must match. Omit or leave blank to list every post.",
-    )
-    .optional(),
-});
-
-const ReadPostInput = z.object({
-  post: z
-    .string()
-    .describe(
-      "The post's slug, page URL, or Markdown URL from list_posts. Omit to read the post open in this tab.",
-    )
-    .optional(),
-});
-
-const EmptyInput = z.object({});
-
 const LIST_POSTS = {
   name: "list_posts",
   description: `Lists posts on ${SITE.name}'s blog, newest first, with titles, dates, summaries, and absolute page and Markdown links. Optionally search titles, summaries, and bodies to get matching posts with excerpts. Use to find posts before reading or linking one.`,
@@ -101,7 +89,7 @@ function readPost(post: string | undefined, signal: AbortSignal) {
 
 /** Registers the site's WebMCP tools; renders nothing. */
 export function SiteAgentTools() {
-  useWebMCP<z.infer<typeof ListPostsInput>>({
+  useWebMCP<ListPostsArgs>({
     ...LIST_POSTS,
     execute: ({ query }, { signal }) => {
       const search = query?.trim() ?? "";
@@ -115,17 +103,17 @@ export function SiteAgentTools() {
     },
   });
 
-  useWebMCP<z.infer<typeof ReadPostInput>>({
+  useWebMCP<ReadPostArgs>({
     ...READ_POST,
     execute: ({ post }, { signal }) => readPost(post, signal),
   });
 
-  useWebMCP<z.infer<typeof EmptyInput>>({
+  useWebMCP<EmptyArgs>({
     ...GET_RESUME,
     execute: (_, { signal }) => fetchMarkdown("/resume.md", signal),
   });
 
-  useWebMCP<z.infer<typeof EmptyInput>>({
+  useWebMCP<EmptyArgs>({
     ...LIST_PROJECTS,
     execute: () => projectsMarkdown(),
   });

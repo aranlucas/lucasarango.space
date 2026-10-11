@@ -5,6 +5,8 @@ import { type Browser, chromium, type Page } from "playwright-core";
 import { afterAll, afterEach, beforeAll, beforeEach, expect, inject, test } from "vitest";
 import { z } from "zod";
 
+import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
+
 declare global {
   namespace WebMCP {
     interface ModelContext {
@@ -19,7 +21,7 @@ const ToolResult = z.object({
   isError: z.boolean().optional(),
 });
 
-type ToolArgs = { post?: string; query?: string };
+type ToolArgs = ListPostsArgs & ReadPostArgs;
 
 const TOOLS = ["get_resume", "list_posts", "list_projects", "read_post"];
 
