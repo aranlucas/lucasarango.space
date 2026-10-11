@@ -34,9 +34,9 @@ Some **markdown**.
 });
 
 describe("indexes", () => {
-  it("links each post's Markdown URL from the blog sitemap", () => {
+  it("links each post's page and Markdown URL from the blog sitemap", () => {
     expect(blogIndexMarkdown([post])).toContain(
-      `- [${post.title}](/blog/hello-world.md) (2026-09-25): Where it starts.`,
+      `- [${post.title}](/blog/hello-world) (2026-09-25, [Markdown](/blog/hello-world.md)): Where it starts.`,
     );
   });
 

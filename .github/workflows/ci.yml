@@ -41,3 +41,7 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      # Uses the runner's Chrome and the build above.
+      - name: Test WebMCP tools in Chrome
+        run: pnpm test:chrome

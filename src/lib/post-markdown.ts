@@ -24,10 +24,16 @@ export function postToMarkdown(post: Post) {
   return `---\n${frontmatter}\n---\n\n# ${post.title}\n\n${post.content.trim()}\n`;
 }
 
-/** The blog index as a Markdown sitemap, linking each post's Markdown version. */
+/**
+ * The blog index as a Markdown sitemap. Each post links its page, which agents
+ * cite to people, and its Markdown version, which they read.
+ */
 export function blogIndexMarkdown(posts: Post[]) {
   const items = posts
-    .map((post) => `- [${post.title}](${markdownPath(post.slug)}) (${post.date}): ${post.summary}`)
+    .map(
+      (post) =>
+        `- [${post.title}](/blog/${post.slug}) (${post.date}, [Markdown](${markdownPath(post.slug)})): ${post.summary}`,
+    )
     .join("\n");
 
   return `# Writing by ${SITE.name}\n\nNotes on building agents, AI products, and the tools I make along the way.\n\n${items}\n`;
@@ -43,7 +49,7 @@ export function llmsTxt(posts: Post[]) {
 
 > ${SITE.description}
 
-The home page and blog pages return Markdown when requested with \`Accept: text/markdown\`. Each post is also available as Markdown by appending \`.md\` to its URL.
+The home page, blog pages, and résumé return Markdown when requested with \`Accept: text/markdown\`. Each post is also available as Markdown by appending \`.md\` to its URL.
 
 ## Writing
 
@@ -52,7 +58,7 @@ ${items}
 ## Elsewhere
 
 - [Blog index](${SITE.url}/blog/sitemap.md): every post with its summary
-- [Resume](${SITE.url}/resume): work history and skills
+- [Resume](${SITE.url}/resume.md): work history and skills
 - [RSS feed](${SITE.url}/feed.xml)
 - [GitHub](${SITE.github})
 `;
