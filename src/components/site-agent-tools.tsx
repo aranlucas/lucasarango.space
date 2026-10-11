@@ -9,7 +9,6 @@ import {
   EmptyInput,
   ListPostsInput,
   ReadPostInput,
-  type EmptyArgs,
   type ReadPostArgs,
 } from "@/lib/site-agent-inputs";
 
@@ -120,12 +119,12 @@ export function SiteAgentTools() {
     execute: ({ post }, { signal }) => readPost(post, signal),
   });
 
-  useWebMCP<EmptyArgs>({
+  useWebMCP({
     ...GET_RESUME,
     execute: (_, { signal }) => fetchMarkdown("/resume.md", signal),
   });
 
-  useWebMCP<EmptyArgs>({
+  useWebMCP({
     ...LIST_PROJECTS,
     execute: () => projectsMarkdown(),
   });
