@@ -1,5 +1,7 @@
 # Themed writing inventory
 
+> Current repository state and article revisions are recorded in the [October 10, 2026 review](repository-review-2026-10-10.md). The inventory and questions below preserve the September 27 research and may describe superseded layouts, visibility, or project status.
+
 The active series is seven themed drafts, supported by three existing published articles. The earlier 45 per-repository drafts are preserved in [repository-drafts](repository-drafts/), outside the blog's content directory. No work has been published or pushed.
 
 The organizing unit is an activity or a change in Lucas's workflow. Repositories supply examples inside that story. Follow the problem, the work, and the outcome naturally; do not label a storytelling framework, concatenate mini repository profiles, or imply an unverified chronological progression.
