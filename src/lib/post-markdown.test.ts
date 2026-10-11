@@ -51,12 +51,23 @@ describe("indexes", () => {
 });
 
 describe("post search", () => {
-  it("matches all words across title, summary, and body, ignoring case", () => {
+  it("matches relevant words across title, summary, and body, ignoring question wording and case", () => {
     const result = blogIndexMarkdown([post], " FIRST markdown ");
     expect(result).toContain("https://lucasarango.space/blog/hello-world");
     expect(result).toContain("Excerpt: Some **markdown**.");
     expect(blogIndexMarkdown([post], "starts")).toContain(post.title);
-    expect(blogIndexMarkdown([post], "first missing")).toContain("No matching posts.");
+    expect(blogIndexMarkdown([post], "nonexistentword")).toContain("No matching posts.");
+    expect(blogIndexMarkdown([post], "What does the first post discuss?")).toContain(post.title);
+  });
+
+  it("reports total matches when a limit leaves some posts out", () => {
+    const result = blogIndexMarkdown([post, { ...post, slug: "another" }], "markdown", {
+      limit: 1,
+    });
+
+    expect(result).toContain("Showing 1 of 2 matching posts.");
+    expect(result).toContain("Increase limit or omit it");
+    expect(result.match(/^- \[/gmu)).toHaveLength(1);
   });
 
   it("treats blank queries as the full index and bounds body excerpts", () => {
