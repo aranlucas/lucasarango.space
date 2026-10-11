@@ -5,12 +5,12 @@ import { PostList } from "@/components/post-list";
 import { PublicationList } from "@/components/publication-list";
 import { SectionHeading } from "@/components/section-heading";
 import { getAllPosts } from "@/lib/api";
-import { FEED_ALTERNATE, SITE_OPEN_GRAPH } from "@/lib/site";
+import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Writing",
   description: "Notes from Lucas Arango on building agents, AI products and software.",
-  alternates: { canonical: "/blog", types: FEED_ALTERNATE },
+  alternates: { canonical: "/blog", types: markdownAlternate("/blog/sitemap.md") },
   openGraph: { ...SITE_OPEN_GRAPH, url: "/blog" },
 };
 

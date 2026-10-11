@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 import { AskProvider } from "@/components/ask/ask-provider";
 import { AskPopup } from "@/components/ask/ask-popup";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { FEED_ALTERNATE, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
+import { markdownAlternate, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
 export const ensureStatic = "navigation";
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: { default: SITE.name, template: `%s | ${SITE.name}` },
   description: SITE.description,
-  alternates: { types: FEED_ALTERNATE },
+  alternates: { types: markdownAlternate("/llms.txt") },
   openGraph: { ...SITE_OPEN_GRAPH, url: "/" },
   twitter: { card: "summary_large_image" },
 };

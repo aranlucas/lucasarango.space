@@ -9,6 +9,11 @@ export const SITE = {
 
 export const FEED_ALTERNATE = { "application/rss+xml": "/feed.xml" };
 
+export const markdownPath = (slug: string) => `/blog/${slug}.md`;
+
+/** Points agents that don't negotiate content at a Markdown version of the page. */
+export const markdownAlternate = (href: string) => ({ ...FEED_ALTERNATE, "text/markdown": href });
+
 export const SITE_OPEN_GRAPH = {
   siteName: SITE.name,
   type: "website" as const,
