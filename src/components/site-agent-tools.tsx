@@ -10,7 +10,6 @@ import {
   ListPostsInput,
   ReadPostInput,
   type EmptyArgs,
-  type ListPostsArgs,
   type ReadPostArgs,
 } from "@/lib/site-agent-inputs";
 
@@ -89,7 +88,7 @@ function readPost(post: string | undefined, signal: AbortSignal) {
 
 /** Registers the site's WebMCP tools; renders nothing. */
 export function SiteAgentTools() {
-  useWebMCP<ListPostsArgs>({
+  useWebMCP({
     ...LIST_POSTS,
     execute: (input, { signal }) => {
       const parsed = ListPostsInput.safeParse(input);
