@@ -15,4 +15,6 @@ export const env = createEnv({
     FREELLMAPI_MODEL: process.env.FREELLMAPI_MODEL,
   },
   emptyStringAsUndefined: true,
+  // CI builds have no FreeLLMAPI secrets.
+  skipValidation: process.env.CI === "true" || process.env.CI === "1",
 });
