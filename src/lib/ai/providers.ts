@@ -1,12 +1,14 @@
-import { createOpenAI } from "@ai-sdk/openai";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 import { env } from "@/env";
 
-const provider = createOpenAI({
+// FreeLLMAPI speaks Chat Completions with `reasoning_content`, which only this provider reads.
+const provider = createOpenAICompatible({
+  name: "freellmapi",
   baseURL: env.FREELLMAPI_BASE_URL,
   apiKey: env.FREELLMAPI_API_KEY,
 });
 
 export function getLanguageModel() {
-  return provider.chat(env.FREELLMAPI_MODEL);
+  return provider.chatModel(env.FREELLMAPI_MODEL);
 }
