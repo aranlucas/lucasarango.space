@@ -10,5 +10,5 @@ minimumReleaseAgeExclude:
   - "@ai-sdk/react@4.0.137 || 4.0.141"
   - ai@7.0.134 || 7.0.138
   - lucide-react@1.53.0
-  - "@ai-sdk/openai@4.0.92"
   - zod@4.6.7
+  - "@ai-sdk/openai-compatible@3.0.68"

@@ -166,9 +166,9 @@ importers:
 
   .:
     dependencies:
-      '@ai-sdk/openai':
-        specifier: 4.0.92
-        version: 4.0.92(zod@4.6.7)
+      '@ai-sdk/openai-compatible':
+        specifier: 3.0.68
+        version: 3.0.68(zod@4.6.7)
       '@ai-sdk/react':
         specifier: 4.0.141
         version: 4.0.141(react@19.3.0)(zod@4.6.7)
@@ -341,8 +341,8 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/openai@4.0.92':
-    resolution: {integrity: sha512-py1DdK0t1bvUOkRCJDU5saql95Kyed13Bo41GYVBKkbff2Lh5pHGAeNZBkOsVSQXr+Ah1qJdR/ZYnisoxvoP6Q==}
+  '@ai-sdk/openai-compatible@3.0.68':
+    resolution: {integrity: sha512-xnBmn8wJvlRX4BtB2nJTzSoYHHD7OpZwUigwH0oKDzg5HfYx+rNFqOKUMQDUuOClhMyDRMn29q/rzp0M41vgQw==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -4000,7 +4000,7 @@ snapshots:
       pkce-challenge: 5.0.1
       zod: 4.6.7
 
-  '@ai-sdk/openai@4.0.92(zod@4.6.7)':
+  '@ai-sdk/openai-compatible@3.0.68(zod@4.6.7)':
     dependencies:
       '@ai-sdk/provider': 4.0.27
       '@ai-sdk/provider-utils': 5.0.59(zod@4.6.7)
