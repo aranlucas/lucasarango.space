@@ -3,31 +3,22 @@ import {
   createUIMessageStream,
   createUIMessageStreamResponse,
   safeValidateUIMessages,
+  smoothStream,
   toUIMessageStream,
-  type ModelMessage,
-  type TextStreamPart,
 } from "ai";
 
-import { chatTools } from "@/lib/ai/agent";
+import { chatTools, type askAgent } from "@/lib/ai/agent";
 import { ChatbotError } from "@/lib/errors";
 import type { ChatMessage } from "@/lib/types";
 
 import { postRequestBodySchema } from "./schema";
-
-/** The part of the Ask agent the route uses; tests pass a fake. A missing provider key surfaces as a stream error. */
-export type ChatAgent = {
-  stream: (options: {
-    messages: ModelMessage[];
-    abortSignal: AbortSignal;
-  }) => Promise<{ stream: ReadableStream<TextStreamPart<typeof chatTools>> }>;
-};
 
 /**
  * Streams the agent's answer. After the AI SDK chatbot template's
  * app/(chat)/api/chat/route.ts, which this file backs: route modules can only
  * export handlers, and tests inject the agent.
  */
-function streamAnswer(req: Request, messages: ChatMessage[], agent: ChatAgent) {
+function streamAnswer(req: Request, messages: ChatMessage[], agent: typeof askAgent) {
   const onError = (cause: unknown) => {
     // Readers see a generic message; the cause goes to the function logs.
     console.error("Ask agent failed:", cause, { vercelId: req.headers.get("x-vercel-id") });
@@ -46,6 +37,9 @@ function streamAnswer(req: Request, messages: ChatMessage[], agent: ChatAgent) {
           ignoreIncompleteToolCalls: true,
         }),
         abortSignal: req.signal,
+        // Free providers send text in uneven bursts; re-chunk it into words so
+        // answers print at a steady pace.
+        experimental_transform: smoothStream(),
       });
 
       writer.merge(
@@ -61,7 +55,8 @@ function streamAnswer(req: Request, messages: ChatMessage[], agent: ChatAgent) {
   });
 }
 
-export function createChatHandler(agent: ChatAgent) {
+/** Tests pass an Ask agent on a mock model. A missing provider key surfaces as a stream error. */
+export function createChatHandler(agent: typeof askAgent) {
   return async function POST(req: Request) {
     const request = postRequestBodySchema.safeParse(await req.json().catch(() => null));
 
