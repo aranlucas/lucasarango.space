@@ -8,16 +8,16 @@ export function Role({ role }: { role: ResumeRole }) {
         <h3 className="font-semibold">{role.company}</h3>
         <span className="tally">{role.dates}</span>
       </div>
-      <p className="mb-3 text-sm text-muted-foreground">
+      <p className="mbe-3 text-sm text-muted-foreground">
         {role.title}, {role.location}
       </p>
       <Bullets items={role.bullets} />
-      <div className="mt-3">
+      <div className="mbs-3">
         <AskAbout
           question={`What did Lucas work on at ${role.company}, and what was the impact?`}
         />
       </div>
-      <hr className="mt-8 mb-0 print:hidden" />
+      <hr className="mbs-8 mbe-0 print:hidden" />
     </li>
   );
 }

@@ -53,7 +53,7 @@ export function PostHeaderSkeleton() {
 
 function PostHeaderLayout({ title, metadata }: { title: ReactNode; metadata: ReactNode }) {
   return (
-    <header className="mb-2">
+    <header className="mbe-2">
       <div className="article-title">{title}</div>
       <div className="post-meta">{metadata}</div>
       <hr />

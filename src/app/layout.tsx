@@ -50,14 +50,14 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <a
           href="#main-content"
-          className="fixed inset-s-4 top-4 z-50 -translate-y-24 rounded-md bg-background px-4 py-3 text-primary shadow-md focus:translate-y-0 print:hidden"
+          className="fixed inset-s-4 inset-bs-4 z-50 -translate-y-24 rounded-md bg-background px-4 py-3 text-primary shadow-md focus:translate-y-0 print:hidden"
         >
           Skip to content
         </a>
         <AskProvider>
           <div className="site-shell print:max-w-none print:px-0">
             <SiteHeader />
-            <main id="main-content" tabIndex={-1} className="flex-1 pb-12 print:pb-0">
+            <main id="main-content" tabIndex={-1} className="flex-1 pbe-12 print:pbe-0">
               {children}
             </main>
             <SiteFooter />

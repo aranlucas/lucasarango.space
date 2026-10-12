@@ -30,7 +30,7 @@ export function Thumbstick({ onWalk }: { onWalk: (walk: Walk) => void }) {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-s-5 bottom-5 size-28 touch-none rounded-full border border-night-foreground/30 bg-night/40"
+      className="absolute inset-s-5 inset-be-5 size-28 touch-none rounded-full border border-night-foreground/30 bg-night/40"
       onPointerDown={(event) => {
         event.currentTarget.setPointerCapture(event.pointerId);
         push(event);

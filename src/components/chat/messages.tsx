@@ -20,7 +20,7 @@ export function Messages() {
 
   if (messages.length === 0) {
     return (
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-4 pb-2">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pbs-4 pbe-2">
         <Greeting />
         <SuggestedActions />
       </div>
@@ -30,7 +30,7 @@ export function Messages() {
   return (
     <Conversation>
       <ConversationContent className="px-5">
-        <div className="flex flex-col pt-4 pb-6">
+        <div className="flex flex-col pbs-4 pbe-6">
           {messages.map((message, index) => (
             <PreviewMessage
               key={message.id}
@@ -40,7 +40,7 @@ export function Messages() {
           ))}
           {status === "submitted" && messages.at(-1)?.role !== "assistant" && <ThinkingMessage />}
           {error !== undefined && (
-            <p className="mt-4 text-base text-destructive" role="alert">
+            <p className="mbs-4 text-base text-destructive" role="alert">
               {error.message === "" ? "The answer didn’t come through." : error.message}{" "}
               <Button
                 variant="link"
@@ -54,7 +54,7 @@ export function Messages() {
             </p>
           )}
           {isFull(messages) && (
-            <p className="mt-6 text-sm text-muted-foreground" role="status">
+            <p className="mbs-6 text-sm text-muted-foreground" role="status">
               This conversation is full. Start a new conversation to keep asking.
             </p>
           )}

@@ -3,7 +3,7 @@ export function ReadingProgress() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 reading-progress print:hidden"
+      className="pointer-events-none fixed inset-x-0 inset-bs-0 z-50 reading-progress print:hidden"
     >
       <span />
     </div>

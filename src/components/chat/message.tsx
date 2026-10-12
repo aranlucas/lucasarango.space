@@ -58,7 +58,7 @@ export function PreviewMessage({ message, isLoading }: MessageProps) {
 
   if (message.role === "assistant" && isLoading && !message.parts.some(hasContent)) {
     return (
-      <div className="mt-2 text-base/relaxed">
+      <div className="mbs-2 text-base/relaxed">
         <Thinking labels={[WAITING_MESSAGE]} />
       </div>
     );
@@ -77,7 +77,7 @@ export function PreviewMessage({ message, isLoading }: MessageProps) {
     />
   ));
 
-  return message.role === "user" ? parts : <div className="mt-2 text-base/relaxed">{parts}</div>;
+  return message.role === "user" ? parts : <div className="mbs-2 text-base/relaxed">{parts}</div>;
 }
 
 type PreviewPartProps = {
@@ -93,7 +93,7 @@ function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
     case "text":
       // Every question after the first is ruled off from the answer above it.
       return role === "user" ? (
-        <h3 className="text-lg/snug font-semibold text-pretty text-primary not-first:mt-6 not-first:border-t not-first:pt-6">
+        <h3 className="text-lg/snug font-semibold text-pretty text-primary not-first:mbs-6 not-first:border-bs not-first:pbs-6">
           {part.text}
         </h3>
       ) : (
@@ -150,7 +150,7 @@ function ToolPart({ part, isLoading }: ToolPartProps) {
 /** Shown after a question is sent, before the reply exists. */
 export function ThinkingMessage() {
   return (
-    <div className="mt-2">
+    <div className="mbs-2">
       <Thinking labels={[WAITING_MESSAGE]} />
     </div>
   );

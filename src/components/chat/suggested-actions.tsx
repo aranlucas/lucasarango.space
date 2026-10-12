@@ -9,9 +9,9 @@ export function SuggestedActions() {
   const { send } = useActiveChat();
 
   return (
-    <ul className="mt-4 border-t">
+    <ul className="mbs-4 border-bs">
       {suggestions.map((question) => (
-        <li key={question} className="border-b">
+        <li key={question} className="border-be">
           <Button
             variant="ghost"
             onClick={() => {

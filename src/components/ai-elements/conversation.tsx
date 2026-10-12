@@ -35,7 +35,7 @@ export const ConversationScrollButton = () => {
       size="icon"
       onClick={() => void scrollToBottom()}
       aria-label="Scroll to latest"
-      className="absolute inset-s-1/2 bottom-3 -translate-x-1/2 rounded-full bg-card text-muted-foreground shadow-sm"
+      className="absolute inset-s-1/2 inset-be-3 -translate-x-1/2 rounded-full bg-card text-muted-foreground shadow-sm"
     >
       <ArrowDown aria-hidden="true" />
     </Button>

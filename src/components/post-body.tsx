@@ -10,7 +10,7 @@ export async function PostBody({ markdown }: { markdown: string }) {
 
   return (
     <div
-      className="prose prose-lg max-w-none wrap-break-word prose-headings:font-semibold prose-h2:mt-11 prose-pre:rounded-md prose-pre:text-sm prose-pre:leading-relaxed"
+      className="prose prose-lg max-w-none wrap-break-word prose-headings:font-semibold prose-h2:mbs-11 prose-pre:rounded-md prose-pre:text-sm prose-pre:leading-relaxed"
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );
