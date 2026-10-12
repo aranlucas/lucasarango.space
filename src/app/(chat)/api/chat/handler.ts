@@ -3,8 +3,10 @@ import {
   createUIMessageStream,
   createUIMessageStreamResponse,
   safeValidateUIMessages,
+  smoothStream,
   toUIMessageStream,
   type ModelMessage,
+  type StreamTextTransform,
   type TextStreamPart,
 } from "ai";
 
@@ -19,6 +21,7 @@ export type ChatAgent = {
   stream: (options: {
     messages: ModelMessage[];
     abortSignal: AbortSignal;
+    experimental_transform: StreamTextTransform<typeof chatTools>;
   }) => Promise<{ stream: ReadableStream<TextStreamPart<typeof chatTools>> }>;
 };
 
@@ -46,6 +49,9 @@ function streamAnswer(req: Request, messages: ChatMessage[], agent: ChatAgent) {
           ignoreIncompleteToolCalls: true,
         }),
         abortSignal: req.signal,
+        // Free providers send text in uneven bursts; re-chunk it into words so
+        // answers print at a steady pace.
+        experimental_transform: smoothStream(),
       });
 
       writer.merge(

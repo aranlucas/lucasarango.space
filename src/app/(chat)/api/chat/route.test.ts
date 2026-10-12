@@ -1,4 +1,8 @@
+import type { TextStreamPart, UIMessageChunk } from "ai";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+
+import { chatTools } from "@/lib/ai/agent";
+
 import { createChatHandler, type ChatAgent } from "./handler";
 
 const stream = vi.fn<ChatAgent["stream"]>();
@@ -58,6 +62,40 @@ it("accepts a follow-up after a tool call was stopped before its result", async 
     { role: "user", content: [{ type: "text", text: "List the posts" }] },
     { role: "user", content: [{ type: "text", text: "What experience does Lucas have?" }] },
   ]);
+});
+
+it("re-chunks a burst of answer text into words", async () => {
+  // Like streamText, the fake agent runs its output through the route's transform.
+  stream.mockImplementation(({ experimental_transform }) => {
+    const parts: TextStreamPart<typeof chatTools>[] = [
+      { type: "text-start", id: "answer" },
+      { type: "text-delta", id: "answer", text: "Lucas builds developer tools." },
+      { type: "text-end", id: "answer" },
+    ];
+
+    const burst = new ReadableStream<TextStreamPart<typeof chatTools>>({
+      start: (controller) => {
+        for (const part of parts) controller.enqueue(part);
+        controller.close();
+      },
+    });
+
+    return Promise.resolve({
+      stream: burst.pipeThrough(experimental_transform({ tools: chatTools, stopStream: () => {} })),
+    });
+  });
+
+  const body = await (await POST(request([question("What does Lucas do?")]))).text();
+
+  // SAFETY: every `data: {` line of a UI message stream response is one JSON-encoded UIMessageChunk.
+  const deltas = body
+    .split("\n")
+    .flatMap((line) =>
+      line.startsWith("data: {") ? [JSON.parse(line.slice(6)) as UIMessageChunk] : [],
+    )
+    .flatMap((chunk) => (chunk.type === "text-delta" ? [chunk.delta] : []));
+
+  expect(deltas).toEqual(["Lucas ", "builds ", "developer ", "tools."]);
 });
 
 it("hides provider failures that happen before the first chunk", async () => {
