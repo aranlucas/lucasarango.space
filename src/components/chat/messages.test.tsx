@@ -44,7 +44,11 @@ function ask(question: string) {
   fireEvent.click(screen.getByRole("button", { name: "Ask" }));
 }
 
-const finished = () => waitFor(() => screen.getByRole("button", { name: "Ask" }));
+/** A status label, given time to come up past the row's hold. */
+const label = (text: string) => screen.findByText(text, {}, { timeout: 3000 });
+
+const finished = () =>
+  waitFor(() => screen.getByRole("button", { name: "Ask" }), { timeout: 4000 });
 
 test("a finished answer offers Copy and Retry, and Copy copies its Markdown", async () => {
   const script = createChat<ChatMessage>()
@@ -84,25 +88,61 @@ test("Retry asks again and replaces the latest answer", async () => {
   expect(screen.getAllByRole("heading", { name: "Hi" })).toHaveLength(1);
 });
 
+const post = {
+  title: "Hello, world",
+  date: "2026-01-01",
+  summary: "The first post.",
+  url: "https://example.com/blog/hello",
+  link: "[Hello, world](https://example.com/blog/hello)",
+};
+
 test("while a tool runs, the answer says what it's doing and offers no actions yet", async () => {
   const script = createChat<ChatMessage>()
     .user("What has he written?")
     .assistant(({ writer }) => {
-      writer.tool("listPosts", { input: {} }).sleep(150).output([]);
-      writer.text("Nothing yet.");
+      // Past the status row's hold, so the tool's label gets its turn.
+      writer.tool("listPosts", { input: {} }).sleep(1500).output([post]);
+      writer.text("One post.");
     });
 
   renderChat(script);
 
   ask("What has he written?");
 
-  expect(await screen.findByText("Looking through the posts")).toBeDefined();
+  expect(await label("Looking through the posts")).toBeDefined();
   expect(screen.getByRole("log").getAttribute("aria-busy")).toBe("true");
   expect(screen.queryByRole("button", { name: "Copy" })).toBeNull();
 
   await finished();
-  expect(screen.getByText("Nothing yet.")).toBeDefined();
+  expect(screen.getByText("One post.")).toBeDefined();
   expect(screen.getByRole("log").getAttribute("aria-busy")).toBe("false");
+  // The finished step stays above the answer.
+  expect(screen.getByText("Looked through 1 post")).toBeDefined();
+});
+
+test("one status row carries the whole wait, so it never restarts between steps", async () => {
+  const script = createChat<ChatMessage>()
+    .user("What has he written?")
+    .assistant(({ writer }) => {
+      writer.tool("listPosts", { input: {} }).sleep(1500).output([post]);
+      writer.stepStart();
+      writer.reasoning("Picking the best post. Then", { delayMs: 300 });
+      writer.text("One post.");
+    });
+
+  renderChat(script);
+
+  ask("What has he written?");
+  const status = await screen.findByRole("status");
+
+  expect(await label("Looking through the posts")).toBe(status.lastElementChild);
+  expect(await label("Thinking it over")).toBe(status.lastElementChild);
+  // The next step's reasoning shows its latest thought in the same row.
+  expect(await label("Picking the best post")).toBe(status.lastElementChild);
+  expect(screen.getByRole("status")).toBe(status);
+
+  await finished();
+  expect(screen.queryByRole("status")).toBeNull();
 });
 
 test("each question is a scroll anchor, so it pins near the top while its answer prints", async () => {
