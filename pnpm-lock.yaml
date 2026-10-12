@@ -94,60 +94,6 @@ packages:
     engines: {node: '>=18.*'}
     hasBin: true
 
-  "@ai-sdk/openai@4.0.91":
-    resolution:
-      integrity: sha512-Nk382R6us0GNxI1cGJUXMryz1XHpyrmC3K/Rmqdx9tIsqAlc7UtuO/hC9dd31F41w8uzoS362HJSDXgAI7zKbA==
-    engines:
-      node: ">=22"
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-  "@ai-sdk/provider@4.0.26":
-    resolution:
-      integrity: sha512-BZ443uBEq6HuMA+Z4b7Hpm65GpZSo7pWqnYqpf/7tAO3C48JbtvAhOE2JnODFj+jodsZzfRHkAyQb64xuD2tZQ==
-    engines:
-      node: ">=22"
-  "@ai-sdk/provider-utils@5.0.58":
-    resolution:
-      integrity: sha512-iXSwKR/7LpHzAlyrUl+bTinwzmZ3Nmup1viwPisM5Gn5cogRdIG4rV9w1ZDuKFcrXyu/AeVs42E1CX/0aNwrfQ==
-    engines:
-      node: ">=22"
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-  "@t3-oss/env-core@0.13.11":
-    resolution:
-      integrity: sha512-sM7GYY+KL7H/Hl0BE0inWfk3nRHZOLhmVn7sHGxaZt9FAR6KqREXAE+6TqKfiavfXmpRxO/OZ2QgKRd+oiBYRQ==
-    peerDependencies:
-      arktype: ^2.1.0
-      typescript: ">=5.0.0"
-      valibot: ^1.0.0-beta.7 || ^1.0.0
-      zod: ^3.24.0 || ^4.0.0
-    peerDependenciesMeta:
-      arktype:
-        optional: true
-      typescript:
-        optional: true
-      valibot:
-        optional: true
-      zod:
-        optional: true
-  "@t3-oss/env-nextjs@0.13.11":
-    resolution:
-      integrity: sha512-NC+3j7YWgpzdFu1t5y/8wqibTK0lm5RS4bjXA1n8uwik3wIR4iZM4Fa+U2BaMa5k3Qk8RZiYhoAIX0WogmGkzg==
-    peerDependencies:
-      arktype: ^2.1.0
-      typescript: ">=5.0.0"
-      valibot: ^1.0.0-beta.7 || ^1.0.0
-      zod: ^3.24.0 || ^4.0.0
-    peerDependenciesMeta:
-      arktype:
-        optional: true
-      typescript:
-        optional: true
-      valibot:
-        optional: true
-      zod:
-        optional: true
-
 snapshots:
 
   '@pnpm/exe.android-arm64@12.10.1':
@@ -4005,6 +3951,60 @@ packages:
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+  "@ai-sdk/openai@4.0.91":
+    resolution:
+      integrity: sha512-Nk382R6us0GNxI1cGJUXMryz1XHpyrmC3K/Rmqdx9tIsqAlc7UtuO/hC9dd31F41w8uzoS362HJSDXgAI7zKbA==
+    engines:
+      node: ">=22"
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+  "@ai-sdk/provider@4.0.26":
+    resolution:
+      integrity: sha512-BZ443uBEq6HuMA+Z4b7Hpm65GpZSo7pWqnYqpf/7tAO3C48JbtvAhOE2JnODFj+jodsZzfRHkAyQb64xuD2tZQ==
+    engines:
+      node: ">=22"
+  "@ai-sdk/provider-utils@5.0.58":
+    resolution:
+      integrity: sha512-iXSwKR/7LpHzAlyrUl+bTinwzmZ3Nmup1viwPisM5Gn5cogRdIG4rV9w1ZDuKFcrXyu/AeVs42E1CX/0aNwrfQ==
+    engines:
+      node: ">=22"
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+  "@t3-oss/env-core@0.13.11":
+    resolution:
+      integrity: sha512-sM7GYY+KL7H/Hl0BE0inWfk3nRHZOLhmVn7sHGxaZt9FAR6KqREXAE+6TqKfiavfXmpRxO/OZ2QgKRd+oiBYRQ==
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: ">=5.0.0"
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+  "@t3-oss/env-nextjs@0.13.11":
+    resolution:
+      integrity: sha512-NC+3j7YWgpzdFu1t5y/8wqibTK0lm5RS4bjXA1n8uwik3wIR4iZM4Fa+U2BaMa5k3Qk8RZiYhoAIX0WogmGkzg==
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: ">=5.0.0"
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
 
 snapshots:
 
