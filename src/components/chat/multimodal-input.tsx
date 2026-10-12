@@ -1,5 +1,7 @@
 "use client";
 
+import { useChat } from "@ai-sdk/react";
+
 import { useAsk } from "@/components/chat/ask-provider";
 import {
   InputGroup,
@@ -7,7 +9,7 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { useActiveChat } from "@/hooks/use-active-chat";
+import { isAnswering, isFull, useActiveChat } from "@/hooks/use-active-chat";
 import { CHAT_LIMITS } from "@/lib/constants";
 
 /** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. Text only. */
@@ -56,9 +58,10 @@ export function MultimodalInput({ id }: { id: string }) {
 }
 
 function SubmitButton({ input }: { input: string }) {
-  const { stop, isLoading, isFull } = useActiveChat();
+  const { chat } = useActiveChat();
+  const { messages, status, stop } = useChat({ chat });
 
-  if (isLoading) {
+  if (isAnswering(status)) {
     return (
       <InputGroupButton
         variant="outline"
@@ -79,7 +82,7 @@ function SubmitButton({ input }: { input: string }) {
       variant="default"
       size="sm"
       className="min-h-11"
-      disabled={input.trim() === "" || isFull}
+      disabled={input.trim() === "" || isFull(messages)}
     >
       Ask
     </InputGroupButton>

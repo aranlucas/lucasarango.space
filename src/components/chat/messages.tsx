@@ -1,5 +1,7 @@
 "use client";
 
+import { useChat } from "@ai-sdk/react";
+
 import {
   Conversation,
   ConversationContent,
@@ -9,11 +11,12 @@ import { Greeting } from "@/components/chat/greeting";
 import { PreviewMessage, ThinkingMessage } from "@/components/chat/message";
 import { SuggestedActions } from "@/components/chat/suggested-actions";
 import { Button } from "@/components/ui/button";
-import { useActiveChat } from "@/hooks/use-active-chat";
+import { isFull, useActiveChat } from "@/hooks/use-active-chat";
 
 /** The greeting and suggestions before the first question, then the transcript. */
 export function Messages() {
-  const { messages, status, error, regenerate, isFull } = useActiveChat();
+  const { chat } = useActiveChat();
+  const { messages, status, error, regenerate } = useChat({ chat });
 
   if (messages.length === 0) {
     return (
@@ -50,7 +53,7 @@ export function Messages() {
               </Button>
             </p>
           )}
-          {isFull && (
+          {isFull(messages) && (
             <p className="mt-6 text-sm text-muted-foreground" role="status">
               This conversation is full. Start a new conversation to keep asking.
             </p>

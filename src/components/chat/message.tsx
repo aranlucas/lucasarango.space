@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 
 import { MessageResponse } from "@/components/ai-elements/message";
 import { useAsk } from "@/components/chat/ask-provider";
-import { useDataStream } from "@/components/chat/data-stream-provider";
 import { PeakGlyph } from "@/components/chat/icons";
-import { WAITING } from "@/lib/constants";
+import { WAITING_MESSAGE } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 
 // Rotated while the model reasons, so a long wait still shows progress.
@@ -36,7 +35,6 @@ function hasContent(part: MessagePart): boolean {
       return true;
     // Parts this agent doesn't produce, or that the popup doesn't show.
     case "custom":
-    case "data-waiting-status":
     case "dynamic-tool":
     case "file":
     case "reasoning-file":
@@ -61,7 +59,7 @@ export function PreviewMessage({ message, isLoading }: MessageProps) {
   if (message.role === "assistant" && isLoading && !message.parts.some(hasContent)) {
     return (
       <div className="mt-2 text-base/relaxed">
-        <WaitingText />
+        <Thinking labels={[WAITING_MESSAGE]} />
       </div>
     );
   }
@@ -113,7 +111,6 @@ function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
       return <ToolPart part={part} isLoading={isLoading} />;
     // Parts this agent doesn't produce, or that the popup doesn't show.
     case "custom":
-    case "data-waiting-status":
     case "dynamic-tool":
     case "file":
     case "reasoning-file":
@@ -154,16 +151,9 @@ function ToolPart({ part, isLoading }: ToolPartProps) {
 export function ThinkingMessage() {
   return (
     <div className="mt-2">
-      <WaitingText />
+      <Thinking labels={[WAITING_MESSAGE]} />
     </div>
   );
-}
-
-/** The route's waiting status, which turns into "still waiting" when the model is slow. */
-function WaitingText() {
-  const { waitingStatus } = useDataStream();
-
-  return <Thinking labels={[waitingStatus?.message ?? WAITING.message]} />;
 }
 
 function Thinking({ labels }: { labels: readonly string[] }) {

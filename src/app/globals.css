@@ -1031,7 +1031,7 @@ hr.rule-double {
   }
 }
 
-/* Only the changing waiting label fades in. */
+/* Only the changing thinking label fades in. */
 @media (prefers-reduced-motion: no-preference) {
   .ask-fade-in {
     animation: ask-fade-in 150ms ease-out;

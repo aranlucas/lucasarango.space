@@ -1,28 +1,40 @@
 "use client";
 
-import { useChat, type UseChatHelpers } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { Chat } from "@ai-sdk/react";
+import { DefaultChatTransport, type ChatStatus } from "ai";
 import { createContext, use, useEffect, useRef, useState } from "react";
 
 import { useAsk } from "@/components/chat/ask-provider";
-import { useDataStream } from "@/components/chat/data-stream-provider";
 import { CHAT_LIMITS } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 import { fetchWithErrorHandlers } from "@/lib/utils";
 
-type ActiveChatContextValue = Pick<
-  UseChatHelpers<ChatMessage>,
-  "messages" | "setMessages" | "status" | "error" | "stop" | "regenerate"
-> & {
+/**
+ * One conversation shared by the Ask panel, after the AI SDK's shared chat
+ * context cookbook: components read it with useChat({ chat }).
+ */
+type ActiveChatContextValue = {
+  chat: Chat<ChatMessage>;
+  /** Stops any answer and starts a new conversation. */
+  clearChat: () => void;
   input: string;
   setInput: (input: string) => void;
-  isLoading: boolean;
-  isFull: boolean;
   /** Sends a question unless it's empty or the chat is busy or full; false when it didn't. */
   send: (text: string) => boolean;
 };
 
 const ActiveChatContext = createContext<ActiveChatContextValue | null>(null);
+
+export const isAnswering = (status: ChatStatus) => status === "submitted" || status === "streaming";
+
+export const isFull = (messages: ChatMessage[]) => messages.length >= CHAT_LIMITS.messages;
+
+// Client-only mounting lets the SDK safely generate its default random chat ID.
+function createChat() {
+  return new Chat<ChatMessage>({
+    transport: new DefaultChatTransport({ api: "/api/chat", fetch: fetchWithErrorHandlers }),
+  });
+}
 
 /** Sends questions queued from elsewhere on the site, such as "Ask about this role". */
 function useQueuedQuestions(send: (text: string) => boolean, setInput: (input: string) => void) {
@@ -43,27 +55,20 @@ function useQueuedQuestions(send: (text: string) => boolean, setInput: (input: s
 
 /** Mounted once on the client and retained by the root layout across navigation. */
 export function ActiveChatProvider({ children }: { children: React.ReactNode }) {
-  const { setWaitingStatus } = useDataStream();
+  const [chat, setChat] = useState(createChat);
   const [input, setInput] = useState("");
 
-  // Client-only mounting lets the SDK safely generate its default random chat ID.
-  const { sendMessage, ...chat } = useChat<ChatMessage>({
-    transport: new DefaultChatTransport({ api: "/api/chat", fetch: fetchWithErrorHandlers }),
-    onData: (part) => {
-      if (part.type === "data-waiting-status") setWaitingStatus(part.data);
-    },
-  });
-
-  const isLoading = chat.status === "submitted" || chat.status === "streaming";
-  const isFull = chat.messages.length >= CHAT_LIMITS.messages;
+  const clearChat = () => {
+    void chat.stop();
+    setChat(createChat());
+  };
 
   const send = (text: string) => {
     const question = text.trim();
 
-    if (question === "" || isLoading || isFull) return false;
+    if (question === "" || isAnswering(chat.status) || isFull(chat.messages)) return false;
 
-    setWaitingStatus(undefined);
-    void sendMessage({ text: question });
+    void chat.sendMessage({ text: question });
     setInput("");
 
     return true;
@@ -72,7 +77,7 @@ export function ActiveChatProvider({ children }: { children: React.ReactNode }) 
   useQueuedQuestions(send, setInput);
 
   return (
-    <ActiveChatContext value={{ ...chat, input, setInput, isLoading, isFull, send }}>
+    <ActiveChatContext value={{ chat, clearChat, input, setInput, send }}>
       {children}
     </ActiveChatContext>
   );

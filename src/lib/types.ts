@@ -5,11 +5,4 @@ import type { InferUITools, UIMessage } from "ai";
 
 import type { chatTools } from "@/lib/ai/agent";
 
-/** Sent by the route while it waits for the model's first output; never saved in the conversation. */
-export type WaitingStatusData = { message: string };
-
-export type ChatMessage = UIMessage<
-  unknown,
-  { "waiting-status": WaitingStatusData },
-  InferUITools<typeof chatTools>
->;
+export type ChatMessage = UIMessage<unknown, never, InferUITools<typeof chatTools>>;

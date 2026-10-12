@@ -1,5 +1,6 @@
 "use client";
 
+import { useChat } from "@ai-sdk/react";
 import { SquarePen, X } from "lucide-react";
 
 import { useAsk } from "@/components/chat/ask-provider";
@@ -8,7 +9,8 @@ import { useActiveChat } from "@/hooks/use-active-chat";
 
 export function ChatHeader({ titleId }: { titleId: string }) {
   const { close, inputRef } = useAsk();
-  const { messages, setMessages, stop } = useActiveChat();
+  const { chat, clearChat } = useActiveChat();
+  const { messages } = useChat({ chat });
 
   return (
     <div className="flex items-center justify-between gap-3 border-b border-dashed border-foreground py-2 ps-5 pe-3">
@@ -23,8 +25,7 @@ export function ChatHeader({ titleId }: { titleId: string }) {
             aria-label="New conversation"
             title="New conversation"
             onClick={() => {
-              void stop();
-              setMessages([]);
+              clearChat();
               inputRef.current?.focus();
             }}
             className="size-11 text-muted-foreground"
