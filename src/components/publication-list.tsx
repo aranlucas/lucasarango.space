@@ -10,7 +10,7 @@ export async function PublicationList() {
     <ul className="flex flex-col gap-6">
       {publications.map((post) => (
         <li key={post.href}>
-          <p className="mb-1 text-xs text-muted-foreground">
+          <p className="mbe-1 text-xs text-muted-foreground">
             {post.publisher} · <time dateTime={post.date}>{formatMonth(post.date, "long")}</time>
           </p>
           <h3 className="text-base font-semibold">
@@ -18,7 +18,7 @@ export async function PublicationList() {
               {post.title} <ArrowUpRight aria-hidden="true" className="inline size-4" />
             </TextLink>
           </h3>
-          <p className="mt-1 text-sm/relaxed text-muted-foreground">{post.summary}</p>
+          <p className="mbs-1 text-sm/relaxed text-muted-foreground">{post.summary}</p>
         </li>
       ))}
     </ul>

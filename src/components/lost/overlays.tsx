@@ -40,7 +40,7 @@ export function Scoreboard({ hud }: { hud: Hud }) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-0 top-0 flex justify-between px-4 py-3 font-mono text-sm tabular-nums"
+      className="pointer-events-none absolute inset-x-0 inset-bs-0 flex justify-between px-4 py-3 font-mono text-sm tabular-nums"
     >
       <span>Score {hud.score}</span>
       <span>0:{String(hud.secondsLeft).padStart(2, "0")}</span>
@@ -58,7 +58,7 @@ export function RoundOver({
   onPlay: () => void;
 }) {
   return (
-    <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-3 bg-linear-to-t from-night to-transparent px-4 pt-8 pb-3 text-sm">
+    <div className="absolute inset-x-0 inset-be-0 flex flex-wrap items-center justify-between gap-3 bg-linear-to-t from-night to-transparent px-4 pbs-8 pbe-3 text-sm">
       <p>
         You scored <strong className="font-semibold">{score}</strong>
         <span className="text-night-muted"> · best {best}</span>. Follow the sign to the{" "}

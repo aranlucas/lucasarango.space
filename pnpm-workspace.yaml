@@ -1,12 +1,14 @@
 minimumReleaseAgeExclude:
   - "@types/node@26.6.3"
-  - "@vitest/mocker@5.0.2"
-  - "@vitest/spy@5.0.2"
-  - vitest@5.0.2
-  - "@ai-sdk/gateway@4.0.108"
-  - "@ai-sdk/mcp@2.0.71"
-  - "@ai-sdk/provider-utils@5.0.57"
-  - "@ai-sdk/provider@4.0.25"
-  - "@ai-sdk/react@4.0.137"
-  - ai@7.0.134
+  - "@vitest/mocker@5.0.2 || 5.0.4"
+  - "@vitest/spy@5.0.2 || 5.0.4"
+  - vitest@5.0.2 || 5.0.4
+  - "@ai-sdk/gateway@4.0.108 || 4.0.111"
+  - "@ai-sdk/mcp@2.0.71 || 2.0.74"
+  - "@ai-sdk/provider-utils@5.0.57 || 5.0.59"
+  - "@ai-sdk/provider@4.0.25 || 4.0.27"
+  - "@ai-sdk/react@4.0.137 || 4.0.141"
+  - ai@7.0.134 || 7.0.138
   - lucide-react@1.53.0
+  - "@ai-sdk/openai@4.0.92"
+  - zod@4.6.7

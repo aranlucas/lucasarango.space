@@ -19,7 +19,7 @@ export function MultimodalInput({ id }: { id: string }) {
 
   return (
     <form
-      className="border-t px-4 pt-3 pb-4"
+      className="border-bs px-4 pbs-3 pbe-4"
       onSubmit={(e) => {
         e.preventDefault();
         send(input);
@@ -49,7 +49,7 @@ export function MultimodalInput({ id }: { id: string }) {
           }}
           autoComplete="off"
         />
-        <InputGroupAddon align="inline-end" className="self-end pb-1.5">
+        <InputGroupAddon align="inline-end" className="self-end pbe-1.5">
           <SubmitButton input={input} />
         </InputGroupAddon>
       </InputGroup>

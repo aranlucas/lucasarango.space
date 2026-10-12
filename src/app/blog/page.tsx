@@ -41,7 +41,7 @@ export default function BlogIndex() {
         ))}
         <section aria-labelledby="elsewhere">
           <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
-          <p className="mb-3 text-muted-foreground">
+          <p className="mbe-3 text-muted-foreground">
             Articles I coauthored with the DoorDash engineering team.
           </p>
           <PublicationList />

@@ -13,7 +13,7 @@ export function ChatHeader({ titleId }: { titleId: string }) {
   const { messages } = useChat({ chat });
 
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-dashed border-foreground py-2 ps-5 pe-3">
+    <div className="flex items-center justify-between gap-3 border-be border-dashed border-foreground py-2 ps-5 pe-3">
       <h2 id={titleId} className="font-heading text-lg">
         Ask about my work
       </h2>

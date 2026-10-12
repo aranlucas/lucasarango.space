@@ -28,7 +28,7 @@ export default async function ResumePage() {
 
         <section aria-labelledby="summary">
           <SectionHeading id="summary">Summary</SectionHeading>
-          <p className="mb-4 text-pretty">{resume.summary}</p>
+          <p className="mbe-4 text-pretty">{resume.summary}</p>
           <p className="border-y border-dashed border-foreground py-3 text-sm/relaxed text-muted-foreground">
             {LOOKING_FOR}
           </p>
@@ -52,7 +52,7 @@ export default async function ResumePage() {
           </div>
           <Link
             href="/#projects"
-            className="mt-4 inline-block text-sm text-primary underline underline-offset-3 print:hidden"
+            className="mbs-4 inline-block text-sm text-primary underline underline-offset-3 print:hidden"
           >
             Explore selected projects and source code
           </Link>
@@ -69,7 +69,7 @@ export default async function ResumePage() {
 function Project({ project }: { project: ResumeProject }) {
   return (
     <div>
-      <h3 className="mb-3 font-semibold">
+      <h3 className="mbe-3 font-semibold">
         {project.url === undefined ? (
           project.name
         ) : (
@@ -84,11 +84,11 @@ function Project({ project }: { project: ResumeProject }) {
 function ResumeHeader({ resume }: { resume: Resume }) {
   return (
     <header>
-      <h1 className="page-title mb-2">
+      <h1 className="page-title mbe-2">
         <span className="print:hidden">Résumé</span>
         <span className="hidden print:inline">{resume.name}</span>
       </h1>
-      <p className="mb-4 text-center text-muted-foreground">{resume.title}</p>
+      <p className="mbe-4 text-center text-muted-foreground">{resume.title}</p>
       <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
         <span>{resume.location}</span>
         {resume.profiles.map((profile) => (
@@ -97,7 +97,7 @@ function ResumeHeader({ resume }: { resume: Resume }) {
           </TextLink>
         ))}
       </div>
-      <div className="mt-6 flex justify-center print:hidden">
+      <div className="mbs-6 flex justify-center print:hidden">
         <PrintButton />
       </div>
     </header>
