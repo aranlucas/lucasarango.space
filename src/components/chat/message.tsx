@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { useAsk } from "@/components/chat/ask-provider";
 import { PeakGlyph } from "@/components/chat/icons";
+import { Button } from "@/components/ui/button";
+import { Message, MessageContent, MessageFooter } from "@/components/ui/message";
 import { WAITING_MESSAGE } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 
@@ -15,6 +17,8 @@ const REASONING_LABELS = ["Thinking it over", "Connecting the dots", "Picking th
 type MessageProps = {
   message: ChatMessage;
   isLoading: boolean;
+  /** Asks again for this answer; only the latest finished answer has it. */
+  onRetry?: () => void;
 };
 
 type MessagePart = ChatMessage["parts"][number];
@@ -48,7 +52,7 @@ function hasContent(part: MessagePart): boolean {
 }
 
 /** Questions read as the headings of an interview transcript; answers follow part by part. */
-export function PreviewMessage({ message, isLoading }: MessageProps) {
+export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
   const { hide } = useAsk();
 
   // Full screen on phones, so step aside to show the linked page.
@@ -58,9 +62,9 @@ export function PreviewMessage({ message, isLoading }: MessageProps) {
 
   if (message.role === "assistant" && isLoading && !message.parts.some(hasContent)) {
     return (
-      <div className="mbs-2 text-base/relaxed">
+      <Message className="mbs-2 text-base/relaxed">
         <Thinking labels={[WAITING_MESSAGE]} />
-      </div>
+      </Message>
     );
   }
 
@@ -77,7 +81,79 @@ export function PreviewMessage({ message, isLoading }: MessageProps) {
     />
   ));
 
-  return message.role === "user" ? parts : <div className="mbs-2 text-base/relaxed">{parts}</div>;
+  if (message.role === "user") {
+    return (
+      <Message className="text-base">
+        <MessageContent className="gap-0">{parts}</MessageContent>
+      </Message>
+    );
+  }
+
+  return (
+    <Message className="mbs-2 text-base/relaxed">
+      <MessageContent className="gap-2">
+        <div>{parts}</div>
+        {!isLoading && <AnswerActions answer={answerText(message)} onRetry={onRetry} />}
+      </MessageContent>
+    </Message>
+  );
+}
+
+/** Copy, and Retry on the latest answer, once it has finished printing. */
+function AnswerActions({ answer, onRetry }: { answer: string; onRetry?: () => void }) {
+  if (answer === "") return null;
+
+  return (
+    <MessageFooter className="-ms-1.5 gap-1 px-0">
+      <CopyAction text={answer} />
+      {onRetry !== undefined && (
+        <Button variant="ghost" onClick={onRetry} className="answer-action">
+          Retry
+        </Button>
+      )}
+    </MessageFooter>
+  );
+}
+
+/** The answer's Markdown, as the reader would paste it elsewhere. */
+function answerText(message: ChatMessage): string {
+  return message.parts
+    .flatMap((part) => (part.type === "text" ? [part.text.trim()] : []))
+    .join("\n\n")
+    .trim();
+}
+
+const COPIED_MS = 2000;
+
+/** Copies the answer and says so for a moment. */
+function CopyAction({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const id = copied
+      ? setTimeout(() => {
+          setCopied(false);
+        }, COPIED_MS)
+      : undefined;
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [copied]);
+
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => {
+        void navigator.clipboard.writeText(text).then(() => {
+          setCopied(true);
+        });
+      }}
+      className="answer-action"
+    >
+      <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+    </Button>
+  );
 }
 
 type PreviewPartProps = {
@@ -91,11 +167,8 @@ type PreviewPartProps = {
 function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
   switch (part.type) {
     case "text":
-      // Every question after the first is ruled off from the answer above it.
       return role === "user" ? (
-        <h3 className="text-lg/snug font-semibold text-pretty text-primary not-first:mbs-6 not-first:border-bs not-first:pbs-6">
-          {part.text}
-        </h3>
+        <h3 className="text-lg/snug font-semibold text-pretty text-primary">{part.text}</h3>
       ) : (
         <MessageResponse
           onNavigate={onNavigate}
@@ -150,9 +223,9 @@ function ToolPart({ part, isLoading }: ToolPartProps) {
 /** Shown after a question is sent, before the reply exists. */
 export function ThinkingMessage() {
   return (
-    <div className="mbs-2">
+    <Message className="mbs-2 text-base/relaxed">
       <Thinking labels={[WAITING_MESSAGE]} />
-    </div>
+    </Message>
   );
 }
 

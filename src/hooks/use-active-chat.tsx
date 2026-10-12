@@ -1,7 +1,7 @@
 "use client";
 
 import { Chat } from "@ai-sdk/react";
-import { DefaultChatTransport, type ChatStatus } from "ai";
+import { DefaultChatTransport, type ChatStatus, type ChatTransport } from "ai";
 import { createContext, use, useEffect, useRef, useState } from "react";
 
 import { useAsk } from "@/components/chat/ask-provider";
@@ -29,11 +29,12 @@ export const isAnswering = (status: ChatStatus) => status === "submitted" || sta
 
 export const isFull = (messages: ChatMessage[]) => messages.length >= CHAT_LIMITS.messages;
 
+const askTransport = () =>
+  new DefaultChatTransport<ChatMessage>({ api: "/api/chat", fetch: fetchWithErrorHandlers });
+
 // Client-only mounting lets the SDK safely generate its default random chat ID.
-function createChat() {
-  return new Chat<ChatMessage>({
-    transport: new DefaultChatTransport({ api: "/api/chat", fetch: fetchWithErrorHandlers }),
-  });
+function createChat(transport: ChatTransport<ChatMessage>) {
+  return new Chat<ChatMessage>({ transport });
 }
 
 /** Sends questions queued from elsewhere on the site, such as "Ask about this role". */
@@ -53,14 +54,20 @@ function useQueuedQuestions(send: (text: string) => boolean, setInput: (input: s
   }, [questions, consume, send, setInput]);
 }
 
+type ProviderProps = {
+  children: React.ReactNode;
+  /** Where questions go; the Ask API route unless a test scripts the answers. */
+  transport?: ChatTransport<ChatMessage>;
+};
+
 /** Mounted once on the client and retained by the root layout across navigation. */
-export function ActiveChatProvider({ children }: { children: React.ReactNode }) {
-  const [chat, setChat] = useState(createChat);
+export function ActiveChatProvider({ children, transport = askTransport() }: ProviderProps) {
+  const [chat, setChat] = useState(() => createChat(transport));
   const [input, setInput] = useState("");
 
   const clearChat = () => {
     void chat.stop();
-    setChat(createChat());
+    setChat(createChat(transport));
   };
 
   const send = (text: string) => {
