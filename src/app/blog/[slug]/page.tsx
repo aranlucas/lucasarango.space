@@ -5,7 +5,7 @@ import { getAllPosts } from "@/lib/api";
 import { markdownAlternate, markdownPath, SITE } from "@/lib/site";
 
 import { getPost } from "./get-post";
-import { PostArticle } from "./post-article";
+import { PostContent } from "./post-content";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function PostPage({ params }: Props) {
   return (
     <PageTransition>
-      <PostArticle params={params} />
+      <PostContent params={params} />
     </PageTransition>
   );
 }

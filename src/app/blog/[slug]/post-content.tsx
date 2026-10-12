@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { PostBody } from "@/components/post-body";
 import { PostHeader, PostHeaderSkeleton } from "@/components/post-header";
 import { PostNav } from "@/components/post-nav-link";
-import { ReadingProgress } from "@/components/reading-progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllPosts } from "@/lib/api";
 
@@ -11,20 +10,15 @@ import { getPost } from "./get-post";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function PostArticle({ params }: Props) {
+export function PostContent({ params }: Props) {
   return (
-    <>
-      <ReadingProgress />
-      <article className="reading-article">
-        <Suspense fallback={<PostSkeleton />}>
-          <PostContent params={params} />
-        </Suspense>
-      </article>
-    </>
+    <Suspense fallback={<PostSkeleton />}>
+      <PostDetails params={params} />
+    </Suspense>
   );
 }
 
-async function PostContent({ params }: Props) {
+async function PostDetails({ params }: Props) {
   const post = await getPost(params);
 
   return (
