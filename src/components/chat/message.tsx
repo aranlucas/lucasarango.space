@@ -1,18 +1,15 @@
 "use client";
 
 import { cn } from "cn";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { MessageResponse } from "@/components/ai-elements/message";
+import { finishedToolLabel } from "@/components/chat/activity";
 import { useAsk } from "@/components/chat/ask-provider";
 import { PeakGlyph } from "@/components/chat/icons";
 import { Button } from "@/components/ui/button";
 import { Message, MessageContent, MessageFooter } from "@/components/ui/message";
-import { WAITING_MESSAGE } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
-
-// Rotated while the model reasons, so a long wait still shows progress.
-const REASONING_LABELS = ["Thinking it over", "Connecting the dots", "Picking the best examples"];
 
 type MessageProps = {
   message: ChatMessage;
@@ -23,21 +20,16 @@ type MessageProps = {
 
 type MessagePart = ChatMessage["parts"][number];
 
-const TOOL_LABELS = {
-  "tool-listPosts": "Looking through the posts",
-  "tool-readPost": "Reading a post",
-} as const;
-
-/** Whether a part has anything to show yet. */
+/** Whether a part has anything to show yet. Reasoning only ever shows in the status row. */
 function hasContent(part: MessagePart): boolean {
   switch (part.type) {
     case "text":
-    case "reasoning":
       return part.text.trim() !== "";
     case "tool-listPosts":
     case "tool-readPost":
-      return true;
+      return finishedToolLabel(part) !== null;
     // Parts this agent doesn't produce, or that the popup doesn't show.
+    case "reasoning":
     case "custom":
     case "dynamic-tool":
     case "file":
@@ -60,13 +52,8 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
     if (!window.matchMedia("(min-width: 40rem)").matches) hide();
   };
 
-  if (message.role === "assistant" && isLoading && !message.parts.some(hasContent)) {
-    return (
-      <Message className="mbs-2 text-base/relaxed">
-        <Thinking labels={[WAITING_MESSAGE]} />
-      </Message>
-    );
-  }
+  // Until the answer has something to show, the status row below speaks for it.
+  if (message.role === "assistant" && !message.parts.some(hasContent)) return null;
 
   const parts = message.parts.map((part, index) => (
     <PreviewPart
@@ -75,8 +62,6 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
       key={index}
       part={part}
       role={message.role}
-      // Only the last part can be between steps.
-      isLoading={isLoading && index === message.parts.length - 1}
       onNavigate={onNavigate}
     />
   ));
@@ -159,12 +144,11 @@ function CopyAction({ text }: { text: string }) {
 type PreviewPartProps = {
   part: MessagePart;
   role: ChatMessage["role"];
-  isLoading: boolean;
   onNavigate: () => void;
 };
 
-/** One part, narrowed by its type: text streams with a caret, reasoning shows a thinking label. */
-function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
+/** One part, narrowed by its type: text streams with a caret, a finished tool leaves a step. */
+function PreviewPart({ part, role, onNavigate }: PreviewPartProps) {
   switch (part.type) {
     case "text":
       return role === "user" ? (
@@ -177,12 +161,11 @@ function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
           {part.text}
         </MessageResponse>
       );
-    case "reasoning":
-      return part.state === "streaming" ? <Thinking labels={REASONING_LABELS} /> : null;
     case "tool-listPosts":
     case "tool-readPost":
-      return <ToolPart part={part} isLoading={isLoading} />;
+      return <ToolStep label={finishedToolLabel(part)} />;
     // Parts this agent doesn't produce, or that the popup doesn't show.
+    case "reasoning":
     case "custom":
     case "dynamic-tool":
     case "file":
@@ -196,63 +179,68 @@ function PreviewPart({ part, role, isLoading, onNavigate }: PreviewPartProps) {
   return null;
 }
 
-type ToolPartProps = {
-  part: Extract<MessagePart, { type: keyof typeof TOOL_LABELS }>;
-  isLoading: boolean;
-};
+/** A finished tool, printed like a receipt line above the answer; running tools show in the status row. */
+function ToolStep({ label }: { label: string | null }) {
+  if (label === null) return null;
 
-/** A tool call, narrowed by its state: what it's doing while it runs, nothing once it's done. */
-function ToolPart({ part, isLoading }: ToolPartProps) {
-  switch (part.state) {
-    case "input-streaming":
-    case "input-available":
-      return <Thinking labels={[TOOL_LABELS[part.type]]} />;
-    case "output-available":
-      // Between steps: the tool is done and the next model call hasn't streamed yet.
-      return isLoading ? <Thinking labels={REASONING_LABELS} /> : null;
-    case "approval-requested":
-    case "approval-responded":
-    case "output-denied":
-    case "output-error":
-      break;
-  }
-
-  return null;
+  return (
+    // The last step in a row leaves room before the answer.
+    <p
+      data-tool-step
+      className="flex items-center gap-3 pbe-1 text-sm text-muted-foreground [&:not(:has(+[data-tool-step]))]:pbe-3"
+    >
+      <PeakGlyph className="h-3 w-6 shrink-0" />
+      <span className="truncate">{label}</span>
+    </p>
+  );
 }
 
-/** Shown after a question is sent, before the reply exists. */
-export function ThinkingMessage() {
+// Long enough to read a short line before the next one replaces it.
+const HOLD_MS = 1000;
+
+/**
+ * What the answer is doing, from the moment the question is sent until it
+ * prints. One row for the whole wait, so the glyph keeps printing across
+ * steps instead of starting over.
+ */
+export function AnswerStatus({ label }: { label: string }) {
+  const shown = useHeldLabel(label);
+
   return (
     <Message className="mbs-2 text-base/relaxed">
-      <Thinking labels={[WAITING_MESSAGE]} />
+      <div
+        className="ask-fade-in flex min-w-0 items-center gap-3 text-muted-foreground"
+        role="status"
+      >
+        <PeakGlyph printing className="h-4 w-6 shrink-0" />
+        <span className="truncate">{shown}</span>
+      </div>
     </Message>
   );
 }
 
-function Thinking({ labels }: { labels: readonly string[] }) {
-  const [tick, setTick] = useState(0);
-  const count = labels.length;
+/** Follows `label`, but keeps each one on screen for at least HOLD_MS so fast steps don't flicker. */
+function useHeldLabel(label: string) {
+  const [shown, setShown] = useState(label);
+  const shownAt = useRef<number | null>(null);
+
   useEffect(() => {
+    shownAt.current ??= Date.now();
+
+    const wait = Math.max(0, shownAt.current + HOLD_MS - Date.now());
+
     const id =
-      count > 1
-        ? setInterval(() => {
-            setTick((t) => t + 1);
-          }, 2400)
-        : undefined;
+      label === shown
+        ? undefined
+        : setTimeout(() => {
+            shownAt.current = Date.now();
+            setShown(label);
+          }, wait);
 
     return () => {
-      clearInterval(id);
+      clearTimeout(id);
     };
-  }, [count]);
+  }, [label, shown]);
 
-  const label = labels[tick % labels.length];
-
-  return (
-    <div className="flex items-center gap-3 text-muted-foreground" role="status">
-      <PeakGlyph printing className="h-4 w-6" />
-      <span key={label} className="ask-fade-in">
-        {label}
-      </span>
-    </div>
-  );
+  return shown;
 }

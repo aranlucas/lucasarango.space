@@ -2,8 +2,9 @@
 
 import { useChat } from "@ai-sdk/react";
 
+import { answerActivity } from "@/components/chat/activity";
 import { Greeting } from "@/components/chat/greeting";
-import { PreviewMessage, ThinkingMessage } from "@/components/chat/message";
+import { AnswerStatus, PreviewMessage } from "@/components/chat/message";
 import { SuggestedActions } from "@/components/chat/suggested-actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -91,16 +92,18 @@ function Transcript() {
   );
 }
 
-/** What follows the last message: a wait, an error to retry, or a full conversation. */
+/** What follows the last message: what the answer is doing, an error to retry, or a full conversation. */
 function TranscriptStatus({ retry }: { retry: () => void }) {
   const { chat } = useActiveChat();
   const { messages, status, error } = useChat({ chat });
+  const activity = isAnswering(status) ? answerActivity(messages) : null;
 
   return (
     <>
-      {status === "submitted" && messages.at(-1)?.role !== "assistant" && (
+      {/* Here rather than in the answer, so it stays mounted from send to the first word. */}
+      {activity !== null && (
         <MessageScrollerItem>
-          <ThinkingMessage />
+          <AnswerStatus label={activity} />
         </MessageScrollerItem>
       )}
       {error !== undefined && (
