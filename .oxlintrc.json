@@ -15,7 +15,7 @@
     "@shadcn/lint",
     {
       "name": "anti-slop",
-      "specifier": "./tools/oxlint/anti-slop/index.ts"
+      "specifier": "@aranlucas/oxlint-plugin-anti-slop"
     }
   ],
   "env": {
@@ -113,6 +113,17 @@
   },
   "overrides": [
     {
+      // SVG owns the `shapeRendering` presentation attribute; it is not a local symbol name.
+      "files": [
+        "src/components/chat/icons.tsx",
+        "src/components/forest-link.tsx",
+        "src/components/receipt-art.tsx"
+      ],
+      "rules": {
+        "anti-slop/no-shape-in-symbol-names": "off"
+      }
+    },
+    {
       "files": ["**/*.test.{ts,tsx}"],
       "rules": {
         "typescript/no-unsafe-type-assertion": "off"
@@ -145,7 +156,6 @@
     ".opencode/**",
     ".pi/**",
     ".roo/**",
-    ".windsurf/**",
-    "tools/oxlint/anti-slop/**"
+    ".windsurf/**"
   ]
 }

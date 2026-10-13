@@ -257,9 +257,9 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
-      '@oxlint/plugins':
-        specifier: 1.87.0
-        version: 1.87.0
+      '@aranlucas/oxlint-plugin-anti-slop':
+        specifier: 0.1.0
+        version: 0.1.0(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))
       '@shadcn/helpers':
         specifier: 0.2.0
         version: 0.2.0(ai@7.0.138(zod@4.6.7))
@@ -369,6 +369,15 @@ packages:
   '@alloc/quick-lru@5.3.0':
     resolution: {integrity: sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA==}
     engines: {node: '>=10'}
+
+  '@aranlucas/oxlint-plugin-anti-slop@0.1.0':
+    resolution: {integrity: sha512-tu5zQVkzsF6Td/jqD2OEQnDEw5Xo3YLEU+bm3FLxsKf4PnOcvZEyEtudVZVVCBXGhO4YprGRdWrxr+/m4MDfUg==}
+    engines: {node: '>=22.18.0'}
+    peerDependencies:
+      oxlint: '>=1.78.0'
+    peerDependenciesMeta:
+      oxlint:
+        optional: true
 
   '@asamuzakjp/css-color@7.1.5':
     resolution: {integrity: sha512-jCpAvj8apa7SKHZYogk0rbXB3Kb0hLFrpkWF+Ap+vBA5rirItnpv9NKyAyEuDuFizvl0qwnj6JWR70RGJ0rOlw==}
@@ -1285,8 +1294,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxlint/plugins@1.87.0':
-    resolution: {integrity: sha512-OtSZ6NxNkS7bkVy7zk9zGnajz2hVIu0uRPP/dJvJesGRaXtimpA4lpxap7FaIJndG2UIoKhnBU4DxyDQIWv6yg==}
+  '@oxlint/plugins@1.88.0':
+    resolution: {integrity: sha512-G2xbfWTrbqYRhR/vfeKNMQf/sS3/ti0iKJAAkRxHuXWZH/hne/dyIb9QKk5LuR6cJLARxsL6FMoAYmfspd74MQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   '@react-three/fiber@9.8.1':
@@ -4056,6 +4065,12 @@ snapshots:
 
   '@alloc/quick-lru@5.3.0': {}
 
+  '@aranlucas/oxlint-plugin-anti-slop@0.1.0(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))':
+    dependencies:
+      '@oxlint/plugins': 1.88.0
+    optionalDependencies:
+      oxlint: 1.87.0(oxlint-tsgolint@7.0.2004)
+
   '@asamuzakjp/css-color@7.1.5':
     dependencies:
       '@csstools/css-calc': 3.4.3(@csstools/css-parser-algorithms@4.0.2(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
@@ -4747,7 +4762,7 @@ snapshots:
   '@oxlint/binding-win32-x64-msvc@1.87.0':
     optional: true
 
-  '@oxlint/plugins@1.87.0': {}
+  '@oxlint/plugins@1.88.0': {}
 
   '@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.186.1)':
     dependencies:
