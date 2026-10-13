@@ -1,31 +1,16 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "categories": {
-    "correctness": "error",
-    "suspicious": "error",
-    "perf": "error",
-    "pedantic": "error",
-    "style": "off",
-    "restriction": "off",
-    "nursery": "off"
-  },
-  "plugins": ["import", "jsx-a11y", "nextjs", "react", "typescript", "unicorn"],
-  "jsPlugins": [
-    "oxlint-tailwindcss",
-    "@shadcn/lint",
-    {
-      "name": "anti-slop",
-      "specifier": "@aranlucas/oxlint-plugin-anti-slop"
-    }
+  "extends": [
+    "./node_modules/@aranlucas/oxforge/configs/recommended.json",
+    "./node_modules/@aranlucas/oxforge/configs/nextjs.json",
+    "./node_modules/@aranlucas/oxforge/configs/tailwind.json"
   ],
+  "jsPlugins": ["@shadcn/lint"],
   "env": {
-    "browser": true,
-    "node": true,
-    "es2026": true
+    "node": true
   },
   "options": {
-    "typeAware": true,
-    "reportUnusedDisableDirectives": "warn"
+    "typeAware": true
   },
   "settings": {
     "next": {
@@ -39,81 +24,63 @@
     }
   },
   "rules": {
-    "unicorn/filename-case": "error",
-    "react/self-closing-comp": "error",
-    "react/react-in-jsx-scope": "off",
-    "react-hooks/exhaustive-deps": "error",
-    // The React Compiler (next.config.ts reactCompiler) memoizes context values.
-    "react/jsx-no-constructed-context-values": "off",
-    "jsx-a11y/prefer-tag-over-role": "off",
-    "import/no-cycle": "error",
+    // Preserve the site-specific settings that differ from Oxforge.
     "import/no-unassigned-import": [
       "error",
       {
         "allow": ["**/*.css"]
       }
     ],
-    "typescript/no-explicit-any": "error",
     "typescript/no-unsafe-type-assertion": "error",
-    "typescript/no-floating-promises": "error",
-    "typescript/no-unnecessary-type-assertion": "error",
-    "typescript/prefer-nullish-coalescing": "error",
-    "typescript/prefer-optional-chain": "error",
-    "tailwindcss/no-conflicting-classes": "error",
-    "tailwindcss/no-deprecated-classes": "error",
-    "tailwindcss/no-duplicate-classes": "error",
-    "tailwindcss/no-unknown-classes": "error",
-    "tailwindcss/no-unnecessary-whitespace": "error",
-    "tailwindcss/no-dark-without-light": "error",
-    "tailwindcss/no-contradicting-variants": "error",
-    "tailwindcss/enforce-canonical": "error",
-    "tailwindcss/enforce-sort-order": "error",
-    "tailwindcss/enforce-shorthand": "error",
-    "tailwindcss/enforce-logical": "error",
-    "tailwindcss/enforce-physical": "off",
-    "tailwindcss/enforce-consistent-important-position": "error",
-    "tailwindcss/enforce-negative-arbitrary-values": "error",
-    "tailwindcss/enforce-consistent-variable-syntax": "error",
-    "tailwindcss/consistent-variant-order": "error",
-    "tailwindcss/no-restricted-classes": [
+    "typescript/prefer-readonly-parameter-types": "off",
+    // Keep the existing pedantic checks that Oxforge disables by default.
+    "eslint/max-lines": "error",
+    "eslint/max-lines-per-function": "error",
+    "import/max-dependencies": "error",
+    "eslint/no-inline-comments": "error",
+    "eslint/no-negated-condition": "error",
+    "eslint/require-unicode-regexp": "error",
+    "eslint/sort-vars": "error",
+    "jsx-a11y/control-has-associated-label": "error",
+    "jsx-a11y/heading-has-content": "error",
+    "jsx-a11y/no-noninteractive-element-interactions": "error",
+    "react/exhaustive-effect-dependencies": "error",
+    "react/jsx-no-target-blank": "error",
+    "react/no-unsafe": "error",
+    "typescript/no-confusing-void-expression": "error",
+    "typescript/no-deprecated": "error",
+    "typescript/no-unnecessary-boolean-literal-compare": "error",
+    "typescript/no-unnecessary-type-parameters": "error",
+    "typescript/strict-boolean-expressions": "error",
+    "typescript/strict-void-return": "error",
+    "unicorn/explicit-length-check": "error",
+    "unicorn/no-array-callback-reference": "error",
+    "unicorn/no-negated-condition": "error",
+    "unicorn/prefer-number-coercion": "error",
+    "unicorn/prefer-top-level-await": "error",
+    // Preserve single-line guards, inline types, and mixed Next.js/React exports.
+    "eslint/curly": "off",
+    "oxforge/no-inline-types": "off",
+    "react/only-export-components": "off",
+    "promise/always-return": "off",
+    "typescript/no-floating-promises": [
       "error",
       {
-        "patterns": [
-          {
-            "pattern": "^(?:[a-z0-9-]+:)*space-[xy]-",
-            "message": "Use flex or grid with gap-* instead."
-          }
-        ]
+        "checkThenables": true,
+        "ignoreVoid": true
       }
     ],
-    "tailwindcss/no-arbitrary-value": "error",
-    "tailwindcss/no-hardcoded-colors": "error",
-    "tailwindcss/no-unnecessary-arbitrary-value": "error",
-    "tailwindcss/prefer-theme-tokens": "error",
-    "typescript/prefer-readonly-parameter-types": "off",
-    "oxc/no-accumulating-spread": "error",
-    "anti-slop/no-array-filter-map": "error",
-    "anti-slop/no-reduce-accumulator-copy": "error",
-    "anti-slop/no-chained-type-assertions": "error",
-    "anti-slop/no-conditional-empty-object-spread": "error",
-    "anti-slop/no-known-value-widening": "error",
-    "anti-slop/no-module-mocking": "error",
-    "anti-slop/no-object-parameters": "error",
-    "anti-slop/no-reflect-apply": "error",
-    "anti-slop/no-reflect-get": "error",
-    "anti-slop/no-runtime-typeof": "error",
-    "anti-slop/no-shape-in-symbol-names": "error",
-    "anti-slop/no-unknown-parameters": "error",
-    "anti-slop/no-unknown-returns": "error",
-    "anti-slop/no-unknown-type-aliases": "error",
-    "anti-slop/no-unsafe-dictionary-type": "error",
-    "anti-slop/no-widen-then-assert": "error",
-    "anti-slop/require-readable-spacing": "error",
-    "anti-slop/require-safety-comment-for-type-assertion": "error"
+    "typescript/no-namespace": [
+      "error",
+      {
+        "allowDeclarations": true
+      }
+    ],
+    "typescript/restrict-template-expressions": "error"
   },
   "overrides": [
     {
-      // SVG owns the `shapeRendering` presentation attribute; it is not a local symbol name.
+      // SVG owns shapeRendering; it is not a local symbol name.
       "files": [
         "src/components/chat/icons.tsx",
         "src/components/forest-link.tsx",
@@ -140,6 +107,19 @@
         "jsx-a11y/click-events-have-key-events": "off",
         "jsx-a11y/no-noninteractive-element-interactions": "off",
         "typescript/no-unsafe-type-assertion": "off"
+      }
+    },
+    {
+      // The chat endpoint logs provider failures without exposing them to readers.
+      "files": ["src/app/(chat)/api/chat/handler.ts"],
+      "rules": {
+        "eslint/no-console": ["error", { "allow": ["error"] }]
+      }
+    },
+    {
+      "files": ["postcss.config.mjs"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
       }
     }
   ],
