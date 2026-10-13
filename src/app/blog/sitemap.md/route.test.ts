@@ -17,12 +17,11 @@ test("search route returns ranked question results and a total count with limite
   expect(body).toContain("/blog/practicing-system-design-with-an-ai-on-the-whiteboard)");
 });
 
-test("search route rejects invalid limits and sort orders", async () => {
-  await Promise.all(
-    ["limit=0", "limit=1.5", "limit=51", "limit=banana", "sort=random"].map(async (query) => {
-      const response = GET(new Request(`https://lucasarango.space/blog/sitemap.md?${query}`));
-      expect(response.status, query).toBe(400);
-      expect(await response.text()).toContain("Invalid search:");
-    }),
-  );
-});
+test.each(["limit=0", "limit=1.5", "limit=51", "limit=banana", "sort=random"])(
+  "search route rejects invalid query %s",
+  async (query) => {
+    const response = GET(new Request(`https://lucasarango.space/blog/sitemap.md?${query}`));
+    expect(response.status).toBe(400);
+    expect(await response.text()).toContain("Invalid search:");
+  },
+);
