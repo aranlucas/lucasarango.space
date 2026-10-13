@@ -5,6 +5,8 @@ import { getAllPosts } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import { SITE } from "@/lib/site";
 
+type ImageProps = { params: Promise<{ slug: string }> };
+
 export const alt = `A post by ${SITE.name}`;
 
 export const size = OG_SIZE;
@@ -15,7 +17,7 @@ export function generateStaticParams() {
   return getAllPosts().map(({ slug }) => ({ slug }));
 }
 
-export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Image({ params }: ImageProps) {
   const post = await getPost(params);
 
   return ogImage({

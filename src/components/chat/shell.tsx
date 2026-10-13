@@ -3,11 +3,12 @@
 import { useChat } from "@ai-sdk/react";
 import { useEffect } from "react";
 
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { ChatHeader } from "@/components/chat/chat-header";
 import { Messages } from "@/components/chat/messages";
 import { MultimodalInput } from "@/components/chat/multimodal-input";
-import { ActiveChatProvider, isAnswering, useActiveChat } from "@/hooks/use-active-chat";
+import { ActiveChatProvider } from "@/components/chat/active-chat-provider";
+import { isAnswering, useActiveChat } from "@/hooks/use-active-chat";
 
 type ShellProps = { titleId: string; inputId: string };
 
@@ -32,7 +33,9 @@ function Shell({ titleId, inputId }: ShellProps) {
   }, [isLoading, setLoading]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (open) {
+      inputRef.current?.focus();
+    }
   }, [open, inputRef]);
 
   return (

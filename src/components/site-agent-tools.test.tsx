@@ -4,7 +4,11 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
 
-import { postSlug, SiteAgentTools } from "./site-agent-tools";
+import { postSlug } from "@/lib/site-agent-tools";
+
+import { SiteAgentTools } from "./site-agent-tools";
+
+type SiteAgentToolsTestProps = { signal: AbortSignal };
 
 function mount() {
   return act(() => Promise.resolve(render(<SiteAgentTools />)));
@@ -34,7 +38,7 @@ beforeEach(() => {
   Object.defineProperty(document, "modelContext", {
     configurable: true,
     value: {
-      registerTool: (tool: Tool, { signal }: { signal: AbortSignal }) => {
+      registerTool: (tool: Tool, { signal }: SiteAgentToolsTestProps) => {
         tools.set(tool.name, tool);
         signal.addEventListener("abort", () => {
           tools.delete(tool.name);
@@ -65,7 +69,9 @@ afterEach(() => {
 function call(name: string, args: ToolArgs = {}) {
   const tool = tools.get(name);
 
-  if (tool === undefined) throw new Error(`${name} is not registered`);
+  if (tool === undefined) {
+    throw new Error(`${name} is not registered`);
+  }
 
   return act(() => tool.execute(args, { signal: new AbortController().signal }));
 }

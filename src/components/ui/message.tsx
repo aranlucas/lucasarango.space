@@ -1,6 +1,10 @@
 import * as React from "react";
 import { cn } from "cn";
 
+
+type MessageOptions = { align?: "start" | "end" };
+
+
 function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -15,7 +19,7 @@ function Message({
   className,
   align = "start",
   ...props
-}: React.ComponentProps<"div"> & { align?: "start" | "end" }) {
+}: React.ComponentProps<"div"> & MessageOptions) {
   return (
     <div
       data-slot="message"

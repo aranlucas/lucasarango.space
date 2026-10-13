@@ -7,6 +7,12 @@ import { cn } from "cn"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
+
+type InputGroupButtonOptions = {
+    type?: "button" | "submit" | "reset"
+  };
+
+
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -90,9 +96,7 @@ function InputGroupButton({
   size = "xs",
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
-  VariantProps<typeof inputGroupButtonVariants> & {
-    type?: "button" | "submit" | "reset"
-  }) {
+  VariantProps<typeof inputGroupButtonVariants> & InputGroupButtonOptions) {
   return (
     <Button
       type={type}

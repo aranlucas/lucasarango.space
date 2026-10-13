@@ -3,11 +3,13 @@
 import { useChat } from "@ai-sdk/react";
 import { SquarePen, X } from "lucide-react";
 
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { Button } from "@/components/ui/button";
 import { useActiveChat } from "@/hooks/use-active-chat";
 
-export function ChatHeader({ titleId }: { titleId: string }) {
+type ChatHeaderProps = { titleId: string };
+
+export function ChatHeader({ titleId }: ChatHeaderProps) {
   const { close, inputRef } = useAsk();
   const { chat, clearChat } = useActiveChat();
   const { messages } = useChat({ chat });

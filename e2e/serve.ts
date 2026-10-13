@@ -42,11 +42,17 @@ async function responds(url: string) {
 }
 
 async function waitUntilServing(url: string, server: ChildProcess, deadline: number) {
-  if (server.exitCode !== null) throw new Error(`next start exited with ${server.exitCode}`);
+  if (server.exitCode !== null) {
+    throw new Error(`next start exited with ${server.exitCode}`);
+  }
 
-  if (await responds(url)) return;
+  if (await responds(url)) {
+    return;
+  }
 
-  if (Date.now() > deadline) throw new Error(`${url} didn't respond within 30s`);
+  if (Date.now() > deadline) {
+    throw new Error(`${url} didn't respond within 30s`);
+  }
 
   await delay(250);
   await waitUntilServing(url, server, deadline);

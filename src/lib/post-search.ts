@@ -9,9 +9,13 @@ const STOP_WORDS = new Set(
 );
 
 function normalize(word: string) {
-  if (word.length > 4 && word.endsWith("ies")) return `${word.slice(0, -3)}y`;
+  if (word.length > 4 && word.endsWith("ies")) {
+    return `${word.slice(0, -3)}y`;
+  }
 
-  if (word.length > 4 && word.endsWith("s") && !word.endsWith("ss")) return word.slice(0, -1);
+  if (word.length > 4 && word.endsWith("s") && !word.endsWith("ss")) {
+    return word.slice(0, -1);
+  }
 
   return word;
 }
@@ -37,11 +41,17 @@ export function searchPosts(posts: Post[], { query = "", sort, limit }: ListPost
     let score = 0;
 
     for (const term of terms) {
-      if (title.has(term)) score += 8;
+      if (title.has(term)) {
+        score += 8;
+      }
 
-      if (summary.has(term)) score += 4;
+      if (summary.has(term)) {
+        score += 4;
+      }
 
-      if (body.has(term)) score += 1;
+      if (body.has(term)) {
+        score += 1;
+      }
     }
 
     return { post, score };
@@ -50,7 +60,10 @@ export function searchPosts(posts: Post[], { query = "", sort, limit }: ListPost
   const matches = ranked
     .filter(({ score }) => !searching || score > 0)
     .toSorted((a, b) => {
-      if (order === "relevance" && a.score !== b.score) return b.score - a.score;
+      if (order === "relevance" && a.score !== b.score) {
+        return b.score - a.score;
+      }
+
       const dates = a.post.date.localeCompare(b.post.date);
 
       return (order === "oldest" ? dates : -dates) || a.post.slug.localeCompare(b.post.slug);

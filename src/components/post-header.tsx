@@ -6,7 +6,11 @@ import type { Post } from "@/interfaces/post";
 import { SITE } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
-export function PostHeader({ post }: { post: Post }) {
+type PostHeaderProps = { post: Post };
+
+type PostHeaderLayoutProps = { title: ReactNode; metadata: ReactNode };
+
+export function PostHeader({ post }: PostHeaderProps) {
   return (
     <PostHeaderLayout
       title={
@@ -51,7 +55,7 @@ export function PostHeaderSkeleton() {
   );
 }
 
-function PostHeaderLayout({ title, metadata }: { title: ReactNode; metadata: ReactNode }) {
+function PostHeaderLayout({ title, metadata }: PostHeaderLayoutProps) {
   return (
     <header className="mbe-2">
       <div className="article-title">{title}</div>

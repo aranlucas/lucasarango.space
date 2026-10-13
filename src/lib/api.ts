@@ -19,10 +19,16 @@ export const getPostBySlug = cache((slug: string): Post | undefined => {
   const realSlug = slug.replace(/\.md$/u, "");
 
   // Slugs can come from the Ask agent, so never let one leave the posts directory.
-  if (!/^[\w-]+$/u.test(realSlug)) return undefined;
+  if (!/^[\w-]+$/u.test(realSlug)) {
+    return undefined;
+  }
+
   const fullPath = join(postsDirectory, `${realSlug}.md`);
 
-  if (!fs.existsSync(fullPath)) return undefined;
+  if (!fs.existsSync(fullPath)) {
+    return undefined;
+  }
+
   const post = parsePost(realSlug, fs.readFileSync(fullPath, "utf8"));
 
   return post.draft && process.env.NODE_ENV !== "development" ? undefined : post;

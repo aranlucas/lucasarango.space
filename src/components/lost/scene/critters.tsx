@@ -7,6 +7,20 @@ import type { Group, Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from "thr
 import { type Critter, CRITTERS, type Game, REVEAL_SECONDS, SPOT_SECONDS } from "../game";
 import { SILHOUETTES, type Textures } from "./textures";
 
+type CrittersProps = {
+  game: Game;
+  textures: Textures;
+  reducedMotion: boolean;
+};
+
+type CritterSlotOptions = { children: React.ReactNode };
+
+type EyeOptions = { side: -1 | 1 };
+
+type SilhouetteOptions = { textures: Textures };
+
+type PointsLabelOptions = { textures: Textures; reducedMotion: boolean };
+
 const SLOTS = 5;
 
 /** Eyes blink open and shut over these many seconds. */
@@ -28,15 +42,7 @@ interface SlotProps {
  * A fixed pool of critters. Each slot renders whichever critter sits at its
  * index this frame, so spawning never re-renders React.
  */
-export function Critters({
-  game,
-  textures,
-  reducedMotion,
-}: {
-  game: Game;
-  textures: Textures;
-  reducedMotion: boolean;
-}) {
+export function Critters({ game, textures, reducedMotion }: CrittersProps) {
   return Array.from({ length: SLOTS }, (_, index) => (
     <CritterSlot key={index} game={game} index={index}>
       <Eye game={game} index={index} side={-1} />
@@ -47,7 +53,7 @@ export function Critters({
   ));
 }
 
-function CritterSlot({ game, index, children }: SlotProps & { children: React.ReactNode }) {
+function CritterSlot({ game, index, children }: SlotProps & CritterSlotOptions) {
   "use no memo";
   // Read the live critter pool each frame; spawning does not change game identity.
 
@@ -55,10 +61,15 @@ function CritterSlot({ game, index, children }: SlotProps & { children: React.Re
   useFrame(() => {
     const critter = game.critters.at(index);
 
-    if (!group.current) return;
+    if (!group.current) {
+      return;
+    }
+
     group.current.visible = critter !== undefined;
 
-    if (critter) group.current.position.set(...critter.position);
+    if (critter) {
+      group.current.position.set(...critter.position);
+    }
   });
 
   return (
@@ -69,7 +80,7 @@ function CritterSlot({ game, index, children }: SlotProps & { children: React.Re
 }
 
 /** One glowing eye: faint in the dark, bright while the beam is on it. */
-function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
+function Eye({ game, index, side }: SlotProps & EyeOptions) {
   "use no memo";
   // Read live critter values and update the three.js mesh and material each frame.
 
@@ -79,7 +90,10 @@ function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
   useFrame(() => {
     const critter = game.critters.at(index);
 
-    if (!critter || !mesh.current || !material.current) return;
+    if (!critter || !mesh.current || !material.current) {
+      return;
+    }
+
     const silhouette = SILHOUETTES[critter.kind];
     const open = openness(critter, game.elapsed);
     mesh.current.position.x = (side * (silhouette.eyeGap / 256) * silhouette.width) / 2;
@@ -102,7 +116,9 @@ function Eye({ game, index, side }: SlotProps & { side: -1 | 1 }) {
 }
 
 function openness(critter: Critter, now: number) {
-  if (critter.spottedAt !== null) return 1;
+  if (critter.spottedAt !== null) {
+    return 1;
+  }
 
   return clamp01((now - critter.bornAt) / OPENING) * clamp01((critter.diesAt - now) / CLOSING);
 }
@@ -123,8 +139,11 @@ function useReveal(
     const critter = game.critters.at(index);
     const spottedAt = critter?.spottedAt ?? null;
 
-    if (spottedAt === null) update(undefined, 0);
-    else update(critter, (game.elapsed - spottedAt) / REVEAL_SECONDS);
+    if (spottedAt === null) {
+      update(undefined, 0);
+    } else {
+      update(critter, (game.elapsed - spottedAt) / REVEAL_SECONDS);
+    }
   });
 }
 
@@ -132,7 +151,7 @@ function useReveal(
  * The critter's body behind its eyes: a faint silhouette in the dark that firms up
  * while the beam holds on it, then shows in full once spotted.
  */
-function Silhouette({ game, index, textures }: SlotProps & { textures: Textures }) {
+function Silhouette({ game, index, textures }: SlotProps & SilhouetteOptions) {
   "use no memo";
   // Read live critter values and update the sprite and material each frame.
 
@@ -142,10 +161,16 @@ function Silhouette({ game, index, textures }: SlotProps & { textures: Textures 
   useFrame(() => {
     const critter = game.critters.at(index);
 
-    if (!sprite.current || !material.current) return;
+    if (!sprite.current || !material.current) {
+      return;
+    }
+
     sprite.current.visible = critter !== undefined;
 
-    if (!critter) return;
+    if (!critter) {
+      return;
+    }
+
     const silhouette = SILHOUETTES[critter.kind];
     material.current.map = textures.silhouettes[critter.kind];
     material.current.opacity = presence(critter, game.elapsed);
@@ -179,12 +204,7 @@ function presence(critter: Critter, now: number) {
 }
 
 /** "+N" floating up from a spotted critter's head. */
-function PointsLabel({
-  game,
-  index,
-  textures,
-  reducedMotion,
-}: SlotProps & { textures: Textures; reducedMotion: boolean }) {
+function PointsLabel({ game, index, textures, reducedMotion }: SlotProps & PointsLabelOptions) {
   "use no memo";
   // Update the mutable sprite and material from live reveal progress.
 
@@ -192,11 +212,17 @@ function PointsLabel({
   const material = useRef<SpriteMaterial>(null);
 
   useReveal(game, index, (critter, reveal) => {
-    if (!sprite.current || !material.current) return;
+    if (!sprite.current || !material.current) {
+      return;
+    }
+
     sprite.current.visible = critter !== undefined;
     const map = critter && textures.points.get(CRITTERS[critter.kind].points);
 
-    if (!critter || !map) return;
+    if (!critter || !map) {
+      return;
+    }
+
     const silhouette = SILHOUETTES[critter.kind];
     material.current.map = map;
     material.current.opacity = 1 - reveal;

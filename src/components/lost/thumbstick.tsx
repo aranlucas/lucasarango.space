@@ -4,11 +4,13 @@ import { useState } from "react";
 
 import type { Walk } from "./game";
 
+type ThumbstickProps = { onWalk: (walk: Walk) => void };
+
 /** How far the knob travels from centre, in px. */
 const REACH = 40;
 
 /** An on-screen stick for touch screens: push up to walk, sideways to turn. */
-export function Thumbstick({ onWalk }: { onWalk: (walk: Walk) => void }) {
+export function Thumbstick({ onWalk }: ThumbstickProps) {
   const [knob, setKnob] = useState({ x: 0, y: 0 });
 
   const push = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -36,7 +38,9 @@ export function Thumbstick({ onWalk }: { onWalk: (walk: Walk) => void }) {
         push(event);
       }}
       onPointerMove={(event) => {
-        if (event.currentTarget.hasPointerCapture(event.pointerId)) push(event);
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+          push(event);
+        }
       }}
       onPointerUp={letGo}
       onPointerCancel={letGo}

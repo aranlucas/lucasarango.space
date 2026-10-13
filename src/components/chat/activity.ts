@@ -17,17 +17,23 @@ export const BETWEEN_STEPS = "Thinking it over";
 export function answerActivity(messages: ChatMessage[]): string | null {
   const answer = messages.at(-1);
 
-  if (answer?.role !== "assistant") return WAITING_MESSAGE;
+  if (answer?.role !== "assistant") {
+    return WAITING_MESSAGE;
+  }
 
   // Newest first: step starts and empty text say nothing new, so look past them.
   for (let index = answer.parts.length - 1; index >= 0; index -= 1) {
     const part = answer.parts[index];
 
-    if (part === undefined) continue;
+    if (part === undefined) {
+      continue;
+    }
 
     const activity = partActivity(part, messages);
 
-    if (activity !== undefined) return activity;
+    if (activity !== undefined) {
+      return activity;
+    }
   }
 
   return WAITING_MESSAGE;
@@ -63,7 +69,9 @@ function partActivity(part: MessagePart, messages: ChatMessage[]): string | null
 type ToolPart = Extract<MessagePart, { type: "tool-listPosts" | "tool-readPost" }>;
 
 function runningToolLabel(part: ToolPart, messages: ChatMessage[]): string {
-  if (part.type === "tool-listPosts") return "Looking through the posts";
+  if (part.type === "tool-listPosts") {
+    return "Looking through the posts";
+  }
 
   const title = part.input?.url === undefined ? undefined : listedTitle(part.input.url, messages);
 
@@ -72,24 +80,32 @@ function runningToolLabel(part: ToolPart, messages: ChatMessage[]): string {
 
 /** A finished tool, in the past tense, or null when it has nothing to say. */
 export function finishedToolLabel(part: ToolPart): string | null {
-  if (part.state !== "output-available") return null;
+  if (part.state !== "output-available") {
+    return null;
+  }
 
   if (part.type === "tool-listPosts") {
     return `Looked through ${part.output.length} ${part.output.length === 1 ? "post" : "posts"}`;
   }
 
-  return "title" in part.output ? `Read “${part.output.title}”` : null;
+  const title = "title" in part.output ? part.output.title : undefined;
+
+  return title === undefined ? null : `Read “${title}”`;
 }
 
 /** readPost takes a url from listPosts, so its title is usually already in the conversation. */
 function listedTitle(url: string, messages: ChatMessage[]): string | undefined {
   for (const message of messages) {
     for (const part of message.parts) {
-      if (part.type !== "tool-listPosts" || part.state !== "output-available") continue;
+      if (part.type !== "tool-listPosts" || part.state !== "output-available") {
+        continue;
+      }
 
       const post = part.output.find((listed) => listed.url === url);
 
-      if (post !== undefined) return post.title;
+      if (post !== undefined) {
+        return post.title;
+      }
     }
   }
 
@@ -111,11 +127,15 @@ export function latestThought(reasoning: string): string | undefined {
   const heading = [...reasoning.matchAll(HEADING)].at(-1)?.groups;
   const title = heading?.bold ?? heading?.hash;
 
-  if (title !== undefined) return clean(title);
+  if (title !== undefined) {
+    return clean(title);
+  }
 
   const end = [...reasoning.matchAll(SENTENCE_END)].at(-1);
 
-  if (end === undefined) return undefined;
+  if (end === undefined) {
+    return undefined;
+  }
 
   return reasoning
     .slice(0, end.index + 1)

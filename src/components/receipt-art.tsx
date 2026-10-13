@@ -1,5 +1,11 @@
 import { cn } from "cn";
 
+type ReceiptArtProps = { className?: string };
+
+type BarcodeRun = { x: number; width: number };
+
+type BarcodeProps = { className?: string };
+
 // One-bit fills, the way a thermal printer shades a logo: ordered dither
 // patterns in ink on the paper, no greys.
 const DITHER = [
@@ -33,7 +39,7 @@ const FIRS = [
 ] as const;
 
 /** A dithered Cascades peak above a line of firs, printed like a receipt header. */
-export function ReceiptArt({ className }: { className?: string }) {
+export function ReceiptArt({ className }: ReceiptArtProps) {
   return (
     <svg
       className={cn("receipt-art", className)}
@@ -85,7 +91,7 @@ const BARS = [
   3, 1, 2, 1, 1, 2, 3, 1, 1, 3, 2, 1, 1, 1, 3, 2, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 3,
 ];
 
-const BAR_RUNS = BARS.reduce<{ x: number; width: number }[]>((runs, width) => {
+const BAR_RUNS = BARS.reduce<BarcodeRun[]>((runs, width) => {
   const last = runs.at(-1);
   runs.push({ x: last ? last.x + last.width : 0, width });
 
@@ -95,7 +101,7 @@ const BAR_RUNS = BARS.reduce<{ x: number; width: number }[]>((runs, width) => {
 const BARCODE_WIDTH = BARS.reduce((sum, width) => sum + width, 0);
 
 /** The footer's barcode: decorative, like the end of every receipt. */
-export function Barcode({ className }: { className?: string }) {
+export function Barcode({ className }: BarcodeProps) {
   return (
     <svg
       className={cn("barcode", className)}

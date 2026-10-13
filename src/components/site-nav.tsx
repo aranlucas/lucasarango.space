@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { ViewTransition } from "react";
 
+type TabLinkProps = {
+  href: string;
+  current: boolean;
+  children: React.ReactNode;
+};
+
 // Tab order sets the slide direction: moving right slides content left.
 const TABS = [
   { href: "/", segment: null, label: "About" },
@@ -26,7 +32,9 @@ function useTransitionTypes(href: string) {
   const from = useActiveTabIndex();
   const to = TABS.findIndex((tab) => tab.href === href);
 
-  if (from === -1 || from === to) return [];
+  if (from === -1 || from === to) {
+    return [];
+  }
 
   return [to > from ? "nav-forward" : "nav-back"];
 }
@@ -45,15 +53,7 @@ export function SiteNav() {
   );
 }
 
-function TabLink({
-  href,
-  current,
-  children,
-}: {
-  href: string;
-  current: boolean;
-  children: React.ReactNode;
-}) {
+function TabLink({ href, current, children }: TabLinkProps) {
   return (
     <Link
       href={href}

@@ -1,7 +1,11 @@
 import { AskAbout } from "@/components/chat/ask-about";
 import type { ResumeRole } from "@/lib/resume";
 
-export function Role({ role }: { role: ResumeRole }) {
+type RoleProps = { role: ResumeRole };
+
+type BulletsProps = { items: readonly string[] };
+
+export function Role({ role }: RoleProps) {
   return (
     <li>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -22,7 +26,7 @@ export function Role({ role }: { role: ResumeRole }) {
   );
 }
 
-export function Bullets({ items }: { items: readonly string[] }) {
+export function Bullets({ items }: BulletsProps) {
   return (
     <ul className="flex list-disc flex-col gap-2 ps-5 text-base/relaxed marker:text-muted-foreground">
       {items.map((item) => (

@@ -9,7 +9,9 @@ export function formatDate(date: string, style: "long" | "short" = "long"): stri
     day: "numeric",
   };
 
-  if (style === "long") options.year = "numeric";
+  if (style === "long") {
+    options.year = "numeric";
+  }
 
   return new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", options);
 }
@@ -21,7 +23,9 @@ export function formatDate(date: string, style: "long" | "short" = "long"): stri
 export async function fetchWithErrorHandlers(input: RequestInfo | URL, init?: RequestInit) {
   const response = await fetch(input, init);
 
-  if (response.ok) return response;
+  if (response.ok) {
+    return response;
+  }
 
   const body = errorResponseSchema.safeParse(await response.json().catch(() => null));
 

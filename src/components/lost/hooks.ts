@@ -36,28 +36,39 @@ export function recordBest(score: number) {
   }
 }
 
+function walkFromKeys(held: Set<string>): Walk {
+  const walk = { forward: 0, turn: 0 };
+
+  for (const code of held) {
+    walk.forward += movement(code)?.forward ?? 0;
+    walk.turn += movement(code)?.turn ?? 0;
+  }
+
+  return walk;
+}
+
 /** WASD and the arrow keys walk and turn while `enabled`. */
 export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean) {
   useEffect(() => {
     const held = new Set<string>();
 
     const update = () => {
-      const walk = { forward: 0, turn: 0 };
-
-      for (const code of held) {
-        walk.forward += movement(code)?.forward ?? 0;
-        walk.turn += movement(code)?.turn ?? 0;
-      }
-
-      controls.current.keys = walk;
+      controls.current.keys = walkFromKeys(held);
     };
 
     const onKey = (event: KeyboardEvent) => {
-      if (!movement(event.code) || isTyping(event.target)) return;
+      if (!movement(event.code) || isTyping(event.target)) {
+        return;
+      }
+
       event.preventDefault();
 
-      if (event.type === "keydown") held.add(event.code);
-      else held.delete(event.code);
+      if (event.type === "keydown") {
+        held.add(event.code);
+      } else {
+        held.delete(event.code);
+      }
+
       update();
     };
 
@@ -96,7 +107,9 @@ export function useActive(ref: RefObject<HTMLElement | null>) {
       setOnScreen(entry?.isIntersecting ?? true);
     });
 
-    if (ref.current) observer.observe(ref.current);
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
 
     return () => {
       observer.disconnect();
@@ -173,12 +186,17 @@ function noSubscription() {
 export function useSpaceToStart(start: () => void, enabled: boolean) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.code !== "Space" || event.target !== document.body) return;
+      if (event.code !== "Space" || event.target !== document.body) {
+        return;
+      }
+
       event.preventDefault();
       start();
     };
 
-    if (enabled) window.addEventListener("keydown", onKey);
+    if (enabled) {
+      window.addEventListener("keydown", onKey);
+    }
 
     return () => {
       window.removeEventListener("keydown", onKey);

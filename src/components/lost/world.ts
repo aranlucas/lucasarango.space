@@ -1,3 +1,4 @@
+type ResolvedPosition = [number, number];
 // The forest you walk around in: where the trees stand, and how the player
 // bumps into them. Pure, so the scene and the tests share one layout.
 
@@ -62,7 +63,9 @@ export function plantForest(): Tree[] {
     const x = Math.cos(angle) * r;
     const z = Math.sin(angle) * r;
 
-    if (r > CLEARING_RADIUS && !crowded(x, z)) trees.push({ x, z, scale: 0.75 + random() * 0.7 });
+    if (r > CLEARING_RADIUS && !crowded(x, z)) {
+      trees.push({ x, z, scale: 0.75 + random() * 0.7 });
+    }
   }
 
   for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
@@ -74,7 +77,7 @@ export function plantForest(): Tree[] {
 }
 
 /** Where the player ends up if they try to stand at (x, z): outside every trunk, inside the tree line. */
-export function resolve(world: World, x: number, z: number): [number, number] {
+export function resolve(world: World, x: number, z: number): ResolvedPosition {
   let px = x;
   let pz = z;
   const clearance = TRUNK_RADIUS + PLAYER_RADIUS;
@@ -84,7 +87,10 @@ export function resolve(world: World, x: number, z: number): [number, number] {
     const dz = pz - tree.z;
     const distance = Math.hypot(dx, dz);
 
-    if (distance >= clearance || distance === 0) continue;
+    if (distance >= clearance || distance === 0) {
+      continue;
+    }
+
     px = tree.x + (dx / distance) * clearance;
     pz = tree.z + (dz / distance) * clearance;
   }
@@ -110,7 +116,9 @@ function nearby(world: World, x: number, z: number) {
   const found: Tree[] = [];
 
   for (let i = -1; i <= 1; i++) {
-    for (let j = -1; j <= 1; j++) found.push(...(world.grid.get(`${cx + i},${cz + j}`) ?? []));
+    for (let j = -1; j <= 1; j++) {
+      found.push(...(world.grid.get(`${cx + i},${cz + j}`) ?? []));
+    }
   }
 
   return found;

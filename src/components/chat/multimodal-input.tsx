@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import {
   InputGroup,
   InputGroupAddon,
@@ -12,8 +12,12 @@ import {
 import { isAnswering, isFull, useActiveChat } from "@/hooks/use-active-chat";
 import { CHAT_LIMITS } from "@/lib/constants";
 
+type MultimodalInputProps = { id: string };
+
+type SubmitButtonProps = { input: string };
+
 /** The question box at the bottom of the Ask panel, with Ask or, mid-answer, Stop. Text only. */
-export function MultimodalInput({ id }: { id: string }) {
+export function MultimodalInput({ id }: MultimodalInputProps) {
   const { inputRef } = useAsk();
   const { input, setInput, send } = useActiveChat();
 
@@ -57,7 +61,7 @@ export function MultimodalInput({ id }: { id: string }) {
   );
 }
 
-function SubmitButton({ input }: { input: string }) {
+function SubmitButton({ input }: SubmitButtonProps) {
   const { chat } = useActiveChat();
   const { messages, status, stop } = useChat({ chat });
 
@@ -68,7 +72,7 @@ function SubmitButton({ input }: { input: string }) {
         size="sm"
         className="min-h-11"
         onClick={() => {
-          void stop();
+          stop().catch(() => null);
         }}
       >
         Stop

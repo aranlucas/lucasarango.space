@@ -10,6 +10,16 @@ import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 import { PrintButton } from "./print-button";
 import { Bullets, Role } from "./role";
 
+type ProjectProps = { project: ResumeProject };
+
+type ResumeHeaderProps = { resume: Resume };
+
+type WritingProps = { publications: Resume["publications"] };
+
+type SkillsProps = { skills: Resume["skills"] };
+
+type EducationProps = { education: Resume["education"] };
+
 export const metadata = {
   title: "Resume",
   description:
@@ -66,7 +76,7 @@ export default async function ResumePage() {
   );
 }
 
-function Project({ project }: { project: ResumeProject }) {
+function Project({ project }: ProjectProps) {
   return (
     <div>
       <h3 className="mbe-3 font-semibold">
@@ -81,7 +91,7 @@ function Project({ project }: { project: ResumeProject }) {
   );
 }
 
-function ResumeHeader({ resume }: { resume: Resume }) {
+function ResumeHeader({ resume }: ResumeHeaderProps) {
   return (
     <header>
       <h1 className="page-title mbe-2">
@@ -104,7 +114,7 @@ function ResumeHeader({ resume }: { resume: Resume }) {
   );
 }
 
-function Writing({ publications }: { publications: Resume["publications"] }) {
+function Writing({ publications }: WritingProps) {
   return (
     <section aria-labelledby="writing">
       <SectionHeading id="writing">Writing</SectionHeading>
@@ -126,7 +136,7 @@ function Writing({ publications }: { publications: Resume["publications"] }) {
   );
 }
 
-function Skills({ skills }: { skills: Resume["skills"] }) {
+function Skills({ skills }: SkillsProps) {
   return (
     <section aria-labelledby="skills">
       <SectionHeading id="skills">Skills</SectionHeading>
@@ -142,7 +152,7 @@ function Skills({ skills }: { skills: Resume["skills"] }) {
   );
 }
 
-function Education({ education }: { education: Resume["education"] }) {
+function Education({ education }: EducationProps) {
   return (
     <section aria-labelledby="education">
       <SectionHeading id="education">Education</SectionHeading>

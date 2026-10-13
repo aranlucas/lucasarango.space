@@ -1,5 +1,12 @@
 import { ViewTransition } from "react";
 
+type PageTransitionProps = { children: React.ReactNode };
+
+type PostTitleTransitionProps = {
+  slug: string;
+  children: React.ReactNode;
+};
+
 // Tab links tag navigations nav-forward/nav-back and slide; anything untyped
 // (post links, browser back/forward) crossfades. Lives in each page, not the
 // layout, because layouts persist and never enter or exit.
@@ -9,7 +16,7 @@ const PAGE_ANIMATION = {
   default: "page-fade",
 };
 
-export function PageTransition({ children }: { children: React.ReactNode }) {
+export function PageTransition({ children }: PageTransitionProps) {
   return (
     <ViewTransition enter={PAGE_ANIMATION} exit={PAGE_ANIMATION} default="none">
       <div>{children}</div>
@@ -22,13 +29,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 const TITLE_MORPH = { "nav-forward": "none", "nav-back": "none", default: "morph" };
 
 /** Shared name for a post title, so the list row morphs into the article heading. */
-export function PostTitleTransition({
-  slug,
-  children,
-}: {
-  slug: string;
-  children: React.ReactNode;
-}) {
+export function PostTitleTransition({ slug, children }: PostTitleTransitionProps) {
   return (
     <ViewTransition name={`post-title-${slug}`} share={TITLE_MORPH} default="none">
       {children}

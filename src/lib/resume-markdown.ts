@@ -1,12 +1,14 @@
 import { formatMonth, LOOKING_FOR, type Resume } from "@/lib/resume";
 import { SITE } from "@/lib/site";
 
+type ResumeSection = [heading: string, render: (resume: Resume) => string];
+
 const bullets = (items: readonly string[]) => items.map((item) => `- ${item}`).join("\n");
 
 const link = (text: string, href?: string) => (href === undefined ? text : `[${text}](${href})`);
 
 // The résumé page's sections, in page order.
-const SECTIONS: [heading: string, render: (resume: Resume) => string][] = [
+const SECTIONS: ResumeSection[] = [
   ["Summary", (resume) => `${resume.summary}\n\n${LOOKING_FOR}`],
   [
     "Experience",

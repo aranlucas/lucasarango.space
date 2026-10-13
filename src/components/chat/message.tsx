@@ -5,11 +5,19 @@ import { useEffect, useRef, useState } from "react";
 
 import { MessageResponse } from "@/components/ai-elements/message";
 import { finishedToolLabel } from "@/components/chat/activity";
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { PeakGlyph } from "@/components/chat/icons";
 import { Button } from "@/components/ui/button";
 import { Message, MessageContent, MessageFooter } from "@/components/ui/message";
 import type { ChatMessage } from "@/lib/types";
+
+type AnswerActionsProps = { answer: string; onRetry?: () => void };
+
+type CopyActionProps = { text: string };
+
+type ToolStepProps = { label: string | null };
+
+type AnswerStatusProps = { label: string };
 
 type MessageProps = {
   message: ChatMessage;
@@ -49,11 +57,15 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
 
   // Full screen on phones, so step aside to show the linked page.
   const onNavigate = () => {
-    if (!window.matchMedia("(min-width: 40rem)").matches) hide();
+    if (!window.matchMedia("(min-width: 40rem)").matches) {
+      hide();
+    }
   };
 
   // Until the answer has something to show, the status row below speaks for it.
-  if (message.role === "assistant" && !message.parts.some(hasContent)) return null;
+  if (message.role === "assistant" && !message.parts.some(hasContent)) {
+    return null;
+  }
 
   const parts = message.parts.map((part, index) => (
     <PreviewPart
@@ -85,8 +97,10 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
 }
 
 /** Copy, and Retry on the latest answer, once it has finished printing. */
-function AnswerActions({ answer, onRetry }: { answer: string; onRetry?: () => void }) {
-  if (answer === "") return null;
+function AnswerActions({ answer, onRetry }: AnswerActionsProps) {
+  if (answer === "") {
+    return null;
+  }
 
   return (
     <MessageFooter className="-ms-1.5 gap-1 px-0">
@@ -111,7 +125,7 @@ function answerText(message: ChatMessage): string {
 const COPIED_MS = 2000;
 
 /** Copies the answer and says so for a moment. */
-function CopyAction({ text }: { text: string }) {
+function CopyAction({ text }: CopyActionProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -130,9 +144,18 @@ function CopyAction({ text }: { text: string }) {
     <Button
       variant="ghost"
       onClick={() => {
-        void navigator.clipboard.writeText(text).then(() => {
-          setCopied(true);
-        });
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            setCopied(true);
+
+            return null;
+          })
+          .catch(() => {
+            setCopied(false);
+
+            return null;
+          });
       }}
       className="answer-action"
     >
@@ -180,8 +203,10 @@ function PreviewPart({ part, role, onNavigate }: PreviewPartProps) {
 }
 
 /** A finished tool, printed like a receipt line above the answer; running tools show in the status row. */
-function ToolStep({ label }: { label: string | null }) {
-  if (label === null) return null;
+function ToolStep({ label }: ToolStepProps) {
+  if (label === null) {
+    return null;
+  }
 
   return (
     // The last step in a row leaves room before the answer.
@@ -203,7 +228,7 @@ const HOLD_MS = 1000;
  * prints. One row for the whole wait, so the glyph keeps printing across
  * steps instead of starting over.
  */
-export function AnswerStatus({ label }: { label: string }) {
+export function AnswerStatus({ label }: AnswerStatusProps) {
   const shown = useHeldLabel(label);
 
   return (

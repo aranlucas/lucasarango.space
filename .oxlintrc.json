@@ -24,7 +24,6 @@
     }
   },
   "rules": {
-    // Preserve the site-specific settings that differ from Oxforge.
     "import/no-unassigned-import": [
       "error",
       {
@@ -33,7 +32,6 @@
     ],
     "typescript/no-unsafe-type-assertion": "error",
     "typescript/prefer-readonly-parameter-types": "off",
-    // Keep the existing pedantic checks that Oxforge disables by default.
     "eslint/max-lines": "error",
     "eslint/max-lines-per-function": "error",
     "import/max-dependencies": "error",
@@ -58,29 +56,33 @@
     "unicorn/no-negated-condition": "error",
     "unicorn/prefer-number-coercion": "error",
     "unicorn/prefer-top-level-await": "error",
-    // Preserve single-line guards, inline types, and mixed Next.js/React exports.
-    "eslint/curly": "off",
-    "oxforge/no-inline-types": "off",
-    "react/only-export-components": "off",
-    "promise/always-return": "off",
-    "typescript/no-floating-promises": [
+    "react/only-export-components": [
       "error",
       {
-        "checkThenables": true,
-        "ignoreVoid": true
+        "allowConstantExport": true,
+        "allowExportNames": [
+          "metadata",
+          "generateMetadata",
+          "viewport",
+          "generateViewport",
+          "generateStaticParams",
+          "dynamic",
+          "dynamicParams",
+          "revalidate",
+          "fetchCache",
+          "runtime",
+          "preferredRegion",
+          "maxDuration",
+          "alt",
+          "size",
+          "contentType",
+          "generateImageMetadata"
+        ]
       }
-    ],
-    "typescript/no-namespace": [
-      "error",
-      {
-        "allowDeclarations": true
-      }
-    ],
-    "typescript/restrict-template-expressions": "error"
+    ]
   },
   "overrides": [
     {
-      // SVG owns shapeRendering; it is not a local symbol name.
       "files": [
         "src/components/chat/icons.tsx",
         "src/components/forest-link.tsx",
@@ -110,16 +112,14 @@
       }
     },
     {
-      // The chat endpoint logs provider failures without exposing them to readers.
       "files": ["src/app/(chat)/api/chat/handler.ts"],
       "rules": {
-        "eslint/no-console": ["error", { "allow": ["error"] }]
-      }
-    },
-    {
-      "files": ["postcss.config.mjs"],
-      "rules": {
-        "import/no-anonymous-default-export": "off"
+        "eslint/no-console": [
+          "error",
+          {
+            "allow": ["error"]
+          }
+        ]
       }
     }
   ],

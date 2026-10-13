@@ -9,7 +9,10 @@ import { SITE } from "@/lib/site";
 
 /** The path of a link to this site, e.g. a post the agent cites, or undefined for other sites. */
 function sitePath(href: string): string | undefined {
-  if (href.startsWith("/")) return href;
+  if (href.startsWith("/")) {
+    return href;
+  }
+
   const url = URL.parse(href);
 
   return url?.origin === SITE.url ? `${url.pathname}${url.hash}` : undefined;

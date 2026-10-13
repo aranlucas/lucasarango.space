@@ -8,6 +8,17 @@ import { type Critter, type Game, ROUND_SECONDS, tick, type Walk } from "../game
 import { type Beam, SPOT_RADIUS } from "./beam";
 import { FogGlow, Headlamp } from "./headlamp";
 
+type DirectorProps = {
+  game: Game;
+  aim: RefObject<Beam>;
+  controls: RefObject<Controls>;
+  lampOn: boolean;
+  glow: Texture;
+  onHud: (hud: Hud) => void;
+};
+
+type CameraRigProps = { game: Game; reducedMotion: boolean };
+
 export interface Hud {
   phase: Game["phase"];
   score: number;
@@ -29,21 +40,7 @@ const scratch = new Vector3();
  * walks them, checks which eyes the beam lights, and reports the HUD.
  * Opted out of compilation because the frame loop mutates the live game.
  */
-export function Director({
-  game,
-  aim,
-  controls,
-  lampOn,
-  glow,
-  onHud,
-}: {
-  game: Game;
-  aim: RefObject<Beam>;
-  controls: RefObject<Controls>;
-  lampOn: boolean;
-  glow: Texture;
-  onHud: (hud: Hud) => void;
-}) {
+export function Director({ game, aim, controls, lampOn, glow, onHud }: DirectorProps) {
   "use no memo";
   const beam = useRef<Beam>({ x: 0, y: 0 });
   const last = useRef("");
@@ -67,7 +64,10 @@ export function Director({
     const secondsLeft = Math.max(0, Math.ceil(ROUND_SECONDS - game.elapsed));
     const key = `${game.phase}:${game.score}:${secondsLeft}`;
 
-    if (key === last.current) return;
+    if (key === last.current) {
+      return;
+    }
+
     last.current = key;
     onHud({ phase: game.phase, score: game.score, secondsLeft });
   });
@@ -90,7 +90,7 @@ function isLit(critter: Critter, { camera, size }: RootState, beam: Beam) {
 }
 
 /** Puts the camera at the player's eyes, with a little head-bob while walking. */
-export function CameraRig({ game, reducedMotion }: { game: Game; reducedMotion: boolean }) {
+export function CameraRig({ game, reducedMotion }: CameraRigProps) {
   "use no memo";
   // Read the live player position each frame, even though the game identity is stable.
 
