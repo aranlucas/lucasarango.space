@@ -5,6 +5,10 @@
 
 import { createWorld, isClear, MIDDLE_TIER, resolve, type World } from "./world";
 
+type Range = [min: number, max: number];
+
+type GroundPoint = [x: number, z: number];
+
 export type CritterKind = "deer" | "owl" | "marmot" | "sasquatch";
 
 interface CritterSpec {
@@ -33,7 +37,7 @@ export const WALK_SPEED = 3.2;
 export const TURN_SPEED = 1.9;
 
 /** Critters appear this far ahead of the player, [min, max] metres... */
-export const SPAWN_DISTANCE: [number, number] = [6, 14];
+export const SPAWN_DISTANCE: Range = [6, 14];
 
 /** ...and between these many radians either side of where they face: never dead ahead, where the beam rests. */
 export const SPAWN_SPREAD = 0.6;
@@ -49,7 +53,7 @@ export const REVEAL_SECONDS = 0.8;
 const MAX_CRITTERS = 5;
 
 /** Seconds between spawns, easing from the first value to the second over a round. */
-const SPAWN_INTERVAL: [number, number] = [1.1, 0.45];
+const SPAWN_INTERVAL: Range = [1.1, 0.45];
 
 export interface Critter {
   id: number;
@@ -133,7 +137,10 @@ export function tick(
   isLit: (critter: Critter) => boolean,
   walk = STILL,
 ): SpotEvent[] {
-  if (game.phase !== "playing") return [];
+  if (game.phase !== "playing") {
+    return [];
+  }
+
   move(game, dt, walk);
 
   game.elapsed += dt;
@@ -150,7 +157,10 @@ export function tick(
 
   for (const critter of game.critters) {
     // Expiration wins over a hold completed on the same frame.
-    if (critter.spottedAt !== null || now >= critter.diesAt) continue;
+    if (critter.spottedAt !== null || now >= critter.diesAt) {
+      continue;
+    }
+
     critter.held = isLit(critter) ? critter.held + dt : 0;
 
     if (critter.held >= SPOT_SECONDS) {
@@ -167,7 +177,10 @@ export function tick(
   );
 
   if (now >= game.nextSpawnAt) {
-    if (game.critters.length < MAX_CRITTERS) game.critters.push(spawn(game));
+    if (game.critters.length < MAX_CRITTERS) {
+      game.critters.push(spawn(game));
+    }
+
     const progress = now / ROUND_SECONDS;
     game.nextSpawnAt = now + SPAWN_INTERVAL[0] + (SPAWN_INTERVAL[1] - SPAWN_INTERVAL[0]) * progress;
   }
@@ -239,7 +252,10 @@ function perchInView(game: Game): Critter["position"] | null {
 
   const tree = trees.at(Math.floor(random(game) * trees.length));
 
-  if (tree === undefined) return null;
+  if (tree === undefined) {
+    return null;
+  }
+
   const toward = Math.hypot(player.x - tree.x, player.z - tree.z);
   const reach = MIDDLE_TIER.radius * tree.scale * 0.9;
 
@@ -251,9 +267,9 @@ function perchInView(game: Game): Critter["position"] | null {
 }
 
 /** Somewhere in the player's view, preferring spots not inside a trunk. */
-function spawnPoint(game: Game): [number, number] {
+function spawnPoint(game: Game): GroundPoint {
   const { player } = game;
-  let point: [number, number] = [player.x, player.z];
+  let point: GroundPoint = [player.x, player.z];
 
   for (let attempt = 0; attempt < 6; attempt++) {
     const side = random(game) < 0.5 ? -1 : 1;
@@ -261,7 +277,9 @@ function spawnPoint(game: Game): [number, number] {
     const distance = between(game, SPAWN_DISTANCE);
     point = [player.x - Math.sin(bearing) * distance, player.z - Math.cos(bearing) * distance];
 
-    if (isClear(game.world, point[0], point[1], 0.6)) break;
+    if (isClear(game.world, point[0], point[1], 0.6)) {
+      break;
+    }
   }
 
   return point;
@@ -277,13 +295,15 @@ function pickKind(roll: number): CritterKind {
   for (const kind of KINDS) {
     remaining -= CRITTERS[kind].weight;
 
-    if (remaining < 0) return kind;
+    if (remaining < 0) {
+      return kind;
+    }
   }
 
   return "deer";
 }
 
-function between(game: Game, [min, max]: [number, number]) {
+function between(game: Game, [min, max]: Range) {
   return min + (max - min) * random(game);
 }
 

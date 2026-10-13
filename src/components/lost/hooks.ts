@@ -53,11 +53,18 @@ export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean)
     };
 
     const onKey = (event: KeyboardEvent) => {
-      if (!movement(event.code) || isTyping(event.target)) return;
+      if (!movement(event.code) || isTyping(event.target)) {
+        return;
+      }
+
       event.preventDefault();
 
-      if (event.type === "keydown") held.add(event.code);
-      else held.delete(event.code);
+      if (event.type === "keydown") {
+        held.add(event.code);
+      } else {
+        held.delete(event.code);
+      }
+
       update();
     };
 
@@ -96,7 +103,9 @@ export function useActive(ref: RefObject<HTMLElement | null>) {
       setOnScreen(entry?.isIntersecting ?? true);
     });
 
-    if (ref.current) observer.observe(ref.current);
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
 
     return () => {
       observer.disconnect();
@@ -173,12 +182,17 @@ function noSubscription() {
 export function useSpaceToStart(start: () => void, enabled: boolean) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.code !== "Space" || event.target !== document.body) return;
+      if (event.code !== "Space" || event.target !== document.body) {
+        return;
+      }
+
       event.preventDefault();
       start();
     };
 
-    if (enabled) window.addEventListener("keydown", onKey);
+    if (enabled) {
+      window.addEventListener("keydown", onKey);
+    }
 
     return () => {
       window.removeEventListener("keydown", onKey);

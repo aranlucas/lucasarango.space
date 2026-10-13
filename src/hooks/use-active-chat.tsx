@@ -45,12 +45,17 @@ function useQueuedQuestions(send: (text: string) => boolean, setInput: (input: s
   useEffect(() => {
     const question = questions.at(0);
 
-    if (!question || question.id <= handled.current) return;
+    if (!question || question.id <= handled.current) {
+      return;
+    }
     // Mark before sending so effect replay cannot submit the same queued question twice.
+
     handled.current = question.id;
     consume(question.id);
 
-    if (!send(question.text)) setInput(question.text);
+    if (!send(question.text)) {
+      setInput(question.text);
+    }
   }, [questions, consume, send, setInput]);
 }
 
@@ -66,16 +71,18 @@ export function ActiveChatProvider({ children, transport = askTransport() }: Pro
   const [input, setInput] = useState("");
 
   const clearChat = () => {
-    void chat.stop();
+    chat.stop().catch(() => null);
     setChat(createChat(transport));
   };
 
   const send = (text: string) => {
     const question = text.trim();
 
-    if (question === "" || isAnswering(chat.status) || isFull(chat.messages)) return false;
+    if (question === "" || isAnswering(chat.status) || isFull(chat.messages)) {
+      return false;
+    }
 
-    void chat.sendMessage({ text: question });
+    chat.sendMessage({ text: question }).catch(() => null);
     setInput("");
 
     return true;
@@ -93,7 +100,9 @@ export function ActiveChatProvider({ children, transport = askTransport() }: Pro
 export function useActiveChat(): ActiveChatContextValue {
   const value = use(ActiveChatContext);
 
-  if (value === null) throw new Error("useActiveChat must be used inside <ActiveChatProvider>");
+  if (value === null) {
+    throw new Error("useActiveChat must be used inside <ActiveChatProvider>");
+  }
 
   return value;
 }

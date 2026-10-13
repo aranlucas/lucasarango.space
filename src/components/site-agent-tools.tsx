@@ -59,9 +59,13 @@ export function postSlug(post: string) {
 async function fetchMarkdown(path: string, signal: AbortSignal, missing = `${path} not found.`) {
   const response = await fetch(path, { signal });
 
-  if (response.status === 404) throw new Error(missing);
+  if (response.status === 404) {
+    throw new Error(missing);
+  }
 
-  if (!response.ok) throw new Error(`${path} returned ${response.status}.`);
+  if (!response.ok) {
+    throw new Error(`${path} returned ${response.status}.`);
+  }
 
   return response.text();
 }
@@ -80,7 +84,9 @@ function readPost(post: string | undefined, signal: AbortSignal) {
   const missing = `No post at "${post}". Call list_posts for valid posts.`;
   const slug = postSlug(post);
 
-  if (slug === undefined) throw new Error(missing);
+  if (slug === undefined) {
+    throw new Error(missing);
+  }
 
   return fetchMarkdown(markdownPath(slug), signal, missing);
 }
@@ -103,11 +109,18 @@ export function SiteAgentTools() {
       const search = query?.trim() ?? "";
       const params = new URLSearchParams();
 
-      if (search.length > 0) params.set("query", search);
+      if (search.length > 0) {
+        params.set("query", search);
+      }
 
-      if (sort !== undefined) params.set("sort", sort);
+      if (sort !== undefined) {
+        params.set("sort", sort);
+      }
 
-      if (limit !== undefined) params.set("limit", String(limit));
+      if (limit !== undefined) {
+        params.set("limit", String(limit));
+      }
+
       const path = `/blog/sitemap.md${params.size > 0 ? `?${params}` : ""}`;
 
       return fetchMarkdown(path, signal);

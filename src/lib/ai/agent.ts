@@ -5,6 +5,12 @@ import { getLanguageModel } from "@/lib/ai/providers";
 import { listPosts } from "@/lib/ai/tools/list-posts";
 import { readPost } from "@/lib/ai/tools/read-post";
 
+type CreateAskAgentProps = {
+  model: LanguageModel;
+  tools: typeof chatTools;
+  loadInstructions: () => Promise<string>;
+};
+
 const MAX_STEPS = 5;
 
 /** The tools the agent reads Lucas's writing with; the route validates history against them. */
@@ -15,15 +21,7 @@ export const chatTools = { listPosts, readPost };
  * reads posts with tools. System messages from the client are rejected
  * (allowSystemInMessages defaults to false), so only these instructions apply.
  */
-export function createAskAgent({
-  model,
-  tools,
-  loadInstructions,
-}: {
-  model: LanguageModel;
-  tools: typeof chatTools;
-  loadInstructions: () => Promise<string>;
-}) {
+export function createAskAgent({ model, tools, loadInstructions }: CreateAskAgentProps) {
   return new ToolLoopAgent({
     model,
     tools,

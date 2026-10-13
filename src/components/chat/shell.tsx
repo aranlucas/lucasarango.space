@@ -32,7 +32,9 @@ function Shell({ titleId, inputId }: ShellProps) {
   }, [isLoading, setLoading]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (open) {
+      inputRef.current?.focus();
+    }
   }, [open, inputRef]);
 
   return (

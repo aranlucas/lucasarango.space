@@ -2,18 +2,23 @@ import Link from "next/link";
 
 import type { Hud } from "./scene/director";
 
-/** Before a round: the page's own message, then an invitation to look around. */
-export function StartCard({
-  canPlay,
-  touch,
-  onPlay,
-  children,
-}: {
+type StartCardProps = {
   canPlay: boolean;
   touch: boolean;
   onPlay: () => void;
   children: React.ReactNode;
-}) {
+};
+
+type ScoreboardProps = { hud: Hud };
+
+type RoundOverProps = {
+  score: number;
+  best: number;
+  onPlay: () => void;
+};
+
+/** Before a round: the page's own message, then an invitation to look around. */
+export function StartCard({ canPlay, touch, onPlay, children }: StartCardProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-radial from-night/70 to-transparent px-6 text-center">
       {children}
@@ -36,7 +41,7 @@ export function StartCard({
   );
 }
 
-export function Scoreboard({ hud }: { hud: Hud }) {
+export function Scoreboard({ hud }: ScoreboardProps) {
   return (
     <div
       aria-hidden="true"
@@ -48,15 +53,7 @@ export function Scoreboard({ hud }: { hud: Hud }) {
   );
 }
 
-export function RoundOver({
-  score,
-  best,
-  onPlay,
-}: {
-  score: number;
-  best: number;
-  onPlay: () => void;
-}) {
+export function RoundOver({ score, best, onPlay }: RoundOverProps) {
   return (
     <div className="absolute inset-x-0 inset-be-0 flex flex-wrap items-center justify-between gap-3 bg-linear-to-t from-night to-transparent px-4 pbs-8 pbe-3 text-sm">
       <p>

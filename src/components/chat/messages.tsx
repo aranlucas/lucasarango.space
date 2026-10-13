@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/message-scroller";
 import { isAnswering, isFull, useActiveChat } from "@/hooks/use-active-chat";
 
+type TranscriptStatusProps = { retry: () => void };
+
 /** The greeting and suggestions before the first question, then the transcript. */
 export function Messages() {
   const { chat } = useActiveChat();
@@ -58,7 +60,7 @@ function Transcript() {
   const answering = isAnswering(status);
 
   const retry = () => {
-    void regenerate();
+    regenerate().catch(() => null);
   };
 
   return (
@@ -93,7 +95,7 @@ function Transcript() {
 }
 
 /** What follows the last message: what the answer is doing, an error to retry, or a full conversation. */
-function TranscriptStatus({ retry }: { retry: () => void }) {
+function TranscriptStatus({ retry }: TranscriptStatusProps) {
   const { chat } = useActiveChat();
   const { messages, status, error } = useChat({ chat });
   const activity = isAnswering(status) ? answerActivity(messages) : null;

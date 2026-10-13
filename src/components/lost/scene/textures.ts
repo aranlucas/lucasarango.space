@@ -31,7 +31,10 @@ export const SILHOUETTES: Record<CritterKind, Silhouette> = {
     eyeRadius: 0.03,
     eyeColor: "#d8ffe8",
     draw(ctx) {
-      for (const x of [100, 114, 136, 150]) ctx.fillRect(x, 186, 7, 70);
+      for (const x of [100, 114, 136, 150]) {
+        ctx.fillRect(x, 186, 7, 70);
+      }
+
       ellipse(ctx, 128, 168, 44, 30);
       ctx.beginPath();
       ctx.moveTo(112, 158);
@@ -140,7 +143,10 @@ function paint(width: number, height: number, draw: (ctx: CanvasRenderingContext
   canvas.height = height;
   const ctx = canvas.getContext("2d");
 
-  if (ctx) draw(ctx);
+  if (ctx) {
+    draw(ctx);
+  }
+
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
 
@@ -220,9 +226,14 @@ export function createTextures(): Textures {
 }
 
 export function disposeTextures(textures: Textures) {
-  for (const t of Object.values(textures.silhouettes)) t.dispose();
+  for (const t of Object.values(textures.silhouettes)) {
+    t.dispose();
+  }
 
-  for (const t of textures.points.values()) t.dispose();
+  for (const t of textures.points.values()) {
+    t.dispose();
+  }
+
   textures.glow.dispose();
   textures.home.dispose();
   textures.writing.dispose();

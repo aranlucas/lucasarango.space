@@ -10,6 +10,8 @@ import {
   type RefObject,
 } from "react";
 
+type AskProviderProps = { children: React.ReactNode };
+
 export type PendingQuestion = { id: number; text: string };
 
 /** Whether Ask is open, and questions waiting for the chat to mount. Kept across navigation. */
@@ -52,10 +54,14 @@ function useFocusReturn(open: boolean, launcherRef: RefObject<HTMLButtonElement 
 function useEscape(open: boolean, close: () => void) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
+      if (event.key === "Escape") {
+        close();
+      }
     };
 
-    if (open) document.addEventListener("keydown", onKeyDown);
+    if (open) {
+      document.addEventListener("keydown", onKeyDown);
+    }
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
@@ -107,7 +113,7 @@ function usePanel() {
  * Lightweight layout state; the chat only mounts after reader intent. The
  * React Compiler memoizes the actions and the context value.
  */
-export function AskProvider({ children }: { children: React.ReactNode }) {
+export function AskProvider({ children }: AskProviderProps) {
   const { open, setOpen, launcherRef, hide, close } = usePanel();
   const [activated, setActivated] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -150,7 +156,9 @@ export function AskProvider({ children }: { children: React.ReactNode }) {
 export function useAsk(): AskState {
   const value = use(AskContext);
 
-  if (value === null) throw new Error("useAsk must be used inside <AskProvider>");
+  if (value === null) {
+    throw new Error("useAsk must be used inside <AskProvider>");
+  }
 
   return value;
 }

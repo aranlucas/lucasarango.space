@@ -11,6 +11,8 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { markdownAlternate, SITE, SITE_OPEN_GRAPH } from "@/lib/site";
 import "./globals.css";
 
+type RootLayoutOptions = { children: ReactNode };
+
 export const ensureStatic = "navigation";
 
 // The receipt is set in one monospace at a condensed width; headings print in
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({ children }: Readonly<RootLayoutOptions>) {
   return (
     <html lang="en" className={cn(mono.variable, pixel.variable)}>
       <body>

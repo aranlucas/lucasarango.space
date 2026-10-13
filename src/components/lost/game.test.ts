@@ -33,7 +33,9 @@ function run(
 ) {
   const events: SpotEvent[] = [];
 
-  for (let t = 0; t < seconds; t += FRAME) events.push(...tick(game, FRAME, lit, walk));
+  for (let t = 0; t < seconds; t += FRAME) {
+    events.push(...tick(game, FRAME, lit, walk));
+  }
 
   return events;
 }
@@ -106,10 +108,15 @@ describe("owls", () => {
     const owls = new Map<number, Critter>();
 
     for (let t = 0; t < 40; t += FRAME) {
-      if (game.phase !== "playing") startRound(game);
+      if (game.phase !== "playing") {
+        startRound(game);
+      }
+
       tick(game, FRAME, never, { forward: 0.4, turn: 0.3 });
 
-      for (const c of game.critters) if (c.kind === "owl") owls.set(c.id, c);
+      for (const c of game.critters) {
+        if (c.kind === "owl") owls.set(c.id, c);
+      }
     }
 
     expect(owls.size).toBeGreaterThan(3);
@@ -237,7 +244,9 @@ describe("pacing", () => {
     for (let round = 0; round < 40; round++) {
       startRound(game);
 
-      for (const { critter } of run(game, ROUND_SECONDS, always)) kinds.push(critter.kind);
+      for (const { critter } of run(game, ROUND_SECONDS, always)) {
+        kinds.push(critter.kind);
+      }
     }
 
     const share = kinds.filter((k) => k === "sasquatch").length / kinds.length;

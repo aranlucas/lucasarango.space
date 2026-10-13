@@ -107,7 +107,9 @@ async function fetchResume(): Promise<z.infer<typeof JsonResume>> {
 
   const res = await fetch(RESUME_URL);
 
-  if (!res.ok) throw new Error(`GET ${RESUME_URL} → ${res.status}`);
+  if (!res.ok) {
+    throw new Error(`GET ${RESUME_URL} → ${res.status}`);
+  }
 
   return JsonResume.parse(await res.json());
 }
@@ -122,7 +124,9 @@ export async function getResumeMarkdown(): Promise<string> {
 
   const res = await fetch(url);
 
-  if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
+  if (!res.ok) {
+    throw new Error(`GET ${url} → ${res.status}`);
+  }
 
   return res.text();
 }

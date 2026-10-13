@@ -5,16 +5,14 @@ import { PostTitleTransition } from "@/components/page-transition";
 import type { Post } from "@/interfaces/post";
 import { formatDate } from "@/lib/utils";
 
-/** Posts as receipt lines: date, title, a dotted leader, and the read time as the quantity. */
-export function PostList({
-  posts,
-  summaries = false,
-  className,
-}: {
+type PostListProps = {
   posts: Post[];
   summaries?: boolean;
   className?: string;
-}) {
+};
+
+/** Posts as receipt lines: date, title, a dotted leader, and the read time as the quantity. */
+export function PostList({ posts, summaries = false, className }: PostListProps) {
   return (
     <ul className={cn("line-items", className)}>
       {posts.map((post) => (

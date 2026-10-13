@@ -9,7 +9,23 @@ import { resolve } from "../world";
 import { WOOD } from "./palette";
 import type { Textures } from "./textures";
 
-const ARM: [number, number, number] = [1.45, 0.34, 0.06];
+type ArmDimensions = [number, number, number];
+
+type TrailSignProps = {
+  game: Game;
+  textures: Textures;
+  reducedMotion: boolean;
+  onNavigate: (href: string) => void;
+};
+
+type SignArmProps = {
+  texture: Texture;
+  x: number;
+  y: number;
+  onClick: () => void;
+};
+
+const ARM: ArmDimensions = [1.45, 0.34, 0.06];
 
 const RISE_SECONDS = 0.5;
 
@@ -17,17 +33,7 @@ const RISE_SECONDS = 0.5;
 const AHEAD = 3.5;
 
 /** The trailhead post that appears in front of you when a round ends. Its arms are links. */
-export function TrailSign({
-  game,
-  textures,
-  reducedMotion,
-  onNavigate,
-}: {
-  game: Game;
-  textures: Textures;
-  reducedMotion: boolean;
-  onNavigate: (href: string) => void;
-}) {
+export function TrailSign({ game, textures, reducedMotion, onNavigate }: TrailSignProps) {
   "use no memo";
   // Capture the live player pose on mount and animate a mutable three.js group.
 
@@ -78,17 +84,7 @@ function signPose({ player, world }: Game) {
   return { position: [x, 0, z] as const, heading: player.heading };
 }
 
-function SignArm({
-  texture,
-  x,
-  y,
-  onClick,
-}: {
-  texture: Texture;
-  x: number;
-  y: number;
-  onClick: () => void;
-}) {
+function SignArm({ texture, x, y, onClick }: SignArmProps) {
   const [hovered, setHovered] = useState(false);
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "";

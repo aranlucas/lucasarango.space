@@ -19,6 +19,8 @@ import type { Beam } from "./scene/beam";
 import type { Controls, Hud } from "./scene/director";
 import { Thumbstick } from "./thumbstick";
 
+type LostGameProps = { children: React.ReactNode };
+
 // Three.js only downloads on this page, and never renders on the server.
 const LostScene = dynamic(() => import("./scene/lost-scene"), { ssr: false });
 
@@ -30,7 +32,7 @@ const IDLE_HUD: Hud = { phase: "idle", score: 0, secondsLeft: ROUND_SECONDS };
  * on a headlamp for a round of critter spotting. The message is server
  * rendered; only the scene waits for the browser.
  */
-export function LostGame({ children }: { children: React.ReactNode }) {
+export function LostGame({ children }: LostGameProps) {
   const round = useRound();
   const { hud } = round;
   const { aim, aimAt } = useAim();
@@ -89,12 +91,17 @@ function useRound() {
   const onHud = useCallback((next: Hud) => {
     setHud(next);
 
-    if (next.phase === "over") setBest(recordBest(next.score));
+    if (next.phase === "over") {
+      setBest(recordBest(next.score));
+    }
   }, []);
 
   const play = useCallback(() => {
     // Seed a round when it starts, so prerendering never reads the current time.
-    if (game.current) startRound(game.current, Date.now());
+    if (game.current) {
+      startRound(game.current, Date.now());
+    }
+
     setHud({ ...IDLE_HUD, phase: "playing" });
   }, [game]);
 

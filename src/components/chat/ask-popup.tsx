@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { useAsk } from "@/components/chat/ask-provider";
 import { PeakGlyph } from "@/components/chat/icons";
 
+type LauncherProps = { panelId: string };
+
 const ChatShell = dynamic(
   () => import("@/components/chat/shell").then((module) => module.ChatShell),
   {
@@ -44,7 +46,7 @@ export function AskPopup() {
   );
 }
 
-function Launcher({ panelId }: { panelId: string }) {
+function Launcher({ panelId }: LauncherProps) {
   const { open, isLoading, launcherRef, show, close, preload } = useAsk();
 
   return (

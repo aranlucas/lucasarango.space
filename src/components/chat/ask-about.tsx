@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { useAsk } from "@/components/chat/ask-provider";
 
+type AskAboutProps = { question: string };
+
 /** A quiet link on the résumé that opens the Ask popup with a question about one role. */
-export function AskAbout({ question }: { question: string }) {
+export function AskAbout({ question }: AskAboutProps) {
   const { ask } = useAsk();
 
   return (

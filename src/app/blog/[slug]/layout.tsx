@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 
 import { ReadingProgress } from "@/components/reading-progress";
 
-export default function PostLayout({ children }: { children: ReactNode }) {
+type PostLayoutProps = { children: ReactNode };
+
+export default function PostLayout({ children }: PostLayoutProps) {
   return (
     <>
       <ReadingProgress />

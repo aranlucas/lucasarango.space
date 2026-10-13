@@ -7,6 +7,8 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import type { Tree } from "../world";
 import { FIR, GROUND, NIGHT, TRUNK } from "./palette";
 
+type ForestProps = { trees: Tree[] };
+
 /** A low-poly fir: three stacked seven-sided cones on a short trunk, 3.4 units tall. */
 function firGeometry() {
   const trunk = new CylinderGeometry(0.09, 0.12, 0.6, 5).translate(0, 0.3, 0);
@@ -19,7 +21,9 @@ function firGeometry() {
 
   const needles = mergeGeometries(tiers);
 
-  for (const g of tiers) g.dispose();
+  for (const g of tiers) {
+    g.dispose();
+  }
 
   return { trunk, needles };
 }
@@ -35,7 +39,7 @@ export function Night() {
   );
 }
 
-export function Forest({ trees }: { trees: Tree[] }) {
+export function Forest({ trees }: ForestProps) {
   "use no memo";
   // The memoized geometries have an explicit lifetime and are disposed on unmount.
 
@@ -64,7 +68,9 @@ export function Forest({ trees }: { trees: Tree[] }) {
     }
 
     for (const mesh of [needleRef.current, trunkRef.current]) {
-      if (mesh) mesh.instanceMatrix.needsUpdate = true;
+      if (mesh) {
+        mesh.instanceMatrix.needsUpdate = true;
+      }
     }
   }, [trees]);
 

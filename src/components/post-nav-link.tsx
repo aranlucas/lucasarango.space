@@ -4,7 +4,11 @@ import Link from "next/link";
 import { PostTitleTransition } from "@/components/page-transition";
 import type { Post } from "@/interfaces/post";
 
-export function PostNavLink({ post, direction }: { post: Post; direction: "older" | "newer" }) {
+type PostNavLinkProps = { post: Post; direction: "older" | "newer" };
+
+type PostNavProps = { post: Post; posts: Post[] };
+
+export function PostNavLink({ post, direction }: PostNavLinkProps) {
   const Arrow = direction === "newer" ? ArrowRight : ArrowLeft;
 
   return (
@@ -28,15 +32,19 @@ export function PostNavLink({ post, direction }: { post: Post; direction: "older
 }
 
 /** Split article navigation; `posts` is newest first. */
-export function PostNav({ post, posts }: { post: Post; posts: Post[] }) {
+export function PostNav({ post, posts }: PostNavProps) {
   const index = posts.findIndex((p) => p.slug === post.slug);
 
-  if (index === -1) return null;
+  if (index === -1) {
+    return null;
+  }
 
   const newer: Post | undefined = posts[index - 1];
   const older: Post | undefined = posts[index + 1];
 
-  if (newer === undefined && older === undefined) return null;
+  if (newer === undefined && older === undefined) {
+    return null;
+  }
 
   return (
     <>
