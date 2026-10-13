@@ -56,23 +56,20 @@ test("sorts deterministically and limits results without losing total counts", (
   expect(searchPosts(posts, { sort: "newest" }).posts.map((p) => p.slug)).toEqual(["new", "old"]);
 });
 
-test("project questions find the dedicated stories in the site's published corpus", () => {
+test.each([
+  [
+    "What was the grocery prototype behind Ask DoorDash?",
+    "the-first-ask-doordash-prototype-was-an-mcp-server",
+  ],
+  [
+    "How does Lucas practice system design with an AI whiteboard?",
+    "practicing-system-design-with-an-ai-on-the-whiteboard",
+  ],
+  [
+    "How does Lucas keep MCP servers together across clients?",
+    "one-plugin-repo-for-all-my-mcp-servers",
+  ],
+] as const)("project question %s finds its dedicated story", (query, slug) => {
   const posts = getAllPosts();
-
-  for (const [query, slug] of [
-    [
-      "What was the grocery prototype behind Ask DoorDash?",
-      "the-first-ask-doordash-prototype-was-an-mcp-server",
-    ],
-    [
-      "How does Lucas practice system design with an AI whiteboard?",
-      "practicing-system-design-with-an-ai-on-the-whiteboard",
-    ],
-    [
-      "How does Lucas keep MCP servers together across clients?",
-      "one-plugin-repo-for-all-my-mcp-servers",
-    ],
-  ]) {
-    expect(searchPosts(posts, { query }).posts[0]?.slug, query).toBe(slug);
-  }
+  expect(searchPosts(posts, { query }).posts[0]?.slug).toBe(slug);
 });
