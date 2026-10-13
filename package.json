@@ -15,7 +15,9 @@
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm fmt:check && pnpm test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "oxfmt --write",
+    "format:check": "oxfmt --check"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.68",
@@ -65,8 +67,8 @@
     "husky": "^9.1.7",
     "jsdom": "^30.1.2",
     "lint-staged": "^17.6.0",
-    "oxfmt": "0.73.0",
-    "oxlint": "1.88.0",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
     "oxlint-tailwindcss": "^1.16.0",
     "oxlint-tsgolint": "^7.0.2004",
     "playwright-core": "^1.64.0",

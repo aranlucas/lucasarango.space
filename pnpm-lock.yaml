@@ -303,10 +303,10 @@ importers:
         specifier: ^17.6.0
         version: 17.6.0
       oxfmt:
-        specifier: 0.73.0
+        specifier: ^0.73.0
         version: 0.73.0
       oxlint:
-        specifier: 1.88.0
+        specifier: ^1.88.0
         version: 1.88.0(oxlint-tsgolint@7.0.2004)
       oxlint-tailwindcss:
         specifier: ^1.16.0

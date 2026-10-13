@@ -1,26 +1,8 @@
-import oxforge from "@aranlucas/oxforge/format-config";
+import type { OxfmtConfig } from "oxfmt";
+import base from "@aranlucas/oxforge/format-config";
 
-const config = {
-  ...oxforge,
-  sortTailwindcss: {
-    functions: ["cn", "cva"],
-    stylesheet: "./src/app/globals.css",
-  },
-  ignorePatterns: [
-    "pnpm-lock.yaml",
-    "src/components/ui/**",
-    ".agent/**",
-    ".agents/**",
-    ".claude/**",
-    ".codex/**",
-    ".continue/**",
-    ".cursor/**",
-    ".gemini/**",
-    ".opencode/**",
-    ".pi/**",
-    ".roo/**",
-    ".windsurf/**",
-  ],
+const config: OxfmtConfig = {
+  ...base,
 };
 
 export default config;

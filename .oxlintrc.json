@@ -3,14 +3,13 @@
   "extends": [
     "./node_modules/@aranlucas/oxforge/configs/recommended.json",
     "./node_modules/@aranlucas/oxforge/configs/nextjs.json",
-    "./node_modules/@aranlucas/oxforge/configs/tailwind.json"
+    "./node_modules/@aranlucas/oxforge/configs/vitest.json",
+    "./node_modules/@aranlucas/oxforge/configs/tailwind.json",
+    "./node_modules/@aranlucas/oxforge/configs/type-aware.json"
   ],
   "jsPlugins": ["@shadcn/lint"],
   "env": {
     "node": true
-  },
-  "options": {
-    "typeAware": true
   },
   "settings": {
     "next": {
@@ -24,7 +23,6 @@
     }
   },
   "rules": {
-    // Preserve the site-specific settings that differ from Oxforge.
     "import/no-unassigned-import": [
       "error",
       {
@@ -33,7 +31,6 @@
     ],
     "typescript/no-unsafe-type-assertion": "error",
     "typescript/prefer-readonly-parameter-types": "off",
-    // Keep the existing pedantic checks that Oxforge disables by default.
     "eslint/max-lines": "error",
     "eslint/max-lines-per-function": "error",
     "import/max-dependencies": "error",
@@ -58,7 +55,6 @@
     "unicorn/no-negated-condition": "error",
     "unicorn/prefer-number-coercion": "error",
     "unicorn/prefer-top-level-await": "error",
-    // Preserve single-line guards, inline types, and mixed Next.js/React exports.
     "eslint/curly": "off",
     "oxforge/no-inline-types": "off",
     "react/only-export-components": "off",
@@ -80,7 +76,6 @@
   },
   "overrides": [
     {
-      // SVG owns shapeRendering; it is not a local symbol name.
       "files": [
         "src/components/chat/icons.tsx",
         "src/components/forest-link.tsx",
@@ -110,10 +105,14 @@
       }
     },
     {
-      // The chat endpoint logs provider failures without exposing them to readers.
       "files": ["src/app/(chat)/api/chat/handler.ts"],
       "rules": {
-        "eslint/no-console": ["error", { "allow": ["error"] }]
+        "eslint/no-console": [
+          "error",
+          {
+            "allow": ["error"]
+          }
+        ]
       }
     },
     {
