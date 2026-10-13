@@ -38,7 +38,7 @@ pnpm build
 pnpm start
 ```
 
-`pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), formatting checks, and Vitest. Lint and formatting defaults come from [`@aranlucas/oxforge`](https://github.com/aranlucas/oxforge): `.oxlintrc.json` extends its recommended, Next.js, and Tailwind JSON presets; `oxfmt.config.ts` imports its static formatter config. The local configs preserve the site’s pedantic checks, existing inline-type and single-line-guard conventions, React exports, Tailwind stylesheet, generated UI exceptions, and ignored files. Anti-slop is supplied by Oxforge. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat`.
+`pnpm check` runs TypeScript, strict Oxlint (including Tailwind and TypeScript-aware rules), formatting checks, and Vitest. Lint and formatting defaults come from [`@aranlucas/oxforge`](https://github.com/aranlucas/oxforge): `.oxlintrc.json` extends its recommended, Next.js, and Tailwind JSON presets; `oxfmt.config.ts` imports its static formatter config. The local configs preserve the site’s stricter pedantic and size checks, existing inline-type and single-line-guard conventions, React exports, Tailwind stylesheet, generated UI exceptions, and ignored files. Anti-slop is supplied by Oxforge. The build uses Next’s tracing configuration to include `_posts/**/*.md` for `/api/chat`.
 
 ## Optional configuration
 

@@ -5,9 +5,6 @@
     "./node_modules/@aranlucas/oxforge/configs/nextjs.json",
     "./node_modules/@aranlucas/oxforge/configs/tailwind.json"
   ],
-  "categories": {
-    "pedantic": "error"
-  },
   "jsPlugins": ["@shadcn/lint"],
   "env": {
     "node": true
@@ -28,7 +25,6 @@
   },
   "rules": {
     // Preserve the site-specific settings that differ from Oxforge.
-    "unicorn/filename-case": "error",
     "import/no-unassigned-import": [
       "error",
       {
@@ -38,6 +34,9 @@
     "typescript/no-unsafe-type-assertion": "error",
     "typescript/prefer-readonly-parameter-types": "off",
     // Keep the existing pedantic checks that Oxforge disables by default.
+    "eslint/max-lines": "error",
+    "eslint/max-lines-per-function": "error",
+    "import/max-dependencies": "error",
     "eslint/no-inline-comments": "error",
     "eslint/no-negated-condition": "error",
     "eslint/require-unicode-regexp": "error",
@@ -56,7 +55,6 @@
     "typescript/strict-void-return": "error",
     "unicorn/explicit-length-check": "error",
     "unicorn/no-array-callback-reference": "error",
-    "unicorn/no-array-reverse": "error",
     "unicorn/no-negated-condition": "error",
     "unicorn/prefer-number-coercion": "error",
     "unicorn/prefer-top-level-await": "error",
