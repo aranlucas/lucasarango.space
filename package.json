@@ -50,7 +50,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@oxlint/plugins": "1.87.0",
+    "@aranlucas/oxlint-plugin-anti-slop": "0.1.0",
     "@shadcn/helpers": "0.2.0",
     "@shadcn/lint": "^0.2.1",
     "@tailwindcss/postcss": "^4.3.3",
