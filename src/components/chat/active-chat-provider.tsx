@@ -1,33 +1,13 @@
 "use client";
 
 import { Chat } from "@ai-sdk/react";
-import { DefaultChatTransport, type ChatStatus, type ChatTransport } from "ai";
-import { createContext, use, useEffect, useRef, useState } from "react";
+import { DefaultChatTransport, type ChatTransport } from "ai";
+import { useEffect, useRef, useState } from "react";
 
-import { useAsk } from "@/components/chat/ask-provider";
-import { CHAT_LIMITS } from "@/lib/constants";
+import { useAsk } from "@/hooks/use-ask";
+import { ActiveChatContext, isAnswering, isFull } from "@/hooks/use-active-chat";
 import type { ChatMessage } from "@/lib/types";
 import { fetchWithErrorHandlers } from "@/lib/utils";
-
-/**
- * One conversation shared by the Ask panel, after the AI SDK's shared chat
- * context cookbook: components read it with useChat({ chat }).
- */
-type ActiveChatContextValue = {
-  chat: Chat<ChatMessage>;
-  /** Stops any answer and starts a new conversation. */
-  clearChat: () => void;
-  input: string;
-  setInput: (input: string) => void;
-  /** Sends a question unless it's empty or the chat is busy or full; false when it didn't. */
-  send: (text: string) => boolean;
-};
-
-const ActiveChatContext = createContext<ActiveChatContextValue | null>(null);
-
-export const isAnswering = (status: ChatStatus) => status === "submitted" || status === "streaming";
-
-export const isFull = (messages: ChatMessage[]) => messages.length >= CHAT_LIMITS.messages;
 
 const askTransport = () =>
   new DefaultChatTransport<ChatMessage>({ api: "/api/chat", fetch: fetchWithErrorHandlers });
@@ -95,14 +75,4 @@ export function ActiveChatProvider({ children, transport = askTransport() }: Pro
       {children}
     </ActiveChatContext>
   );
-}
-
-export function useActiveChat(): ActiveChatContextValue {
-  const value = use(ActiveChatContext);
-
-  if (value === null) {
-    throw new Error("useActiveChat must be used inside <ActiveChatProvider>");
-  }
-
-  return value;
 }

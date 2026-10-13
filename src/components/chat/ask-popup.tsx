@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useId } from "react";
 
 import { Button } from "@/components/ui/button";
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { PeakGlyph } from "@/components/chat/icons";
 
 type LauncherProps = { panelId: string };

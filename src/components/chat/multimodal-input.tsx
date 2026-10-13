@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import {
   InputGroup,
   InputGroupAddon,

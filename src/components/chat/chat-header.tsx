@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { SquarePen, X } from "lucide-react";
 
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { Button } from "@/components/ui/button";
 import { useActiveChat } from "@/hooks/use-active-chat";
 

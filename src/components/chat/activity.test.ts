@@ -1,6 +1,11 @@
 import { expect, test } from "vitest";
 
-import { answerActivity, BETWEEN_STEPS, latestThought } from "@/components/chat/activity";
+import {
+  answerActivity,
+  BETWEEN_STEPS,
+  finishedToolLabel,
+  latestThought,
+} from "@/components/chat/activity";
 import { WAITING_MESSAGE } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 
@@ -109,4 +114,16 @@ test("latestThought otherwise takes the newest finished sentence", () => {
   );
   expect(latestThought("Is this about posts? Maybe")).toBe("Is this about posts?");
   expect(latestThought("Still thinking")).toBeUndefined();
+});
+
+test("a failed post read has no finished label, even with an undefined title", () => {
+  expect(
+    finishedToolLabel({
+      type: "tool-readPost",
+      toolCallId: "read",
+      state: "output-available",
+      input: { url: "https://example.com/blog/missing" },
+      output: { error: "Post not found", title: undefined },
+    }),
+  ).toBeNull();
 });

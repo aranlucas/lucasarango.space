@@ -7,13 +7,12 @@ import { z } from "zod";
 
 import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
 
-declare global {
-  namespace WebMCP {
-    interface ModelContext {
-      // Chrome 154 takes the input as JSON text; the spec now takes an object.
-      executeTool(tool: RegisteredTool, input: string): Promise<string>;
-    }
-  }
+interface ChromeModelContext extends WebMCP.ModelContext {
+  // Chrome 154 takes JSON text; the current spec takes an object.
+  executeTool(
+    tool: WebMCP.RegisteredTool,
+    input: Parameters<WebMCP.ModelContext["executeTool"]>[1] | string,
+  ): Promise<string>;
 }
 
 const ToolResult = z.object({
@@ -49,7 +48,7 @@ afterEach(async () => {
 async function open(path: string) {
   await page.goto(path);
   await page.evaluate(async (count) => {
-    const context = document.modelContext;
+    const context: ChromeModelContext | undefined = document.modelContext;
 
     if (context === undefined) {
       throw new Error("document.modelContext is missing. Is Chrome's WebMCPTesting feature on?");
@@ -79,7 +78,7 @@ async function open(path: string) {
 async function call(name: string, args: ToolArgs = {}) {
   const raw = await page.evaluate(
     async ({ tool: toolName, input }) => {
-      const context = document.modelContext;
+      const context: ChromeModelContext | undefined = document.modelContext;
       const tool = (await context?.getTools())?.find((candidate) => candidate.name === toolName);
 
       if (context === undefined || tool === undefined) {
@@ -193,14 +192,16 @@ test("list_posts rejects malformed agent input with a field-specific error", asy
   await open("/");
 
   const raw = await page.evaluate(async () => {
-    const context = document.modelContext;
+    const context: ChromeModelContext | undefined = document.modelContext;
     const tool = (await context?.getTools())?.find((candidate) => candidate.name === "list_posts");
 
     if (context === undefined || tool === undefined) {
       throw new Error("list_posts is missing");
     }
 
-    return context.executeTool(tool, JSON.stringify({ query: 42 }));
+    return context
+      .executeTool(tool, { query: 42 })
+      .catch(() => context.executeTool(tool, JSON.stringify({ query: 42 })));
   });
 
   const result = ToolResult.parse(JSON.parse(raw ?? "null"));

@@ -36,20 +36,24 @@ export function recordBest(score: number) {
   }
 }
 
+function walkFromKeys(held: Set<string>): Walk {
+  const walk = { forward: 0, turn: 0 };
+
+  for (const code of held) {
+    walk.forward += movement(code)?.forward ?? 0;
+    walk.turn += movement(code)?.turn ?? 0;
+  }
+
+  return walk;
+}
+
 /** WASD and the arrow keys walk and turn while `enabled`. */
 export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean) {
   useEffect(() => {
     const held = new Set<string>();
 
     const update = () => {
-      const walk = { forward: 0, turn: 0 };
-
-      for (const code of held) {
-        walk.forward += movement(code)?.forward ?? 0;
-        walk.turn += movement(code)?.turn ?? 0;
-      }
-
-      controls.current.keys = walk;
+      controls.current.keys = walkFromKeys(held);
     };
 
     const onKey = (event: KeyboardEvent) => {

@@ -3,13 +3,15 @@
 // framework-free so the rules are testable; the scene mutates one game object
 // per frame and renders it.
 
-import { createWorld, isClear, MIDDLE_TIER, resolve, type World } from "./world";
+import { createWorld, isClear, MIDDLE_TIER, resolve } from "./world";
+
+import type { Critter, CritterKind, Game, SpotEvent, Walk } from "./game-types";
+
+export type { Critter, CritterKind, Game, Player, SpotEvent, Walk } from "./game-types";
 
 type Range = [min: number, max: number];
 
 type GroundPoint = [x: number, z: number];
-
-export type CritterKind = "deer" | "owl" | "marmot" | "sasquatch";
 
 interface CritterSpec {
   points: number;
@@ -55,49 +57,7 @@ const MAX_CRITTERS = 5;
 /** Seconds between spawns, easing from the first value to the second over a round. */
 const SPAWN_INTERVAL: Range = [1.1, 0.45];
 
-export interface Critter {
-  id: number;
-  kind: CritterKind;
-  position: [number, number, number];
-  bornAt: number;
-  diesAt: number;
-  /** Continuous seconds in the beam so far. */
-  held: number;
-  spottedAt: number | null;
-}
-
-/** Where the player stands. Heading 0 faces -z; positive turns left. */
-export interface Player {
-  x: number;
-  z: number;
-  heading: number;
-}
-
-/** Movement input, each axis -1 to 1: forward walks ahead, turn turns left. */
-export interface Walk {
-  forward: number;
-  turn: number;
-}
-
 const STILL: Walk = { forward: 0, turn: 0 };
-
-export interface Game {
-  phase: "idle" | "playing" | "over";
-  world: World;
-  player: Player;
-  elapsed: number;
-  score: number;
-  spotted: number;
-  critters: Critter[];
-  nextId: number;
-  nextSpawnAt: number;
-  seed: number;
-}
-
-export interface SpotEvent {
-  critter: Critter;
-  points: number;
-}
 
 export function createGame(seed = Date.now(), world = createWorld()): Game {
   return {
@@ -153,6 +113,26 @@ export function tick(
     return [];
   }
 
+  const events = spotCritters(game, dt, isLit);
+
+  game.critters = game.critters.filter((c) =>
+    c.spottedAt === null ? now < c.diesAt : now < c.spottedAt + REVEAL_SECONDS,
+  );
+
+  if (now >= game.nextSpawnAt) {
+    if (game.critters.length < MAX_CRITTERS) {
+      game.critters.push(spawn(game));
+    }
+
+    const progress = now / ROUND_SECONDS;
+    game.nextSpawnAt = now + SPAWN_INTERVAL[0] + (SPAWN_INTERVAL[1] - SPAWN_INTERVAL[0]) * progress;
+  }
+
+  return events;
+}
+
+function spotCritters(game: Game, dt: number, isLit: (critter: Critter) => boolean): SpotEvent[] {
+  const now = game.elapsed;
   const events: SpotEvent[] = [];
 
   for (const critter of game.critters) {
@@ -170,19 +150,6 @@ export function tick(
       game.spotted += 1;
       events.push({ critter, points });
     }
-  }
-
-  game.critters = game.critters.filter((c) =>
-    c.spottedAt === null ? now < c.diesAt : now < c.spottedAt + REVEAL_SECONDS,
-  );
-
-  if (now >= game.nextSpawnAt) {
-    if (game.critters.length < MAX_CRITTERS) {
-      game.critters.push(spawn(game));
-    }
-
-    const progress = now / ROUND_SECONDS;
-    game.nextSpawnAt = now + SPAWN_INTERVAL[0] + (SPAWN_INTERVAL[1] - SPAWN_INTERVAL[0]) * progress;
   }
 
   return events;

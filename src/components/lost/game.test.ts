@@ -9,7 +9,6 @@ import {
   SPOT_SECONDS,
   SPAWN_DISTANCE,
   SPAWN_SPREAD,
-  type SpotEvent,
   startRound,
   tick,
   TURN_SPEED,
@@ -18,27 +17,7 @@ import {
 } from "./game";
 import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "./world";
 
-const FRAME = 1 / 60;
-
-const never = () => false;
-
-const always = () => true;
-
-/** Advances the game by `seconds` in 60fps frames, collecting every spot event. */
-function run(
-  game: ReturnType<typeof createGame>,
-  seconds: number,
-  lit: (c: Critter) => boolean,
-  walk?: Walk,
-) {
-  const events: SpotEvent[] = [];
-
-  for (let t = 0; t < seconds; t += FRAME) {
-    events.push(...tick(game, FRAME, lit, walk));
-  }
-
-  return events;
-}
+import { always, FRAME, never, run } from "./game.test-utils";
 
 describe("a round", () => {
   it("waits in the idle phase until a round starts", () => {
@@ -115,7 +94,9 @@ describe("owls", () => {
       tick(game, FRAME, never, { forward: 0.4, turn: 0.3 });
 
       for (const c of game.critters) {
-        if (c.kind === "owl") owls.set(c.id, c);
+        if (c.kind === "owl") {
+          owls.set(c.id, c);
+        }
       }
     }
 

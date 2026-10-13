@@ -4,7 +4,9 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
 
-import { postSlug, SiteAgentTools } from "./site-agent-tools";
+import { postSlug } from "@/lib/site-agent-tools";
+
+import { SiteAgentTools } from "./site-agent-tools";
 
 type SiteAgentToolsTestProps = { signal: AbortSignal };
 

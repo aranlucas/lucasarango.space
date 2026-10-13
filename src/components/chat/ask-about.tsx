@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 
 type AskAboutProps = { question: string };
 

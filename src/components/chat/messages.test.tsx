@@ -5,7 +5,7 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import { AskProvider } from "@/components/chat/ask-provider";
 import { Messages } from "@/components/chat/messages";
 import { MultimodalInput } from "@/components/chat/multimodal-input";
-import { ActiveChatProvider } from "@/hooks/use-active-chat";
+import { ActiveChatProvider } from "@/components/chat/active-chat-provider";
 import type { ChatMessage } from "@/lib/types";
 
 const writeText = vi.fn<(text: string) => Promise<void>>();

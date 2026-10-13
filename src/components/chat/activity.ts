@@ -88,7 +88,9 @@ export function finishedToolLabel(part: ToolPart): string | null {
     return `Looked through ${part.output.length} ${part.output.length === 1 ? "post" : "posts"}`;
   }
 
-  return "title" in part.output ? `Read “${part.output.title}”` : null;
+  const title = "title" in part.output ? part.output.title : undefined;
+
+  return title === undefined ? null : `Read “${title}”`;
 }
 
 /** readPost takes a url from listPosts, so its title is usually already in the conversation. */

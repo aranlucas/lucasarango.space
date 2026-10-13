@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { MessageResponse } from "@/components/ai-elements/message";
 import { finishedToolLabel } from "@/components/chat/activity";
-import { useAsk } from "@/components/chat/ask-provider";
+import { useAsk } from "@/hooks/use-ask";
 import { PeakGlyph } from "@/components/chat/icons";
 import { Button } from "@/components/ui/button";
 import { Message, MessageContent, MessageFooter } from "@/components/ui/message";
