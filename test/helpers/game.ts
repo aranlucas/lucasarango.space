@@ -1,4 +1,10 @@
-import { type createGame, type Critter, type SpotEvent, tick, type Walk } from "./game";
+import {
+  type createGame,
+  type Critter,
+  type SpotEvent,
+  tick,
+  type Walk,
+} from "@/components/lost/game";
 
 export const FRAME = 1 / 60;
 

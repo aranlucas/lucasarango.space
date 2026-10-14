@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 
-import { GET } from "./route";
+import { GET } from "@/app/blog/sitemap.md/route";
 
 test("search route returns ranked question results and a total count with limited output", async () => {
   const response = GET(

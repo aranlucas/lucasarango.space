@@ -13,7 +13,8 @@ export default defineConfig({
         test: {
           name: "node",
           environment: "node",
-          include: ["src/**/*.test.ts"],
+          include: ["test/**/*.test.ts"],
+          exclude: ["test/e2e/**"],
           globals: false,
         },
       },
@@ -22,21 +23,8 @@ export default defineConfig({
         test: {
           name: "browser",
           environment: "jsdom",
-          include: ["src/**/*.test.tsx"],
-          setupFiles: ["./src/vitest.setup.ts"],
-          globals: false,
-        },
-      },
-      {
-        // Real Chrome against the production build: `pnpm build && pnpm test:chrome`.
-        extends: true,
-        test: {
-          name: "chrome",
-          environment: "node",
-          include: ["e2e/**/*.test.ts"],
-          globalSetup: ["./e2e/serve.ts"],
-          testTimeout: 30_000,
-          hookTimeout: 60_000,
+          include: ["test/**/*.test.tsx"],
+          setupFiles: ["./test/setup.ts"],
           globals: false,
         },
       },

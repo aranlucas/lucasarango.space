@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 
-import { SectionHeading } from "./section-heading";
+import { SectionHeading } from "@/components/section-heading";
 
 test("SectionHeading renders its heading and aside", () => {
   render(<SectionHeading aside={<span>3 entries</span>}>Recent writing</SectionHeading>);

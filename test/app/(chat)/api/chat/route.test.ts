@@ -4,7 +4,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
 import { chatTools, createAskAgent } from "@/lib/ai/agent";
 
-import { createChatHandler } from "./handler";
+import { createChatHandler } from "@/app/(chat)/api/chat/handler";
 
 type StreamResult = Awaited<ReturnType<MockLanguageModelV4["doStream"]>>;
 

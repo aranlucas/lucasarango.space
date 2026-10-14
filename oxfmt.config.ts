@@ -1,9 +1,9 @@
-import oxforge from "@aranlucas/oxforge/format-config";
+import oxforge from "@aranlucas/oxforge/format-tailwind";
 
 const config = {
   ...oxforge,
   sortTailwindcss: {
-    functions: ["cn", "cva"],
+    ...oxforge.sortTailwindcss,
     stylesheet: "./src/app/globals.css",
   },
   ignorePatterns: [
