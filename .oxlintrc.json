@@ -32,7 +32,6 @@
       }
     ],
     "typescript/no-unsafe-type-assertion": "error",
-    "typescript/prefer-readonly-parameter-types": "off",
     "eslint/max-lines": "error",
     "eslint/max-lines-per-function": "error",
     "import/max-dependencies": "error",
@@ -94,22 +93,10 @@
       }
     },
     {
-      "files": ["**/*.test.{ts,tsx}"],
+      "files": ["src/components/ui/input-group.tsx"],
       "rules": {
-        "typescript/no-unsafe-type-assertion": "off"
-      }
-    },
-    {
-      "files": ["src/components/ui/**"],
-      "rules": {
-        "tailwindcss/no-arbitrary-value": "off",
-        "tailwindcss/enforce-logical": "off",
-        "tailwindcss/consistent-variant-order": "off",
-        "tailwindcss/enforce-sort-order": "off",
-        "tailwindcss/no-conflicting-classes": "off",
         "jsx-a11y/click-events-have-key-events": "off",
-        "jsx-a11y/no-noninteractive-element-interactions": "off",
-        "typescript/no-unsafe-type-assertion": "off"
+        "jsx-a11y/no-noninteractive-element-interactions": "off"
       }
     },
     {

@@ -1,9 +1,7 @@
 import * as React from "react";
 import { cn } from "cn";
 
-
 type MessageOptions = { align?: "start" | "end" };
-
 
 function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (

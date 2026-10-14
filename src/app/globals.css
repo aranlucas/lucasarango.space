@@ -36,6 +36,18 @@
   --color-lamp: #f3d9a4;
   --color-lamp-foreground: #1d1408;
 
+  /* Component tokens preserve the UI primitives' existing geometry and timing. */
+  --radius-input-addon-key: calc(var(--radius) - 5px);
+  --radius-input-addon-button: calc(var(--radius) - 3px);
+  --radius-button-xs: min(var(--radius-md), 10px);
+  --radius-button-sm: min(var(--radius-md), 12px);
+  --spacing-input-addon-button: 0.3rem;
+  --spacing-input-addon-key: 0.15rem;
+  --color-secondary-hover: color-mix(in oklch, var(--secondary), var(--foreground) 5%);
+  --text-button-sm: 0.8rem;
+  --ease-message-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-message-enter: cubic-bezier(0.23, 1, 0.32, 1);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -50,6 +62,17 @@
   --text-display: clamp(2.5rem, 7vw, 3.75rem);
   --text-display--line-height: 1.1;
   --container-page: 34rem;
+}
+
+@utility message-item-visibility {
+  contain-intrinsic-size: auto 10rem;
+  content-visibility: auto;
+}
+
+@utility transition-message-scroller {
+  transition-property: translate, scale, opacity;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
 
 /* Post reading progress, tied to page scroll. The line is unclipped left to
