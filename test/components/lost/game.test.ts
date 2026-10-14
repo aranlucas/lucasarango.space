@@ -14,10 +14,10 @@ import {
   TURN_SPEED,
   WALK_SPEED,
   type Walk,
-} from "./game";
-import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "./world";
+} from "@/components/lost/game";
+import { createWorld, PLAYER_RADIUS, TRUNK_RADIUS } from "@/components/lost/world";
 
-import { always, FRAME, never, run } from "./game.test-utils";
+import { always, FRAME, never, run } from "@test/helpers/game";
 
 describe("a round", () => {
   it("waits in the idle phase until a round starts", () => {

@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import type { Post } from "@/interfaces/post";
 
-import { blogIndexMarkdown, llmsTxt, postToMarkdown } from "./post-markdown";
-import { markdownPath } from "./site";
+import { blogIndexMarkdown, llmsTxt, postToMarkdown } from "@/lib/post-markdown";
+import { markdownPath } from "@/lib/site";
 
 const post: Post = {
   slug: "hello-world",

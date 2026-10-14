@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 
-import { LOOKING_FOR, type Resume } from "./resume";
-import { resumeToMarkdown } from "./resume-markdown";
+import { LOOKING_FOR, type Resume } from "@/lib/resume";
+import { resumeToMarkdown } from "@/lib/resume-markdown";
 
 const resume: Resume = {
   name: "Lucas Arango",

@@ -6,7 +6,7 @@ import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
 
 import { postSlug } from "@/lib/site-agent-tools";
 
-import { SiteAgentTools } from "./site-agent-tools";
+import { SiteAgentTools } from "@/components/site-agent-tools";
 
 type SiteAgentToolsTestProps = { signal: AbortSignal };
 

@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import type { Post } from "@/interfaces/post";
 import { getAllPosts } from "@/lib/api";
 
-import { searchPosts } from "./post-search";
+import { searchPosts } from "@/lib/post-search";
 
 const post = (slug: string, title: string, date: string, content = ""): Post => ({
   slug,

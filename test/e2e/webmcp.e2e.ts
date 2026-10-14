@@ -1,8 +1,7 @@
 // Calls the site's WebMCP tools through Chrome's own `document.modelContext`,
 // the way an in-browser agent does, against the production build.
 
-import { type Browser, chromium, type Page } from "playwright-core";
-import { afterAll, afterEach, beforeAll, beforeEach, expect, inject, test } from "vitest";
+import { expect, type Page, test } from "@playwright/test";
 import { z } from "zod";
 
 import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
@@ -24,28 +23,8 @@ type ToolArgs = ListPostsArgs & ReadPostArgs;
 
 const TOOLS = ["get_resume", "list_posts", "list_projects", "read_post"];
 
-let browser: Browser;
-
-let page: Page;
-
-beforeAll(async () => {
-  browser = await chromium.launch({ channel: "chrome", args: ["--enable-features=WebMCPTesting"] });
-});
-
-afterAll(async () => {
-  await browser.close();
-});
-
-beforeEach(async () => {
-  page = await browser.newPage({ baseURL: inject("baseURL") });
-});
-
-afterEach(async () => {
-  await page.close();
-});
-
 /** Opens `path` and waits for the site's tools to register. */
-async function open(path: string) {
+async function open(page: Page, path: string) {
   await page.goto(path);
   await page.evaluate(async (count) => {
     const context: ChromeModelContext | undefined = document.modelContext;
@@ -75,7 +54,7 @@ async function open(path: string) {
   }, TOOLS.length);
 }
 
-async function call(name: string, args: ToolArgs = {}) {
+async function call(page: Page, name: string, args: ToolArgs = {}) {
   const raw = await page.evaluate(
     async ({ tool: toolName, input }) => {
       const context: ChromeModelContext | undefined = document.modelContext;
@@ -95,8 +74,8 @@ async function call(name: string, args: ToolArgs = {}) {
   return ToolResult.parse(JSON.parse(raw ?? "null"));
 }
 
-const text = async (name: string, args?: ToolArgs) => {
-  const result = await call(name, args);
+const text = async (page: Page, name: string, args?: ToolArgs) => {
+  const result = await call(page, name, args);
 
   expect(result.isError).toBeUndefined();
 
@@ -104,9 +83,9 @@ const text = async (name: string, args?: ToolArgs) => {
 };
 
 /** The first post in `list_posts`, by its page path. */
-async function firstPostPath() {
+async function firstPostPath(page: Page) {
   const path = /\]\(https:\/\/lucasarango\.space(\/blog\/[\w-]+)\)/u.exec(
-    await text("list_posts"),
+    await text(page, "list_posts"),
   )?.[1];
 
   if (path === undefined) {
@@ -116,8 +95,8 @@ async function firstPostPath() {
   return path;
 }
 
-test("Chrome registers every tool as read-only", async () => {
-  await open("/");
+test("Chrome registers every tool as read-only", async ({ page }) => {
+  await open(page, "/");
 
   const readOnly = await page.evaluate(async () =>
     (await document.modelContext?.getTools())?.map((tool) => [
@@ -134,49 +113,53 @@ test("Chrome registers every tool as read-only", async () => {
   });
 });
 
-test("list_posts links post pages, with their Markdown alongside", async () => {
-  await open("/");
+test("list_posts links post pages, with their Markdown alongside", async ({ page }) => {
+  await open(page, "/");
 
-  expect(await text("list_posts")).toMatch(
+  expect(await text(page, "list_posts")).toMatch(
     /^- \[.+\]\(https:\/\/lucasarango\.space\/blog\/[\w-]+\) \(\d{4}-\d{2}-\d{2}, \[Markdown\]\(https:\/\/lucasarango\.space\/blog\/[\w-]+\.md\)\): /mu,
   );
 });
 
-test("read_post reads the post open in the tab, and rejects a missing one", async () => {
-  await open("/");
-  const path = await firstPostPath();
+test("read_post reads the post open in the tab, and rejects a missing one", async ({ page }) => {
+  await open(page, "/");
+  const path = await firstPostPath(page);
 
-  await open(path);
-  expect(await text("read_post")).toContain(`url: ${path}\n`);
+  await open(page, path);
+  expect(await text(page, "read_post")).toContain(`url: ${path}\n`);
 
-  expect(await call("read_post", { post: "nope" })).toEqual({
+  expect(await call(page, "read_post", { post: "nope" })).toEqual({
     content: [{ type: "text", text: 'No post at "nope". Call list_posts for valid posts.' }],
     isError: true,
   });
 });
 
-test("get_resume returns the résumé as Markdown", async () => {
-  await open("/");
+test("get_resume returns the résumé as Markdown", async ({ page }) => {
+  await open(page, "/");
 
-  expect(await text("get_resume")).toMatch(/^---\ntitle: ".+ résumé"\n[\s\S]*\n## Experience\n/u);
+  expect(await text(page, "get_resume")).toMatch(
+    /^---\ntitle: ".+ résumé"\n[\s\S]*\n## Experience\n/u,
+  );
 });
 
-test("list_posts searches body text, returns excerpts, and handles no matches", async () => {
-  await open("/");
-  const results = await text("list_posts", { query: "Kroger" });
+test("list_posts searches body text, returns excerpts, and handles no matches", async ({
+  page,
+}) => {
+  await open(page, "/");
+  const results = await text(page, "list_posts", { query: "Kroger" });
   expect(results).toContain("Excerpt:");
   expect(results).toContain("https://lucasarango.space/blog/");
   expect(results.toLowerCase()).toContain("kroger");
-  expect(await text("list_posts", { query: "zzzznonexistentkeyword" })).toContain(
+  expect(await text(page, "list_posts", { query: "zzzznonexistentkeyword" })).toContain(
     "No matching posts.",
   );
-  expect(await text("list_posts", { query: "   " })).toBe(await text("list_posts"));
+  expect(await text(page, "list_posts", { query: "   " })).toBe(await text(page, "list_posts"));
 });
 
-test("list_posts ranks a project question and honors result limits", async () => {
-  await open("/");
+test("list_posts ranks a project question and honors result limits", async ({ page }) => {
+  await open(page, "/");
 
-  const results = await text("list_posts", {
+  const results = await text(page, "list_posts", {
     query: "How does Lucas practice system design with an AI whiteboard?",
     limit: 1,
   });
@@ -184,12 +167,12 @@ test("list_posts ranks a project question and honors result limits", async () =>
   expect(results).toContain("/blog/practicing-system-design-with-an-ai-on-the-whiteboard)");
   expect(results).toContain("Showing 1 of ");
   expect(results.match(/^- \[/gmu)).toHaveLength(1);
-  const oldest = await text("list_posts", { sort: "oldest", limit: 1 });
+  const oldest = await text(page, "list_posts", { sort: "oldest", limit: 1 });
   expect(oldest).toContain("/blog/a-website-for-every-adventure)");
 });
 
-test("list_posts rejects malformed agent input with a field-specific error", async () => {
-  await open("/");
+test("list_posts rejects malformed agent input with a field-specific error", async ({ page }) => {
+  await open(page, "/");
 
   const raw = await page.evaluate(async () => {
     const context: ChromeModelContext | undefined = document.modelContext;
@@ -211,9 +194,9 @@ test("list_posts rejects malformed agent input with a field-specific error", asy
   expect(result.content[0]?.text).not.toContain("trim is not a function");
 });
 
-test("list_projects returns the home page's projects with shareable links", async () => {
-  await open("/");
-  const projects = await text("list_projects");
+test("list_projects returns the home page's projects with shareable links", async ({ page }) => {
+  await open(page, "/");
+  const projects = await text(page, "list_projects");
   expect(projects).toContain("Grocery shopping MCP");
   expect(projects).toContain("System Design Companion");
   expect(projects).toContain("Lucas Plugins");

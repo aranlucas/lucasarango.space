@@ -8,7 +8,7 @@ import {
   resolve,
   TRUNK_RADIUS,
   WORLD_RADIUS,
-} from "./world";
+} from "@/components/lost/world";
 
 describe("plantForest", () => {
   it("fills the disc but leaves a clearing to start in", () => {
