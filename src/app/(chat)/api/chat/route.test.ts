@@ -1,4 +1,4 @@
-import { simulateReadableStream, type UIMessageChunk } from "ai";
+import { parseJsonEventStream, simulateReadableStream, uiMessageChunkSchema } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
@@ -62,14 +62,27 @@ function request(messages: unknown[], signal?: AbortSignal) {
 
 /** The text deltas the reader's browser receives. */
 async function deltas(response: Response) {
-  const lines = (await response.text()).split("\n");
+  if (!response.body) {
+    throw new Error("Expected a chat response stream.");
+  }
 
-  // SAFETY: every `data: {` line of a UI message stream response is one JSON-encoded UIMessageChunk.
-  const chunks = lines.flatMap((line) =>
-    line.startsWith("data: {") ? [JSON.parse(line.slice(6)) as UIMessageChunk] : [],
+  const textDeltas: string[] = [];
+
+  await parseJsonEventStream({ stream: response.body, schema: uiMessageChunkSchema }).pipeTo(
+    new WritableStream({
+      write(chunk) {
+        if (!chunk.success) {
+          throw chunk.error;
+        }
+
+        if (chunk.value.type === "text-delta") {
+          textDeltas.push(chunk.value.delta);
+        }
+      },
+    }),
   );
 
-  return chunks.flatMap((chunk) => (chunk.type === "text-delta" ? [chunk.delta] : []));
+  return textDeltas;
 }
 
 beforeEach(() => {

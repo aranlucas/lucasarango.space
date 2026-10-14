@@ -8,7 +8,6 @@ const config = {
   },
   ignorePatterns: [
     "pnpm-lock.yaml",
-    "src/components/ui/**",
     ".agent/**",
     ".agents/**",
     ".claude/**",
