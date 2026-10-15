@@ -34,5 +34,3 @@ export const EmptyInput = z.object({});
 export type ListPostsArgs = z.infer<typeof ListPostsInput>;
 
 export type ReadPostArgs = z.infer<typeof ReadPostInput>;
-
-export type EmptyArgs = z.infer<typeof EmptyInput>;

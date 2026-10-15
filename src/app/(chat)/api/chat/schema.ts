@@ -47,5 +47,3 @@ export const postRequestBodySchema = z.object(
   },
   { error: "Send the conversation as chat messages." },
 );
-
-export type PostRequestBody = z.infer<typeof postRequestBodySchema>;
