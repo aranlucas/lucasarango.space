@@ -1,11 +1,8 @@
-import oxforge from "@aranlucas/oxforge/format-tailwind";
+import { format } from "@aranlucas/oxforge/format";
 
-const config = {
-  ...oxforge,
-  sortTailwindcss: {
-    ...oxforge.sortTailwindcss,
-    stylesheet: "./src/app/globals.css",
-  },
+export default {
+  ...format({ sortTailwindcss: { stylesheet: "./src/app/globals.css" } }),
+  // Preserve the project's replacement ignore list rather than adding shared ignores.
   ignorePatterns: [
     "pnpm-lock.yaml",
     ".agent/**",
@@ -21,5 +18,3 @@ const config = {
     ".windsurf/**",
   ],
 };
-
-export default config;
