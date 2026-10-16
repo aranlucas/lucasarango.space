@@ -1,6 +1,6 @@
 import { format } from "@aranlucas/oxforge/format";
 
-export default {
+const config = {
   ...format({ sortTailwindcss: { stylesheet: "./src/app/globals.css" } }),
   // Preserve the project's replacement ignore list rather than adding shared ignores.
   ignorePatterns: [
@@ -18,3 +18,5 @@ export default {
     ".windsurf/**",
   ],
 };
+
+export default config;
