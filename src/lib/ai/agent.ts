@@ -1,7 +1,5 @@
 import { isStepCount, ToolLoopAgent, type LanguageModel } from "ai";
 
-import { systemPrompt } from "@/lib/ai/prompts";
-import { getLanguageModel } from "@/lib/ai/providers";
 import { listPosts } from "@/lib/ai/tools/list-posts";
 import { readPost } from "@/lib/ai/tools/read-post";
 
@@ -33,9 +31,3 @@ export function createAskAgent({ model, tools, loadInstructions }: CreateAskAgen
     prepareCall: async (settings) => ({ ...settings, instructions: await loadInstructions() }),
   });
 }
-
-export const askAgent = createAskAgent({
-  model: getLanguageModel(),
-  tools: chatTools,
-  loadInstructions: systemPrompt,
-});

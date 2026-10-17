@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { MockLanguageModelV4 } from "ai/test";
 import { chatTools, createAskAgent } from "@/lib/ai/agent";
 
@@ -52,4 +52,26 @@ it("answers on the last step when the model keeps requesting tools", async () =>
   expect(result.steps).toHaveLength(5);
   expect(result.finalStep.finishReason).toBe("stop");
   expect(languageModel.doGenerateCalls.at(-1)?.toolChoice).toEqual({ type: "none" });
+});
+
+it("imports the injectable factory without production provider configuration", async () => {
+  vi.stubEnv("FREELLMAPI_BASE_URL", "");
+  vi.stubEnv("FREELLMAPI_API_KEY", "");
+  vi.stubEnv("CI", "");
+  vi.resetModules();
+
+  try {
+    const { createAskAgent: createAgent, chatTools: tools } = await import("@/lib/ai/agent");
+
+    const agent = createAgent({
+      model: languageModel,
+      tools,
+      loadInstructions: () => Promise.resolve("Synthetic instructions."),
+    });
+
+    expect(agent.tools).toEqual(tools);
+  } finally {
+    vi.unstubAllEnvs();
+    vi.resetModules();
+  }
 });

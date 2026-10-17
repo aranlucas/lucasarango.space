@@ -7,18 +7,20 @@ import {
   toUIMessageStream,
 } from "ai";
 
-import { chatTools, type askAgent } from "@/lib/ai/agent";
+import { chatTools, type createAskAgent } from "@/lib/ai/agent";
 import { ChatbotError } from "@/lib/errors";
 import type { ChatMessage } from "@/lib/types";
 
 import { postRequestBodySchema } from "./schema";
+
+type AskAgent = ReturnType<typeof createAskAgent>;
 
 /**
  * Streams the agent's answer. After the AI SDK chatbot template's
  * app/(chat)/api/chat/route.ts, which this file backs: route modules can only
  * export handlers, and tests inject the agent.
  */
-function streamAnswer(req: Request, messages: ChatMessage[], agent: typeof askAgent) {
+function streamAnswer(req: Request, messages: ChatMessage[], agent: AskAgent) {
   const onError = (cause: unknown) => {
     // Readers see a generic message; the cause goes to the function logs.
     console.error("Ask agent failed:", cause, { vercelId: req.headers.get("x-vercel-id") });
@@ -56,7 +58,7 @@ function streamAnswer(req: Request, messages: ChatMessage[], agent: typeof askAg
 }
 
 /** Tests pass an Ask agent on a mock model. A missing provider key surfaces as a stream error. */
-export function createChatHandler(agent: typeof askAgent) {
+export function createChatHandler(agent: AskAgent) {
   return async function POST(req: Request) {
     const request = postRequestBodySchema.safeParse(await req.json().catch(() => null));
 
