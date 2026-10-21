@@ -51,10 +51,14 @@ const nextConfig: NextConfig = {
         { source: "/", has: ACCEPTS_MARKDOWN, destination: "/llms.txt" },
         { source: "/blog", has: ACCEPTS_MARKDOWN, destination: "/blog/sitemap.md" },
         { source: "/resume", has: ACCEPTS_MARKDOWN, destination: "/resume.md" },
-        { source: "/blog/:slug([\\w-]+)", has: ACCEPTS_MARKDOWN, destination: "/blog/md/:slug" },
+        {
+          source: String.raw`/blog/:slug([\w-]+)`,
+          has: ACCEPTS_MARKDOWN,
+          destination: "/blog/md/:slug",
+        },
       ],
       // After files, so the `/blog/sitemap.md` route handler wins.
-      afterFiles: [{ source: "/blog/:slug([\\w-]+).md", destination: "/blog/md/:slug" }],
+      afterFiles: [{ source: String.raw`/blog/:slug([\w-]+).md`, destination: "/blog/md/:slug" }],
       fallback: [],
     };
   },

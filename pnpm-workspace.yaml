@@ -1,13 +1,13 @@
 minimumReleaseAgeExclude:
-  - "@ai-sdk/gateway@4.0.111"
-  - "@ai-sdk/mcp@2.0.74"
-  - "@ai-sdk/openai-compatible@3.0.68"
-  - "@ai-sdk/provider-utils@5.0.59"
+  - "@ai-sdk/gateway@4.0.111 || 4.0.121"
+  - "@ai-sdk/mcp@2.0.74 || 2.0.81"
+  - "@ai-sdk/openai-compatible@3.0.68 || 3.0.75"
+  - "@ai-sdk/provider-utils@5.0.59 || 5.0.65"
   - "@ai-sdk/provider@4.0.27"
-  - "@ai-sdk/react@4.0.141"
+  - "@ai-sdk/react@4.0.141 || 4.0.152"
   - "@vitest/mocker@5.0.4"
   - "@vitest/spy@5.0.4"
-  - ai@7.0.138
+  - ai@7.0.138 || 7.0.148
   - vitest@5.0.4
   - zod@4.6.7
   - "@aranlucas/*"
@@ -52,3 +52,4 @@ minimumReleaseAgeExclude:
   - "@oxlint/binding-win32-x64-msvc@1.88.0"
   - oxfmt@0.73.0
   - oxlint@1.88.0
+  - lucide-react@1.61.0
