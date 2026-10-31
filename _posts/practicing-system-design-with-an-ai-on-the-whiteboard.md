@@ -51,6 +51,10 @@ That adds a different practice mode: I can ask for feedback as I work, while kee
 
 ## Try it
 
+![The System Design Companion entry screen, with sign-in and the option to join a shared canvas.](/case-studies/system-design-entry.webp)
+
+_The hosted app's entry screen: sign in to create a diagram, or open an existing share link._
+
 The [hosted version](https://system-design-companion.aranlucas.workers.dev/) uses capability links: anyone holding a board link can see and edit it. Sign in with GitHub to create a board, then share its link with the people joining the session. To run your own instance, follow the [setup guide](https://github.com/aranlucas/system-design-companion/blob/48f99a5f3b278858e705bdd1b73b01e860a8b4bd/docs/setup.md), including the Cloudflare resources and GitHub OAuth app. Connect Claude Code to its MCP endpoint with:
 
 ```sh
@@ -59,4 +63,4 @@ claude mcp add --transport http system-design https://<your-worker>.workers.dev/
 
 After that, open a diagram, tell your agent to join, and start drawing.
 
-_Updated October 10, 2026. Implementation links reference the reviewed source revisions._
+_Updated October 30, 2026. Implementation links reference the reviewed source revisions._

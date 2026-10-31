@@ -15,20 +15,28 @@ export function ProjectsSection() {
       <ul className="line-items">
         {PROJECTS.map((project) => (
           <li key={project.name}>
-            <Link href={project.story} className="line-item line-link">
+            <Link href={project.story ?? project.source} className="line-item line-link">
               <span className="line-title line-caps">{project.name}</span>
               <span className="line-leader" aria-hidden="true" />
               <span className="line-qty">
-                Story <ArrowRight aria-hidden="true" size={14} />
+                {project.story === undefined ? "Source" : "Story"}{" "}
+                <ArrowRight aria-hidden="true" size={14} />
               </span>
             </Link>
+            <p className="line-note">{project.description}</p>
             <p className="line-note">
-              {project.description}{" "}
+              {project.status} ·{" "}
               <TextLink href={project.source} className="whitespace-nowrap">
                 Source
                 <ArrowUpRight aria-hidden="true" className="inline" size={13} />
                 <span className="sr-only"> for {project.name}</span>
               </TextLink>
+              {project.demo !== undefined && (
+                <>
+                  {" · "}
+                  <TextLink href={project.demo}>Open app</TextLink>
+                </>
+              )}
             </p>
           </li>
         ))}

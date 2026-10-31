@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Message, MessageContent, MessageFooter } from "@/components/ui/message";
 import type { ChatMessage } from "@/lib/types";
 
-type AnswerActionsProps = { answer: string; onRetry?: () => void };
+type AnswerActionsProps = { answer: string; onRetry?: () => void; postSources: string[] };
 
-type CopyActionProps = { text: string };
+type CopyActionProps = { text: string; postSources: string[] };
 
 type ToolStepProps = { label: string | null };
 
@@ -21,6 +21,7 @@ type AnswerStatusProps = { label: string };
 
 type MessageProps = {
   message: ChatMessage;
+  postSources: string[];
   isLoading: boolean;
   /** Asks again for this answer; only the latest finished answer has it. */
   onRetry?: () => void;
@@ -52,7 +53,7 @@ function hasContent(part: MessagePart): boolean {
 }
 
 /** Questions read as the headings of an interview transcript; answers follow part by part. */
-export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
+export function PreviewMessage({ message, isLoading, onRetry, postSources }: MessageProps) {
   const { hide } = useAsk();
 
   // Full screen on phones, so step aside to show the linked page.
@@ -75,6 +76,7 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
       part={part}
       role={message.role}
       onNavigate={onNavigate}
+      postSources={postSources}
     />
   ));
 
@@ -90,21 +92,23 @@ export function PreviewMessage({ message, isLoading, onRetry }: MessageProps) {
     <Message className="mbs-2 text-base/relaxed">
       <MessageContent className="gap-2">
         <div>{parts}</div>
-        {!isLoading && <AnswerActions answer={answerText(message)} onRetry={onRetry} />}
+        {!isLoading && (
+          <AnswerActions answer={answerText(message)} onRetry={onRetry} postSources={postSources} />
+        )}
       </MessageContent>
     </Message>
   );
 }
 
 /** Copy, and Retry on the latest answer, once it has finished printing. */
-function AnswerActions({ answer, onRetry }: AnswerActionsProps) {
+function AnswerActions({ answer, onRetry, postSources }: AnswerActionsProps) {
   if (answer === "") {
     return null;
   }
 
   return (
     <MessageFooter className="-ms-1.5 gap-1 px-0">
-      <CopyAction text={answer} />
+      <CopyAction text={answer} postSources={postSources} />
       {onRetry !== undefined && (
         <Button variant="ghost" onClick={onRetry} className="answer-action">
           Retry
@@ -125,7 +129,7 @@ function answerText(message: ChatMessage): string {
 const COPIED_MS = 2000;
 
 /** Copies the answer and says so for a moment. */
-function CopyAction({ text }: CopyActionProps) {
+function CopyAction({ text, postSources }: CopyActionProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -144,8 +148,10 @@ function CopyAction({ text }: CopyActionProps) {
     <Button
       variant="ghost"
       onClick={() => {
-        navigator.clipboard
-          .writeText(text)
+        import("@/lib/citation-markdown")
+          .then(({ safeCitationMarkdown }) =>
+            navigator.clipboard.writeText(safeCitationMarkdown(text, postSources)),
+          )
           .then(() => {
             setCopied(true);
 
@@ -168,10 +174,11 @@ type PreviewPartProps = {
   part: MessagePart;
   role: ChatMessage["role"];
   onNavigate: () => void;
+  postSources: string[];
 };
 
 /** One part, narrowed by its type: text streams with a caret, a finished tool leaves a step. */
-function PreviewPart({ part, role, onNavigate }: PreviewPartProps) {
+function PreviewPart({ part, role, onNavigate, postSources }: PreviewPartProps) {
   switch (part.type) {
     case "text":
       return role === "user" ? (
@@ -179,6 +186,7 @@ function PreviewPart({ part, role, onNavigate }: PreviewPartProps) {
       ) : (
         <MessageResponse
           onNavigate={onNavigate}
+          postSources={postSources}
           className={cn(part.state === "streaming" && "caret")}
         >
           {part.text}

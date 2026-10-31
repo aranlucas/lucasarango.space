@@ -10,7 +10,7 @@ import { MultimodalInput } from "@/components/chat/multimodal-input";
 import { ActiveChatProvider } from "@/components/chat/active-chat-provider";
 import { isAnswering, useActiveChat } from "@/hooks/use-active-chat";
 
-type ShellProps = { titleId: string; inputId: string };
+type ShellProps = { titleId: string; inputId: string; postSources: string[] };
 
 /** The Ask panel's contents, loaded when a reader first shows intent to ask. */
 export function ChatShell(props: ShellProps) {
@@ -21,7 +21,7 @@ export function ChatShell(props: ShellProps) {
   );
 }
 
-function Shell({ titleId, inputId }: ShellProps) {
+function Shell({ titleId, inputId, postSources }: ShellProps) {
   const { open, inputRef, setLoading } = useAsk();
   const { chat } = useActiveChat();
   const { status } = useChat({ chat });
@@ -41,7 +41,7 @@ function Shell({ titleId, inputId }: ShellProps) {
   return (
     <>
       <ChatHeader titleId={titleId} />
-      <Messages />
+      <Messages postSources={postSources} />
       <MultimodalInput id={inputId} />
     </>
   );

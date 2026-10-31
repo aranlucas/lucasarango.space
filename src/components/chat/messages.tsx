@@ -19,8 +19,10 @@ import { isAnswering, isFull, useActiveChat } from "@/hooks/use-active-chat";
 
 type TranscriptStatusProps = { retry: () => void };
 
+type MessagesProps = { postSources: string[] };
+
 /** The greeting and suggestions before the first question, then the transcript. */
-export function Messages() {
+export function Messages({ postSources }: MessagesProps) {
   const { chat } = useActiveChat();
   const { messages } = useChat({ chat });
 
@@ -40,7 +42,7 @@ export function Messages() {
     <MessageScrollerProvider autoScroll>
       <MessageScroller className="flex-1">
         <MessageScrollerViewport aria-label="Conversation">
-          <Transcript />
+          <Transcript postSources={postSources} />
         </MessageScrollerViewport>
         <MessageScrollerButton
           variant="outline"
@@ -54,7 +56,7 @@ export function Messages() {
 }
 
 /** Each message is one scroller item; questions are the anchors. */
-function Transcript() {
+function Transcript({ postSources }: MessagesProps) {
   const { chat } = useActiveChat();
   const { messages, status, error, regenerate } = useChat({ chat });
   const answering = isAnswering(status);
@@ -83,6 +85,7 @@ function Transcript() {
           >
             <PreviewMessage
               message={message}
+              postSources={postSources}
               isLoading={status === "streaming" && isLast}
               onRetry={isLast && !answering && error === undefined ? retry : undefined}
             />

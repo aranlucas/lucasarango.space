@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { PageTransition } from "@/components/page-transition";
-import { PostList } from "@/components/post-list";
 import { PublicationList } from "@/components/publication-list";
 import { SectionHeading } from "@/components/section-heading";
+import { WritingArchive } from "@/components/writing-archive";
 import { getAllPosts } from "@/lib/api";
 import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 
 export default function BlogIndex() {
   const posts = getAllPosts();
-  const years = Map.groupBy(posts, (post) => post.date.slice(0, 4));
 
   return (
     <PageTransition>
@@ -27,18 +26,7 @@ export default function BlogIndex() {
           I’ve built, decisions I’ve made, and what I learned from using them.
         </p>
         <hr className="rule-double" />
-        {[...years].map(([year, yearPosts]) => (
-          <section key={year} aria-labelledby={`y${year}`}>
-            <SectionHeading
-              id={`y${year}`}
-              className="tabular-nums"
-              aside={<span className="tally">Qty {yearPosts.length}</span>}
-            >
-              {year}
-            </SectionHeading>
-            <PostList posts={yearPosts} summaries />
-          </section>
-        ))}
+        <WritingArchive posts={posts} />
         <section aria-labelledby="elsewhere">
           <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
           <p className="mbe-3 text-muted-foreground">

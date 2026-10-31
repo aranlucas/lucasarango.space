@@ -32,7 +32,7 @@ function renderChat(script: Script, options: Parameters<Script["transport"]>[0] 
   render(
     <AskProvider>
       <ActiveChatProvider transport={script.transport({ delayMs: 0, ...options })}>
-        <Messages />
+        <Messages postSources={[]} />
         <MultimodalInput id="question" />
       </ActiveChatProvider>
     </AskProvider>,
@@ -64,9 +64,35 @@ test("a finished answer offers Copy and Retry, and Copy copies its Markdown", as
   expect(screen.getByText("developer tools")).toBeDefined();
   fireEvent.click(screen.getByRole("button", { name: "Copy" }));
 
-  expect(writeText).toHaveBeenCalledWith("He builds **developer tools**.");
+  await waitFor(() => {
+    expect(writeText).toHaveBeenCalledWith("He builds **developer tools**.");
+  });
   expect(await screen.findByRole("button", { name: "Copied" })).toBeDefined();
   expect(screen.getByRole("button", { name: "Retry" })).toBeDefined();
+});
+
+test("the answer links known sources and leaves unverified destinations as text", async () => {
+  const script = createChat<ChatMessage>()
+    .user("Where can I check?")
+    .assistant(
+      "Read [experience](/resume#experience) or [an unknown source](https://evil.example).",
+    );
+
+  renderChat(script);
+  ask("Where can I check?");
+  await finished();
+
+  expect(screen.getByRole("link", { name: "experience" }).getAttribute("href")).toBe(
+    "/resume#experience",
+  );
+  expect(screen.queryByRole("link", { name: "an unknown source" })).toBeNull();
+  expect(screen.getByText("an unknown source")).toBeDefined();
+  fireEvent.click(screen.getByRole("button", { name: "Copy" }));
+  await waitFor(() => {
+    expect(writeText).toHaveBeenCalledWith(
+      "Read [experience](/resume#experience) or an unknown source.",
+    );
+  });
 });
 
 test("Retry asks again and replaces the latest answer", async () => {
