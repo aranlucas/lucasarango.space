@@ -10,6 +10,8 @@ import { PeakGlyph } from "@/components/chat/icons";
 
 type LauncherProps = { panelId: string };
 
+type AskPopupProps = { postSources: string[] };
+
 const ChatShell = dynamic(
   () => import("@/components/chat/shell").then((module) => module.ChatShell),
   {
@@ -23,7 +25,7 @@ const ChatShell = dynamic(
 );
 
 /** A floating bar anchors the persistent conversation independently of navigation. */
-export function AskPopup() {
+export function AskPopup({ postSources }: AskPopupProps) {
   const { open, activated } = useAsk();
   const panelId = useId();
   const titleId = useId();
@@ -39,7 +41,9 @@ export function AskPopup() {
         style={open ? { viewTransitionName: "ask-surface" } : undefined}
         className="ask-panel flex flex-col bg-card text-card-foreground"
       >
-        {activated && <ChatShell titleId={titleId} inputId={`${panelId}-question`} />}
+        {activated && (
+          <ChatShell titleId={titleId} inputId={`${panelId}-question`} postSources={postSources} />
+        )}
       </section>
       <Launcher panelId={panelId} />
     </div>

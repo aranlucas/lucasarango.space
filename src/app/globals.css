@@ -854,6 +854,48 @@ hr.rule-double {
   color: var(--foreground);
 }
 
+.writing-search {
+  margin-block: 1.5rem 2rem;
+}
+.writing-search label {
+  display: block;
+  margin-block-end: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.writing-search-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.writing-search input {
+  min-width: 0;
+  flex: 1;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--foreground);
+  background: transparent;
+}
+.writing-search input::-webkit-search-cancel-button {
+  display: none;
+}
+.writing-search button {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+}
+.writing-search button:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Product screenshots keep their original details while fitting the receipt's ink palette. */
+.prose img[src^="/case-studies/"] {
+  border: 1px solid var(--border);
+  filter: grayscale(1);
+}
+
 /* Adjacent articles split at the foot of the reading column. */
 .post-nav {
   display: grid;
