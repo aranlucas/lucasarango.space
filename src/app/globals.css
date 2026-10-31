@@ -875,6 +875,9 @@ hr.rule-double {
   border: 1px solid var(--foreground);
   background: transparent;
 }
+.writing-search input::-webkit-search-cancel-button {
+  display: none;
+}
 .writing-search button {
   min-height: 44px;
   padding: 0.5rem 0.75rem;
