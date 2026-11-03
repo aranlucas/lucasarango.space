@@ -4,17 +4,16 @@ import { useState } from "react";
 
 import { PostList } from "@/components/post-list";
 import { SectionHeading } from "@/components/section-heading";
-import type { Post } from "@/interfaces/post";
-import { searchPosts } from "@/lib/post-search";
+import { searchPostIndex, type IndexedPost } from "@/lib/post-search";
 
-type ArchiveProps = { posts: Post[] };
+type ArchiveProps = { posts: IndexedPost[] };
 
 type SearchResultsProps = ArchiveProps & { query: string; clear: () => void };
 
 export function WritingArchive({ posts }: ArchiveProps) {
   const [query, setQuery] = useState("");
   const search = query.trim();
-  const matches = searchPosts(posts, { query: search }).posts;
+  const matches = search === "" ? posts : searchPostIndex(posts, { query: search }).posts;
 
   const clear = () => {
     setQuery("");

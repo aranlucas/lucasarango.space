@@ -3,6 +3,7 @@ import { expect, test } from "vitest";
 
 import { WritingArchive } from "@/components/writing-archive";
 import type { Post } from "@/interfaces/post";
+import { indexPosts } from "@/lib/post-search";
 
 const posts: Post[] = [
   {
@@ -26,7 +27,7 @@ const posts: Post[] = [
 ];
 
 test("searches post bodies and can restore the full archive after no results", () => {
-  render(<WritingArchive posts={posts} />);
+  render(<WritingArchive posts={indexPosts(posts)} />);
 
   fireEvent.change(screen.getByRole("searchbox", { name: "Search writing" }), {
     target: { value: "Kroger" },

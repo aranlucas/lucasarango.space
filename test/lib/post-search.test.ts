@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import type { Post } from "@/interfaces/post";
 import { getAllPosts } from "@/lib/api";
 
-import { searchPosts } from "@/lib/post-search";
+import { indexPosts, searchPostIndex, searchPosts } from "@/lib/post-search";
 
 const post = (slug: string, title: string, date: string, content = ""): Post => ({
   slug,
@@ -72,4 +72,69 @@ test.each([
 ] as const)("project question %s finds its dedicated story", (query, slug) => {
   const posts = getAllPosts();
   expect(searchPosts(posts, { query }).posts[0]?.slug).toBe(slug);
+});
+
+test("the browser index omits Markdown while preserving weighted full-body search", () => {
+  const posts = [
+    post("body", "A weekly task", "2026-10-02", "grocery agent ".repeat(100)),
+    { ...post("summary", "Shopping", "2026-10-01"), summary: "Grocery agents" },
+    post("title", "Grocery agents", "2026-09-01"),
+    post("unrelated", "Another project", "2026-09-01", "An unrelated story"),
+  ];
+
+  const index = indexPosts(posts);
+
+  for (const entry of index) {
+    expect(entry).not.toHaveProperty("content");
+    expect(entry).not.toHaveProperty("draft");
+  }
+
+  expect(JSON.stringify(index)).not.toContain("grocery agent ".repeat(100));
+  expect(
+    searchPostIndex(index, { query: "How does Lucas build grocery agents?" }).posts.map(
+      (entry) => entry.slug,
+    ),
+  ).toEqual(["title", "summary", "body"]);
+});
+
+test.each([
+  {},
+  { query: "  " },
+  { query: "What did Lucas write about?" },
+  { query: "grocery agent", limit: 2 },
+  { query: "system designs", sort: "oldest" },
+  { query: "MCP", sort: "newest" },
+  { query: "art" },
+  { query: "constructor" },
+] as const)("indexed and full-post searches agree for %j", (options) => {
+  const posts = getAllPosts();
+  const full = searchPosts(posts, options);
+  const indexed = searchPostIndex(indexPosts(posts), options);
+
+  expect(indexed.posts.map((entry) => entry.slug)).toEqual(full.posts.map((entry) => entry.slug));
+  expect(indexed.total).toBe(full.total);
+  expect(indexed.sort).toBe(full.sort);
+  expect(indexed.terms).toEqual(full.terms);
+});
+
+test("an empty query does not read or tokenize post bodies", () => {
+  const entry = post("unread", "Listing only", "2026-10-01");
+  Object.defineProperty(entry, "content", {
+    get() {
+      throw new Error("Listing should not read the body");
+    },
+  });
+
+  expect(searchPosts([entry]).posts).toEqual([entry]);
+});
+
+test("object prototype names only match when present in a post", () => {
+  const posts = [
+    post("unrelated", "An article", "2026-10-01"),
+    post("javascript", "Code", "2026-09-01", "Use the constructor."),
+  ];
+
+  expect(
+    searchPostIndex(indexPosts(posts), { query: "constructor" }).posts.map((entry) => entry.slug),
+  ).toEqual(["javascript"]);
 });

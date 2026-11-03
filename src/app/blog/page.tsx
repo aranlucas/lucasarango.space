@@ -5,6 +5,7 @@ import { PublicationList } from "@/components/publication-list";
 import { SectionHeading } from "@/components/section-heading";
 import { WritingArchive } from "@/components/writing-archive";
 import { getAllPosts } from "@/lib/api";
+import { indexPosts } from "@/lib/post-search";
 import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function BlogIndex() {
           I’ve built, decisions I’ve made, and what I learned from using them.
         </p>
         <hr className="rule-double" />
-        <WritingArchive posts={posts} />
+        <WritingArchive posts={indexPosts(posts)} />
         <section aria-labelledby="elsewhere">
           <SectionHeading id="elsewhere">Writing elsewhere</SectionHeading>
           <p className="mbe-3 text-muted-foreground">

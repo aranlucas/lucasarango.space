@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAsk } from "@/hooks/use-ask";
 import { ActiveChatContext, isAnswering, isFull } from "@/hooks/use-active-chat";
 import type { ChatMessage } from "@/lib/types";
-import { fetchWithErrorHandlers } from "@/lib/utils";
+import { fetchWithErrorHandlers } from "@/lib/chat-fetch";
 
 const askTransport = () =>
   new DefaultChatTransport<ChatMessage>({ api: "/api/chat", fetch: fetchWithErrorHandlers });

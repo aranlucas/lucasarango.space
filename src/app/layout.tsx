@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { cn } from "cn";
-import { Martian_Mono, Pixelify_Sans } from "next/font/google";
+import { Pixelify_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
@@ -16,10 +17,13 @@ export const ensureStatic = "navigation";
 
 // The receipt is set in one monospace at a condensed width; headings print in
 // a bitmap face, like a till's logo. Both sit on the LCP path, so both preload.
-const mono = Martian_Mono({
-  subsets: ["latin"],
+const mono = localFont({
+  src: "./fonts/MartianMono-wght400-700-wdth87.woff2",
+  weight: "400 700",
   display: "swap",
-  axes: ["wdth"],
+  preload: true,
+  adjustFontFallback: false,
+  fallback: ["Martian Mono Fallback"],
   variable: "--font-receipt",
 });
 

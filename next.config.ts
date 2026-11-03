@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
   // Automatically memoize React rendering with the native Turbopack compiler.
   reactCompiler: true,
   cacheComponents: true,
-  partialPrefetching: true,
+  // These public pages are fully static; stream-free articles avoid a skeleton flash.
+  partialPrefetching: false,
   devIndicators: false,
   turbopack: {
     resolveAlias: { "tailwind-merge": "cn", clsx: "cn" },

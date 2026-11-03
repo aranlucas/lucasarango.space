@@ -6,11 +6,13 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import { markdownImage } from "@/lib/markdown-images";
+
 export default async function markdownToHtml(markdown: string) {
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkRehype)
+    .use(remarkRehype, { handlers: { image: markdownImage } })
     .use(rehypeSlug)
     .use(rehypePrettyCode, {
       theme: { light: "github-light", dark: "github-dark-dimmed" },
