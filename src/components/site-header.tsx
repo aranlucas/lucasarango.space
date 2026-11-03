@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { ForestLink } from "@/components/forest-link";
 import { AskPopup } from "@/components/chat/ask-popup";
 import { Barcode } from "@/components/receipt-art";
-import { SiteAgentTools } from "@/components/site-agent-tools";
+import { SiteAgentToolsLoader } from "@/components/site-agent-tools-loader";
 import { SiteNav } from "@/components/site-nav";
 import { SITE } from "@/lib/site";
 import { getAllPosts } from "@/lib/api";
@@ -51,7 +51,7 @@ export function SiteFooter() {
       <Barcode />
       <ForestLink />
       {/* Every page has a footer, so in-browser agents can read the blog from any page. */}
-      <SiteAgentTools />
+      <SiteAgentToolsLoader />
     </footer>
   );
 }

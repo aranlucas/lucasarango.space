@@ -2,11 +2,11 @@ import { cn } from "cn";
 import Link from "next/link";
 
 import { PostTitleTransition } from "@/components/page-transition";
-import type { Post } from "@/interfaces/post";
+import type { PostSummary } from "@/interfaces/post";
 import { formatDate } from "@/lib/utils";
 
 type PostListProps = {
-  posts: Post[];
+  posts: PostSummary[];
   summaries?: boolean;
   className?: string;
 };

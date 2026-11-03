@@ -7,3 +7,6 @@ export type Post = {
   readingMinutes: number;
   content: string;
 };
+
+/** The fields needed to display a post in a list. */
+export type PostSummary = Omit<Post, "content" | "draft">;

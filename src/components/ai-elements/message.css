@@ -1,0 +1,6 @@
+/* Streamdown utilities arrive with the lazy chat renderer. Shared tokens keep
+   them identical to the site's styles without importing its reset or sources. */
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities) source(none);
+@import "../../app/theme.css";
+@source "../../../node_modules/streamdown/dist/*.js";

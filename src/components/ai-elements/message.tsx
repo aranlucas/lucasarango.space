@@ -7,6 +7,7 @@ import { Streamdown, type Components } from "streamdown";
 
 import { citationUrl } from "@/lib/citations";
 import { SITE } from "@/lib/site";
+import "./message.css";
 
 // Links to this site's pages navigate client-side, so the conversation stays
 // open while the post loads; other links open in a new tab.
