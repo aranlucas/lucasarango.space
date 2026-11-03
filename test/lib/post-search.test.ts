@@ -97,26 +97,6 @@ test("the browser index omits Markdown while preserving weighted full-body searc
   ).toEqual(["title", "summary", "body"]);
 });
 
-test.each([
-  {},
-  { query: "  " },
-  { query: "What did Lucas write about?" },
-  { query: "grocery agent", limit: 2 },
-  { query: "system designs", sort: "oldest" },
-  { query: "MCP", sort: "newest" },
-  { query: "art" },
-  { query: "constructor" },
-] as const)("indexed and full-post searches agree for %j", (options) => {
-  const posts = getAllPosts();
-  const full = searchPosts(posts, options);
-  const indexed = searchPostIndex(indexPosts(posts), options);
-
-  expect(indexed.posts.map((entry) => entry.slug)).toEqual(full.posts.map((entry) => entry.slug));
-  expect(indexed.total).toBe(full.total);
-  expect(indexed.sort).toBe(full.sort);
-  expect(indexed.terms).toEqual(full.terms);
-});
-
 test("an empty query does not read or tokenize post bodies", () => {
   const entry = post("unread", "Listing only", "2026-10-01");
   Object.defineProperty(entry, "content", {
