@@ -8,11 +8,13 @@ import { formatMonth, getResume, LOOKING_FOR, type Resume, type ResumeProject } 
 import { markdownAlternate, SITE_OPEN_GRAPH } from "@/lib/site";
 
 import { PrintButton } from "./print-button";
-import { Bullets, Role } from "./role";
+import { Bullets, EarlierRoles, Role } from "./role";
 
 type ProjectProps = { project: ResumeProject };
 
 type ResumeHeaderProps = { resume: Resume };
+
+type ExperienceProps = { roles: Resume["roles"] };
 
 type WritingProps = { publications: Resume["publications"] };
 
@@ -39,19 +41,10 @@ export default async function ResumePage() {
         <section aria-labelledby="summary">
           <SectionHeading id="summary">Summary</SectionHeading>
           <p className="mbe-4 text-pretty">{resume.summary}</p>
-          <p className="border-y border-dashed border-foreground py-3 text-sm/relaxed text-muted-foreground">
-            {LOOKING_FOR}
-          </p>
+          <p className="text-sm/relaxed text-muted-foreground">{LOOKING_FOR}</p>
         </section>
 
-        <section aria-labelledby="experience">
-          <SectionHeading id="experience">Experience</SectionHeading>
-          <ol className="flex flex-col gap-8">
-            {resume.roles.map((role) => (
-              <Role key={`${role.company}-${role.dates}`} role={role} />
-            ))}
-          </ol>
-        </section>
+        <Experience roles={resume.roles} />
 
         <section aria-labelledby="projects">
           <SectionHeading id="projects">Personal projects</SectionHeading>
@@ -91,25 +84,51 @@ function Project({ project }: ProjectProps) {
   );
 }
 
+const isInternship = (role: Resume["roles"][number]) => /\bintern\b/iu.test(role.title);
+
+/** Full roles first; internships fold into a compact "Earlier" list. */
+function Experience({ roles }: ExperienceProps) {
+  const main = roles.filter((role) => !isInternship(role));
+
+  const earlier = roles.filter((role) => isInternship(role));
+
+  return (
+    <section aria-labelledby="experience">
+      <SectionHeading id="experience">Experience</SectionHeading>
+      <ol className="flex flex-col gap-8">
+        {main.map((role, index) => (
+          <Role
+            key={`${role.company}-${role.dates}`}
+            role={role}
+            // The two most recent roles carry the Ask prompt; repeated further down it reads as noise.
+            askable={index < 2}
+          />
+        ))}
+      </ol>
+      <EarlierRoles roles={earlier} />
+    </section>
+  );
+}
+
+// The page prints Lucas's name once, as its title; the tab already says Resume.
 function ResumeHeader({ resume }: ResumeHeaderProps) {
   return (
-    <header>
-      <h1 className="page-title mbe-2">
-        <span className="print:hidden">Résumé</span>
-        <span className="hidden print:inline">{resume.name}</span>
-      </h1>
-      <p className="mbe-4 text-center text-muted-foreground">{resume.title}</p>
-      <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-        <span>{resume.location}</span>
+    <header className="text-center">
+      <h1 className="page-title mbe-2">{resume.name}</h1>
+      <p className="receipt-sub">
+        {resume.title} · {resume.location}
+      </p>
+      <p className="resume-contact">
         {resume.profiles.map((profile) => (
           <TextLink key={profile.href} href={profile.href}>
             {profile.label}
           </TextLink>
         ))}
-      </div>
+      </p>
       <div className="mbs-6 flex justify-center print:hidden">
         <PrintButton />
       </div>
+      <hr className="rule-double" />
     </header>
   );
 }

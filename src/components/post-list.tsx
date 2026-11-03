@@ -21,11 +21,13 @@ export function PostList({ posts, summaries = false, className }: PostListProps)
             <time className="line-date" dateTime={post.date}>
               {formatDate(post.date, "short")}
             </time>
-            <PostTitleTransition slug={post.slug}>
-              <span className="line-title">{post.title}</span>
-            </PostTitleTransition>
-            <span className="line-leader" aria-hidden="true" />
-            <span className="line-qty">{post.readingMinutes} min</span>
+            {/* The body flows as text, so a wrapped title keeps its leader and quantity on its last line. */}
+            <span className="line-body">
+              <PostTitleTransition slug={post.slug}>
+                <span className="line-title">{post.title}</span>
+              </PostTitleTransition>
+              <span className="line-qty">{post.readingMinutes} min</span>
+            </span>
           </Link>
           {summaries && <p className="line-note">{post.summary}</p>}
         </li>

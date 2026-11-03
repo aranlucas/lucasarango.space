@@ -1,3 +1,6 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+
 import { ReceiptArt } from "@/components/receipt-art";
 import { TextLink } from "@/components/site-header";
 
@@ -7,6 +10,14 @@ export function Intro() {
       <ReceiptArt />
       <h1 id="intro-title">Hi, I’m Lucas.</h1>
       <p className="receipt-sub">Software engineer · Seattle, WA</p>
+      {/* Hiring visitors see availability and the résumé before they scroll. */}
+      <p className="receipt-sub receipt-sub-next">
+        Open to senior &amp; staff roles ·{" "}
+        <Link href="/resume" className="text-link">
+          Résumé
+          <ArrowRight aria-hidden="true" size={12} />
+        </Link>
+      </p>
       <hr />
       <div className="receipt-message">
         <p>
