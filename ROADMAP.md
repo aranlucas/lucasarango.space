@@ -3,13 +3,6 @@
 Updated 2026-10-26. Proposed visitor-facing work; Digits/MCP features remain the
 portfolio priority, and the 404 game is deferred.
 
-## Starting point
-
-At `eaad45bc8e3c5f8ad0671a83cbd2d3ebd2261f2b`, the [site](README.md)
-already presents projects, writing, a public resume, an Ask assistant and
-read-only WebMCP discovery. The resume repository owns professional facts;
-project source and deployment status must be distinguished.
-
 ## Ordered releases
 
 1. **Find the project relevant to a visitor's task.** Curate project entries by
@@ -39,7 +32,3 @@ Start with five Digits/MCP project entries and observe five visitors trying to
 find a useful product. Measure whether they understand what works today, reach
 the intended next step and return. Use aggregate voluntary observations rather
 than collecting chat contents. Establish a baseline before conversion targets.
-
-Reuse existing content schemas and native checks. Content/design changes need
-their appropriate rendered review; this document changes no UI or published
-professional facts. Follow the repository's [contribution rules](AGENTS.md).

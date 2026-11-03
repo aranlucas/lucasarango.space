@@ -8,21 +8,9 @@ As of **2026-10-10**. These are primary-source notes for adding `use-webmcp-tool
 - Chrome's `build-webmcp-tools` skill in GoogleChromeLabs/webmcp-tools at [`aca4e0b`][skill]
 - the developer.chrome.com pages, with the "last updated" date given for each
 
-## Summary: what to build
+## Scope of these notes
 
-| Tool                     | Mount                                                | Annotations                                                  | Purpose                                                    |
-| ------------------------ | ---------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| `list_posts`             | site-wide (client component in `src/app/layout.tsx`) | `readOnlyHint: true`                                         | Index of posts, from `GET /blog/sitemap.md`                |
-| `read_post`              | site-wide                                            | `readOnlyHint: true`                                         | One post as Markdown, from `GET /blog/<slug>.md`, in pages |
-| `open_post` _(optional)_ | site-wide                                            | none (navigation is a mutation, but not a consequential one) | Client-side navigate to a post so the user sees it         |
-
-- **Leave out `untrustedContentHint`.** The spec defines "untrusted" from the point of view of the author registering the tool, and the site owner writes every post. See §3.
-- **Don't add a separate page-scoped `read_current_post`.** It would overlap `read_post`, and both the explainer and Chrome advise against overlapping tools. Instead, make `read_post`'s `post` argument optional and resolve "the post open in this tab" from `location.pathname` when the tool runs (§4).
-- **Name tools in `snake_case`.** The spec only restricts the character set. snake_case is what Chrome's docs, skill, and most demos use (§2).
-- **Keep each result near Chrome's ~1.5K-character budget.** Posts are 5–8.5K characters, so `read_post` returns them in parts (§6).
-- **The hook has known gaps.** Account for them when implementing (§8): it does not await `registerTool()`'s promise, it starts one polling interval per instance, and it does not forward `title`.
-
----
+This is dated source research, not a current implementation guide. The site now registers four read-only tools in [site-agent-tools.tsx](../../src/components/site-agent-tools.tsx), returns complete posts, and sends an origin-trial header from [next.config.ts](../../next.config.ts). Inputs are defined in [site-agent-inputs.ts](../../src/lib/site-agent-inputs.ts). The earlier three-tool implementation sketch has been superseded; the source comparisons and unresolved compatibility questions below retain their research value. External API and browser-status claims remain as inspected on October 10.
 
 ## 1. Spec state, API shape, and where it ships
 
@@ -133,7 +121,7 @@ From the [spec §Security and Privacy][spec-sec], which is non-normative:
   - keep descriptions free of instructions to the agent
   - don't echo visitor input back into results
 - **Misrepresentation of intent.** A description must match what the tool actually does, side effects included; the spec's `finalizeCart` example is the anti-pattern.
-- **Over-parameterization.** Don't ask for parameters the tool doesn't need, because agents will fill them from the user's personal context (age, location, …). The proposed tools take only a slug and an offset.
+- **Over-parameterization.** Don't ask for parameters the tool doesn't need, because agents will fill them from the user's personal context (age, location, …). The current tools accept only content-discovery inputs.
 - **Same-origin.** Tools are exposed only to the registering document, same-origin documents in the same tree, and the built-in agent. Cross-origin exposure needs `exposedTo` plus the `tools` policy ([README][readme], [spec `tool is exposed to an origin`][spec-exposed]). Don't pass `exposedTo`.
 - **Opting out.** `Permissions-Policy: tools=()` disables WebMCP on pages that shouldn't have it, and protects against compromised dependencies ([spec mitigations][spec-sec]).
 - **Confirmation.** Today, `consequentialHint` is the only confirmation mechanism. `requestUserInteraction()` was removed in [#205][pr205], and elicitation is still open ([#165][i165], [#50][i50]). For risky flows, Chrome's skill recommends a human-in-the-loop hand-off: an `initiate_*` tool navigates to a UI where the user confirms ([SKILL.md][skill]). None of the proposed tools are consequential.
@@ -167,75 +155,22 @@ From the [spec §Security and Privacy][spec-sec], which is non-normative:
   - the [Model Context Tool Inspector][inspector] extension
   - `chrome-devtools-mcp --categoryExperimentalWebmcp` ([testing-and-debugging.md][skill-test])
 
-## 8. Proposal for this site
-
-Mount one `"use client"` component (for example `src/components/site-agent-tools.tsx`) inside `<AskProvider>` in `src/app/layout.tsx`, rendering `null`. Fetch from the routes PR #30 added, same-origin, passing `signal` through. These tools mirror `askTools` in `src/lib/ask-tools.ts`, but in snake_case and with relative fetches. Hoist the schemas to module scope: the hook compares them with `JSON.stringify`, which is key-order sensitive ([hook source][hook-src]).
-
-```ts
-const LIST_POSTS = {
-  name: "list_posts",
-  description:
-    "Lists every post on Lucas Arango's blog, newest first, with title, date, one-sentence summary, and link. Use to find posts on a topic before reading, quoting, or linking one.",
-  inputSchema: { type: "object", properties: {} },
-  annotations: { readOnlyHint: true },
-  // execute: fetch("/blog/sitemap.md", { signal }) → return the Markdown text.
-};
-
-const READ_POST = {
-  name: "read_post",
-  description:
-    "Reads one blog post as Markdown with its title, date, and canonical URL. Use before quoting, summarizing, or answering details from a post. Long posts arrive in parts.",
-  inputSchema: {
-    type: "object",
-    properties: {
-      post: {
-        type: "string",
-        description:
-          "Post slug, path, or URL from list_posts. Omit to read the post open in this tab.",
-      },
-      offset: {
-        type: "integer",
-        description: "Where to continue a long post; use next_offset from the previous part.",
-      },
-    },
-  },
-  annotations: { readOnlyHint: true },
-  // execute: accept slug, /blog/x, /blog/x.md, or a full URL; else use location.pathname.
-  // Validate /^[\w-]+$/; fetch(`/blog/${slug}.md`, { signal }); 404 → throw
-  // Error("No post 'x'. Call list_posts for valid posts."). Slice ~1,500 chars on a
-  // paragraph boundary; return { content: [{type:"text", text: chunk},
-  //   {type:"text", text: JSON.stringify({ total_chars, next_offset })}] }.
-};
-
-// Optional. No annotations: navigation changes UI state but is not consequential.
-const OPEN_POST = {
-  name: "open_post",
-  description:
-    "Opens a blog post in this tab so the reader can see it. Use when the user asks to go to, show, or open a post.",
-  // inputSchema: { post } as above, required. execute: router.push(`/blog/${slug}`),
-  // wait for the route to commit, then return "Opened <title>.". Check the Next 16
-  // router API in node_modules/next/dist/docs first (per AGENTS.md).
-};
-```
-
-**Notes for the implementer:**
+## 8. Hook compatibility findings
 
 - **The hook doesn't await `registerTool()`'s promise** ([`useWebMCP.js`][hook-src]). Per spec, failures are promise **rejections**: `NotAllowedError` for the policy, and `InvalidStateError` for a duplicate or invalid name or an empty description ([spec][spec-register]). As a result:
   - `error` stays `null` and `registered` reports `true` even when registration failed
   - the rejection is unhandled
   - the hook's tests only cover a fake that throws synchronously ([`useWebMCP.test.jsx`][hook-repo])
   - **inferred, not runtime-tested:** under StrictMode, the dev-only abort before the promise resolves should reject it with `AbortError`, which would show up as an unhandled rejection in the dev console
-- **When `document.modelContext` is missing, each hook instance polls every 500 ms for 10 s** ([issue #12][h12]). That means three intervals for every visitor without WebMCP, which is cheap but not free. The `enabled` flag does not stop it.
+- **When `document.modelContext` is missing, each hook instance polls every 500 ms for 10 s** ([issue #12][h12]). The `enabled` flag does not stop it. The site now gates the entire tools component through [site-agent-tools-loader.tsx](../../src/components/site-agent-tools-loader.tsx).
 - **PR [#6][pr6] (open):** forwards an optional `title` and re-registers when it changes. Until it merges, `title` cannot be set through the hook. That's acceptable, because the spec lets the user agent pick a display value when `title` is missing ([spec name/title][spec-name]).
-- **PR [#7][pr7] (open):** adds `useWebMCPTools([...])`, which registers several tools atomically and rolls them back on failure. The maintainer is waiting on spec [#255][i255] before accepting it. Until then, use three `useWebMCP` calls; nothing in the proposal depends on #7.
+- **PR [#7][pr7] (open):** adds `useWebMCPTools([...])`, which registers several tools atomically and rolls them back on failure. The maintainer is waiting on spec [#255][i255] before accepting it. The current site registers each tool separately.
 
-## Open questions
+## Questions before expanding the tools
 
-1. **Read size.** Should `read_post` follow Chrome's 1.5K budget (4–6 calls per post) or return larger parts, or whole posts as the Ask agent does? The budget is guidance, not a spec limit. Measure in the Tool Inspector or DevTools pane.
-2. **Origin-trial token.** Should the site register for the OT so Chrome 149–162 users without the flag get the tools?
-3. **`open_post`.** Is it worth shipping? It is the only tool with UI side effects, and its value depends on whether browser agents prefer it to clicking links.
-4. **Result-loss bug.** Does Chrome 153+ actually fix the self-unmount result loss ([#11][h11])? This only matters if a tool is ever mounted below the layout.
-5. **Promise handling.** Should the site wrap or patch the hook to observe `registerTool()`'s promise (§8) or wait for an upstream fix? No upstream issue was found for this gap. It could be filed.
+- **Response size:** the site returns full posts. Chrome’s 1.5K budget above is guidance, not a spec limit; measure actual consumers before adding chunking or section reading.
+- **Navigation:** add `open_post` only if it helps browser agents beyond ordinary links. Keep it mounted across route changes and verify completion/result delivery (§7).
+- **Promise handling:** the hook findings above were source-inspected, not runtime-confirmed. Recheck the installed hook and browser before deciding whether to wrap registration promises.
 
 [spec-src]: https://github.com/webmachinelearning/webmcp/blob/d0e4e0e0f039358cc9d93f90074116622bfebd53/index.bs
 [spec-name]: https://github.com/webmachinelearning/webmcp/blob/d0e4e0e0f039358cc9d93f90074116622bfebd53/index.bs#L171-L186
