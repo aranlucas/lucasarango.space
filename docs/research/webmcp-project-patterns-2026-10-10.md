@@ -1,6 +1,6 @@
 # Ideas from GitHub WebMCP projects
 
-Initially checked 2026-10-10 (local date); updated 2026-10-11 with pdfcn. The recommendations below are inferences for lucasarango.space from source code and first-party project documentation, not claims that these dependencies should be installed. Question-friendly ranking, sorting, result limits/counts, and execution validation for `list_posts` are now implemented in this branch. Other capabilities remain proposals.
+Initially checked 2026-10-10 (local date); updated 2026-10-11 with pdfcn. The recommendations below are inferences for lucasarango.space from source code and first-party project documentation, not claims that these dependencies should be installed. Question-friendly ranking, sorting, result limits/counts, and execution validation for `list_posts` are now implemented in the site. Other capabilities remain proposals.
 
 ## 1. Current-page context and section-oriented reading
 
@@ -22,7 +22,7 @@ Borrow the concept, not all of this integration: its source/docs contain compati
 
 [agentk README, pinned](https://github.com/stevysmith/agentk/blob/81a81d7dc5991f1a5eb19d49851bf3bbd8d6c631/README.md) defines one tool catalog used by a command palette and registered with WebMCP. Its [registration implementation](https://github.com/stevysmith/agentk/blob/81a81d7dc5991f1a5eb19d49851bf3bbd8d6c631/src/index.tsx#L2935-L3037) maps the same names, descriptions, labels, schemas, and callbacks to native registration and uses an abort controller for cleanup. It defers catalog changes while executions are in flight. It also carries older API compatibility paths and swallows registration failures, so it is a product-pattern reference rather than a wholesale implementation recommendation.
 
-**Site idea:** a small command palette lets visitors find writing, open the resume, or inspect projects using the same domain operations as browser agents. Existing site chat tools in `src/lib/ask-tools.ts` and browser tools in `src/components/site-agent-tools.tsx` already overlap on list/read behavior; shared data and input validation could keep their answers aligned. Runtime adapters still need to differ: server chat reads source data, browser tools fetch Markdown routes, and human UI uses links. Navigation actions change UI state and should not inherit read-only annotations from retrieval tools.
+**Site idea:** a small command palette lets visitors find writing, open the resume, or inspect projects using the same domain operations as browser agents. Existing site chat tools in `src/lib/ai/agent.ts` and browser tools in `src/components/site-agent-tools.tsx` already overlap on list/read behavior; shared data and input validation could keep their answers aligned. Runtime adapters still need to differ: server chat reads source data, browser tools fetch Markdown routes, and human UI uses links. Navigation actions change UI state and should not inherit read-only annotations from retrieval tools.
 
 ## 4. Validate before executing
 
@@ -58,7 +58,7 @@ Borrow the concept, not all of this integration: its source/docs contain compati
 
 Despite describing the query as fuzzy, this implementation performs case-insensitive substring matching on the entire query. It does not implement typo tolerance or relevance ranking. Our question-friendly word matching and title/summary weighting should remain; the result design is the part to borrow.
 
-**Site idea:** offer explicit `slug`, `title`, `summary`, `page_url`, and `markdown_url` fields alongside readable links, subject to verification of the consuming agent's structured-result support. An agent could cite the public page and fetch the full article without inferring URL conventions. For project discovery, include live-demo or install links only when the project data actually provides them. Add topic or project filters once the content model has reliable categories; pdfcn's enum works because its registry already defines component types. These result fields and filters are documented proposals, not part of this branch's search implementation.
+**Site idea:** offer explicit `slug`, `title`, `summary`, `page_url`, and `markdown_url` fields alongside readable links, subject to verification of the consuming agent's structured-result support. An agent could cite the public page and fetch the full article without inferring URL conventions. For project discovery, include live-demo or install links only when the project data actually provides them. Add topic or project filters once the content model has reliable categories; pdfcn's enum works because its registry already defines component types. These result fields and filters are documented proposals, not part of the site's search implementation.
 
 ## Recommended sequence
 

@@ -2,7 +2,9 @@
 
 Checked 2026-10-12. Sources: FreeLLMAPI upstream at [`986b211`](https://github.com/tashfeenahmed/freellmapi/tree/986b2118226f5c2d1a0348e14d151a7005c1924e) (the HEAD on 2026-10-12), plus the installed `ai@7.0.138`, `@ai-sdk/openai@4.0.92`, `@ai-sdk/provider-utils@5.0.59` and `@ai-sdk/provider@4.0.27`. Local paths are `node_modules/...:line`. `provider-utils` is only reachable through pnpm, at `node_modules/.pnpm/@ai-sdk+provider-utils@5.0.59_zod@4.6.7/node_modules/@ai-sdk/provider-utils/dist/index.js` (written `provider-utils:line` below). The self-hosted proxy may be running an older FreeLLMAPI release than this HEAD. Where something isn't verified, it says so.
 
-## Summary and recommendation
+## Historical recommendation
+
+This research describes the versions inspected on October 12, not the current dependency tree. The site now uses `@ai-sdk/openai-compatible` for reasoning support (see [providers.ts](../../src/lib/ai/providers.ts)); [agent.ts](../../src/lib/ai/agent.ts) does not set the retry or timeout options proposed below. Recheck version-matched SDK documentation before implementing them. The timeout behavior and proxy deployment assumptions were not runtime-validated here.
 
 FreeLLMAPI already does the failover: up to 20 attempts across providers and keys, with cooldowns, inside a 45 s wall-clock budget. Two things work against this site's setup:
 
@@ -11,16 +13,7 @@ FreeLLMAPI already does the failover: up to 20 attempts across providers and key
 
 With the SDK defaults (`maxRetries: 2`, backoff 2 s then 4 s, or a `Retry-After` of up to 59.9 s) applied to each of up to 5 steps, one chat turn can run far past `maxDuration = 60`. When Vercel kills the function, the reader gets a cut-off stream instead of the route's friendly error.
 
-**Recommendation** (in `createAskAgent`, `src/lib/ai/agent.ts`):
-
-```ts
-new ToolLoopAgent({
-  // ...existing settings
-  maxRetries: 1, // covers proxy-hop blips; FreeLLMAPI already fails over between providers
-  timeout: { totalMs: 50_000, chunkMs: 20_000 }, // finish before Vercel's 60 s kill; catch mid-stream stalls
-  // streamRetries: leave unset (off)
-});
-```
+The proposed agent settings and their rationale:
 
 - **`maxRetries: 1`, not 2.** By the time FreeLLMAPI returns an error, it has usually tried every candidate it could. A second SDK retry mostly re-runs the same exhausted pool, and can sleep for up to 59.9 s on a 429 `Retry-After`. Keep one retry for failures FreeLLMAPI can't cover: the hop between Vercel and the proxy itself (ECONNRESET, a restart).
 - **`totalMs: 50_000`.** This is the only setting that bounds the whole turn: every step, retry, backoff sleep and header wait. It aborts the retry backoff delay, and an aborted call is never retried. The 10 s margin covers request parsing, loading the instructions, and sending the final error. Unverified: whether the reader then sees an `error` part or an `abort` part. Test this.
@@ -30,18 +23,11 @@ new ToolLoopAgent({
 - **Leave `streamRetries` off.** FreeLLMAPI only sends a mid-stream error after visible text has reached the reader. A stream retry would add repeated or divergent text that can't be taken back. FreeLLMAPI also doesn't bench the model that failed mid-stream, so the retry could land on it again.
 - **Optional, on the proxy (inference, not tested).** Lower `FALLBACK_TIME_BUDGET_MS` (e.g. 25 s) and `PROVIDER_STREAM_STALL_TIMEOUT_MS` (e.g. 30 s) on the self-hosted FreeLLMAPI, so its first two attempts can't use up the 60 s alone.
 
-**Side finding: reasoning is dropped.** `@ai-sdk/openai`'s chat model ignores `reasoning_content`, so `sendReasoning: true` in `handler.ts` has nothing to send. Details in §3.
+**Historical finding:** the then-installed `@ai-sdk/openai` chat model ignored `reasoning_content`. Section 3 records the evidence behind the switch to the compatible provider.
 
-## 1. Which repository is FreeLLMAPI's upstream
+## 1. Source identity
 
-[`tashfeenahmed/freellmapi`](https://github.com/tashfeenahmed/freellmapi) is the upstream: created 2026-04-21, 33,886 stars, 4,653 forks, pushed 2026-10-12, not a fork.
-
-[`Ahmed-M-Abdelkader/freellmapi`](https://github.com/Ahmed-M-Abdelkader/freellmapi) is a re-uploaded snapshot: created 2026-05-19, 11 stars, 1 fork, last push 2026-05-24. GitHub doesn't mark it as a fork, but:
-
-- Its [README CI badge](https://github.com/Ahmed-M-Abdelkader/freellmapi/blob/c8cc5a62c57f39390e58e45deb53f774c9123a24/README.md?plain=1#L9) and [clone instructions](https://github.com/Ahmed-M-Abdelkader/freellmapi/blob/c8cc5a62c57f39390e58e45deb53f774c9123a24/README.md?plain=1#L98) point to `tashfeenahmed/freellmapi`.
-- Its oldest commit (2026-05-01, "migrateModelsV7 … (#15)") predates the repo's own creation and carries upstream PR numbers.
-
-Checked with `gh api repos/<owner>/freellmapi`.
+The inspected upstream is [`tashfeenahmed/freellmapi`](https://github.com/tashfeenahmed/freellmapi/tree/986b2118226f5c2d1a0348e14d151a7005c1924e). The separate [`Ahmed-M-Abdelkader/freellmapi` snapshot](https://github.com/Ahmed-M-Abdelkader/freellmapi/blob/c8cc5a62c57f39390e58e45deb53f774c9123a24/README.md) points back to that upstream; recommendations below use the pinned upstream source rather than assuming that snapshot or the self-hosted deployment is current.
 
 ## 2. How FreeLLMAPI fails over (source)
 
@@ -186,7 +172,7 @@ Vercel then kills the function at `maxDuration = 60` and the reader sees a cut-o
 
 ## 5. Others using the AI SDK with FreeLLMAPI
 
-GitHub code search, via the REST `search/code` API; `gh search code` silently returned nothing once rate-limited. Found:
+Examples inspected during the October 12 research:
 
 | Repository                                                                                                                                                                                                                                                                                                                                           | Setup                                                                                                                                                                                | Retry / timeout settings                                                                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -197,5 +183,3 @@ GitHub code search, via the REST `search/code` API; `gh search code` silently re
 | Upstream [`opencode.json`](https://github.com/tashfeenahmed/freellmapi/blob/986b2118226f5c2d1a0348e14d151a7005c1924e/opencode.json), [client docs](https://github.com/tashfeenahmed/freellmapi/blob/986b2118226f5c2d1a0348e14d151a7005c1924e/docs/en/clients/01-agent-clients.md#L100), [#48](https://github.com/tashfeenahmed/freellmapi/issues/48) | opencode through `@ai-sdk/openai-compatible`. [PR #805](https://github.com/tashfeenahmed/freellmapi/pull/805) works around AI SDK clients stripping `reasoning_content` from history | n/a                                                                                                                                                                                                                                            |
 
 - None of these files set `maxRetries`, `streamRetries` or `timeout`.
-- No FreeLLMAPI issue discusses AI SDK retry behaviour. The only `vercel` match is [#296](https://github.com/tashfeenahmed/freellmapi/issues/296), about Vercel AI Gateway.
-- Web search turned up only third-party guides (instagit.com, skills.sh) using the OpenAI Python client. These are leads, not evidence.
