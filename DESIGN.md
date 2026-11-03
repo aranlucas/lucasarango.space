@@ -139,10 +139,11 @@ Use ink and paper on reading surfaces. Express emphasis through inversion, weigh
 ## Composition and interaction
 
 - Keep reading routes in one centred column. Dotted leaders and flush-right quantities provide horizontal structure; article Older/Newer navigation can share a row.
+- Keep availability and a résumé link in the first viewport so hiring visitors can reach professional details without scrolling. Résumé section breaks should read larger than the space between roles; compact internships and selective Ask prompts keep experience readable.
 - Use linked line items for work and writing, with reverse-print hover and visible keyboard focus. Source links remain available beneath project descriptions.
 - Keep surfaces flat and square, with a small radius for inverted tabs and active rows. The Ask panel is a bordered sheet; avoid shadows, gradients, pill badges, and project cards.
 - Print one-bit artwork with crisp dither patterns. The peak’s stepped entrance must respect reduced motion.
 - Keep the footer’s owl detour into the forest discoverable without prefetching the game.
-- Keep Ask outside the primary navigation. Closing its sheet retains the conversation and draft and returns focus to the launcher; the transcript runtime stays lazy.
+- Keep Ask outside the primary navigation and compact on narrow screens so it covers less of the reading column. Closing its sheet retains the conversation and draft and returns focus to the launcher; the transcript runtime stays lazy.
 
 [PRODUCT.md](PRODUCT.md) defines content and accessibility constraints. [ROADMAP.md](ROADMAP.md) defines proposed product work.

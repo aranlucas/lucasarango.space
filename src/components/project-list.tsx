@@ -5,6 +5,9 @@ import { SectionHeading } from "@/components/section-heading";
 import { TextLink } from "@/components/site-header";
 import { PROJECTS } from "@/lib/projects";
 
+// The default status says nothing the Source link does not.
+const DEFAULT_STATUS = "Source available";
+
 /** Projects as receipt lines: each line opens its story; the note links the source. */
 export function ProjectsSection() {
   return (
@@ -25,7 +28,7 @@ export function ProjectsSection() {
             </Link>
             <p className="line-note">{project.description}</p>
             <p className="line-note">
-              {project.status} ·{" "}
+              {project.status !== DEFAULT_STATUS && <>{project.status} · </>}
               <TextLink href={project.source} className="whitespace-nowrap">
                 Source
                 <ArrowUpRight aria-hidden="true" className="inline" size={13} />

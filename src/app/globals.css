@@ -623,6 +623,21 @@ hr.rule-double {
   background: var(--foreground);
   color: var(--background);
 }
+/* On phones the bar shrinks to "Ask" so it covers less of the column. */
+.ask-label-short {
+  display: none;
+}
+@media (max-width: 40rem) {
+  .ask-launcher.ask-launcher {
+    width: auto;
+  }
+  .ask-launcher .ask-label {
+    display: none;
+  }
+  .ask-launcher .ask-label-short {
+    display: inline;
+  }
+}
 .ask-panel {
   position: fixed;
   inset-inline-end: 1rem;
@@ -710,6 +725,12 @@ hr.rule-double {
 }
 .receipt-sub {
   color: var(--muted-foreground);
+}
+.receipt-sub-next {
+  margin-top: 0.35rem;
+}
+.receipt-sub-next .text-link {
+  color: var(--foreground);
 }
 .receipt-message {
   text-align: start;
@@ -801,6 +822,59 @@ hr.rule-double {
 }
 .line-note .text-link {
   color: var(--foreground);
+}
+
+/* Post lines flow their title as text, so a wrapped title keeps its leader and
+   quantity on its last line. The quantity floats right on that line; a float
+   with no margin box prints the leader across it, masked by the title's and
+   quantity's own paper. */
+.line-body {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.line-body .line-title {
+  padding-inline-end: 0.6rem;
+  background: var(--background);
+}
+.line-body .line-qty {
+  display: block;
+  float: right;
+  position: relative;
+  z-index: 1;
+  padding-inline-start: 0.6rem;
+  line-height: calc(0.875rem * 1.75);
+  background: var(--background);
+}
+.line-body::after {
+  content: "";
+  float: left;
+  width: 100vw;
+  margin-inline-end: -100vw;
+  /* Height, not translate: a transform would paint the dots over the title. */
+  height: calc(0.875rem * 1.75 - 0.75em);
+  border-bottom: 2px dotted var(--leader);
+}
+.line-link:hover .line-body > *,
+.line-link:focus-visible .line-body > *,
+.line-link:hover .line-body .line-title,
+.line-link:focus-visible .line-body .line-title {
+  background: var(--foreground);
+}
+.line-link:hover .line-body::after,
+.line-link:focus-visible .line-body::after {
+  border-color: currentColor;
+}
+
+/* Résumé roles head like line items: company, leader, dates. */
+.role-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.role-line .line-leader {
+  min-width: 1rem;
 }
 
 .writing-search {
@@ -916,6 +990,33 @@ hr.rule-double {
 .page-lede {
   margin-bottom: 0.5rem;
 }
+
+/* The résumé's contact line prints as meta; its print control is a stamped block. */
+.resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.receipt-button.receipt-button {
+  height: 44px;
+  padding-inline: 1rem;
+  border: 2px solid var(--foreground);
+  border-radius: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 400;
+}
+.receipt-button.receipt-button:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
 .post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -935,6 +1036,18 @@ hr.rule-double {
 .reading-index section + section,
 .resume-article section {
   margin-top: 2.5rem;
+}
+/* On screen the résumé divides its sections with dashed rules, as the home page
+   does, so a section break always reads larger than the space between roles. */
+@media screen {
+  .resume-article section {
+    margin-top: 0;
+  }
+  .resume-article section + section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1.5px dashed var(--foreground);
+  }
 }
 .reading-article .prose {
   font-size: 0.9375rem;
