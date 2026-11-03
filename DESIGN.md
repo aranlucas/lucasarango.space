@@ -182,7 +182,9 @@ Pixelify Sans sets the greeting, page and article titles, section headings, the 
 
 ## Layout
 
-The shell is centred at `min(100% - 2rem, 34rem)` on every route. The header is a centred row of tabs. The home page reads top to bottom: printed peak (max 26rem), greeting, sub-line, dashed rule, biography, double rule, projects, dashed rule, recent writing, then the footer behind a double rule.
+The shell is centred at `min(100% - 2rem, 34rem)` on every route. The header is a centred row of tabs. The home page reads top to bottom: printed peak (max 26rem), greeting, sub-line, a second sub-line ("Open to senior & staff roles · Résumé →") so hiring visitors reach the résumé without scrolling, dashed rule, biography, double rule, projects, dashed rule, recent writing, then the footer behind a double rule.
+
+The résumé prints Lucas's name as its title, with the job title, location and profile links as meta lines beneath, a square print button that reverse-prints on hover, and a double rule under the header. On screen, dashed rules divide its sections, as on the home page, so a section break always reads larger than the space between roles; print keeps plain spacing.
 
 Dashed rules separate items within a story; double rules separate the receipt's major parts (after the message, before the footer, before an article's older/newer lines). Section headings carry a flush-right tally or link on the same baseline.
 
@@ -206,7 +208,9 @@ About, Writing and Resume are the centred Pixelify tabs, each with a 44px target
 
 ### Line items
 
-The receipt's core pattern: a name, a dotted leader that fills the gap, and a quantity flush right (`STORY →`, `3 MIN`). Writing lines lead with a muted date. The whole line is one link with a 44px target; hover and keyboard focus reverse-print the line, leader and date included. A muted note may follow, indented two characters; project notes end with a `Source` link.
+The receipt's core pattern: a name, a dotted leader that fills the gap, and a quantity flush right (`STORY →`, `3 MIN`). Writing lines lead with a muted date. The whole line is one link with a 44px target; hover and keyboard focus reverse-print the line, leader and date included. A muted note may follow, indented two characters; project notes end with a `Source` link, preceded by a status only when it says more than "Source available". When a writing title wraps, the leader and quantity sit on its last line, starting where the title ends.
+
+Résumé roles head the same way (company, leader, dates) without a link. The two most recent roles carry an "Ask about this role" prompt; internships fold into a compact "Earlier" list of line items.
 
 ### Text links
 
@@ -222,7 +226,7 @@ A double rule, "Thank you for stopping by." in Pixelify, GitHub / LinkedIn / RSS
 
 ### Ask
 
-Ask is a fixed bottom-right 16rem × 48px bar with a 1rem (or safe-area) bottom gap and a 9×6 pixel peak glyph that prints row by row while an answer is loading. Clicking it opens a flat 26rem-wide compact sheet above the bar: 27rem when empty and up to 34rem with a transcript, capped to the viewport. It keeps a square 2px ink border and the receipt's monochrome paper-and-ink treatment; small mobile gutters keep the bar reachable. Hide or Escape closes the sheet while retaining the conversation and draft, then returns focus to the launcher. The transcript runtime stays dynamically imported.
+Ask is a fixed bottom-right 16rem × 48px bar with a 1rem (or safe-area) bottom gap and a 9×6 pixel peak glyph that prints row by row while an answer is loading. Clicking it opens a flat 26rem-wide compact sheet above the bar: 27rem when empty and up to 34rem with a transcript, capped to the viewport. It keeps a square 2px ink border and the receipt's monochrome paper-and-ink treatment; below 40rem the bar shrinks to the glyph and "Ask" so it covers less of the column. Hide or Escape closes the sheet while retaining the conversation and draft, then returns focus to the launcher. The transcript runtime stays dynamically imported.
 
 ## Do's and Don'ts
 

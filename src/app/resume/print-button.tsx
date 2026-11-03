@@ -9,6 +9,7 @@ export function PrintButton() {
     <Button
       variant="outline"
       size="lg"
+      className="receipt-button"
       onClick={() => {
         window.print();
       }}

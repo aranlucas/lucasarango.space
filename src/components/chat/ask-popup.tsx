@@ -68,7 +68,12 @@ function Launcher({ panelId }: LauncherProps) {
       className="ask-launcher"
     >
       <PeakGlyph printing={isLoading} className="h-2.5 w-3.75" />
-      <span>{open ? "Hide conversation" : isLoading ? "Answering…" : "Ask about my work"}</span>
+      <span className="ask-label">
+        {open ? "Hide conversation" : isLoading ? "Answering…" : "Ask about my work"}
+      </span>
+      <span className="ask-label-short" aria-hidden="true">
+        {open ? "Hide" : "Ask"}
+      </span>
       {open ? <ChevronDown aria-hidden="true" /> : <ChevronUp aria-hidden="true" />}
     </Button>
   );
