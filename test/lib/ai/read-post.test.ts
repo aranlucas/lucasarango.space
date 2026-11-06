@@ -8,24 +8,30 @@ import { readPost } from "@/lib/ai/tools/read-post";
 test("reads canonical, Markdown, and query/hash post URLs", async () => {
   const post = getAllPosts()[0];
 
-  if (post === undefined || readPost.execute === undefined) {
+  const execute = readPost.execute;
+
+  if (post === undefined || execute === undefined) {
     throw new Error("The published blog and readPost tool must be available");
   }
 
-  for (const url of [
-    `https://lucasarango.space/blog/${post.slug}`,
-    `/blog/${post.slug}.md`,
-    `/blog/${post.slug}?from=agent#section`,
-    post.slug,
-    `${post.slug}.md`,
-  ]) {
-    const result = await readPost.execute({ url }, { toolCallId: "read", messages: [] });
-    expect(result).toMatchObject({ title: post.title, body: post.content });
-  }
+  await Promise.all(
+    [
+      `https://lucasarango.space/blog/${post.slug}`,
+      `/blog/${post.slug}.md`,
+      `/blog/${post.slug}?from=agent#section`,
+      post.slug,
+      `${post.slug}.md`,
+    ].map(async (url) => {
+      const result = await execute({ url }, { toolCallId: "read", messages: [], context: {} });
+      expect(result).toMatchObject({ title: post.title, body: post.content });
+    }),
+  );
 
-  for (const url of ["../api/chat", "/resume", `/other/blog/${post.slug}`, "/blog/a/b"]) {
-    const result = await readPost.execute({ url }, { toolCallId: "read", messages: [] });
-    expect(result).toHaveProperty("error");
-    expect(result).not.toHaveProperty("body");
-  }
+  await Promise.all(
+    ["../api/chat", "/resume", `/other/blog/${post.slug}`, "/blog/a/b"].map(async (url) => {
+      const result = await execute({ url }, { toolCallId: "read", messages: [], context: {} });
+      expect(result).toHaveProperty("error");
+      expect(result).not.toHaveProperty("body");
+    }),
+  );
 });
