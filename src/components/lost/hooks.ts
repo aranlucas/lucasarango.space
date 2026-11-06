@@ -55,11 +55,13 @@ export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean)
     };
 
     const onKey = (event: KeyboardEvent) => {
-      if (!movement(event.code) || isTyping(event.target)) {
+      if (!movement(event.code) || (event.type === "keydown" && isTyping(event.target))) {
         return;
       }
 
-      event.preventDefault();
+      if (!isTyping(event.target)) {
+        event.preventDefault();
+      }
 
       if (event.type === "keydown") {
         held.add(event.code);

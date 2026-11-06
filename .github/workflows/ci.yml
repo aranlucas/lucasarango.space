@@ -19,6 +19,8 @@ jobs:
     if: ${{ github.event.pull_request.draft != true }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      RESUME_API_URL: http://127.0.0.1:3016
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -30,6 +32,12 @@ jobs:
         with:
           cache: true
           require-lockfile: true
+
+      - name: Serve controlled resume fixtures
+        run: python3 -m http.server 3016 --bind 127.0.0.1 --directory test/fixtures/resume > "$RUNNER_TEMP/resume-fixture.log" 2>&1 &
+
+      - name: Wait for resume fixtures
+        run: curl --fail --silent --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:3016/resume.json > /dev/null
 
       - parallel:
           - name: Lint
@@ -44,6 +52,58 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Install video recorder
+        run: pnpm exec playwright install ffmpeg
+
       # Uses the runner's Chrome and the build above.
       - name: Test WebMCP tools in Chrome
         run: pnpm test:e2e
+
+      - name: Install e2e Chromium
+        run: pnpm exec e2e-web install chromium --with-deps
+
+      - name: Test writing journey
+        run: pnpm test:journeys
+        env:
+          E2E_TELEMETRY_DISABLED: "1"
+
+      - name: Upload browser failure evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-evidence
+          include-hidden-files: true
+          path: |
+            .e2e/
+            test-results/
+          retention-days: 7
+
+  regression-before-fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          cache: true
+          require-lockfile: true
+      - name: Prove the baseline fails the held-key regression
+        shell: bash
+        run: |
+          git show f5fe3edc3c7524bd355f57f3ffc42ce357c64cc9:src/components/lost/hooks.ts > src/components/lost/hooks.ts
+          set +e
+          pnpm exec vitest run --project browser test/components/lost/hooks.test.tsx -t 'releasing a held key' > regression-before-fix.log 2>&1
+          result=$?
+          set -e
+          cat regression-before-fix.log
+          test "$result" -eq 1
+          grep -q 'expected.*1.*to.*0' regression-before-fix.log
+      - name: Upload baseline regression evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: regression-before-fix
+          path: regression-before-fix.log
