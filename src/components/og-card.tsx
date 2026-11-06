@@ -1,3 +1,5 @@
+import { FIR_PATHS, FOREGROUND_PATH, PEAK_PATH, SNOW_PATH } from "@/lib/receipt-geometry";
+
 // Light receipt palette from globals.css; the image renderer has no CSS variables.
 const INK = "#111111";
 
@@ -14,10 +16,10 @@ const PEAK = `data:image/svg+xml;base64,${Buffer.from(
 <pattern id="b" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="${INK}"/><rect x="1" y="1" width="1" height="1" fill="${INK}"/></pattern>
 <pattern id="c" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="${INK}"/><rect x="1" y="1" width="1" height="1" fill="${PAPER}"/></pattern>
 </defs>
-<path d="M0 120V96L40 78 70 86 104 60 128 70 160 18 184 44 198 40 232 72 262 62 296 80 320 74V120Z" fill="url(#a)" stroke="${INK}" stroke-width="1.5" shape-rendering="geometricPrecision"/>
-<path d="M160 18 184 44 176 46 170 40 162 50 154 42 146 48 140 44Z" fill="${PAPER}" stroke="${INK}" stroke-width="1.5" shape-rendering="geometricPrecision"/>
-<path d="M0 120V104L60 92 120 100 200 84 260 96 320 90V120Z" fill="url(#b)"/>
-<g fill="url(#c)"><path d="M14 120 22 98 30 120Z"/><path d="M34 120 44 88 54 120Z"/><path d="M58 120 64 102 70 120Z"/><path d="M240 120 250 90 260 120Z"/><path d="M262 120 270 98 278 120Z"/><path d="M282 120 294 84 306 120Z"/><path d="M304 120 310 104 316 120Z"/></g>
+<path d="${PEAK_PATH}" fill="url(#a)" stroke="${INK}" stroke-width="1.5" shape-rendering="geometricPrecision"/>
+<path d="${SNOW_PATH}" fill="${PAPER}" stroke="${INK}" stroke-width="1.5" shape-rendering="geometricPrecision"/>
+<path d="${FOREGROUND_PATH}" fill="url(#b)"/>
+<g fill="url(#c)">${FIR_PATHS.map((path) => `<path d="${path}"/>`).join("")}</g>
 <rect y="118" width="320" height="2" fill="${INK}"/>
 </svg>`,
 ).toString("base64")}`;

@@ -48,7 +48,6 @@ const LIST_PROJECTS = {
   annotations: { readOnlyHint: true },
 } as const;
 
-/** Registers the site's WebMCP tools; renders nothing. */
 export function SiteAgentTools() {
   useWebMCP({
     ...LIST_POSTS,

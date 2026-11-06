@@ -4,7 +4,8 @@ import { type RootState, useFrame } from "@react-three/fiber";
 import { type RefObject, useRef } from "react";
 import { type Texture, Vector3 } from "three";
 
-import { type Critter, type Game, ROUND_SECONDS, tick, type Walk } from "../game";
+import { type Critter, type Game, ROUND_SECONDS, tick } from "../game";
+import type { Controls, Hud } from "../game-types";
 import { type Beam, SPOT_RADIUS } from "./beam";
 import { FogGlow, Headlamp } from "./headlamp";
 
@@ -18,18 +19,6 @@ type DirectorProps = {
 };
 
 type CameraRigProps = { game: Game; reducedMotion: boolean };
-
-export interface Hud {
-  phase: Game["phase"];
-  score: number;
-  secondsLeft: number;
-}
-
-/** Movement input from each source; the director sums them. */
-export interface Controls {
-  keys: Walk;
-  stick: Walk;
-}
 
 const EYE_HEIGHT = 1.6;
 

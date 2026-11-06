@@ -7,7 +7,6 @@ const bullets = (items: readonly string[]) => items.map((item) => `- ${item}`).j
 
 const link = (text: string, href?: string) => (href === undefined ? text : `[${text}](${href})`);
 
-// The résumé page's sections, in page order.
 const SECTIONS: ResumeSection[] = [
   ["Summary", (resume) => `${resume.summary}\n\n${LOOKING_FOR}`],
   [

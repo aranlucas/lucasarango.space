@@ -19,3 +19,16 @@ export const SITE_OPEN_GRAPH = {
   type: "website" as const,
   images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE.name }],
 };
+
+// Absolute URLs and ready-made links help models cite the exact published source.
+export const postUrl = (slug: string) => `${SITE.url}/blog/${slug}`;
+
+export const postLink = (title: string, slug: string) => `[${title}](${postUrl(slug)})`;
+
+export function postSlug(post: string) {
+  const path = URL.parse(post, SITE.url)?.pathname ?? post;
+  const slug = /^\/blog\/([^/]+?)(?:\.md)?\/?$/u.exec(path)?.[1] ?? post.replace(/\.md$/u, "");
+
+  // Untrusted agent input must never escape the posts directory.
+  return /^[\w-]+$/u.test(slug) ? slug : undefined;
+}

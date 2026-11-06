@@ -1,14 +1,5 @@
-import { markdownPath, SITE } from "@/lib/site";
+import { markdownPath, postSlug } from "@/lib/site";
 import { ListPostsInput, type ListPostsArgs } from "@/lib/site-agent-inputs";
-
-/** The slug in a post slug, path, or URL, or undefined when it names no post. */
-export function postSlug(post: string) {
-  const path = URL.parse(post, SITE.url)?.pathname ?? post;
-  const slug = /^\/blog\/([^/]+?)(?:\.md)?\/?$/u.exec(path)?.[1] ?? post;
-
-  // Slugs come from the agent, so never let one leave `/blog/`.
-  return /^[\w-]+$/u.test(slug) ? slug : undefined;
-}
 
 export async function fetchMarkdown(
   path: string,

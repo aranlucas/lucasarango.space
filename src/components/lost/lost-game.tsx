@@ -16,7 +16,7 @@ import {
 } from "./hooks";
 import { RoundOver, Scoreboard, StartCard } from "./overlays";
 import type { Beam } from "./scene/beam";
-import type { Controls, Hud } from "./scene/director";
+import type { Controls, Hud } from "./game-types";
 import { Thumbstick } from "./thumbstick";
 
 type LostGameProps = { children: React.ReactNode };

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import type { Hud } from "./scene/director";
+import { CRITTERS, type CritterKind } from "./game";
+import type { Hud } from "./game-types";
 
 type StartCardProps = {
   canPlay: boolean;
@@ -17,7 +18,20 @@ type RoundOverProps = {
   onPlay: () => void;
 };
 
-/** Before a round: the page's own message, then an invitation to look around. */
+const CRITTER_NAMES = new Map<CritterKind, string>([
+  ["deer", "deer"],
+  ["owl", "owls"],
+  ["marmot", "marmots"],
+  ["sasquatch", "Sasquatch"],
+]);
+
+const scoring = [...Map.groupBy(CRITTER_NAMES, ([kind]) => CRITTERS[kind].points)]
+  .map(
+    ([points, kinds], index) =>
+      `${new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(kinds.map(([, name]) => name))}${index === 0 ? " are worth" : ""} ${points}`,
+  )
+  .join(", ");
+
 export function StartCard({ canPlay, touch, onPlay, children }: StartCardProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-radial from-night/70 to-transparent px-6 text-center">
@@ -26,7 +40,7 @@ export function StartCard({ canPlay, touch, onPlay, children }: StartCardProps) 
         <div className="flex max-w-md flex-col items-center gap-3 text-sm text-night-muted">
           <p>
             Or look around while you’re lost. Keep your headlamp on glowing eyes before they blink
-            shut: deer and owls are worth 1, marmots 2, Sasquatch 5.{" "}
+            shut: {scoring}.{" "}
             {touch
               ? "The stick walks and turns; tap to aim."
               : "W A S D walks and turns; your mouse aims."}

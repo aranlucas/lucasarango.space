@@ -63,7 +63,6 @@ export function PreviewMessage({ message, isLoading, onRetry, postSources }: Mes
     }
   };
 
-  // Until the answer has something to show, the status row below speaks for it.
   if (message.role === "assistant" && !message.parts.some(hasContent)) {
     return null;
   }
@@ -118,7 +117,6 @@ function AnswerActions({ answer, onRetry, postSources }: AnswerActionsProps) {
   );
 }
 
-/** The answer's Markdown, as the reader would paste it elsewhere. */
 function answerText(message: ChatMessage): string {
   return message.parts
     .flatMap((part) => (part.type === "text" ? [part.text.trim()] : []))
@@ -128,7 +126,6 @@ function answerText(message: ChatMessage): string {
 
 const COPIED_MS = 2000;
 
-/** Copies the answer and says so for a moment. */
 function CopyAction({ text, postSources }: CopyActionProps) {
   const [copied, setCopied] = useState(false);
 

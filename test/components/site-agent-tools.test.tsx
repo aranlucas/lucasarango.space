@@ -4,7 +4,7 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import type { ListPostsArgs, ReadPostArgs } from "@/lib/site-agent-inputs";
 
-import { postSlug } from "@/lib/site-agent-tools";
+import { postSlug } from "@/lib/site";
 
 import { SiteAgentTools } from "@/components/site-agent-tools";
 
