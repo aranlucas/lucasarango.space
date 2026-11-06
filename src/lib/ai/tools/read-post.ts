@@ -2,8 +2,7 @@ import { tool } from "ai";
 import { z } from "zod";
 
 import { getPostBySlug } from "@/lib/api";
-import { postLink, postUrl } from "@/lib/ai/tools/list-posts";
-import { SITE } from "@/lib/site";
+import { postLink, postSlug, postUrl, SITE } from "@/lib/site";
 
 export const readPost = tool({
   description:
@@ -12,7 +11,8 @@ export const readPost = tool({
     url: z.string().describe(`The post's url from listPosts, e.g. ${SITE.url}/blog/some-slug`),
   }),
   execute: ({ url }) => {
-    const post = getPostBySlug(/\/blog\/([^/?#]+)/u.exec(url)?.[1] ?? url);
+    const slug = postSlug(url);
+    const post = slug === undefined ? undefined : getPostBySlug(slug);
 
     if (post === undefined) {
       return { error: `No post at ${url}. Call listPosts for valid urls.` };

@@ -6,11 +6,11 @@ import { AskPopup } from "@/components/chat/ask-popup";
 import { Barcode } from "@/components/receipt-art";
 import { SiteAgentToolsLoader } from "@/components/site-agent-tools-loader";
 import { SiteNav } from "@/components/site-nav";
-import { SITE } from "@/lib/site";
+import { postUrl, SITE } from "@/lib/site";
 import { getAllPosts } from "@/lib/api";
 
 export function SiteAsk() {
-  const postSources = getAllPosts().map((post) => `${SITE.url}/blog/${post.slug}`);
+  const postSources = getAllPosts().map((post) => postUrl(post.slug));
 
   return <AskPopup postSources={postSources} />;
 }

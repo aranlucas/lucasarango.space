@@ -5,14 +5,7 @@ import { tool } from "ai";
 import { z } from "zod";
 
 import { getAllPosts } from "@/lib/api";
-import { SITE } from "@/lib/site";
-
-// Absolute: models copy full URLs more faithfully than bare paths. The popup
-// turns links to this site back into client-side navigation.
-export const postUrl = (slug: string) => `${SITE.url}/blog/${slug}`;
-
-/** A Markdown link the agent can copy as-is, so post links don't depend on its formatting. */
-export const postLink = (title: string, slug: string) => `[${title}](${postUrl(slug)})`;
+import { postLink, postUrl } from "@/lib/site";
 
 export const listPosts = tool({
   description:

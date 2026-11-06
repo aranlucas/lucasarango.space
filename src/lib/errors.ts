@@ -15,7 +15,6 @@ const ERRORS: Record<ErrorCode, ErrorDefinition> = {
   "offline:chat": { status: 503, message: "The assistant is unavailable right now." },
 };
 
-/** The body of a failed chat response. */
 export const errorResponseSchema = z.object({ code: errorCodeSchema, message: z.string() });
 
 export class ChatbotError extends Error {

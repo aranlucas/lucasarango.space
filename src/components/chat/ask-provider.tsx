@@ -6,7 +6,6 @@ import { AskContext, type AskState, type PendingQuestion } from "@/hooks/use-ask
 
 type AskProviderProps = { children: React.ReactNode };
 
-/** Returns a request to focus the launcher once the panel has closed. */
 function useFocusReturn(open: boolean, launcherRef: RefObject<HTMLButtonElement | null>) {
   const requested = useRef(false);
   useEffect(() => {
@@ -56,7 +55,6 @@ function useQuestionQueue() {
   return { questions, queue, consume };
 }
 
-/** Whether the panel is open, closing on Escape and handing focus back to the launcher. */
 function usePanel() {
   const [open, setOpen] = useState(false);
   const launcherRef = useRef<HTMLButtonElement>(null);

@@ -1,5 +1,7 @@
 import { cn } from "cn";
 
+import { FIR_PATHS, FOREGROUND_PATH, PEAK_PATH, SNOW_PATH } from "@/lib/receipt-geometry";
+
 type ReceiptArtProps = { className?: string };
 
 type BarcodeRun = { x: number; width: number };
@@ -28,16 +30,6 @@ const DITHER = [
   },
 ] as const;
 
-const FIRS = [
-  [14, 30, 22],
-  [34, 54, 32],
-  [58, 70, 18],
-  [240, 260, 30],
-  [262, 278, 22],
-  [282, 306, 36],
-  [304, 316, 16],
-] as const;
-
 /** A dithered Cascades peak above a line of firs, printed like a receipt header. */
 export function ReceiptArt({ className }: ReceiptArtProps) {
   return (
@@ -62,23 +54,23 @@ export function ReceiptArt({ className }: ReceiptArtProps) {
         </pattern>
       </defs>
       <path
-        d="M0 120V96L40 78 70 86 104 60 128 70 160 18 184 44 198 40 232 72 262 62 296 80 320 74V120Z"
+        d={PEAK_PATH}
         fill="url(#dither-25)"
         stroke="currentColor"
         strokeWidth="1.5"
         shapeRendering="geometricPrecision"
       />
       <path
-        d="M160 18 184 44 176 46 170 40 162 50 154 42 146 48 140 44Z"
+        d={SNOW_PATH}
         fill="var(--background)"
         stroke="currentColor"
         strokeWidth="1.5"
         shapeRendering="geometricPrecision"
       />
-      <path d="M0 120V104L60 92 120 100 200 84 260 96 320 90V120Z" fill="url(#dither-50)" />
+      <path d={FOREGROUND_PATH} fill="url(#dither-50)" />
       <g fill="url(#dither-75)">
-        {FIRS.map(([left, right, height]) => (
-          <path key={left} d={`M${left} 120 ${(left + right) / 2} ${120 - height} ${right} 120Z`} />
+        {FIR_PATHS.map((path) => (
+          <path key={path} d={path} />
         ))}
       </g>
       <rect y="118" width="320" height="2" fill="currentColor" />

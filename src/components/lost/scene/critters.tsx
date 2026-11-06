@@ -4,7 +4,14 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import type { Group, Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from "three";
 
-import { type Critter, CRITTERS, type Game, REVEAL_SECONDS, SPOT_SECONDS } from "../game";
+import {
+  type Critter,
+  CRITTERS,
+  type Game,
+  MAX_CRITTERS,
+  REVEAL_SECONDS,
+  SPOT_SECONDS,
+} from "../game";
 import { SILHOUETTES, type Textures } from "./textures";
 
 type CrittersProps = {
@@ -20,8 +27,6 @@ type EyeOptions = { side: -1 | 1 };
 type SilhouetteOptions = { textures: Textures };
 
 type PointsLabelOptions = { textures: Textures; reducedMotion: boolean };
-
-const SLOTS = 5;
 
 /** Eyes blink open and shut over these many seconds. */
 const OPENING = 0.15;
@@ -43,7 +48,7 @@ interface SlotProps {
  * index this frame, so spawning never re-renders React.
  */
 export function Critters({ game, textures, reducedMotion }: CrittersProps) {
-  return Array.from({ length: SLOTS }, (_, index) => (
+  return Array.from({ length: MAX_CRITTERS }, (_, index) => (
     <CritterSlot key={index} game={game} index={index}>
       <Eye game={game} index={index} side={-1} />
       <Eye game={game} index={index} side={1} />
@@ -190,7 +195,6 @@ function Silhouette({ game, index, textures }: SlotProps & SilhouetteOptions) {
   );
 }
 
-/** How solid a critter's silhouette is right now, 0 to 1. */
 function presence(critter: Critter, now: number) {
   if (critter.spottedAt === null) {
     const hold = Math.min(1, critter.held / SPOT_SECONDS);

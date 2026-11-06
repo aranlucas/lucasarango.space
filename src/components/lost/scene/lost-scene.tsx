@@ -3,11 +3,11 @@
 import { Canvas } from "@react-three/fiber";
 import { type RefObject, useEffect, useState } from "react";
 
-import type { Game } from "../game";
+import type { Controls, Game, Hud } from "../game-types";
 import { useReducedMotion } from "../hooks";
 import type { Beam } from "./beam";
 import { Critters } from "./critters";
-import { CameraRig, type Controls, Director, type Hud } from "./director";
+import { CameraRig, Director } from "./director";
 import { Forest, Night } from "./forest";
 import { createTextures, disposeTextures } from "./textures";
 import { TrailSign } from "./trail-sign";

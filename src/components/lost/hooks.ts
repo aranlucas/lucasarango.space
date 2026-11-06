@@ -3,7 +3,7 @@
 import { type RefObject, useEffect, useState, useSyncExternalStore } from "react";
 
 import type { Walk } from "./game";
-import type { Controls } from "./scene/director";
+import type { Controls } from "./game-types";
 
 const BEST_KEY = "lost-in-the-fog:best";
 
@@ -23,7 +23,6 @@ function movement(code: string): Partial<Walk> | undefined {
   return Object.entries(KEYS).find(([key]) => key === code)?.[1];
 }
 
-/** Saves the score if it's a new best, and returns the best either way. */
 export function recordBest(score: number) {
   try {
     const best = Math.max(Number(localStorage.getItem(BEST_KEY)) || 0, score);
@@ -47,7 +46,6 @@ function walkFromKeys(held: Set<string>): Walk {
   return walk;
 }
 
-/** WASD and the arrow keys walk and turn while `enabled`. */
 export function useMovementKeys(controls: RefObject<Controls>, enabled: boolean) {
   useEffect(() => {
     const held = new Set<string>();

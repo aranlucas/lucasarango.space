@@ -19,7 +19,7 @@ export const TRUNK_RADIUS = 0.2;
 export const PLAYER_RADIUS = 0.3;
 
 /** The fir's middle tier of branches at scale 1 (see the scene's fir geometry), where owls perch. */
-export const MIDDLE_TIER = { base: 1.25, radius: 0.72 };
+export const MIDDLE_TIER = { base: 1.25, radius: 0.72, height: 1.2 };
 
 const SPACING = 2.2;
 
@@ -105,7 +105,6 @@ export function resolve(world: World, x: number, z: number): ResolvedPosition {
   return [px, pz];
 }
 
-/** Whether a point is clear of trunks by at least `margin`. */
 export function isClear(world: World, x: number, z: number, margin: number) {
   return nearby(world, x, z).every((t) => Math.hypot(t.x - x, t.z - z) >= margin);
 }

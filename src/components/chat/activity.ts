@@ -21,7 +21,6 @@ export function answerActivity(messages: ChatMessage[]): string | null {
     return WAITING_MESSAGE;
   }
 
-  // Newest first: step starts and empty text say nothing new, so look past them.
   for (let index = answer.parts.length - 1; index >= 0; index -= 1) {
     const part = answer.parts[index];
 
@@ -45,7 +44,6 @@ function partActivity(part: MessagePart, messages: ChatMessage[]): string | null
     case "text":
       return part.text.trim() === "" ? undefined : null;
     case "reasoning":
-      // Finished reasoning keeps its last thought until the next part says something new.
       return latestThought(part.state === "done" ? `${part.text}\n` : part.text) ?? BETWEEN_STEPS;
     case "tool-listPosts":
     case "tool-readPost":

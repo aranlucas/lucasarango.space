@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { ConeGeometry, CylinderGeometry, type InstancedMesh, Object3D } from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
-import type { Tree } from "../world";
+import { MIDDLE_TIER, type Tree } from "../world";
 import { FIR, GROUND, NIGHT, TRUNK } from "./palette";
 
 type ForestProps = { trees: Tree[] };
@@ -15,7 +15,11 @@ function firGeometry() {
 
   const tiers = [
     new ConeGeometry(0.95, 1.4, 7).translate(0, 1.1, 0),
-    new ConeGeometry(0.72, 1.2, 7).translate(0, 1.85, 0),
+    new ConeGeometry(MIDDLE_TIER.radius, MIDDLE_TIER.height, 7).translate(
+      0,
+      MIDDLE_TIER.base + MIDDLE_TIER.height / 2,
+      0,
+    ),
     new ConeGeometry(0.46, 1.1, 7).translate(0, 2.6, 0),
   ];
 

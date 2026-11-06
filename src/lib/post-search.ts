@@ -30,7 +30,6 @@ function searchTerms(query: string) {
 
 export type IndexedPost = PostSummary & { scores: Record<string, number> };
 
-/** Store each searchable word once, preserving title/summary/body ranking weights. */
 function postScores(post: Post): Record<string, number> {
   const scores = new Map<string, number>();
 

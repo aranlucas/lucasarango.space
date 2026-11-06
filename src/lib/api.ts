@@ -40,7 +40,6 @@ export function getAllPosts(): Post[] {
   const posts = slugs
     .map((slug) => getPostBySlug(slug))
     .filter((post) => post !== undefined)
-    // sort posts by date in descending order
     .toSorted((post1, post2) => post2.date.localeCompare(post1.date));
 
   return posts;

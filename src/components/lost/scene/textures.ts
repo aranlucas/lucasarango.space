@@ -1,6 +1,6 @@
 import { CanvasTexture, SRGBColorSpace, type Texture } from "three";
 
-import type { CritterKind } from "../game";
+import { CRITTERS, type CritterKind } from "../game";
 import { LAMP, SILHOUETTE } from "./palette";
 
 // Everything is painted onto 2D canvases: no model or font files to download.
@@ -153,14 +153,13 @@ function paint(width: number, height: number, draw: (ctx: CanvasRenderingContext
   return texture;
 }
 
-/** The page's serif, so the sign and labels match the site. */
-function serif() {
+function pageFont() {
   return getComputedStyle(document.body).fontFamily || "Georgia, serif";
 }
 
 export interface Textures {
   silhouettes: Record<CritterKind, Texture>;
-  /** "+1", "+2", "+5" labels, keyed by points. */
+  /** Score labels keyed by points. */
   points: Map<number, Texture>;
   /** Soft round glow for the beam scattering in the fog. */
   glow: Texture;
@@ -187,7 +186,7 @@ const silhouette = (kind: CritterKind) =>
   });
 
 export function createTextures(): Textures {
-  const font = serif();
+  const font = pageFont();
 
   const silhouettes = {
     deer: silhouette("deer"),
@@ -198,7 +197,7 @@ export function createTextures(): Textures {
 
   const points = new Map<number, Texture>();
 
-  for (const value of [1, 2, 5]) {
+  for (const value of new Set(Object.values(CRITTERS).map((critter) => critter.points))) {
     points.set(
       value,
       paint(128, 64, (ctx) => {

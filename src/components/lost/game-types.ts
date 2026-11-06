@@ -43,3 +43,14 @@ export interface SpotEvent {
   critter: Critter;
   points: number;
 }
+
+export interface Hud {
+  phase: Game["phase"];
+  score: number;
+  secondsLeft: number;
+}
+
+export interface Controls {
+  keys: Walk;
+  stick: Walk;
+}

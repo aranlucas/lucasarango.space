@@ -52,7 +52,7 @@ export const SPOT_SECONDS = 0.3;
 /** How long a spotted critter's silhouette lingers. */
 export const REVEAL_SECONDS = 0.8;
 
-const MAX_CRITTERS = 5;
+export const MAX_CRITTERS = 5;
 
 /** Seconds between spawns, easing from the first value to the second over a round. */
 const SPAWN_INTERVAL: Range = [1.1, 0.45];
@@ -136,7 +136,6 @@ function spotCritters(game: Game, dt: number, isLit: (critter: Critter) => boole
   const events: SpotEvent[] = [];
 
   for (const critter of game.critters) {
-    // Expiration wins over a hold completed on the same frame.
     if (critter.spottedAt !== null || now >= critter.diesAt) {
       continue;
     }
