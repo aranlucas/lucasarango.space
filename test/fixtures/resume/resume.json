@@ -1,0 +1,59 @@
+{
+  "basics": {
+    "name": "Lucas Arango",
+    "label": "Software engineer",
+    "summary": "CI fixture for public portfolio rendering.",
+    "location": {
+      "city": "Seattle",
+      "region": "WA"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "url": "https://github.com/aranlucas"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Fixture Company",
+      "position": "Software engineer",
+      "location": "Seattle",
+      "startDate": "2020-01",
+      "endDate": "2024-01",
+      "highlights": ["Built reliable software."]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Fixture project",
+      "type": "Personal",
+      "highlights": ["Controlled CI data."]
+    }
+  ],
+  "publications": [
+    {
+      "name": "Fixture publication",
+      "publisher": "Fixture publisher",
+      "releaseDate": "2024-01",
+      "url": "https://example.test/article",
+      "summary": "CI publication."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Fixture University",
+      "location": "Seattle",
+      "studyType": "BS",
+      "area": "Computer Science",
+      "score": "",
+      "endDate": "2020-01"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages",
+      "keywords": ["TypeScript"]
+    }
+  ]
+}

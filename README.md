@@ -37,6 +37,8 @@ Professional facts are maintained in the separate `aranlucas/resume` repository.
 
 WebMCP exposes four read-only tools: `list_posts`, `read_post`, `get_resume`, and `list_projects`. Unsupported browsers retain normal navigation. Search accepts questions or keywords and matches words rather than synonyms; for example, `/blog/sitemap.md?query=grocery%20MCP&sort=relevance&limit=3`. See [`src/lib/site-agent-inputs.ts`](src/lib/site-agent-inputs.ts) for input contracts.
 
+`pnpm test:journeys` uses the pinned tester-army/e2e web runner against the production build to exercise writing search, reading, and empty-search recovery without model calls or credentials. CI installs its Chromium and uploads failure recordings and traces.
+
 For manual local testing, enable `chrome://flags/#enable-webmcp-testing`. `pnpm build` followed by `pnpm test:e2e` exercises Chrome's native API with that feature enabled by the test configuration.
 
 The public [origin-trial registration](https://developer.chrome.com/origintrials/#/registration/442038858738040833) is for `https://lucasarango.space` and expires **March 29, 2027**. Renew before expiry, replace the default token in [`next.config.ts`](next.config.ts) or set `WEBMCP_ORIGIN_TRIAL_TOKEN` in the hosting build environment, then redeploy. An empty value omits the header. The token is public and enables only its registered origin, so localhost and preview deployments need their own testing setup.

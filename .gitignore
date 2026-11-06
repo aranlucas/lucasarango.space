@@ -15,3 +15,6 @@ next-env.d.ts
 playwright-report/
 test-results/
 playwright/.cache/
+
+# e2e runner reports and recordings
+.e2e/
