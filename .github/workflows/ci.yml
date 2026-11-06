@@ -52,6 +52,9 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Install video recorder
+        run: pnpm exec playwright install ffmpeg
+
       # Uses the runner's Chrome and the build above.
       - name: Test WebMCP tools in Chrome
         run: pnpm test:e2e
