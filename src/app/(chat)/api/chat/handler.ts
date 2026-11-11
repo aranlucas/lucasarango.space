@@ -2,6 +2,7 @@ import {
   convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
+  type InferUIMessageChunk,
   safeValidateUIMessages,
   smoothStream,
   toUIMessageStream,
@@ -15,15 +16,39 @@ import { postRequestBodySchema } from "./schema";
 
 type AskAgent = ReturnType<typeof createAskAgent>;
 
+type ChatChunk = InferUIMessageChunk<ChatMessage>;
+
+/**
+ * The turn's time budget aborts the stream the same way the reader's Stop
+ * does, and the popup treats an abort as a stop: no error, no retry. Only the
+ * reader's own Stop should read as one.
+ */
+function reportTimeout(req: Request, vercelId: string | null) {
+  return new TransformStream<ChatChunk, ChatChunk>({
+    transform(chunk, controller) {
+      if (chunk.type !== "abort" || req.signal.aborted) {
+        controller.enqueue(chunk);
+
+        return;
+      }
+
+      console.error("Ask agent ran out of time:", chunk.reason, { vercelId });
+      controller.enqueue({ type: "error", errorText: new ChatbotError("timeout:chat").message });
+    },
+  });
+}
+
 /**
  * Streams the agent's answer. After the AI SDK chatbot template's
  * app/(chat)/api/chat/route.ts, which this file backs: route modules can only
  * export handlers, and tests inject the agent.
  */
 function streamAnswer(req: Request, messages: ChatMessage[], agent: AskAgent) {
+  const vercelId = req.headers.get("x-vercel-id");
+
   const onError = (cause: unknown) => {
     // Readers see a generic message; the cause goes to the function logs.
-    console.error("Ask agent failed:", cause, { vercelId: req.headers.get("x-vercel-id") });
+    console.error("Ask agent failed:", cause, { vercelId });
 
     return new ChatbotError("offline:chat").message;
   };
@@ -50,7 +75,7 @@ function streamAnswer(req: Request, messages: ChatMessage[], agent: AskAgent) {
           // The popup shows a "thinking" state while reasoning streams.
           sendReasoning: true,
           onError,
-        }),
+        }).pipeThrough(reportTimeout(req, vercelId)),
       );
     },
     onError,

@@ -4,7 +4,7 @@ Checked 2026-10-12. Sources: FreeLLMAPI upstream at [`986b211`](https://github.c
 
 ## Historical recommendation
 
-This research describes the versions inspected on October 12, not the current dependency tree. The site now uses `@ai-sdk/openai-compatible` for reasoning support (see [providers.ts](../../src/lib/ai/providers.ts)); [agent.ts](../../src/lib/ai/agent.ts) does not set the retry or timeout options proposed below. Recheck version-matched SDK documentation before implementing them. The timeout behavior and proxy deployment assumptions were not runtime-validated here.
+This research describes the versions inspected on October 12, not the current dependency tree. The site now uses `@ai-sdk/openai-compatible` for reasoning support (see [providers.ts](../../src/lib/ai/providers.ts)); [agent.ts](../../src/lib/ai/agent.ts) now sets `maxRetries: 1` and `totalMs`/`chunkMs` as proposed below (2026-11-11, `ai@7.0.148`). That change answered the open question below: a timeout reaches the reader as an `abort` part, which the popup treats as Stop, so the chat handler reports it as an error instead. The proxy deployment assumptions were not runtime-validated here.
 
 FreeLLMAPI already does the failover: up to 20 attempts across providers and keys, with cooldowns, inside a 45 s wall-clock budget. Two things work against this site's setup:
 
