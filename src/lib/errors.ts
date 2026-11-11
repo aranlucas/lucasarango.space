@@ -5,7 +5,12 @@ import { z } from "zod";
 
 type ErrorDefinition = { status: number; message: string };
 
-const errorCodeSchema = z.enum(["bad_request:api", "bad_request:chat", "offline:chat"]);
+const errorCodeSchema = z.enum([
+  "bad_request:api",
+  "bad_request:chat",
+  "offline:chat",
+  "timeout:chat",
+]);
 
 export type ErrorCode = z.infer<typeof errorCodeSchema>;
 
@@ -13,6 +18,7 @@ const ERRORS: Record<ErrorCode, ErrorDefinition> = {
   "bad_request:api": { status: 400, message: "Send the conversation as chat messages." },
   "bad_request:chat": { status: 400, message: "Send a question." },
   "offline:chat": { status: 503, message: "The assistant is unavailable right now." },
+  "timeout:chat": { status: 504, message: "The assistant took too long to answer." },
 };
 
 export const errorResponseSchema = z.object({ code: errorCodeSchema, message: z.string() });
